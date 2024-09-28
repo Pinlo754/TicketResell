@@ -1,12 +1,114 @@
 import { useState } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
+import Slider from 'react-slick'; 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+type Event = {
+  id: number;
+  img: string;
+  day: string;
+  time: string;
+  name: string;
+  location: string;
+  quantity: number;
+};
+
+const events = [
+  {
+    id: 1,
+    img : "https://cdn0-production-images-kly.akamaized.net/xYEcqMdBWw6pN0mFBFD5_5uIjz8=/800x450/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/3396365/original/023706600_1615209973-concert-768722_1280.jpg",
+    day: "Today",
+    time: "12:00 PM",
+    name: "Event 1",
+    location: "District 9, Ho Chi Minh city",
+    quantity: 28,
+  },
+  {
+    id: 2,
+    img: "https://cdn0-production-images-kly.akamaized.net/xYEcqMdBWw6pN0mFBFD5_5uIjz8=/800x450/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/3396365/original/023706600_1615209973-concert-768722_1280.jpg",
+    day: "Tomorrow",
+    time: "1:00 PM",
+    name: "Event 2",
+    location: "District 1, Ho Chi Minh city",
+    quantity: 18,
+  },
+  {
+    id: 3,
+    img: "https://cdn0-production-images-kly.akamaized.net/xYEcqMdBWw6pN0mFBFD5_5uIjz8=/800x450/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/3396365/original/023706600_1615209973-concert-768722_1280.jpg",
+    day: "Mon",
+    time: "2:00 PM",
+    name: "Event 3",
+    location: "District 2, Ho Chi Minh city",
+    quantity: 5,
+  },
+];
+
+// Component tùy chỉnh mũi tên điều hướng
+const NextArrow = (props: any) => {
+  const { onClick } = props;
+  return (
+    <div
+      className="absolute right-0 z-10 top-1/2 -translate-y-1/2 bg-[#8ACDD7] text-white p-2 rounded-full cursor-pointer"
+      onClick={onClick}
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 18l6-6-6-6" />
+      </svg>
+    </div>
+  );
+};
+
+const PrevArrow = (props: any) => {
+  const { onClick } = props;
+  return (
+    <div
+      className="absolute left-0 z-10 top-1/2 -translate-y-1/2 bg-[#8ACDD7] text-white p-2 rounded-full cursor-pointer"
+      onClick={onClick}
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 18l-6-6 6-6" />
+      </svg>
+    </div>
+  );
+};
 
 const MainScreen = () => {
   const navigate: NavigateFunction = useNavigate();
 
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3, // Số lượng card hiển thị cùng lúc
+    slidesToScroll: 1,
+    autoplay: true, // Tự động chuyển
+    autoplaySpeed: 3000, // Chuyển sau 3 giây
+    arrows: true, // Hiển thị mũi tên điều hướng
+    nextArrow: <NextArrow />, // Mũi tên kế tiếp
+    prevArrow: <PrevArrow />, // Mũi tên quay lại
+    responsive: [
+      {
+        breakpoint: 1024, // Độ rộng màn hình
+        settings: {
+          slidesToShow: 2, // Số lượng card hiển thị trên màn hình nhỏ
+          slidesToScroll: 1,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1, // Số lượng card hiển thị trên màn hình nhỏ hơn
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+
   return (
     <div className="w-screen h-dvh">
-      {/* NavBar */}
+      {/* NAVBAR */}
       <nav className="absolute top-0 left-0 w-full bg-transparent p-4 z-10">
       <div className="max-w-8xl mx-auto flex justify-between items-center">
         {/* Logo */}
@@ -25,7 +127,7 @@ const MainScreen = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 3a7.5 7.5 0 015.775 12.425l5.35 5.35a.75.75 0 11-1.06 1.06l-5.35-5.35A7.5 7.5 0 1110.5 3zm0 1.5a6 6 0 100 12 6 6 0 000-12z" />
                     </svg>
                   </div>
-                <input type="text" placeholder="Search" className="pl-8 pr-3 text-current bg-transparent outline-none w-full placeholder-white caret-gray- focus:text-gray-200"/>
+                <input type="text" placeholder="Search" className="pl-8 pr-3 text-current bg-transparent outline-none w-full placeholder-white caret-gray-400 focus:text-gray-400"/>
               </div>
             </li>
 
@@ -57,11 +159,11 @@ const MainScreen = () => {
               </svg>
             </li>
             <li className="text-white hover:text-gray-200 cursor-pointer">Login</li>
-         </ul>
-      </div>
+          </ul>
+        </div>
      </nav>
 
-      {/* Banner */}
+      {/* BANNER */}
       <div className="w-screen h-2/3 flex">
         {/* Section 1 */}
         <div className="bg-[#FF7878] w-1/2 flex flex-col justify-center items-center">
@@ -104,13 +206,88 @@ const MainScreen = () => {
         </div>
       </div>
 
-      <button
-        className="bg-[yellow] text-black w-[100px] h-[50px] mx-auto"
-        onClick={() => navigate(-1)}
+      {/* EVENT CARDS */}
+      <div className=" w-screen py-10">
+        <h1 className="text-4xl text-center font-bold">Popular Events</h1>
+        <h4 className="text-center">Don’t miss out on your favorite events</h4>
+
+        {/* Card-Container */}
+        <div className="w-full h-fit flex flex-row justify-center items-center py-5">
+          <div className="relative w-[90%] max-w-screen-xl h-fit mx-auto">
+            {/* Card */}
+            <Slider {...settings} className="flex justify-center items-center gap-10">
+              {events.map((ev) => (
+                <div key={ev.id} className="bg-[#F4F4F4] w-80 h-fit rounded-lg shadow-md hover:shadow-2xl transition duration-300 group">
+                  {/* Card-Img */}
+                  <div className="overflow-hidden rounded-t-lg">
+                    <img
+                      src={ev.img}
+                      alt={ev.name}
+                      className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-300"
+                    />
+                  </div>
+                  {/* Card-Content */}
+                  <div className="py-2 px-4 text-center">
+                    <div className="flex place-content-center items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mx-2 text-red-600 cursor-pointer" viewBox="0 0 24 24" fill="currentColor">
+                        <path fill-rule="evenodd" d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z" clip-rule="evenodd" />
+                      </svg>
+                      <p className="text-red-600 font-medium">{ev.day}, {ev.time}</p>
+                    </div>
+                    <h3 className="font-bold text-xl">{ev.name}</h3>
+                    <p className="text-sm">{ev.location}</p>
+                    {/* Card-Button */}
+                    <div className="flex justify-center">
+                      <button className="my-2 px-2 py-1 bg-[#8ACDD7] rounded-2xl flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-1 text-white cursor-pointer" viewBox="0 0 24 24" fill="currentColor">
+                          <path fill-rule="evenodd" d="M1.5 6.375c0-1.036.84-1.875 1.875-1.875h17.25c1.035 0 1.875.84 1.875 1.875v3.026a.75.75 0 0 1-.375.65 2.249 2.249 0 0 0 0 3.898.75.75 0 0 1 .375.65v3.026c0 1.035-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 17.625v-3.026a.75.75 0 0 1 .374-.65 2.249 2.249 0 0 0 0-3.898.75.75 0 0 1-.374-.65V6.375Zm15-1.125a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-1.5 0V6a.75.75 0 0 1 .75-.75Zm.75 4.5a.75.75 0 0 0-1.5 0v.75a.75.75 0 0 0 1.5 0v-.75Zm-.75 3a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-1.5 0v-.75a.75.75 0 0 1 .75-.75Zm.75 4.5a.75.75 0 0 0-1.5 0V18a.75.75 0 0 0 1.5 0v-.75ZM6 12a.75.75 0 0 1 .75-.75H12a.75.75 0 0 1 0 1.5H6.75A.75.75 0 0 1 6 12Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" clip-rule="evenodd" />
+                        </svg>
+                        <p className="text-white">{ev.quantity}</p>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </Slider>
+          </div>
+        </div>
+        {/* Button */}
+        <div className="flex justify-center py-2">
+          <button className="outline outline-2 rounded-sm text-[#8ACDD7] w-[100px] h-[50px] mx-auto hover:bg-[#8ACDD7] hover:text-white">View More</button>
+        </div>
+      </div>
+      
+      {/* HERO-SECTION */}
+      <div className="w-screen h-[70vh] flex justify-center overflow-hidden">
+        {/* Hero-Img */}
+        <div 
+        className="relative bg-cover bg-center w-5/6" 
+        style={{ backgroundImage: 'url(https://www.oyorooms.com/blog/wp-content/uploads/2018/02/event.jpg)', backgroundAttachment: 'fixed', }}
+        >
+          {/* Overlay màu tối */}
+          <div className="absolute inset-0 bg-black opacity-50"></div>
+          {/* Hero-Content */}
+          <div className="relative z-10 flex flex-col items-center justify-center text-center text-white h-full">
+            <h1 className="text-4xl mb-4 font-bold">Can’t Attend? Sell Your Tickets Instantly – Safe and Easy!</h1>
+            <div className="w-1/2">
+              <p className="mb-8">Don't let your tickets go to waste! Festix provides a fast and secure way to resell your tickets in just a few clicks,
+              ensuring peace of mind with every transaction.</p>
+            </div>
+            <button className="px-6 py-3 text-lg font-medium bg-transparent border border-white hover:bg-white hover:text-[#FF6F61] transition">
+            Sell Now
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <button 
+      className="bg-[yellow] text-black w-[100px] h-[50px] mx-auto" 
+      onClick={() => navigate(-1)}
       >
-        Test navigate button
+         Test navigate button
       </button>
     </div>
+    
   );
 };
 
