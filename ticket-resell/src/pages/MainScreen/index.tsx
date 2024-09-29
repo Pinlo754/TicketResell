@@ -106,6 +106,26 @@ const MainScreen = () => {
     ],
   };
 
+  // Test Button
+  const handleClick = (buttonType: string) => {
+    switch (buttonType) {
+      case 'makeSome':
+        console.log('Bạn đã bấm nút Make some money');
+        break;
+      case 'seeWhat':
+        console.log('Bạn đã bấm nút See what');
+        break;
+      case 'viewMore':
+        console.log('Bạn đã bấm nút View More');
+        break;
+        case 'sellNow':
+        console.log('Bạn đã bấm nút Sell Now');
+        break;
+      default:
+        console.log('Không xác định');
+    }
+  };
+
   return (
     <div className="w-screen h-dvh">
       {/* NAVBAR */}
@@ -177,7 +197,10 @@ const MainScreen = () => {
             </svg>
           </div>
           {/* Button */}
-          <button className="font-poppins bg-white text-[#8ACDD7] px-6 py-3 rounded-full font-semibold flex items-center hover:translate-x-3 transition ease-in-out delay-150 duration-300 hover:shadow-xl hover:ring-2 hover:ring-[#8ACDD7] ">
+          <button 
+          className="font-poppins bg-white text-[#8ACDD7] px-6 py-3 rounded-full font-semibold flex items-center hover:translate-x-3 transition ease-in-out delay-150 duration-300 hover:shadow-xl hover:ring-2 hover:ring-[#8ACDD7] "
+          onClick={() => handleClick('makeSome')}
+          >
             Make some money
             <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 ml-2 mr-0 text-current" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
@@ -197,7 +220,10 @@ const MainScreen = () => {
             </svg>
           </div>
           {/* Button */}
-          <button className="bg-white text-[#FF6F61] px-6 py-3 rounded-full font-semibold flex items-center hover:translate-x-3 transition ease-in-out delay-150 duration-300 hover:shadow-xl hover:ring-2 hover:ring-[#FF6F61]">
+          <button 
+          className="bg-white text-[#FF6F61] px-6 py-3 rounded-full font-semibold flex items-center hover:translate-x-3 transition ease-in-out delay-150 duration-300 hover:shadow-xl hover:ring-2 hover:ring-[#FF6F61]"
+          onClick={() => handleClick('seeWhat')}
+          >
             See what's out there
             <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 ml-2 mr-0 text-current " fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
@@ -217,7 +243,7 @@ const MainScreen = () => {
             {/* Card */}
             <Slider {...settings} className="flex justify-center items-center gap-10">
               {events.map((ev) => (
-                <div key={ev.id} className="bg-[#F4F4F4] w-80 h-fit rounded-lg shadow-md hover:shadow-2xl transition duration-300 group">
+                <div key={ev.id} className="bg-[#F4F4F4] w-80 h-fit rounded-lg shadow-md hover:shadow-2xl transition duration-300 group cursor-pointer">
                   {/* Card-Img */}
                   <div className="overflow-hidden rounded-t-lg">
                     <img
@@ -236,14 +262,14 @@ const MainScreen = () => {
                     </div>
                     <h3 className="font-bold text-xl">{ev.name}</h3>
                     <p className="text-sm">{ev.location}</p>
-                    {/* Card-Button */}
+                    {/* Card-Quantity */}
                     <div className="flex justify-center">
-                      <button className="my-2 px-2 py-1 bg-[#8ACDD7] rounded-2xl flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-1 text-white cursor-pointer" viewBox="0 0 24 24" fill="currentColor">
+                      <div className="my-2 px-2 py-1 bg-[#8ACDD7] rounded-2xl flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-1 text-white" viewBox="0 0 24 24" fill="currentColor">
                           <path fill-rule="evenodd" d="M1.5 6.375c0-1.036.84-1.875 1.875-1.875h17.25c1.035 0 1.875.84 1.875 1.875v3.026a.75.75 0 0 1-.375.65 2.249 2.249 0 0 0 0 3.898.75.75 0 0 1 .375.65v3.026c0 1.035-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 17.625v-3.026a.75.75 0 0 1 .374-.65 2.249 2.249 0 0 0 0-3.898.75.75 0 0 1-.374-.65V6.375Zm15-1.125a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-1.5 0V6a.75.75 0 0 1 .75-.75Zm.75 4.5a.75.75 0 0 0-1.5 0v.75a.75.75 0 0 0 1.5 0v-.75Zm-.75 3a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-1.5 0v-.75a.75.75 0 0 1 .75-.75Zm.75 4.5a.75.75 0 0 0-1.5 0V18a.75.75 0 0 0 1.5 0v-.75ZM6 12a.75.75 0 0 1 .75-.75H12a.75.75 0 0 1 0 1.5H6.75A.75.75 0 0 1 6 12Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" clip-rule="evenodd" />
                         </svg>
                         <p className="text-white">{ev.quantity}</p>
-                      </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -252,8 +278,13 @@ const MainScreen = () => {
           </div>
         </div>
         {/* Button */}
-        <div className="flex justify-center py-2">
-          <button className="outline outline-2 rounded-sm text-[#8ACDD7] w-[100px] h-[50px] mx-auto hover:bg-[#8ACDD7] hover:text-white">View More</button>
+        <div className="flex justify-center pb-2 pt-1">
+          <button 
+          className="outline outline-2 rounded-sm text-[#8ACDD7] w-[100px] h-[50px] mx-auto hover:bg-[#8ACDD7] hover:text-white"
+          onClick={() => handleClick('viewMore')}
+          >
+            View More
+          </button>
         </div>
       </div>
       
@@ -273,7 +304,10 @@ const MainScreen = () => {
               <p className="mb-8">Don't let your tickets go to waste! Festix provides a fast and secure way to resell your tickets in just a few clicks,
               ensuring peace of mind with every transaction.</p>
             </div>
-            <button className="px-6 py-3 text-lg font-medium bg-transparent border border-white hover:bg-white hover:text-[#FF6F61] transition">
+            <button 
+            className="px-6 py-3 text-lg font-medium bg-transparent border border-white hover:bg-white hover:text-[#FF6F61] transition"
+            onClick={() => handleClick('sellNow')}
+            >
             Sell Now
             </button>
           </div>
