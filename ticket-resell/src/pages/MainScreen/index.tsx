@@ -163,7 +163,7 @@ const MainScreen = () => {
         </div>
      </nav>
 
-      {/* BANNER */}
+      {/* MAIN NAVIGATE */}
       <div className="w-screen h-2/3 flex">
         {/* Section 1 */}
         <div className="bg-[#FF7878] w-1/2 flex flex-col justify-center items-center">
