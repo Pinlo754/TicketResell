@@ -19,7 +19,7 @@ namespace TicketResell_API.Controllers.User
 
         public AccountController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration config)
         {
-            _userManager = userManager; 
+            _userManager = userManager;
             _roleManager = roleManager;
             _config = config;
         }
@@ -65,7 +65,39 @@ namespace TicketResell_API.Controllers.User
             return Unauthorized();
         }
 
-        //[HttpPost("add-role")]
-        
+        [HttpPost("Add-Role")]
+        public async Task<IActionResult> AddRole([FromBody] string role)
+        {
+            if (!await _roleManager.RoleExistsAsync(role))
+            {
+                var result = await _roleManager.CreateAsync(new IdentityRole(role));
+                if (result.Succeeded)
+                {
+                    return Ok(new { message = "Role add successfully" });
+                }
+                return BadRequest(result.Errors);
+            }
+            return BadRequest("Role already exists");
+        }
+
+        [HttpPost("Assign-Role")]
+        public async Task<IActionResult> AssignRole([FromBody] UserRole model)
+        {
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == model.phoneNumber);
+            if (user == null)
+            {
+                return BadRequest("User not found");
+            }
+
+            var result = await _userManager.AddToRoleAsync(user, model.role);
+
+            if (result.Succeeded)
+            {
+                return Ok(new { message = "Role assigned sucessfully" });
+            }
+            return BadRequest(result.Errors);
+
+
+        }
     }
 }
