@@ -1,8 +1,8 @@
 import React from 'react'
 import './Chat.css'
-import LeftSidebar from '../../components/LeftSidebar/LeftSidebar'
-import ChatBox from '../../components/ChatBox/ChatBox'
-import RightSidebar from '../../components/RightSidebar/RightSidebar'
+import LeftSidebar from '../../components/ChatComponents/LeftSidebar/LeftSidebar'
+import ChatBox from '../../components/ChatComponents/ChatBox/ChatBox'
+import RightSidebar from '../../components/ChatComponents/RightSidebar/RightSidebar'
 
 const Chat = () => {
   return (
