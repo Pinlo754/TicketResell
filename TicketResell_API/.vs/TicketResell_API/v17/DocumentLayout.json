@@ -1,34 +1,10 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "E:\\SWP391\\TicketResell_API\\TicketResell_API\\",
+  "WorkspaceRootPath": "D:\\Semester5\\SWP391\\TicketResell\\TicketResell_API\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_api\\ticketresell_api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_api\\ticketresell_api\\controllers\\product\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:controllers\\product\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_api\\ticketresell_api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_api\\ticketresell_api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_api\\ticketresell_api\\controllers\\product\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|d:\\semester5\\swp391\\ticketresell\\ticketresell_api\\controllers\\product\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:controllers\\product\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_api\\ticketresell_api\\dbcontext\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:dbcontext\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_api\\ticketresell_api\\ticketresell_api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:ticketresell_api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,98 +14,70 @@
       "DocumentGroups": [
         {
           "DockedWidth": 507,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 6,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "launchSettings.json",
-              "DocumentMoniker": "E:\\SWP391\\TicketResell_API\\TicketResell_API\\Properties\\launchSettings.json",
-              "RelativeDocumentMoniker": "Properties\\launchSettings.json",
-              "ToolTip": "E:\\SWP391\\TicketResell_API\\TicketResell_API\\Properties\\launchSettings.json",
-              "RelativeToolTip": "Properties\\launchSettings.json",
-              "ViewState": "AQIAABIAAAAAAAAAAAAAABAAAAAuAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-09-29T14:56:41.905Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ProductController.cs",
-              "DocumentMoniker": "E:\\SWP391\\TicketResell_API\\TicketResell_API\\Controllers\\Product\\ProductController.cs",
-              "RelativeDocumentMoniker": "Controllers\\Product\\ProductController.cs",
-              "ToolTip": "E:\\SWP391\\TicketResell_API\\TicketResell_API\\Controllers\\Product\\ProductController.cs",
-              "RelativeToolTip": "Controllers\\Product\\ProductController.cs",
-              "ViewState": "AQIAAFwAAAAAAAAAAAAAAFwAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-29T14:46:47.397Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "E:\\SWP391\\TicketResell_API\\TicketResell_API\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "E:\\SWP391\\TicketResell_API\\TicketResell_API\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-09-29T14:43:01.351Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "E:\\SWP391\\TicketResell_API\\TicketResell_API\\DbContext\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "DbContext\\AppDbContext.cs",
-              "ToolTip": "E:\\SWP391\\TicketResell_API\\TicketResell_API\\DbContext\\AppDbContext.cs",
-              "RelativeToolTip": "DbContext\\AppDbContext.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-29T14:41:23.294Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "E:\\SWP391\\TicketResell_API\\TicketResell_API\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "E:\\SWP391\\TicketResell_API\\TicketResell_API\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAACMAAAAAAAAAAAAkwCgAAAAAAAAA",
+              "Title": "ProductController.cs",
+              "DocumentMoniker": "D:\\Semester5\\SWP391\\TicketResell\\TicketResell_API\\Controllers\\Product\\ProductController.cs",
+              "RelativeDocumentMoniker": "Controllers\\Product\\ProductController.cs",
+              "ToolTip": "D:\\Semester5\\SWP391\\TicketResell\\TicketResell_API\\Controllers\\Product\\ProductController.cs",
+              "RelativeToolTip": "Controllers\\Product\\ProductController.cs",
+              "ViewState": "AgIAADwAAAAAAAAAAAAqwFwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-29T14:39:17.71Z",
+              "WhenOpened": "2024-09-29T14:46:47.397Z",
               "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 636,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Product.cs",
-              "DocumentMoniker": "E:\\SWP391\\TicketResell_API\\TicketResell_API\\Controllers\\Product\\Product.cs",
-              "RelativeDocumentMoniker": "Controllers\\Product\\Product.cs",
-              "ToolTip": "E:\\SWP391\\TicketResell_API\\TicketResell_API\\Controllers\\Product\\Product.cs",
-              "RelativeToolTip": "Controllers\\Product\\Product.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAcAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-29T14:38:42.722Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{5a4e9529-b6a0-46b5-be4f-0f0b239bc0eb}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "TicketResell_API.csproj",
-              "DocumentMoniker": "E:\\SWP391\\TicketResell_API\\TicketResell_API\\TicketResell_API.csproj",
-              "RelativeDocumentMoniker": "TicketResell_API.csproj",
-              "ToolTip": "E:\\SWP391\\TicketResell_API\\TicketResell_API\\TicketResell_API.csproj",
-              "RelativeToolTip": "TicketResell_API.csproj",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-09-29T07:20:38.375Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
             }
           ]
         }
