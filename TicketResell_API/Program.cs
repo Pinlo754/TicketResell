@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using TicketResell_API.Controllers.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,8 +57,17 @@ builder.Services.AddAuthorization(Options =>
     Options.AddPolicy("UserPolicy", policy => policy.RequireRole("User"));
 });
 
+//Email service configuration
+var emailConfig = builder.Configuration
+    .GetSection("EmailConfiguration")
+    .Get<EmailConfiguration>();
+builder.Services.AddSingleton(emailConfig);
+builder.Services.AddScoped<IEmailSender,EmailSender>();
 
-    
+//Token lifetime configuration
+builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
+    options.TokenLifespan = TimeSpan.FromHours(2)
+);
 
 
 
@@ -75,6 +86,8 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
+
+
 
 var app = builder.Build();
 
