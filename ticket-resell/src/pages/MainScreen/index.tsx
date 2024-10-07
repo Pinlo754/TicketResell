@@ -4,6 +4,7 @@ import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import commitent from "../../assets/Commitment.png";
+import helpCenter from "../../assets/HelpCenter.jpg";
 import logo from "../../assets/Logo_festix.png";
 import support from "../../assets/Support.png";
 import vnpay from "../../assets/VNPay.png";
@@ -208,7 +209,7 @@ const MainScreen = () => {
           {/* Sub-Headline */}
           <div className="flex items-center">
             <p className="font-open-sans text-white text-lg mb-3">Turn your unused tickets into cash</p>
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 ml-2 text-white hover:text-gray-500 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 pb-2 text-white hover:text-gray-500 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
             </svg>
           </div>
@@ -231,14 +232,14 @@ const MainScreen = () => {
           {/* Sub-Headline */}
           <div className="flex items-center">
             <p className="font-open-sans text-white text-lg mb-3">Find last-minute tickets at great prices</p>
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 ml-2 text-white hover:text-gray-500 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 pb-2 text-white hover:text-gray-500 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
             </svg>
           </div>
           {/* Button */}
           <button 
           className="bg-white text-[#FF6F61] px-6 py-3 rounded-full font-semibold flex items-center hover:translate-x-3 transition ease-in-out delay-150 duration-300 hover:shadow-2xl hover:ring-2 hover:ring-[#FF6F61]"
-          onClick={() => handleClick('seeWhat')}
+          onClick={() => { handleClick('seeWhat'); navigate("/listEvent"); }}
           >
             See what's out there
             <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 ml-2 mr-0 text-current " fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -276,7 +277,7 @@ const MainScreen = () => {
                       </svg>
                       <p className="text-red-600 font-medium">{ev.day}, {ev.time}</p>
                     </div>
-                    <h3 className="font-bold text-xl">{ev.name}</h3>
+                    <h3 className="font-bold text-xl text-ellipsis whitespace-nowrap overflow-hidden">{ev.name}</h3>
                     <p className="text-sm">{ev.location}</p>
                     {/* Card-Quantity */}
                     <div className="flex justify-center">
@@ -297,7 +298,7 @@ const MainScreen = () => {
         <div className="flex justify-center pb-2 pt-4">
           <button 
           className="outline outline-2 rounded-sm text-[#8ACDD7] font-medium text-lg px-6 py-3 mx-auto hover:bg-[#8ACDD7] hover:text-white"
-          onClick={() => handleClick('viewMore')}
+          onClick={() => { handleClick('viewMore'); navigate("/listEvent"); }}
           >
             View More
           </button>
@@ -407,7 +408,7 @@ const MainScreen = () => {
         {/* Img */}     
         <div className="w-3/5 transform skew-x-12 translate-x-12">
           <img
-            src="https://www.lasvegaswebsiteconstruction.com/wp-content/uploads/2019/12/raffle-tickets-768x512.jpg"
+            src={helpCenter}
             alt="Help Center"
             className="object-cover w-full h-full"
           />
@@ -556,6 +557,7 @@ const MainScreen = () => {
           </div>
         </div>
       </footer>
+      
     </div>
   );
 };
