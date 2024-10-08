@@ -310,7 +310,7 @@ const MainScreen = () => {
         {/* Hero-Img */}
         <div 
         className="relative bg-cover bg-center w-full" 
-        style={{ backgroundImage: 'url(https://www.oyorooms.com/blog/wp-content/uploads/2018/02/event.jpg)', backgroundAttachment: 'fixed', }}
+        style={{ backgroundImage: 'url(https://www.oyorooms.com/blog/wp-content/uploads/2018/02/event.jpg)'}}
         >
           {/* Overlay màu tối */}
           <div className="absolute inset-0 bg-black opacity-50"></div>
