@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+.cart{
+    min-height: 100vh;
+    background: linear-gradient(#B9EDDD,#569DAA);
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.cart-wrapper{
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    border: 1px solid #eee;
+    overflow: hidden;
+    position: absolute;
+    top: 10%;
+    left: 7%;
+    right: 7%;
+    width: 86%;
+}
+
+.cart-container{
+    display: flex;
+    align-items: flex-start; 
+    gap: 20px;
+}
+
+.section-title{
+    color: #344955;
+    font-family: "Montserrat";
+    font-size: 30px;
+    font-weight: 500;
+    width: 40%;
+
+}
+
+.cart-items{
+    flex: 0.8;
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+    flex-direction: column;
+}
