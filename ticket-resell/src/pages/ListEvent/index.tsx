@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
+import NavBar from "../NavBar";
+import Footer from "../Footer";
 
     // EVENT CARDS
     type Event = {
@@ -43,7 +45,7 @@ import { NavigateFunction, useNavigate } from "react-router-dom";
   ];
 
   // DROPDOWN SORT
-  interface SortOption {
+  type SortOption = {
     label: string;
     value: string;
   }

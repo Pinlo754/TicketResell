@@ -1,3 +1,17 @@
+import NavBar from "../NavBar";
+import Footer from "../Footer";
+
+type SortOption = {
+    label: string;
+    value: string;
+  }
+  const sortOptions: SortOption[] = [
+    { label: "First listed", value: "first" },
+    { label: "Latest listed", value: "latest" },
+    { label: "Price (Low to High)", value: "price_low" },
+    { label: "Price (High to Low)", value: "price_high" },
+  ];
+
 const EventDetail = () => {
     return (
         <div className="w-screen h-screen">
@@ -67,6 +81,49 @@ const EventDetail = () => {
                         </svg>
                     </button>
                     <p className="text-white font-semibold mr-10">128 available • 200 sold • 150 wanted</p>
+                </div>
+            </div>
+
+            {/* LIST TICKETS */}
+            <div className="w-[60%] mx-auto">
+                {/* Sort */}
+                <div className="w-full bg-[#87CBB9] grid grid-cols-1 md:grid-cols-4 gap-5 mt-10 px-3 py-3 rounded-lg text-white">
+                    <div>
+                        <button className="bg-transparent text-xl">
+                            <span className="font-medium">Sort: </span>
+                        </button>
+                    </div>
+                </div>
+
+                {/* List */}
+                <div className="bg-[#F4F4F4] w-full h-[18%] flex rounded-lg shadow-md cursor-pointer group hover:shadow-2xl">
+                    <div className="flex items-center w-1/5 pl-3 my-3">
+                        <div className="relative overflow-hidden rounded-full">
+                            <img 
+                            src="https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"
+                            alt="User Img"
+                            className="object-cover w-28 h-28 group-hover:scale-110 transition-transform duration-300"
+                            />
+                        </div>
+                    </div>
+                    <div className="w-3/5 pl-3 my-auto">
+                        <div className="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 pr-1 text-red-600 cursor-pointer" viewBox="0 0 24 24" fill="currentColor">
+                                <path fill-rule="evenodd" d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z" clip-rule="evenodd" />
+                            </svg>
+                            <p className="text-red-600 font-medium">5 Tickets</p>
+                        </div>
+                        <h3 className="font-bold text-xl mt-1 text-ellipsis whitespace-nowrap overflow-hidden">Mai</h3>
+                        <p className="text-sm text-gray-500 mt-1">Seat</p>
+                    </div>
+                    <div className="w-1/5 flex justify-center items-center">
+                        <div className="my-2 px-2 py-1 bg-[#8ACDD7] rounded-2xl flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-1 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                <path fill-rule="evenodd" d="M1.5 6.375c0-1.036.84-1.875 1.875-1.875h17.25c1.035 0 1.875.84 1.875 1.875v3.026a.75.75 0 0 1-.375.65 2.249 2.249 0 0 0 0 3.898.75.75 0 0 1 .375.65v3.026c0 1.035-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 17.625v-3.026a.75.75 0 0 1 .374-.65 2.249 2.249 0 0 0 0-3.898.75.75 0 0 1-.374-.65V6.375Zm15-1.125a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-1.5 0V6a.75.75 0 0 1 .75-.75Zm.75 4.5a.75.75 0 0 0-1.5 0v.75a.75.75 0 0 0 1.5 0v-.75Zm-.75 3a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-1.5 0v-.75a.75.75 0 0 1 .75-.75Zm.75 4.5a.75.75 0 0 0-1.5 0V18a.75.75 0 0 0 1.5 0v-.75ZM6 12a.75.75 0 0 1 .75-.75H12a.75.75 0 0 1 0 1.5H6.75A.75.75 0 0 1 6 12Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" clip-rule="evenodd" />
+                            </svg>
+                            <p className="text-white">Each</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
