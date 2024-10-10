@@ -33,7 +33,11 @@ namespace TicketResell_API.Controllers.User
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] Register model)
         {
-            var user = new IdentityUser { UserName = model.email };
+            var user = new IdentityUser
+            {
+                UserName = model.email,
+                Email = model.email
+            };
             var result = await _userManager.CreateAsync(user, model.password);
             if (result.Succeeded)
             {
@@ -45,7 +49,7 @@ namespace TicketResell_API.Controllers.User
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] Login model)
         {
-            var user = await _userManager.FindByNameAsync(model.email);
+            var user = await _userManager.FindByEmailAsync(model.email);
             if (user != null && await _userManager.CheckPasswordAsync(user, model.password))
             {
                 var userRole = await _userManager.GetRolesAsync(user);
