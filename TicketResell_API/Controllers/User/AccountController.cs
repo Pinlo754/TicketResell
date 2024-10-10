@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -44,7 +45,7 @@ namespace TicketResell_API.Controllers.User
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] Login model)
         {
-            var user = await _userManager.FindByEmailAsync(model.email);
+            var user = await _userManager.FindByNameAsync(model.email);
             if (user != null && await _userManager.CheckPasswordAsync(user, model.password))
             {
                 var userRole = await _userManager.GetRolesAsync(user);
@@ -145,6 +146,29 @@ namespace TicketResell_API.Controllers.User
             }
             return Ok();
         }
+
+        [HttpGet("ID")]
+        [Authorize]
+        public async Task<IActionResult> GetProfileById([FromBody] Profile model)
+        {
+            var userID = User?.Identity?.Name; //check registered user
+            if(userID == null)
+            {
+                return Unauthorized();
+            }
+            var user = await _userManager.FindByNameAsync(model.userID);
+            if (user is null) 
+            {
+                return NotFound();        
+            }
+            var profile = new
+            {
+                user.Email,
+                user.PhoneNumber
+            };
+            return Ok(profile);
+        }
     }
+
 }
 
