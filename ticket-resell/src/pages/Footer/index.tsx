@@ -5,7 +5,8 @@ import momo from "../../assets/Momo.png";
 
 const Footer = () => {
     return (
-        <div className="w-screen h-dvh">
+        <div className="w-screen">
+            
             {/* 4 Column Section */}
             <div className="w-[75%] mx-auto py-8 grid grid-cols-1 md:grid-cols-4 md:space-x-0 md:divide-x-2 divide-gray-300">
                 {/* Column 1 */}

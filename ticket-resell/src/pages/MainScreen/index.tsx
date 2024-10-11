@@ -139,15 +139,16 @@ const MainScreen = () => {
   };
 
   return (
-    <div className="w-screen h-[100dvh] flex flex-col">
+    <div className="w-screen min-h-screen flex flex-col">
+      {/* NAVBAR */} 
+      <NavBar/>
       
       {/* MAIN CONTENT */}
-      <div className="w-full h-full flex-grow">
-        <NavBar/>
+      <div className="w-full min-h-screen flex-grow">
         {/* MAIN NAVIGATE */}
-        <div className="w-screen h-[65%] flex">
+        <div className="w-full flex">
           {/* Section 1 */}
-          <div className="bg-[#FF7878] w-1/2 pt-14 flex flex-col justify-center items-center">
+          <div className="bg-[#FF7878] w-1/2 pt-52 pb-36 flex flex-col justify-center items-center">
             {/* Headline */}
             <h1 className="font-montserrat text-6xl text-white font-bold mb-2">Sell</h1>
             {/* Sub-Headline */}
@@ -170,7 +171,7 @@ const MainScreen = () => {
           </div>
 
           {/* Section 2 */}
-          <div className="bg-[#8ACDD7] w-1/2 pt-14 flex flex-col justify-center items-center">
+          <div className="bg-[#8ACDD7] w-1/2 pt-52 pb-36  flex flex-col justify-center items-center">
             {/* Headline */}
             <h1 className="font-montserrat text-6xl text-white font-bold mb-4">Buy</h1>
             {/* Sub-Headline */}
@@ -360,6 +361,7 @@ const MainScreen = () => {
         </div>
       </div>
 
+      {/* FOOTER */}           
       <div className="flex-grow-0">
         <Footer />
       </div>
