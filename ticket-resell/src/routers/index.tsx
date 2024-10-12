@@ -4,6 +4,7 @@ import WelcomeScreen from "../pages/WelcomeScreen";
 import MainScreen from "../pages/MainScreen";
 import ListEvent from "../pages/ListEvent";
 import EventDetail from "../pages/EventDetail";
+import TicketDetail from "../pages/TicketDetail";
 
 const routers = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const routers = createBrowserRouter([
   {
     path: "/eventDetail",
     element: <EventDetail />,
+  },
+  {
+    path: "/ticketDetail",
+    element: <TicketDetail />,
   },
 ]);
 

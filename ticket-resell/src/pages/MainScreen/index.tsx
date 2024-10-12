@@ -5,8 +5,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import commitent from "../../assets/Commitment.png";
 import helpCenter from "../../assets/HelpCenter.jpg";
-import NavBar from "../NavBar";
-import Footer from "../Footer";
+import NavBar from "../../components/NavBar";
+import Footer from "../../components/Footer";
 
 // EVENT CARDS
 type Event = {

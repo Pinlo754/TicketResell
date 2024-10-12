@@ -1,5 +1,5 @@
-import NavBar from "../NavBar";
-import Footer from "../Footer";
+import NavBar from "../../components/NavBar";
+import Footer from "../../components/Footer";
 import { useState } from "react";
 
 // SORT
@@ -18,6 +18,7 @@ type SortOption = {
   type Ticket = {
     id: number;
     img: string;
+    category: string;
     section: string;
     type: string;
     row: number;
@@ -29,6 +30,7 @@ type SortOption = {
     { 
         id: 1,
         img: "https://www.oyorooms.com/blog/wp-content/uploads/2018/02/event.jpg",
+        category: "Paper Ticket",
         section: "A",
         type: "Seat",
         row: 28,
@@ -39,6 +41,7 @@ type SortOption = {
     { 
         id: 2,
         img: "https://www.oyorooms.com/blog/wp-content/uploads/2018/02/event.jpg",
+        category: "E-Ticket",
         section: "B",
         type: "Stand",
         row: 0,
@@ -49,6 +52,7 @@ type SortOption = {
     { 
         id: 3,
         img: "https://www.oyorooms.com/blog/wp-content/uploads/2018/02/event.jpg",
+        category: "Paper Ticket",
         section: "C",
         type: "Seat",
         row: 31,
@@ -97,7 +101,7 @@ const EventDetail = () => {
             <NavBar />
 
             {/* MAIN CONTENT */}
-            <div className="w-full mt-20 flex-grow">
+            <div className="w-full flex-grow">
                 {/* BACKGROUND */}
                 <div className="w-full relative">
                     {/* Background */}
@@ -109,7 +113,7 @@ const EventDetail = () => {
                     <div className="absolute inset-0 bg-black opacity-60"></div>
                     
                     {/* Content */}
-                    <div className="relative z-10 pt-10 mx-auto text-center text-white flex flex-col justify-center items-center">
+                    <div className="relative z-10 pt-32 mx-auto text-center text-white flex flex-col justify-center items-center">
                         {/* Img */}
                         <div className="relative py-10">
                             <div className="overflow-hidden rounded-lg">
@@ -121,23 +125,26 @@ const EventDetail = () => {
                             </div>
                         </div>
 
-                        {/* Info */}
+                        {/* Tên sự kiện */}
                         <h1 className="mt-4 text-4xl font-bold  sm:text-5xl">
                         Gewoon Boef
                         </h1>
                         <div className="mt-6 text-lg flex justify-center gap-x-8">
+                            {/* Date */}
                             <div className="flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mx-2" viewBox="0 0 24 24" fill="currentColor">
                                     <path fill-rule="evenodd" d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z" clip-rule="evenodd" />
                                 </svg>
                                 <p>Sat, Oct 12, 8:00 PM</p>
                             </div>
+                            {/* Venue */}
                             <div className="flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mx-2" viewBox="0 0 24 24" fill="currentColor">
                                     <path fill-rule="evenodd" d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" clip-rule="evenodd" />
                                 </svg>
                                 <p>Ziggo Dome</p>
                             </div>
+                            {/* City */}
                             <div className="flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mx-2" viewBox="0 0 24 24" fill="currentColor">
                                     <path fill-rule="evenodd" d="M3 2.25a.75.75 0 0 0 0 1.5v16.5h-.75a.75.75 0 0 0 0 1.5H15v-18a.75.75 0 0 0 0-1.5H3ZM6.75 19.5v-2.25a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75ZM6 6.75A.75.75 0 0 1 6.75 6h.75a.75.75 0 0 1 0 1.5h-.75A.75.75 0 0 1 6 6.75ZM6.75 9a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM6 12.75a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 6a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75Zm-.75 3.75A.75.75 0 0 1 10.5 9h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 12a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM16.5 6.75v15h5.25a.75.75 0 0 0 0-1.5H21v-12a.75.75 0 0 0 0-1.5h-4.5Zm1.5 4.5a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Zm.75 2.25a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75v-.008a.75.75 0 0 0-.75-.75h-.008ZM18 17.25a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Z" clip-rule="evenodd" />
@@ -145,6 +152,7 @@ const EventDetail = () => {
                                 <p>Amsterdam, Netherlands</p>
                             </div>
                         </div>
+                        {/* Subcribe */}
                         <div className="flex justify-center">
                             <button className="mt-8 px-4 py-2 flex items-center rounded-lg bg-[#87CBB9] hover:bg-[#B9EDDD] hover:text-black group">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-2 origin-top transition-transform duration-300 group-hover:-rotate-12" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -159,7 +167,7 @@ const EventDetail = () => {
                     <div className="relative z-10 pb-12 flex justify-between mt-10">
                         <button className="bg-transparent text-white font-semibold ml-10 group flex items-center">
                             Sell your tickets on Festix
-                            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 ml-2 origin-top transition-transform duration-300 group-hover:translate-x-2" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-2" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                             </svg>
                         </button>
@@ -169,7 +177,7 @@ const EventDetail = () => {
 
                 {/* LIST TICKETS */}
                 <div className="w-[60%] mx-auto pt-10">
-                    {/* Sort */}
+                    {/* Sort: CHƯA XONG */}
                     <div className="w-full bg-black grid grid-cols-1 md:grid-cols-4 gap-5 mt-10 mb-10 px-3 py-3 rounded-lg text-white">
                         <div>
                             <button className="bg-transparent text-xl">
@@ -194,7 +202,7 @@ const EventDetail = () => {
                                 <div className="flex gap-1.5">
                                     <p className="font-bold text-lg">Section {ticket.section} • {ticket.type}</p>
                                     {ticket.type === "Seat" && (
-                                        <p className="font-bold text-gray-500 text-lg mr-10">• Row {ticket.row}</p>
+                                        <p className="font-bold text-gray-400 text-lg mr-10">• Row {ticket.row}</p>
                                     )}
                                 </div>
                              <p><span className="font-medium">Quantity:</span> {ticket.quantity}</p>
@@ -232,6 +240,8 @@ const EventDetail = () => {
                                         +
                                     </button>
                                 </div>
+
+                             {/* Button */}
                              <button className="bg-[#87CBB9] w-[87%] text-white py-2 mt-3 mx-auto rounded-sm hover:bg-[#B9EDDD] hover:text-black">Add to cart</button>
                              <button className="bg-[#87CBB9] w-[87%] text-white py-2 mt-1.5 mb-4 mx-auto rounded-sm hover:bg-[#B9EDDD] hover:text-black">Buy</button>
                             </div>

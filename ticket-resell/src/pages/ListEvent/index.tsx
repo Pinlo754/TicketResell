@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import NavBar from "../NavBar";
-import Footer from "../Footer";
+import NavBar from "../../components/NavBar";
+import Footer from "../../components/Footer";
 
     // EVENT CARDS
     type Event = {
@@ -42,33 +42,6 @@ import Footer from "../Footer";
       location: "District 2, Ho Chi Minh city",
       quantity: 5,
     },
-    {
-        id: 4,
-        img: "https://cdn0-production-images-kly.akamaized.net/xYEcqMdBWw6pN0mFBFD5_5uIjz8=/800x450/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/3396365/original/023706600_1615209973-concert-768722_1280.jpg",
-        day: "Mon",
-        time: "2:00 PM",
-        name: "Event 3",
-        location: "District 2, Ho Chi Minh city",
-        quantity: 5,
-      },
-      {
-        id: 5,
-        img: "https://cdn0-production-images-kly.akamaized.net/xYEcqMdBWw6pN0mFBFD5_5uIjz8=/800x450/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/3396365/original/023706600_1615209973-concert-768722_1280.jpg",
-        day: "Mon",
-        time: "2:00 PM",
-        name: "Event 3",
-        location: "District 2, Ho Chi Minh city",
-        quantity: 5,
-      },
-      {
-        id: 6,
-        img: "https://cdn0-production-images-kly.akamaized.net/xYEcqMdBWw6pN0mFBFD5_5uIjz8=/800x450/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/3396365/original/023706600_1615209973-concert-768722_1280.jpg",
-        day: "Mon",
-        time: "2:00 PM",
-        name: "Event 3",
-        location: "District 2, Ho Chi Minh city",
-        quantity: 5,
-      },
   ];
 
   // DROPDOWN SORT
@@ -150,6 +123,8 @@ import Footer from "../Footer";
                     <button className="bg-[#87CBB9] text-white hover:bg-[#B9EDDD] hover:text-black rounded-r-lg px-4 py-2">Search</button>
                 </div>
 
+                {/* FILTER: CHƯA XONG */}
+
                 <h1 className="text-xl mt-10">28 Results for "..."</h1>
 
                 {/* DROPDOWN SORT */}
@@ -226,7 +201,7 @@ import Footer from "../Footer";
                             <div className="w-1/5 flex justify-center items-center">
                                 <div className="my-2 px-2 py-1 bg-[#8ACDD7] rounded-2xl flex items-center justify-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-1 text-white" viewBox="0 0 24 24" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M1.5 6.375c0-1.036.84-1.875 1.875-1.875h17.25c1.035 0 1.875.84 1.875 1.875v3.026a.75.75 0 0 1-.375.65 2.249 2.249 0 0 0 0 3.898.75.75 0 0 1 .375.65v3.026c0 1.035-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 17.625v-3.026a.75.75 0 0 1 .374-.65 2.249 2.249 0 0 0 0-3.898.75.75 0 0 1-.374-.65V6.375Zm15-1.125a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-1.5 0V6a.75.75 0 0 1 .75-.75Zm.75 4.5a.75.75 0 0 0-1.5 0v.75a.75.75 0 0 0 1.5 0v-.75Zm-.75 3a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-1.5 0v-.75a.75.75 0 0 1 .75-.75Zm.75 4.5a.75.75 0 0 0-1.5 0V18a.75.75 0 0 0 1.5 0v-.75ZM6 12a.75.75 0 0 1 .75-.75H12a.75.75 0 0 1 0 1.5H6.75A.75.75 0 0 1 6 12Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" clip-rule="evenodd" />
+                                        <path fill-rule="evenodd" d="M1.5 6.375c0-1.036.84-1.875 1.875-1.875h17.25c1.035 0 1.875.84 1.875 1.875v3.026a.75.75 0 0 1-.375.65 2.249 2.249 0 0 0 0 3.898.75.75 0 0 1 .375.65v3.026c0 1.035-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 17.625v-3.026a.75.75 0 0 1 .374-.65 2.249 2.249 0 0 0 0-3.898.75.75 0 0 1-.374-.65V6.375Zm15-1.125a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-1.5 0V6a.75.75 0 0 1 .75-.75Zm.75 4.5a.75.75 0 0 0-1.5 0v.75a.75.75 0 0 0 1.5 0v-.75Zm-.75 3a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-1.5 0v-.75a.75.75 0 0 1 .75-.75Zm.75 4.5a.75.75 0 0 0-1.5 0V18a.75.75 0 0 0 1.5 0v-.75ZM6 12a.75.75 0 0 1 .75-.75H12a.75.75 0 0 1 0 1.5H6.75A.75.75 0 0 1 6 12Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" clip-rule="evenodd" />
                                     </svg>
                                     <p className="text-white">{ev.quantity}</p>
                                 </div>
