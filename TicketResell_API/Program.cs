@@ -25,9 +25,12 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
     options.Password.RequireUppercase = true;
+    options.SignIn.RequireConfirmedEmail = true;
+    options.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
 })
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
+
 
 //Set up JWT authentication
 builder.Services.AddAuthentication(options =>
@@ -57,18 +60,14 @@ builder.Services.AddAuthorization(Options =>
     Options.AddPolicy("UserPolicy", policy => policy.RequireRole("User"));
 });
 
-//Email service configuration
-var emailConfig = builder.Configuration
-    .GetSection("EmailConfiguration")
-    .Get<EmailConfiguration>();
-builder.Services.AddSingleton(emailConfig);
-builder.Services.AddScoped<IEmailSender,EmailSender>();
 
 //Token lifetime configuration
 builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
     options.TokenLifespan = TimeSpan.FromHours(2)
 );
 
+//
+builder.Services.AddTransient<TicketResell_API.Controllers.User.IEmailSender, EmailSender>();
 
 
 builder.Services.AddSwaggerGen(c =>
