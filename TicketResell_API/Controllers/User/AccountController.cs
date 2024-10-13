@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -7,7 +8,9 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using MimeKit;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
 
@@ -37,25 +40,70 @@ namespace TicketResell_API.Controllers.User
             var user = new IdentityUser 
             {
                 UserName = model.email,
-                Email = model.email
+                Email = model.email,
             };
             //CreateAsync method from _userManager(UserManager<IdentityUser>)
             var result = await _userManager.CreateAsync(user, model.password);
             //Check if user creation was successful
             {
                 if (result.Succeeded)
+                {
+                    //Find user after successful creation
+                    var _user = await _userManager.FindByEmailAsync(model.email!);
+                    //Generate email confirmation code
+                    var emailCode = await _userManager.GenerateEmailConfirmationTokenAsync(_user!);
+                    //Send confirmation email
+                    string sendEmailResult = await _emailSender.SendConfirmationEmailAsync(_user.Email, emailCode);
                     //create notification to let user know that registration is successful
-                    return Ok(new { message = "User registered successfully" });
+                    return Ok(new { message = "User registered successfully", sendEmailResult });
+                }         
             }
-            //If creation fails, return code 400 with error.
+            //Returns error if account creation fails
             return BadRequest(result.Errors);
+        }
+
+        [HttpPost("confirmation-email")]
+        public async Task<IActionResult> Confirmation([FromBody] EmailConfirmation model)
+        {
+            //check the email not null and code not <=0
+            if (string.IsNullOrEmpty(model.email) || model.code <= 0)
+            {
+                return BadRequest("Invalid code provided");
+            }
+            //find by email
+            var user = await _userManager.FindByNameAsync(model.email);
+            if (user == null)
+            {
+                return BadRequest("Invalid indentity provided");
+            }
+            //Email confirmation
+            var result = await _userManager.ConfirmEmailAsync(user, model.code.ToString());
+            if (!result.Succeeded)
+            {
+                return BadRequest("Invalid code provided");
+            }
+            else
+            {
+                return Ok("Email confirmed successfully, you can proceed to login");
+            }
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] Login model)
         {
+            //check the email or password
+            if(string.IsNullOrEmpty(model.email) || string.IsNullOrEmpty(model.password))
+            {
+                return BadRequest();
+            }
             //Use _userManager to find users by email address
             var user = await _userManager.FindByEmailAsync(model.email);
+            bool isEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user!);
+            //check the cofirmation of email before login
+            if (!isEmailConfirmed) 
+            {
+                return BadRequest("You need to cofirm email before loggin in");
+            }
             //Check if the user exists and if so, validate the password using the CheckPasswordAsync method
             if (user != null && await _userManager.CheckPasswordAsync(user, model.password))
             {
@@ -90,51 +138,7 @@ namespace TicketResell_API.Controllers.User
             }
             //If the login information is incorrect, return HTTP status code 401 (Unauthorized)
             return Unauthorized();
-        }
-
-        [HttpPost("add-role")]
-        public async Task<IActionResult> AddRole([FromBody] string role)
-        {
-            //Check if the role with the given name exists in the system.
-            if (!await _roleManager.RoleExistsAsync(role))
-            {
-                //If the role does not exist, create a new role using _roleManager
-                var result = await _roleManager.CreateAsync(new IdentityRole(role));
-                //Check if adding role was successful
-                if (result.Succeeded)
-                {
-                    //If the role addition is successful it returns HTTP status code 200
-                    return Ok(new { message = "Role add successfully" });
-                }
-                //If adding the role fails, return HTTP status code 400
-                return BadRequest(result.Errors);
-            }
-            //If the role already exists notify that the role already exists in the system.
-            return BadRequest("Role already exists");
-        }
-
-        [HttpPost("assign-role")]
-        public async Task<IActionResult> AssignRole([FromBody] UserRole model)
-        {
-            //Use _userManager to find users by email address
-            var user = await _userManager.FindByEmailAsync(model.email);
-            //Check if user exists
-            if (user == null)
-            {
-                //If the user does not exist it will say that the user was not found.
-                return BadRequest("User not found");
-            }
-            //If the user exists, call the AddToRoleAsync method to assign the role to the user.
-            var result = await _userManager.AddToRoleAsync(user, model.role);
-            //Check if role assignment was successful
-            if (result.Succeeded)
-            {
-                //If the role assignment is successful, it will notify that the role has been assigned successfully.
-                return Ok(new { message = "Role assigned sucessfully" });
-            }
-            //If the role assignment fails, notify of errors that occurred during the role assignment process.
-            return BadRequest(result.Errors);
-        }
+        }      
 
         [HttpPost("forgotpassword")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDTO forgotPassword)
@@ -196,7 +200,7 @@ namespace TicketResell_API.Controllers.User
                 return BadRequest(new { Error = errors });
             }
             //If all steps are successful it indicates that the request was processed successfully.
-            return Ok();
+            return Ok("Reset successfully!");
         }
 
         [HttpGet("ID")]
