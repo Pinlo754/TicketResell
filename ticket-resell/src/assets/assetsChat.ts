@@ -9,6 +9,7 @@ import send_button from './send_button.png'
 import green_dot from './green_dot.png'
 import logo from './Logo_festix.png'
 import hongle from './avatar.png'
+import ticket from './ticket.png'
 
 const assets = {
     gallery_icon,
@@ -21,7 +22,8 @@ const assets = {
     send_button,
     green_dot,
     logo,
-    hongle
+    hongle,
+    ticket
 }
 
 export default assets;

@@ -4,6 +4,8 @@ import WelcomeScreen from "../pages/WelcomeScreen";
 import MainScreen from "../pages/MainScreen";
 import Chat from "../pages/Chat/Chat";
 import ShoppingCart from "../pages/ShoppingCart/ShoppingCart";
+import ListEvent from "../pages/ListEvent";
+import EventDetail from "../pages/EventDetail";
 
 const routers = createBrowserRouter([
   {
@@ -21,6 +23,14 @@ const routers = createBrowserRouter([
   {
     path: "/cart",
     element: <ShoppingCart />,
+  },
+  {
+    path: "/listEvent",
+    element: <ListEvent />,
+  },
+  {
+    path: "/eventDetail",
+    element: <EventDetail />,
   },
 ]);
 

@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -16,18 +19,20 @@ namespace TicketResell_API.Controllers.User
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _config;
+        private readonly IEmailSender _emailSender;
 
-        public AccountController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration config)
+        public AccountController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration config, IEmailSender emailSender)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _config = config;
+            _emailSender = emailSender;
         }
 
-        [HttpPost("Register")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] Register model)
         {
-            var user = new IdentityUser { UserName = model.phoneNumber };
+            var user = new IdentityUser { UserName = model.email };
             var result = await _userManager.CreateAsync(user, model.password);
             if (result.Succeeded)
             {
@@ -36,17 +41,17 @@ namespace TicketResell_API.Controllers.User
             return BadRequest(result.Errors);
         }
 
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] Login model)
         {
-            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == model.phoneNumber);
+            var user = await _userManager.FindByEmailAsync(model.email);
             if (user != null && await _userManager.CheckPasswordAsync(user, model.password))
             {
                 var userRole = await _userManager.GetRolesAsync(user);
 
                 var authClaims = new List<Claim>
                 {
-                    new Claim(JwtRegisteredClaimNames.Sub, user.PhoneNumber!),
+                    new Claim(JwtRegisteredClaimNames.Sub, user.Email!),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
 
@@ -65,7 +70,7 @@ namespace TicketResell_API.Controllers.User
             return Unauthorized();
         }
 
-        [HttpPost("Add-Role")]
+        [HttpPost("add-role")]
         public async Task<IActionResult> AddRole([FromBody] string role)
         {
             if (!await _roleManager.RoleExistsAsync(role))
@@ -80,10 +85,10 @@ namespace TicketResell_API.Controllers.User
             return BadRequest("Role already exists");
         }
 
-        [HttpPost("Assign-Role")]
+        [HttpPost("assign-role")]
         public async Task<IActionResult> AssignRole([FromBody] UserRole model)
         {
-            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == model.phoneNumber);
+            var user = await _userManager.FindByEmailAsync(model.email);
             if (user == null)
             {
                 return BadRequest("User not found");
@@ -96,8 +101,50 @@ namespace TicketResell_API.Controllers.User
                 return Ok(new { message = "Role assigned sucessfully" });
             }
             return BadRequest(result.Errors);
+        }
 
+        [HttpPost("forgotpassword")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDTO forgotPassword)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var user = await _userManager.FindByEmailAsync(forgotPassword.email!);
+            if (user is null)
+            {
+                return BadRequest("Invalid Request");
+            }
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var param = new Dictionary<string, string?>
+            {
+                { "token", token },
+                { "email", forgotPassword.email! }
+            };
+            var callback = QueryHelpers.AddQueryString(forgotPassword.clientUri, param);
+            await _emailSender.SendEmailAsync(user.Email,callback, "Reset password token");
+            return Ok();
+        }
 
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPassword resetPassword)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var user = await _userManager.FindByEmailAsync(resetPassword.email!);
+            if (user is null)
+            {
+                return BadRequest("Invalid Request.");
+            }
+            var result = await _userManager.ResetPasswordAsync(user, resetPassword.Token!, resetPassword.password);
+            if (!result.Succeeded) {
+                var errors = result.Errors.Select(e => e.Description);
+                return BadRequest(new { Error = errors });
+            }
+            return Ok();
         }
     }
 }
+

@@ -18,7 +18,7 @@
     }
 
 .rs-profile h3{
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 400;
     display: flex;
     align-items: center;
@@ -27,7 +27,7 @@
     margin: 5px 0px;
 }
 .rs-profile p{
-    font-size: 10px;
+    font-size: 14px;
     opacity: 80%;
     font-weight: 300;
 }
@@ -40,15 +40,15 @@
     font-size: 13px;
 }
 .rs-media div{
-    max-height: 180px;
+    max-height: 60%;
     overflow-y: scroll;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 5px;
     margin-top: 8px
 }
 .rs-media div img{
-    width: 60px;
+    width: 100%;
     border-radius: 4px;
     cursor: pointer;
 }
@@ -60,7 +60,7 @@
     background: #B9EDDD;
     color: black;
     border: none;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 300;
     padding: 10px 65px;
     border-radius: 20px;

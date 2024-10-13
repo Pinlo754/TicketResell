@@ -1,41 +1,20 @@
 {
   "format": 1,
   "restore": {
-<<<<<<< HEAD
-    "E:\\SWP391\\TicketResell_API\\TicketResell_API\\TicketResell_API.csproj": {}
+    "E:\\FPT\\Semester5\\SWP391\\TicketResell-main\\TicketResell_API\\TicketResell_API.csproj": {}
   },
   "projects": {
-    "E:\\SWP391\\TicketResell_API\\TicketResell_API\\TicketResell_API.csproj": {
+    "E:\\FPT\\Semester5\\SWP391\\TicketResell-main\\TicketResell_API\\TicketResell_API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\SWP391\\TicketResell_API\\TicketResell_API\\TicketResell_API.csproj",
+        "projectUniqueName": "E:\\FPT\\Semester5\\SWP391\\TicketResell-main\\TicketResell_API\\TicketResell_API.csproj",
         "projectName": "TicketResell_API",
-        "projectPath": "E:\\SWP391\\TicketResell_API\\TicketResell_API\\TicketResell_API.csproj",
-        "packagesPath": "C:\\Users\\pinlo\\.nuget\\packages\\",
-        "outputPath": "E:\\SWP391\\TicketResell_API\\TicketResell_API\\obj\\",
+        "projectPath": "E:\\FPT\\Semester5\\SWP391\\TicketResell-main\\TicketResell_API\\TicketResell_API.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "E:\\FPT\\Semester5\\SWP391\\TicketResell-main\\TicketResell_API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\pinlo\\AppData\\Roaming\\NuGet\\NuGet.Config",
-=======
-    "D:\\Semester5\\SWP391\\TicketResell\\TicketResell_API\\TicketResell_API.csproj": {}
-  },
-  "projects": {
-    "D:\\Semester5\\SWP391\\TicketResell\\TicketResell_API\\TicketResell_API.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "D:\\Semester5\\SWP391\\TicketResell\\TicketResell_API\\TicketResell_API.csproj",
-        "projectName": "TicketResell_API",
-        "projectPath": "D:\\Semester5\\SWP391\\TicketResell\\TicketResell_API\\TicketResell_API.csproj",
-        "packagesPath": "C:\\Users\\dotro\\.nuget\\packages\\",
-        "outputPath": "D:\\Semester5\\SWP391\\TicketResell\\TicketResell_API\\obj\\",
-        "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
-        "configFilePaths": [
-          "C:\\Users\\dotro\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
->>>>>>> 40f0f891907ad5328634aa68c2ac3176b7dfc637
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -43,10 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-<<<<<<< HEAD
-=======
           "C:\\Program Files\\dotnet\\library-packs": {},
->>>>>>> 40f0f891907ad5328634aa68c2ac3176b7dfc637
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -70,8 +46,6 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-<<<<<<< HEAD
-=======
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[8.0.8, )"
@@ -80,20 +54,16 @@
               "target": "Package",
               "version": "[8.0.8, )"
             },
->>>>>>> 40f0f891907ad5328634aa68c2ac3176b7dfc637
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[8.0.8, )"
             },
-<<<<<<< HEAD
-=======
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.8, )"
             },
->>>>>>> 40f0f891907ad5328634aa68c2ac3176b7dfc637
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[8.0.8, )"
@@ -132,11 +102,7 @@
               "privateAssets": "all"
             }
           },
-<<<<<<< HEAD
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
-=======
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
->>>>>>> 40f0f891907ad5328634aa68c2ac3176b7dfc637
         }
       }
     }

@@ -5,6 +5,7 @@
 }
 .ls-top{
     padding: 20px;
+    padding-bottom: 10px;
 }
 .ls-nav{
     display: flex;
@@ -34,7 +35,7 @@
     align-items: center;
     gap: 10px;
     padding: 10px 12px;
-    margin-top: 7px;
+    margin-top: 10px;
 }
 .ls-search img{
     width: 16px;
@@ -45,7 +46,7 @@
     border: none;
     outline: none;
     color: white;
-    font-size: 11px;
+    font-size: 15px;
 }
 .ls-search input::placeholder{
     color: #B9EDDD;
@@ -53,7 +54,7 @@
 .ls-list{
     display: flex;
     flex-direction: column;
-    height: 70%;
+    height: 77%;
     overflow-y: scroll;
 }
 .friends img{
@@ -67,7 +68,8 @@
     gap: 10px;
     padding: 10px 20px;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 16px;
+    margin-bottom: 10px;
 }
 .friends div{
     display: flex;
@@ -75,7 +77,7 @@
 }
 .friends span{
     color: #B9EDDD;
-    font-size: 11px;
+    font-size: 14px;
 }
 .friends:hover{
     background-color: #569DAA;

@@ -251,8 +251,6 @@ E:\SWP391\TicketResell_API\TicketResell_API\obj\Debug\net8.0\refint\TicketResell
 E:\SWP391\TicketResell_API\TicketResell_API\obj\Debug\net8.0\TicketResell_API.pdb
 E:\SWP391\TicketResell_API\TicketResell_API\obj\Debug\net8.0\TicketResell_API.genruntimeconfig.cache
 E:\SWP391\TicketResell_API\TicketResell_API\obj\Debug\net8.0\ref\TicketResell_API.dll
-<<<<<<< HEAD
-=======
 D:\Semester5\SWP391\TicketResell\TicketResell_API\bin\Debug\net8.0\appsettings.Development.json
 D:\Semester5\SWP391\TicketResell\TicketResell_API\bin\Debug\net8.0\appsettings.json
 D:\Semester5\SWP391\TicketResell\TicketResell_API\bin\Debug\net8.0\TicketResell_API.exe
@@ -514,4 +512,14 @@ D:\Semester5\SWP391\TicketResell\TicketResell_API\obj\Debug\net8.0\refint\Ticket
 D:\Semester5\SWP391\TicketResell\TicketResell_API\obj\Debug\net8.0\TicketResell_API.pdb
 D:\Semester5\SWP391\TicketResell\TicketResell_API\obj\Debug\net8.0\TicketResell_API.genruntimeconfig.cache
 D:\Semester5\SWP391\TicketResell\TicketResell_API\obj\Debug\net8.0\ref\TicketResell_API.dll
->>>>>>> 40f0f891907ad5328634aa68c2ac3176b7dfc637
+E:\FPT\Semester5\SWP391\TicketResell-main\TicketResell_API\obj\Debug\net8.0\TicketResell_API.csproj.AssemblyReference.cache
+E:\FPT\Semester5\SWP391\TicketResell-main\TicketResell_API\obj\Debug\net8.0\TicketResell_API.GeneratedMSBuildEditorConfig.editorconfig
+E:\FPT\Semester5\SWP391\TicketResell-main\TicketResell_API\obj\Debug\net8.0\TicketResell_API.AssemblyInfoInputs.cache
+E:\FPT\Semester5\SWP391\TicketResell-main\TicketResell_API\obj\Debug\net8.0\TicketResell_API.AssemblyInfo.cs
+E:\FPT\Semester5\SWP391\TicketResell-main\TicketResell_API\obj\Debug\net8.0\TicketResell_API.csproj.CoreCompileInputs.cache
+E:\FPT\Semester5\SWP391\TicketResell-main\TicketResell_API\obj\Debug\net8.0\TicketResell_API.MvcApplicationPartsAssemblyInfo.cs
+E:\FPT\Semester5\SWP391\TicketResell-main\TicketResell_API\obj\Debug\net8.0\TicketResell_API.MvcApplicationPartsAssemblyInfo.cache
+E:\FPT\Semester5\SWP391\TicketResell-main\TicketResell_API\obj\Debug\net8.0\TicketResell_API.sourcelink.json
+E:\FPT\Semester5\SWP391\TicketResell-main\TicketResell_API\obj\Debug\net8.0\TicketResell_API.dll
+E:\FPT\Semester5\SWP391\TicketResell-main\TicketResell_API\obj\Debug\net8.0\refint\TicketResell_API.dll
+E:\FPT\Semester5\SWP391\TicketResell-main\TicketResell_API\obj\Debug\net8.0\TicketResell_API.pdb

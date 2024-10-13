@@ -1,21 +1,15 @@
-<<<<<<< HEAD
-using Microsoft.EntityFrameworkCore;
-=======
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
->>>>>>> 40f0f891907ad5328634aa68c2ac3176b7dfc637
+using TicketResell_API.Controllers.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-<<<<<<< HEAD
-
-=======
 //Add db context
->>>>>>> 40f0f891907ad5328634aa68c2ac3176b7dfc637
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 
@@ -23,8 +17,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-<<<<<<< HEAD
-=======
 //add identity 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
@@ -65,12 +57,20 @@ builder.Services.AddAuthorization(Options =>
     Options.AddPolicy("UserPolicy", policy => policy.RequireRole("User"));
 });
 
+//Email service configuration
+var emailConfig = builder.Configuration
+    .GetSection("EmailConfiguration")
+    .Get<EmailConfiguration>();
+builder.Services.AddSingleton(emailConfig);
+builder.Services.AddScoped<IEmailSender,EmailSender>();
 
-    
+//Token lifetime configuration
+builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
+    options.TokenLifespan = TimeSpan.FromHours(2)
+);
 
 
 
->>>>>>> 40f0f891907ad5328634aa68c2ac3176b7dfc637
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
@@ -87,6 +87,8 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -100,11 +102,6 @@ if (app.Environment.IsDevelopment())
 }
 
 
-<<<<<<< HEAD
-
-app.MapControllers();
-app.Run();
-=======
 app.UseAuthentication();
 
 app.UseAuthorization();
@@ -113,4 +110,3 @@ app.MapControllers();
 
 app.Run();
 
->>>>>>> 40f0f891907ad5328634aa68c2ac3176b7dfc637
