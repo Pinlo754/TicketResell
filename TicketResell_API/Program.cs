@@ -41,6 +41,7 @@ builder.Services.AddAuthentication(options =>
 })
     .AddJwtBearer(options =>
     {
+        options.SaveToken = true;
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -61,10 +62,10 @@ builder.Services.AddAuthorization(Options =>
 });
 
 
-//Token lifetime configuration
-builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
-    options.TokenLifespan = TimeSpan.FromHours(2)
-);
+////Token lifetime configuration
+//builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
+//    options.TokenLifespan = TimeSpan.FromHours(2)
+//);
 
 //
 builder.Services.AddTransient<TicketResell_API.Controllers.User.Service.IEmailSender, EmailSender>();

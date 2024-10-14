@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using MimeKit;
 using System.Text;
 using TicketResell_API.Controllers.User.Service;
+using IEmailSender = TicketResell_API.Controllers.User.Service.IEmailSender;
 
 namespace TicketResell_API.Controllers.User.Model
 {
@@ -33,6 +34,7 @@ namespace TicketResell_API.Controllers.User.Model
                 await smtp.DisconnectAsync(true);
             }
         }
+        // sending confirmation email
         public async Task<string> SendConfirmationEmailAsync(string email, string emailCode)
         {
             StringBuilder emailMessage = new StringBuilder();
@@ -52,6 +54,42 @@ namespace TicketResell_API.Controllers.User.Model
             await SendEmailAsync(email, "Email Confirmation", message);
 
             return "Thank you for registering with us";
+        }
+        //send email request password reset
+        public async Task<string> SendPasswordResetEmailAsync(string email, string vaidToken)
+        {
+            string resetLink = $"http://localhost:5158/api/Account/reset-password/{vaidToken}";
+            StringBuilder emailMessage = new StringBuilder();
+            emailMessage.AppendLine("<!DOCTYPE html>");
+            emailMessage.AppendLine("<html lang=\"en\">");
+            emailMessage.AppendLine("<head>");
+            emailMessage.AppendLine("     <meta charset=\"UTF-8\">");
+            emailMessage.AppendLine("     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
+            emailMessage.AppendLine("     <title>Password Reset</title>");
+            emailMessage.AppendLine("     <style>");
+            emailMessage.AppendLine("     body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; }");
+            emailMessage.AppendLine("     .email-container { max-width: 600px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); }");
+            emailMessage.AppendLine("     h1 { color: #323232; }");
+            emailMessage.AppendLine("     p { color: #555; }");
+            emailMessage.AppendLine("     .button { background-color: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px; }");
+            emailMessage.AppendLine("     .button:hover { background-color: #218838; }");
+            emailMessage.AppendLine("     </style>");
+            emailMessage.AppendLine("</head>");
+            emailMessage.AppendLine("<body>");
+            emailMessage.AppendLine("     <div class=\"email-container\">");
+            emailMessage.AppendLine($"     <h1>Hello, {email}</h1>");
+            emailMessage.AppendLine("      <p>You requested to set a new password for your account. Click the button below to reset your password:</p>");
+            emailMessage.AppendLine($"      <p><a href=\"{resetLink}\" class=\"button\">Reset Your Password</a></p>");
+            emailMessage.AppendLine("      <p>If you did not request this, please ignore this email.</p>");
+            emailMessage.AppendLine("      <p>Thank you, <br>Ticket-Resell</p>");
+            emailMessage.AppendLine("    </div>");
+            emailMessage.AppendLine("</body>");
+            emailMessage.AppendLine("</html>");
+
+            string message = emailMessage.ToString();
+            await SendEmailAsync(email, "Password Reset", message);
+
+            return "Please check your email for the password reset link";
         }
     }
 

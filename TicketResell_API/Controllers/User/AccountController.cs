@@ -15,6 +15,7 @@ using System.Security.Claims;
 using System.Text;
 using TicketResell_API.Controllers.User.Model;
 using TicketResell_API.Controllers.User.Service;
+using IEmailSender = TicketResell_API.Controllers.User.Service.IEmailSender;
 
 namespace TicketResell_API.Controllers.User
 {
@@ -136,68 +137,53 @@ namespace TicketResell_API.Controllers.User
             return Unauthorized();
         }      
 
-        [HttpPost("forgotpassword")]
-        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDTO forgotPassword)
+        [HttpPost("request-password-reset")]
+        public async Task<IActionResult> RequestPasswordReset([FromBody] RequestReset model) 
         {
-            //Check if the model sent from the client is valid
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-            //Use _userManager to find users by email address
-            var user = await _userManager.FindByEmailAsync(forgotPassword.email!);
-            //Check if user exists
+            //find user by email
+            var user = await _userManager.FindByEmailAsync(model.email!);
+            //check the user is null or not
             if (user is null)
             {
-                //If the user does not exist, notify that the request is invalid.
-                return BadRequest("Invalid Request");
+                return BadRequest("User not found");
             }
-            //Call the GeneratePasswordResetTokenAsync method to generate a password reset token for the user.
-            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-            //Create a dictionary containing the parameters that will be used in the URL.
-            var param = new Dictionary<string, string?>
-            {
-                //Add password recovery token to dictionary
-                { "token", token },
-                //Add user email address to dictionary
-                { "email", forgotPassword.email! }
-            };
-            //Use QueryHelpers to create a new URL by adding the parameters in the param dictionary to the clientUri that was provided.
-            var callback = QueryHelpers.AddQueryString(forgotPassword.clientUri, param);
-            //Call the send email method to send a password recovery email to the user's email address.
-            await _emailSender.SendEmailAsync(user.Email,callback, "Reset password token");
-            //If all steps are successful, the request will be processed successfully.
+            //Generate reset token
+            var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user!);
+            string validToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(resetToken));
+            //Send password reset email
+            await _emailSender.SendPasswordResetEmailAsync(user!.Email, validToken);
+            return Ok(new { message = "Password reset email has been sent. Please check your email." });
+        }
+        public static string Token { get; set; } = string.Empty;
+        [HttpGet("reset-password/{token}")]
+        public IActionResult ResetPassword(string token)
+        {
+            //decode token from Base64 format to bytes
+            Token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
             return Ok();
         }
 
         [HttpPost("reset-password")]
-        public async Task<IActionResult> ResetPassword([FromBody] ResetPassword resetPassword)
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPassword model)
         {
-            //Check if the model sent from the client is valid
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-            //Use _userManager to find users by email address
-            var user = await _userManager.FindByEmailAsync(resetPassword.email!);
-            //Check if user exists
+            //find user by email
+            var user = await _userManager.FindByEmailAsync(model.email!);
+            //check user is null or not
             if (user is null)
             {
-                //If the user does not exist, notify that the request is invalid.
-                return BadRequest("Invalid Request.");
+                return BadRequest("User not found");
             }
-            //Call the ResetPasswordAsync method to reset the password for the user.
-            var result = await _userManager.ResetPasswordAsync(user, resetPassword.Token!, resetPassword.password);
-            //Check if password recovery was successful
-            if (!result.Succeeded) {
-                //If unsuccessful, get a list of errors from result and select the description of each error.
-                var errors = result.Errors.Select(e => e.Description);
-                //Returns HTTP status code 400
-                return BadRequest(new { Error = errors });
+            // Reset password
+            var result = await _userManager.ResetPasswordAsync(user, Token, model.newPassword!);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
             }
-            //If all steps are successful it indicates that the request was processed successfully.
-            return Ok("Reset successfully!");
+            return Ok(new { message = "Password have been change. You can continue to login"});
+
         }
+
+       
 
         [HttpGet("ID")]
         [Authorize]
