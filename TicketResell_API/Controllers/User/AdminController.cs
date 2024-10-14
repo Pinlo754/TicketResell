@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using TicketResell_API.Controllers.User.Model;
 
 namespace TicketResell_API.Controllers.User
 {

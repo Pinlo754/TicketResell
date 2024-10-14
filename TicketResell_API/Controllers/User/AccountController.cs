@@ -13,6 +13,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
+using TicketResell_API.Controllers.User.Model;
+using TicketResell_API.Controllers.User.Service;
 
 namespace TicketResell_API.Controllers.User
 {
@@ -84,7 +86,7 @@ namespace TicketResell_API.Controllers.User
             }
             else
             {
-                return Ok("Email confirmed successfully, you can proceed to login");
+                return Ok("Email confirmed successfully");
             }
         }
 
@@ -98,12 +100,6 @@ namespace TicketResell_API.Controllers.User
             }
             //Use _userManager to find users by email address
             var user = await _userManager.FindByEmailAsync(model.email);
-            bool isEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user!);
-            //check the cofirmation of email before login
-            if (!isEmailConfirmed) 
-            {
-                return BadRequest("You need to cofirm email before loggin in");
-            }
             //Check if the user exists and if so, validate the password using the CheckPasswordAsync method
             if (user != null && await _userManager.CheckPasswordAsync(user, model.password))
             {

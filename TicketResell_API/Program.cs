@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using TicketResell_API.Controllers.User;
+using TicketResell_API.Controllers.User.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -67,7 +67,7 @@ builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
 );
 
 //
-builder.Services.AddTransient<TicketResell_API.Controllers.User.IEmailSender, EmailSender>();
+builder.Services.AddTransient<TicketResell_API.Controllers.User.Service.IEmailSender, EmailSender>();
 
 
 builder.Services.AddSwaggerGen(c =>
