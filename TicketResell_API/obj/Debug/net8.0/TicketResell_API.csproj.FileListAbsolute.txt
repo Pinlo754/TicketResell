@@ -512,3 +512,13 @@ D:\Semester5\SWP391\TicketResell\TicketResell_API\obj\Debug\net8.0\refint\Ticket
 D:\Semester5\SWP391\TicketResell\TicketResell_API\obj\Debug\net8.0\TicketResell_API.pdb
 D:\Semester5\SWP391\TicketResell\TicketResell_API\obj\Debug\net8.0\TicketResell_API.genruntimeconfig.cache
 D:\Semester5\SWP391\TicketResell\TicketResell_API\obj\Debug\net8.0\ref\TicketResell_API.dll
+D:\Semester5\SWP391\TicketResell\TicketResell_API\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+D:\Semester5\SWP391\TicketResell\TicketResell_API\bin\Debug\net8.0\MailKit.dll
+D:\Semester5\SWP391\TicketResell\TicketResell_API\bin\Debug\net8.0\MimeKit.dll
+D:\Semester5\SWP391\TicketResell\TicketResell_API\bin\Debug\net8.0\TicketResell_API.staticwebassets.runtime.json
+D:\Semester5\SWP391\TicketResell\TicketResell_API\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.UI.dll
+D:\Semester5\SWP391\TicketResell\TicketResell_API\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
+D:\Semester5\SWP391\TicketResell\TicketResell_API\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\Semester5\SWP391\TicketResell\TicketResell_API\bin\Debug\net8.0\Microsoft.Extensions.FileProviders.Embedded.dll
+D:\Semester5\SWP391\TicketResell\TicketResell_API\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
+D:\Semester5\SWP391\TicketResell\TicketResell_API\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
