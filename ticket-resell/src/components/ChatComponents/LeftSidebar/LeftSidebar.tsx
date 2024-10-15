@@ -4,7 +4,6 @@ import assets from "../../../assets/assetsChat";
 
 const LeftSidebar = () => {
   return (
-    <div>
       <div className="ls">
         <div className="ls-top">
           <div className="ls-nav">
@@ -31,7 +30,6 @@ const LeftSidebar = () => {
             ))}
         </div>
       </div>
-    </div>
   );
 };
 

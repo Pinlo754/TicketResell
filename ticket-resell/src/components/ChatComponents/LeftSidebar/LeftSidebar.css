@@ -1,7 +1,7 @@
 .ls{
     background: #577D86;
     color: white;
-    height:75vh;
+    height:80vh;
 }
 .ls-top{
     padding: 20px;
@@ -54,7 +54,7 @@
 .ls-list{
     display: flex;
     flex-direction: column;
-    height: 77%;
+    height: 55vh;
     overflow-y: scroll;
 }
 .friends img{
