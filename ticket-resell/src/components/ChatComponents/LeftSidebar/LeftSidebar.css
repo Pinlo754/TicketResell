@@ -54,7 +54,7 @@
 .ls-list{
     display: flex;
     flex-direction: column;
-    height: 55vh;
+    height: 80%;
     overflow-y: scroll;
 }
 .friends img{

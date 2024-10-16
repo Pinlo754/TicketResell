@@ -7,8 +7,9 @@
     margin: 0;
     box-sizing: border-box;
     width: 100%;
-    align-items: center;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
 }
 
@@ -18,7 +19,8 @@
     border-radius: 10px;
     border: 1px solid #eee;
     overflow: auto;
-    width: 95%;
+    width: 90%;
+    margin-top: 9vh;
 }
 
 .cart-container{
@@ -52,5 +54,6 @@
 
 .summary{
     flex: 0.23;
+    overflow-y: visible;
 }
 
