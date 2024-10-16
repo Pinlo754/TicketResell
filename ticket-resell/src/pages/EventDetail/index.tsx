@@ -1,6 +1,9 @@
 import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
 import { useState } from "react";
+import { NavigateFunction, useNavigate } from "react-router-dom";
+import ScrollToTopButton from "../../components/ScrollToTopButton";
+import ScrollToTop from "../../components/ScrollToTop";
 
 // SORT
 type SortOption = {
@@ -30,7 +33,7 @@ type SortOption = {
     { 
         id: 1,
         img: "https://www.oyorooms.com/blog/wp-content/uploads/2018/02/event.jpg",
-        category: "Paper Ticket",
+        category: "E-Ticket",
         section: "A",
         type: "Seat",
         row: 28,
@@ -52,7 +55,7 @@ type SortOption = {
     { 
         id: 3,
         img: "https://www.oyorooms.com/blog/wp-content/uploads/2018/02/event.jpg",
-        category: "Paper Ticket",
+        category: "E-Ticket",
         section: "C",
         type: "Seat",
         row: 31,
@@ -63,6 +66,8 @@ type SortOption = {
   ];
 
 const EventDetail = () => {
+
+    const navigate: NavigateFunction = useNavigate();
 
    // Tạo state để lưu số lượng cho từng ticket
    const [quantities, setQuantities] = useState<Record<number, number>>(() => {
@@ -97,8 +102,15 @@ const EventDetail = () => {
     
     return (
         <div className="w-screen min-h-screen flex flex-col">
-            {/* NAVBAR */}
-            <NavBar />
+            
+            {/* SCROLL TO TOP */}
+            <ScrollToTop/>
+
+            {/* NAVBAR */} 
+            <NavBar/>
+
+            {/* SCROLL TO TOP BUTTON */}
+            <ScrollToTopButton/>
 
             {/* MAIN CONTENT */}
             <div className="w-full flex-grow">
@@ -188,7 +200,11 @@ const EventDetail = () => {
 
                     {/* List */}
                     {tickets.map((ticket) => (
-                        <div key={ticket.id} className="bg-[#F4F4F4] w-full flex rounded-lg mt-4 shadow-md cursor-pointer group hover:shadow-2xl">
+                        <div 
+                        key={ticket.id} 
+                        className="bg-[#F4F4F4] w-full flex rounded-lg mt-4 shadow-md cursor-pointer group hover:shadow-2xl"
+                        onClick={() => navigate("/ticketDetail")}
+                        >
                             <div className="flex items-center justify-center w-1/5 my-3">
                                 <div className="relative overflow-hidden rounded-full">
                                  <img 

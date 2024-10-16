@@ -7,6 +7,8 @@ import commitent from "../../assets/Commitment.png";
 import helpCenter from "../../assets/HelpCenter.jpg";
 import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
+import ScrollToTopButton from "../../components/ScrollToTopButton";
+import ScrollToTop from "../../components/ScrollToTop";
 
 // EVENT CARDS
 type Event = {
@@ -16,6 +18,7 @@ type Event = {
   time: string;
   name: string;
   location: string;
+  city: string;
   quantity: number;
 };
 
@@ -23,32 +26,36 @@ const events = [
   {
     id: 1,
     img : "https://cdn0-production-images-kly.akamaized.net/xYEcqMdBWw6pN0mFBFD5_5uIjz8=/800x450/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/3396365/original/023706600_1615209973-concert-768722_1280.jpg",
-    day: "Today",
+    day: "9/7/2024",
     time: "12:00 PM",
     name: "Event 1",
-    location: "District 9, Ho Chi Minh city",
+    location: "District 9",
+    city: "Ho Chi Minh",
     quantity: 28,
   },
   {
     id: 2,
     img: "https://cdn0-production-images-kly.akamaized.net/xYEcqMdBWw6pN0mFBFD5_5uIjz8=/800x450/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/3396365/original/023706600_1615209973-concert-768722_1280.jpg",
-    day: "Tomorrow",
-    time: "1:00 PM",
+    day: "31/10/2024",
+    time: "7:00 AM",
     name: "Event 2",
-    location: "District 1, Ho Chi Minh city",
+    location: "District 9",
+    city: "Ho Chi Minh",
     quantity: 18,
   },
   {
     id: 3,
     img: "https://cdn0-production-images-kly.akamaized.net/xYEcqMdBWw6pN0mFBFD5_5uIjz8=/800x450/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/3396365/original/023706600_1615209973-concert-768722_1280.jpg",
-    day: "Mon",
-    time: "2:00 PM",
+    day: "3/5/2024",
+    time: "8:00 PM",
     name: "Event 3",
-    location: "District 2, Ho Chi Minh city",
+    location: "District 9",
+    city: "Ho Chi Minh",
     quantity: 5,
   },
 ];
 
+// Next and Previous arrows outside the container
 // SLIDE - MŨI TÊN
 const NextArrow = (props: any) => {
   const { onClick } = props;
@@ -76,7 +83,8 @@ const PrevArrow = (props: any) => {
       </svg>
     </div>
   );
-};
+};	
+
 
 const MainScreen = () => {
   const navigate: NavigateFunction = useNavigate();
@@ -140,8 +148,15 @@ const MainScreen = () => {
 
   return (
     <div className="w-screen min-h-screen flex flex-col">
+
+      {/* SCROLL TO TOP */}
+      <ScrollToTop/>
+
       {/* NAVBAR */} 
       <NavBar/>
+
+      {/* SCROLL TO TOP BUTTON */}
+      <ScrollToTopButton/>
       
       {/* MAIN CONTENT */}
       <div className="w-full min-h-screen flex-grow">
@@ -201,36 +216,76 @@ const MainScreen = () => {
 
           {/* Card-Container */}
           <div className="w-full h-fit flex flex-row justify-center items-center py-5">
-            <div className="relative w-[90%] max-w-screen-xl h-fit mx-auto">
+            <div className="relative w-full max-w-screen-xl h-fit mx-auto">
               {/* Card */}
               <Slider {...settings} className="flex justify-center items-center">
                 {events.map((ev) => (
-                  <div key={ev.id} className="bg-[#F4F4F4] w-80 h-fit rounded-lg shadow-md hover:shadow-2xl transition duration-300 group cursor-pointer">
-                    {/* Card-Img */}
-                    <div className="overflow-hidden rounded-t-lg">
-                      <img
-                        src={ev.img}
-                        alt={ev.name}
-                        className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-300"
-                      />
-                    </div>
-                    {/* Card-Content */}
-                    <div className="py-2 px-4 text-center">
-                      <div className="flex place-content-center items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mx-2 text-red-600 cursor-pointer" viewBox="0 0 24 24" fill="currentColor">
-                          <path fill-rule="evenodd" d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z" clip-rule="evenodd" />
-                        </svg>
-                        <p className="text-red-600 font-medium">{ev.day}, {ev.time}</p>
+                  <div key={ev.id} className="pl-10 pr-1 "> {/* Add spacing between cards */}
+                    <div 
+                    className="bg-[#F4F4F4] w-[90%] h-fit rounded-lg shadow-md  transition duration-300 group cursor-pointer"
+                    onClick={() => navigate("/eventDetail")}
+                    >
+                      {/* Card-Img */}
+                      <div className="overflow-hidden rounded-t-lg">
+                        <img
+                          src={ev.img}
+                          alt={ev.name}
+                          className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-300"
+                        />
                       </div>
-                      <h3 className="font-bold text-xl text-ellipsis whitespace-nowrap overflow-hidden">{ev.name}</h3>
-                      <p className="text-sm">{ev.location}</p>
-                      {/* Card-Quantity */}
-                      <div className="flex justify-center">
-                        <div className="my-2 px-2 py-1 bg-[#8ACDD7] rounded-2xl flex items-center justify-center">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-1 text-white" viewBox="0 0 24 24" fill="currentColor">
-                            <path fill-rule="evenodd" d="M1.5 6.375c0-1.036.84-1.875 1.875-1.875h17.25c1.035 0 1.875.84 1.875 1.875v3.026a.75.75 0 0 1-.375.65 2.249 2.249 0 0 0 0 3.898.75.75 0 0 1 .375.65v3.026c0 1.035-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 17.625v-3.026a.75.75 0 0 1 .374-.65 2.249 2.249 0 0 0 0-3.898.75.75 0 0 1-.374-.65V6.375Zm15-1.125a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-1.5 0V6a.75.75 0 0 1 .75-.75Zm.75 4.5a.75.75 0 0 0-1.5 0v.75a.75.75 0 0 0 1.5 0v-.75Zm-.75 3a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-1.5 0v-.75a.75.75 0 0 1 .75-.75Zm.75 4.5a.75.75 0 0 0-1.5 0V18a.75.75 0 0 0 1.5 0v-.75ZM6 12a.75.75 0 0 1 .75-.75H12a.75.75 0 0 1 0 1.5H6.75A.75.75 0 0 1 6 12Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" clip-rule="evenodd" />
+                      {/* Card-Content */}
+                      <div className="py-2 px-4 text-center">
+                        <div className="flex place-content-center items-center">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="w-5 h-5 mx-2 text-red-600"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z"
+                              clipRule="evenodd"
+                            />
                           </svg>
-                          <p className="text-white">{ev.quantity}</p>
+                          <p className="text-red-600 font-medium">
+                            {ev.day}, {ev.time}
+                          </p>
+                        </div>
+                        <h3 className="font-bold text-xl text-ellipsis whitespace-nowrap overflow-hidden">{ev.name}</h3>
+                        <div className="flex justify-around text-sm text-gray-600 mt-2">
+                          {/* Location */}
+                          <div className="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="currentColor">
+                              <path fill-rule="evenodd" d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" clip-rule="evenodd"/>
+                            </svg>
+                            <p>{ev.location}</p>
+                          </div>
+                          {/* City */}
+                          <div className="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="currentColor">
+                              <path fill-rule="evenodd" d="M3 2.25a.75.75 0 0 0 0 1.5v16.5h-.75a.75.75 0 0 0 0 1.5H15v-18a.75.75 0 0 0 0-1.5H3ZM6.75 19.5v-2.25a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75ZM6 6.75A.75.75 0 0 1 6.75 6h.75a.75.75 0 0 1 0 1.5h-.75A.75.75 0 0 1 6 6.75ZM6.75 9a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM6 12.75a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 6a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75Zm-.75 3.75A.75.75 0 0 1 10.5 9h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 12a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM16.5 6.75v15h5.25a.75.75 0 0 0 0-1.5H21v-12a.75.75 0 0 0 0-1.5h-4.5Zm1.5 4.5a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Zm.75 2.25a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75v-.008a.75.75 0 0 0-.75-.75h-.008ZM18 17.25a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Z" clip-rule="evenodd"/>
+                            </svg>
+                            <p>{ev.city}</p>
+                          </div>
+                        </div>
+                        {/* Card-Quantity */}
+                        <div className="flex justify-center">
+                          <div className="my-2 px-2 py-1 bg-[#8ACDD7] rounded-2xl flex items-center justify-center">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="w-5 h-5 mr-1 text-white"
+                              viewBox="0 0 24 24"
+                              fill="currentColor"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M1.5 6.375c0-1.036.84-1.875 1.875-1.875h17.25c1.035 0 1.875.84 1.875 1.875v3.026a.75.75 0 0 1-.375.65 2.249 2.249 0 0 0 0 3.898.75.75 0 0 1 .375.65v3.026c0 1.035-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 17.625v-3.026a.75.75 0 0 1 .374-.65 2.249 2.249 0 0 0 0-3.898.75.75 0 0 1-.374-.65V6.375Zm15-1.125a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-1.5 0V6a.75.75 0 0 1 .75-.75Zm.75 4.5a.75.75 0 0 0-1.5 0v.75a.75.75 0 0 0 1.5 0v-.75Zm-.75 3a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-1.5 0v-.75a.75.75 0 0 1 .75-.75Zm.75 4.5a.75.75 0 0 0-1.5 0V18a.75.75 0 0 0 1.5 0v-.75ZM6 12a.75.75 0 0 1 .75-.75H12a.75.75 0 0 1 0 1.5H6.75A.75.75 0 0 1 6 12Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                            <p className="text-white">{ev.quantity}</p>
+                          </div>
                         </div>
                       </div>
                     </div>
