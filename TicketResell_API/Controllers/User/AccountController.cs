@@ -23,12 +23,12 @@ namespace TicketResell_API.Controllers.User
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<MainUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _config;
         private readonly IEmailSender _emailSender;
 
-        public AccountController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration config, IEmailSender emailSender)
+        public AccountController(UserManager<MainUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration config, IEmailSender emailSender)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -39,14 +39,21 @@ namespace TicketResell_API.Controllers.User
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] Register model)
         {
+            //Check if registration information is valid
+            if (model == null || string.IsNullOrEmpty(model.email) || string.IsNullOrEmpty(model.password))
+            {
+                return BadRequest("Email and password are required.");
+            }
             //new object of class IdentityUser
-            var user = new IdentityUser 
+            var user = new MainUser
             {
                 UserName = model.email,
                 Email = model.email,
+                EmailConfirmed = false,
+                FailedConfirmationAttemps = 0
             };
             //CreateAsync method from _userManager(UserManager<IdentityUser>)
-            var result = await _userManager.CreateAsync(user, model.password);
+            var result = await _userManager.CreateAsync(user, model.password!);
             //Check if user creation was successful
             {
                 if (result.Succeeded)
@@ -59,7 +66,7 @@ namespace TicketResell_API.Controllers.User
                     string sendEmailResult = await _emailSender.SendConfirmationEmailAsync(_user.Email, emailCode);
                     //create notification to let user know that registration is successful
                     return Ok(new { message = "User registered successfully", sendEmailResult });
-                }         
+                }
             }
             //Returns error if account creation fails
             return BadRequest(result.Errors);
@@ -79,23 +86,46 @@ namespace TicketResell_API.Controllers.User
             {
                 return BadRequest("Invalid indentity provided");
             }
+            //Check the number of times the verification code was entered incorrectly
+            if (user.FailedConfirmationAttemps >= 3)
+            {
+                //check if fail > 3 , delete account
+                await _userManager.DeleteAsync(user);
+                return BadRequest("Too many fail attemp. Please try again later");
+            }
             //Email confirmation
-            var result = await _userManager.ConfirmEmailAsync(user, model.code.ToString());
+            var result = await _userManager.ConfirmEmailAsync(user, model.code.ToString()!);
             if (!result.Succeeded)
             {
-                return BadRequest("Invalid code provided");
+                //If the code is incorrect, increase the number of incorrect entries by 1
+                user.FailedConfirmationAttemps += 1;
+                //Update user information
+                var updateResult = await _userManager.UpdateAsync(user);
+                if (!updateResult.Succeeded)
+                {
+                    return StatusCode(500, "Failed to update user information");
+                }
+                return BadRequest($"Invalid code provided. {3 - user.FailedConfirmationAttemps} attempts remaining.");
             }
-            else
+            //If confirmation is successful, set the number of incorrect entries to 0
+            user.FailedConfirmationAttemps = 0;
+            //If confirmation is successful, update status EmailConfirmed
+            user.EmailConfirmed = true;
+            //Update user information in database
+            var finalUpdateResult = await _userManager.UpdateAsync(user);
+            if (!finalUpdateResult.Succeeded)
             {
-                return Ok("Email confirmed successfully");
+                return StatusCode(500, "Failed to update user information");
             }
+            //Returns successfully after email has been confirmed and saved to database
+            return Ok("Email confirmed successfully");
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] Login model)
         {
             //check the email or password
-            if(string.IsNullOrEmpty(model.email) || string.IsNullOrEmpty(model.password))
+            if (string.IsNullOrEmpty(model.email) || string.IsNullOrEmpty(model.password))
             {
                 return BadRequest();
             }
@@ -135,10 +165,10 @@ namespace TicketResell_API.Controllers.User
             }
             //If the login information is incorrect, return HTTP status code 401 (Unauthorized)
             return Unauthorized();
-        }      
+        }
 
         [HttpPost("request-password-reset")]
-        public async Task<IActionResult> RequestPasswordReset([FromBody] RequestReset model) 
+        public async Task<IActionResult> RequestPasswordReset([FromBody] RequestReset model)
         {
             //find user by email
             var user = await _userManager.FindByEmailAsync(model.email!);
@@ -179,29 +209,27 @@ namespace TicketResell_API.Controllers.User
             {
                 return BadRequest(result.Errors);
             }
-            return Ok(new { message = "Password have been change. You can continue to login"});
+            return Ok(new { message = "Password have been change. You can continue to login" });
 
         }
-
-       
 
         [HttpGet("ID")]
         [Authorize]
         public async Task<IActionResult> GetProfileById([FromBody] Profile model)
         {
             //check registered user
-            var userID = User?.Identity?.Name; 
-            if(userID == null)
+            var userID = User?.Identity?.Name;
+            if (userID == null)
             {
                 return Unauthorized();
             }
             //Use _userManager to find user by username based on userID from Profile model
             var user = await _userManager.FindByNameAsync(model.userID);
             //Check if user exists
-            if (user is null) 
+            if (user is null)
             {
                 //If the user does not exist it will say that the user was not found.
-                return NotFound();        
+                return NotFound();
             }
             //Create an anonymous object containing the user's Email and PhoneNumber properties
             var profile = new
@@ -211,6 +239,41 @@ namespace TicketResell_API.Controllers.User
             };
             //If all steps are successful look up the profile object containing the user profile information
             return Ok(profile);
+        }
+
+        [HttpPut("update-profile")]
+        [Authorize]
+        public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfile model)
+        {
+            //Get the Claim containing the user's ID information
+            var userIDClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            //Check if Claim exists and get value
+            var userId = userIDClaim != null ? userIDClaim.Value : null;
+            //check if userID is null
+            if (userId == null)
+            {
+                return Unauthorized("User not login");
+            }
+            //find by id of user
+            var user = await _userManager.FindByIdAsync(userId);
+            //check if user is null
+            if (user is null)
+            {
+                return NotFound("User not found");
+            }
+            //Update missing information
+            user.firstName = model.firstName;
+            user.lastName = model.lastName;
+            user.address = model.address;
+            user.PhoneNumber = model.phoneNumber;
+            //update in database
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+            return Ok("Profile updated successfully");
+
         }
 
     }
