@@ -7,12 +7,16 @@ import ShoppingCart from "../pages/ShoppingCart/ShoppingCart";
 import ListEvent from "../pages/ListEvent";
 import EventDetail from "../pages/EventDetail";
 import TicketDetail from "../pages/TicketDetail";
+import LoginScreen from "../pages/LoginScreen";
+import RegisterScreen from "../pages/RegisterScreen/RegisterScreen";
+import ResetPasswordScreen from "../pages/ResetPasswordScreen";
+import VerifyEmailScreen from "../pages/VerifyEmailScreen/VerifyEmailScreen";
 import UserProfile from "../pages/UserProfile";
 
 const routers = createBrowserRouter([
   {
     path: "/",
-    element: <WelcomeScreen />,
+    element: <LoginScreen />,
   },
   {
     path: "/main",
@@ -39,6 +43,17 @@ const routers = createBrowserRouter([
     element: <TicketDetail />,
   },
   {
+    path: "/register",
+    element: <RegisterScreen />,
+  },
+  {
+    path: "/reset-password",
+    element: <ResetPasswordScreen />,
+  },
+  {
+    path: "/verify-email",
+    element: <VerifyEmailScreen />,
+  },
     path: "/userProfile",
     element: <UserProfile />,
   },
