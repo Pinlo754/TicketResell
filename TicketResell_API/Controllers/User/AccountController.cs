@@ -45,7 +45,7 @@ namespace TicketResell_API.Controllers.User
                 return BadRequest("Email and password are required.");
             }
             //new object of class IdentityUser
-            var user = new MainUser 
+            var user = new MainUser
             {
                 UserName = model.email,
                 Email = model.email,
@@ -66,7 +66,7 @@ namespace TicketResell_API.Controllers.User
                     string sendEmailResult = await _emailSender.SendConfirmationEmailAsync(_user.Email, emailCode);
                     //create notification to let user know that registration is successful
                     return Ok(new { message = "User registered successfully", sendEmailResult });
-                }         
+                }
             }
             //Returns error if account creation fails
             return BadRequest(result.Errors);
@@ -87,7 +87,7 @@ namespace TicketResell_API.Controllers.User
                 return BadRequest("Invalid indentity provided");
             }
             //Check the number of times the verification code was entered incorrectly
-            if(user.FailedConfirmationAttemps >= 3)
+            if (user.FailedConfirmationAttemps >= 3)
             {
                 //check if fail > 3 , delete account
                 await _userManager.DeleteAsync(user);
@@ -125,7 +125,7 @@ namespace TicketResell_API.Controllers.User
         public async Task<IActionResult> Login([FromBody] Login model)
         {
             //check the email or password
-            if(string.IsNullOrEmpty(model.email) || string.IsNullOrEmpty(model.password))
+            if (string.IsNullOrEmpty(model.email) || string.IsNullOrEmpty(model.password))
             {
                 return BadRequest();
             }
@@ -165,10 +165,10 @@ namespace TicketResell_API.Controllers.User
             }
             //If the login information is incorrect, return HTTP status code 401 (Unauthorized)
             return Unauthorized();
-        }      
+        }
 
         [HttpPost("request-password-reset")]
-        public async Task<IActionResult> RequestPasswordReset([FromBody] RequestReset model) 
+        public async Task<IActionResult> RequestPasswordReset([FromBody] RequestReset model)
         {
             //find user by email
             var user = await _userManager.FindByEmailAsync(model.email!);
@@ -209,29 +209,27 @@ namespace TicketResell_API.Controllers.User
             {
                 return BadRequest(result.Errors);
             }
-            return Ok(new { message = "Password have been change. You can continue to login"});
+            return Ok(new { message = "Password have been change. You can continue to login" });
 
         }
-
-       
 
         [HttpGet("ID")]
         [Authorize]
         public async Task<IActionResult> GetProfileById([FromBody] Profile model)
         {
             //check registered user
-            var userID = User?.Identity?.Name; 
-            if(userID == null)
+            var userID = User?.Identity?.Name;
+            if (userID == null)
             {
                 return Unauthorized();
             }
             //Use _userManager to find user by username based on userID from Profile model
             var user = await _userManager.FindByNameAsync(model.userID);
             //Check if user exists
-            if (user is null) 
+            if (user is null)
             {
                 //If the user does not exist it will say that the user was not found.
-                return NotFound();        
+                return NotFound();
             }
             //Create an anonymous object containing the user's Email and PhoneNumber properties
             var profile = new
@@ -241,6 +239,41 @@ namespace TicketResell_API.Controllers.User
             };
             //If all steps are successful look up the profile object containing the user profile information
             return Ok(profile);
+        }
+
+        [HttpPut("update-profile")]
+        [Authorize]
+        public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfile model)
+        {
+            //Get the Claim containing the user's ID information
+            var userIDClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            //Check if Claim exists and get value
+            var userId = userIDClaim != null ? userIDClaim.Value : null;
+            //check if userID is null
+            if (userId == null)
+            {
+                return Unauthorized("User not login");
+            }
+            //find by id of user
+            var user = await _userManager.FindByIdAsync(userId);
+            //check if user is null
+            if (user is null)
+            {
+                return NotFound("User not found");
+            }
+            //Update missing information
+            user.firstName = model.firstName;
+            user.lastName = model.lastName;
+            user.address = model.address;
+            user.PhoneNumber = model.phoneNumber;
+            //update in database
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+            return Ok("Profile updated successfully");
+
         }
 
     }
