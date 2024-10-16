@@ -6,6 +6,7 @@ import Chat from "../pages/Chat/Chat";
 import ShoppingCart from "../pages/ShoppingCart/ShoppingCart";
 import ListEvent from "../pages/ListEvent";
 import EventDetail from "../pages/EventDetail";
+import TicketDetail from "../pages/TicketDetail";
 
 const routers = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const routers = createBrowserRouter([
   {
     path: "/eventDetail",
     element: <EventDetail />,
+  },
+  {
+    path: "/ticketDetail",
+    element: <TicketDetail />,
   },
 ]);
 
