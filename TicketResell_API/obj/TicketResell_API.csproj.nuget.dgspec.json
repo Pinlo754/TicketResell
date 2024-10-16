@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Semester5\\SWP391\\TicketResell\\TicketResell_API\\TicketResell_API.csproj": {}
+    "E:\\FPT\\Semester5\\SWP391\\TicketResell-main\\TicketResell_API\\TicketResell_API.csproj": {}
   },
   "projects": {
-    "D:\\Semester5\\SWP391\\TicketResell\\TicketResell_API\\TicketResell_API.csproj": {
+    "E:\\FPT\\Semester5\\SWP391\\TicketResell-main\\TicketResell_API\\TicketResell_API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Semester5\\SWP391\\TicketResell\\TicketResell_API\\TicketResell_API.csproj",
+        "projectUniqueName": "E:\\FPT\\Semester5\\SWP391\\TicketResell-main\\TicketResell_API\\TicketResell_API.csproj",
         "projectName": "TicketResell_API",
-        "projectPath": "D:\\Semester5\\SWP391\\TicketResell\\TicketResell_API\\TicketResell_API.csproj",
-        "packagesPath": "C:\\Users\\dotro\\.nuget\\packages\\",
-        "outputPath": "D:\\Semester5\\SWP391\\TicketResell\\TicketResell_API\\obj\\",
+        "projectPath": "E:\\FPT\\Semester5\\SWP391\\TicketResell-main\\TicketResell_API\\TicketResell_API.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "E:\\FPT\\Semester5\\SWP391\\TicketResell-main\\TicketResell_API\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\dotro\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
