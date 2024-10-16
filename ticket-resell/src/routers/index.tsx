@@ -7,6 +7,7 @@ import ShoppingCart from "../pages/ShoppingCart/ShoppingCart";
 import ListEvent from "../pages/ListEvent";
 import EventDetail from "../pages/EventDetail";
 import TicketDetail from "../pages/TicketDetail";
+import UserProfile from "../pages/UserProfile";
 
 const routers = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const routers = createBrowserRouter([
   {
     path: "/ticketDetail",
     element: <TicketDetail />,
+  },
+  {
+    path: "/userProfile",
+    element: <UserProfile />,
   },
 ]);
 
