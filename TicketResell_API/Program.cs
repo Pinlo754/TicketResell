@@ -18,7 +18,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //add identity 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+builder.Services.AddIdentity<MainUser, IdentityRole>(options =>
 {
     options.Password.RequiredLength = 8;
     options.Password.RequireNonAlphanumeric = false;

@@ -23,12 +23,12 @@ namespace TicketResell_API.Controllers.User
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<MainUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _config;
         private readonly IEmailSender _emailSender;
 
-        public AccountController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration config, IEmailSender emailSender)
+        public AccountController(UserManager<MainUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration config, IEmailSender emailSender)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -39,14 +39,21 @@ namespace TicketResell_API.Controllers.User
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] Register model)
         {
+            //Check if registration information is valid
+            if (model == null || string.IsNullOrEmpty(model.email) || string.IsNullOrEmpty(model.password))
+            {
+                return BadRequest("Email and password are required.");
+            }
             //new object of class IdentityUser
-            var user = new IdentityUser 
+            var user = new MainUser 
             {
                 UserName = model.email,
                 Email = model.email,
+                EmailConfirmed = false,
+                FailedConfirmationAttemps = 0
             };
             //CreateAsync method from _userManager(UserManager<IdentityUser>)
-            var result = await _userManager.CreateAsync(user, model.password);
+            var result = await _userManager.CreateAsync(user, model.password!);
             //Check if user creation was successful
             {
                 if (result.Succeeded)
@@ -79,16 +86,39 @@ namespace TicketResell_API.Controllers.User
             {
                 return BadRequest("Invalid indentity provided");
             }
+            //Check the number of times the verification code was entered incorrectly
+            if(user.FailedConfirmationAttemps >= 3)
+            {
+                //check if fail > 3 , delete account
+                await _userManager.DeleteAsync(user);
+                return BadRequest("Too many fail attemp. Please try again later");
+            }
             //Email confirmation
-            var result = await _userManager.ConfirmEmailAsync(user, model.code.ToString());
+            var result = await _userManager.ConfirmEmailAsync(user, model.code.ToString()!);
             if (!result.Succeeded)
             {
-                return BadRequest("Invalid code provided");
+                //If the code is incorrect, increase the number of incorrect entries by 1
+                user.FailedConfirmationAttemps += 1;
+                //Update user information
+                var updateResult = await _userManager.UpdateAsync(user);
+                if (!updateResult.Succeeded)
+                {
+                    return StatusCode(500, "Failed to update user information");
+                }
+                return BadRequest($"Invalid code provided. {3 - user.FailedConfirmationAttemps} attempts remaining.");
             }
-            else
+            //If confirmation is successful, set the number of incorrect entries to 0
+            user.FailedConfirmationAttemps = 0;
+            //If confirmation is successful, update status EmailConfirmed
+            user.EmailConfirmed = true;
+            //Update user information in database
+            var finalUpdateResult = await _userManager.UpdateAsync(user);
+            if (!finalUpdateResult.Succeeded)
             {
-                return Ok("Email confirmed successfully");
+                return StatusCode(500, "Failed to update user information");
             }
+            //Returns successfully after email has been confirmed and saved to database
+            return Ok("Email confirmed successfully");
         }
 
         [HttpPost("login")]
