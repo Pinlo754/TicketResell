@@ -8,8 +8,8 @@ const VerifyEmailScreen = () => {
     handleSendOtp,
     errorMessage,
     successMessage,
-    OTP,
-    setOTP,
+    code,
+    setCode,
   } = useVerifyEmailScreen();
 
   return (
@@ -47,12 +47,12 @@ const VerifyEmailScreen = () => {
             <div className="flex shrink-0 mt-8 h-48 rounded-2xl border border-black border-solid bg-zinc-300">
               <input
                 type="otp-email"
-                value={OTP}
+                value={code}
                 placeholder="Nhập OTP"
                 className="w-full h-full px-8 rounded-xl text-[76px]"
                 aria-label="OTP"
                 onChange={(e) => {
-                  setOTP(e.target.value);
+                  setCode(e.target.value);
                 }}
                 required
               />

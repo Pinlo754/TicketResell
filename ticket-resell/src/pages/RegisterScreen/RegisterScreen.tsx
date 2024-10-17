@@ -21,20 +21,20 @@ const RegisterScreen = () => {
   return (
     <main className="flex h-screen bg-gradient-to-t from-[#B9EDDD] to-[#577D86] items-center justify-center">
       <div className="flex flex-col max-w-full">
-        <div className="flex flex-col px-28 py-6 w-[1536px] h-[1644px] rounded-xl bg-zinc-100 shadow-2xl">
-          <div className="self-center w-[54%] h-[15%] mt-[46px] max-w-full text-[90px] text-center text-black bg-zinc-300 w-[351px]">
+        <div className="flex flex-col px-7 py-2 w-[389px] h-[411px] rounded-xl bg-zinc-100 shadow-2xl">
+          <div className="self-center w-[54%] h-[15%] mt-[12px] max-w-full text-[22px] text-center text-black bg-zinc-300 w-[88px]">
             LOGO
           </div>
           <form onSubmit={(e) => { e.preventDefault(); handleRegisterClick(); }}>
-            <h2 className="self-start mt-16 text-[76px] font-bold text-black">
+            <h2 className="self-start mt-4 text-[19px] font-bold text-black">
               Đăng ký
             </h2>
-            <div className="flex shrink-0 mt-8 h-48 rounded-2xl border border-black border-solid bg-zinc-300">
+            <div className="flex shrink-0 mt-2 h-12 rounded-xl border border-black border-solid bg-zinc-300">
               <input
                 type="email"
                 value={email}
                 placeholder="Nhập email"
-                className="w-full h-full px-8 rounded-xl text-[76px]"
+                className="w-full h-full px-2 rounded-xl text-[19px]"
                 aria-label="Email"
                 onChange={(e) => {
                   const value = e.target.value;
@@ -45,7 +45,7 @@ const RegisterScreen = () => {
               />
             </div>
 
-            <div className="relative flex shrink-0 mt-8 mb-8 h-48 rounded-2xl border border-black border-solid bg-zinc-300">
+            <div className="relative flex shrink-0 mt-2 mb-2 h-12 rounded-2xl border border-black border-solid bg-zinc-300">
               <input
                 type={showPassword ? "text" : "password"}
                 value={password}
