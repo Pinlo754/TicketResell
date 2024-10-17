@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TicketResell_API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3b11579f0a4a947839d2a8ae25d659d5b07c4283")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ad186f7cf9b38b5918d7ff0bf7dabbd46b31d5f0")]
 [assembly: System.Reflection.AssemblyProductAttribute("TicketResell_API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TicketResell_API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
