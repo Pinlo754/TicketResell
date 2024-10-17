@@ -8506,19 +8506,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Admin\\.nuget\\packages\\": {}
+    "C:\\Users\\ACER\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\FPT\\Semester5\\SWP391\\TicketResell-main\\TicketResell_API\\TicketResell_API.csproj",
+      "projectUniqueName": "D:\\17-10-2024\\TicketResell\\TicketResell_API\\TicketResell_API.csproj",
       "projectName": "TicketResell_API",
-      "projectPath": "E:\\FPT\\Semester5\\SWP391\\TicketResell-main\\TicketResell_API\\TicketResell_API.csproj",
-      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "E:\\FPT\\Semester5\\SWP391\\TicketResell-main\\TicketResell_API\\obj\\",
+      "projectPath": "D:\\17-10-2024\\TicketResell\\TicketResell_API\\TicketResell_API.csproj",
+      "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
+      "outputPath": "D:\\17-10-2024\\TicketResell\\TicketResell_API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
