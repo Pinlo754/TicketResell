@@ -41,10 +41,22 @@ const LoginScreen = () => {
     <main className="flex h-screen bg-gradient-to-t from-[#B9EDDD] to-[#577D86] items-center justify-center">
       <div className="flex flex-col max-w-full">
         <div className="flex flex-col px-7 py-2 w-[389px] h-[411px] rounded-xl bg-zinc-100 shadow-2xl">
-          <div className="self-center w-[54%] h-[15%] mt-[12px] max-w-full text-[22px] text-center text-black bg-zinc-300 w-[351px]">
-            LOGO
+          <div className="self-center w-[54%] h-[15%] mt-[12px] max-w-full w-[351px]">
+            <div className="flex items-center justify-center">
+              <img
+                src="/static/media/Logo_festix.6dafeac744167eb4b442.png"
+                alt="Festix"
+                className="w-8 h-12 mr-3 cursor-pointer"
+              />
+              <h1 className="text-black text-3xl font-bold ">Festix</h1>
+            </div>
           </div>
-          <form onSubmit={(e) => { e.preventDefault(); handleLoginClick(); }}>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleLoginClick();
+            }}
+          >
             <h2 className="self-start mt-4 text-[19px] font-bold text-black">
               Đăng nhập
             </h2>
@@ -77,7 +89,9 @@ const LoginScreen = () => {
                   const hasLetter = /[a-zA-Z]/.test(value);
                   const hasNumber = /\d/.test(value);
                   if (!hasLetter || !hasNumber) {
-                    setErrorMessage("Mật khẩu phải có ít nhất 1 chữ cái và 1 số.");
+                    setErrorMessage(
+                      "Mật khẩu phải có ít nhất 1 chữ cái và 1 số."
+                    );
                   } else {
                     setErrorMessage("");
                   }
