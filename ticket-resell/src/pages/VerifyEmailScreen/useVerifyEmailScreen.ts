@@ -1,12 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const useVerifyEmailScreen = () => {
   const [email, setEmail] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
-  const [OTP, setOTP] = useState<string>("");
+  const [code, setCode] = useState<string>("");
   const [isSendingOTP, setIsSendingOTP] = useState<boolean>(true);
+  const navigate = useNavigate(); 
 
   const handleResendOTP = async () => {
     if (isSendingOTP) return;
@@ -20,8 +22,8 @@ const useVerifyEmailScreen = () => {
     }
 
     try {
-      const response = await axios.post("/api/account/send-otp", { email });
-
+      const response = await axios.post("/api/account/confirmation-email", { email, code });
+      navigate('/')
       setSuccessMessage("Mã OTP đã được gửi đến email của bạn. Vui lòng kiểm tra hộp thư.");
       setErrorMessage("");
     } catch (error: any) {
@@ -39,8 +41,8 @@ const useVerifyEmailScreen = () => {
     handleSendOtp,
     errorMessage,
     successMessage,
-    OTP,
-    setOTP,
+    code,
+    setCode,
   };
 };
 
