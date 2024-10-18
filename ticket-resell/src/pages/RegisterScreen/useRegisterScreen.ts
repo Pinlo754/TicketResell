@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const useRegisterScreen = () => {
@@ -7,6 +8,7 @@ const useRegisterScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const navigate = useNavigate();
 
   const toggleShowPassword = () => {
     setShowPassword((prev) => !prev);
@@ -22,11 +24,12 @@ const useRegisterScreen = () => {
       const response = await axios.post("/api/account/register", {
         email,
         password,
+        confirmPassword
       });
 
       // Xử lý phản hồi nếu đăng ký thành công
       console.log(response.data.message);
-      // Có thể điều hướng đến trang đăng nhập hoặc trang khác sau khi đăng ký thành công
+      navigate("/verify-email")     
     } catch (error: any) {
       if (axios.isAxiosError(error) && error.response) {
         // Xử lý lỗi từ phản hồi của server

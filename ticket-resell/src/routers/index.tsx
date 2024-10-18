@@ -54,6 +54,7 @@ const routers = createBrowserRouter([
     path: "/verify-email",
     element: <VerifyEmailScreen />,
   },
+  {
     path: "/userProfile",
     element: <UserProfile />,
   },
