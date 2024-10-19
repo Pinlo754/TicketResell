@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TicketResell_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241018162723_ChatFields")]
+    [Migration("20241019050151_ChatFields")]
     partial class ChatFields
     {
         /// <inheritdoc />
@@ -179,24 +179,41 @@ namespace TicketResell_API.Migrations
 
             modelBuilder.Entity("TicketResell_API.Controllers.User.Model.Chat", b =>
                 {
-                    b.Property<string>("chatId")
+                    b.Property<string>("seUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("lastMessage")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("reUserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("seUserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("updateAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("chatId");
+                    b.HasKey("seUserId");
 
                     b.ToTable("Chats");
+                });
+
+            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.ChatData", b =>
+                {
+                    b.Property<string>("reUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ChatseUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LastMessage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MessageId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("MessageSeen")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("reUserId");
+
+                    b.HasIndex("ChatseUserId");
+
+                    b.ToTable("ChatData");
                 });
 
             modelBuilder.Entity("TicketResell_API.Controllers.User.Model.MainUser", b =>
@@ -283,27 +300,33 @@ namespace TicketResell_API.Migrations
                     b.Property<string>("messageId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("chatId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("createAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("messageSeen")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("sid")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("text")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("messageId");
 
-                    b.HasIndex("chatId");
-
                     b.ToTable("Message");
+                });
+
+            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.MessageData", b =>
+                {
+                    b.Property<string>("messageDataId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Data")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("createdAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("messageId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("seUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("messageDataId");
+
+                    b.HasIndex("messageId");
+
+                    b.ToTable("MessageData");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -357,18 +380,28 @@ namespace TicketResell_API.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.Message", b =>
+            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.ChatData", b =>
                 {
                     b.HasOne("TicketResell_API.Controllers.User.Model.Chat", null)
-                        .WithMany("Messages")
-                        .HasForeignKey("chatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("ChatData")
+                        .HasForeignKey("ChatseUserId");
+                });
+
+            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.MessageData", b =>
+                {
+                    b.HasOne("TicketResell_API.Controllers.User.Model.Message", null)
+                        .WithMany("messages")
+                        .HasForeignKey("messageId");
                 });
 
             modelBuilder.Entity("TicketResell_API.Controllers.User.Model.Chat", b =>
                 {
-                    b.Navigation("Messages");
+                    b.Navigation("ChatData");
+                });
+
+            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.Message", b =>
+                {
+                    b.Navigation("messages");
                 });
 #pragma warning restore 612, 618
         }

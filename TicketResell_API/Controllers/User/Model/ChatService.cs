@@ -11,24 +11,25 @@ namespace TicketResell_API.Controllers.User.Model
             _context = context;
         }
 
-        public async Task<List<Chat>> GetAllChatsAsync(string userId)
+        public async Task<List<Chat>> GetChatsByUserId(string userId)
         {
             return await _context.Chats
-                //Download all messages related to each chat
-                .Include(c => c.Messages)
-                // Filter conversations by user ID
-                .Where( c => c.reUserId == userId || c.seUserId == userId)
-                //Convert query results to a list
-                .ToListAsync();
+            //filter chats so that only chats seUserId = userId
+            .Where(c => c.seUserId == userId)
+            //Get data from ChatData
+            .Include(c => c.ChatData)
+            //return a list
+            .ToListAsync();
         }
 
-        public async Task<List<Message>> GetMessagesByChatIdAsync(string chatId)
+        public async Task<List<Message>> GetMessageByIdAsync(string messageId)
         {
             return await _context.Message
-                //Filter messages whose ChatId matches the provided chatId.
-                .Where(c => c.chatId == chatId)
-                //Convert query results to a list
+                //filter Message so that only message messageId=messageId
+                .Where(c => c.messageId! == messageId)
+                //list all message
                 .ToListAsync();
         }
+        
     }
 }
