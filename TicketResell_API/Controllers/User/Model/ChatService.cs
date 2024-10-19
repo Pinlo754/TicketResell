@@ -11,6 +11,14 @@ namespace TicketResell_API.Controllers.User.Model
             _context = context;
         }
 
+        public async Task<Chat> CreateChatAsync(Chat chat)
+        {
+            _context.Chats.Add(chat);
+            await _context.SaveChangesAsync();
+            return chat;
+
+        }
+
         public async Task<List<Chat>> GetChatsByUserId(string userId)
         {
             return await _context.Chats

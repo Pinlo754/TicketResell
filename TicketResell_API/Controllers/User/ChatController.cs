@@ -30,6 +30,19 @@ namespace TicketResell_API.Controllers.User
 
         }
 
+        [HttpPost("post-chat")]
+        public async Task<ActionResult<Chat>> PostChat([FromBody] Chat model)
+        {
+            //check the chat data and seUserId
+            if(model == null || string.IsNullOrEmpty(model.seUserId))
+            {
+                return BadRequest("Chat data is null or Send User Id is missing. Please try again.");
+            }
+            //create and save chat
+            var createChat = await _chatService.CreateChatAsync(model);
+            return CreatedAtAction(nameof(GetChatsByUserId), new {seUserId = createChat.seUserId}, createChat);
+        }
+
         [HttpGet("message/{messageId}")]
         public async Task<ActionResult<Message>> GetMessageById(string messageId)
         {

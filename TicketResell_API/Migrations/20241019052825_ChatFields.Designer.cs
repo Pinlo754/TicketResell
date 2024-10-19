@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TicketResell_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241019050151_ChatFields")]
+    [Migration("20241019052825_ChatFields")]
     partial class ChatFields
     {
         /// <inheritdoc />
