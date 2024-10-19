@@ -297,33 +297,18 @@ namespace TicketResell_API.Migrations
                     b.Property<string>("messageId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("messageId");
-
-                    b.ToTable("Message");
-                });
-
-            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.MessageData", b =>
-                {
-                    b.Property<string>("messageDataId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Data")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("createdAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("messageId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("seUserId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("messageDataId");
+                    b.HasKey("messageId");
 
-                    b.HasIndex("messageId");
-
-                    b.ToTable("MessageData");
+                    b.ToTable("Message");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -384,21 +369,9 @@ namespace TicketResell_API.Migrations
                         .HasForeignKey("ChatseUserId");
                 });
 
-            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.MessageData", b =>
-                {
-                    b.HasOne("TicketResell_API.Controllers.User.Model.Message", null)
-                        .WithMany("messages")
-                        .HasForeignKey("messageId");
-                });
-
             modelBuilder.Entity("TicketResell_API.Controllers.User.Model.Chat", b =>
                 {
                     b.Navigation("ChatData");
-                });
-
-            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.Message", b =>
-                {
-                    b.Navigation("messages");
                 });
 #pragma warning restore 612, 618
         }

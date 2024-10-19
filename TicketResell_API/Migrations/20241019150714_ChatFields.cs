@@ -26,7 +26,10 @@ namespace TicketResell_API.Migrations
                 name: "Message",
                 columns: table => new
                 {
-                    messageId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    messageId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    createdAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    seUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Data = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -54,35 +57,10 @@ namespace TicketResell_API.Migrations
                         principalColumn: "seUserId");
                 });
 
-            migrationBuilder.CreateTable(
-                name: "MessageData",
-                columns: table => new
-                {
-                    messageDataId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    createdAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    seUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Data = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    messageId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MessageData", x => x.messageDataId);
-                    table.ForeignKey(
-                        name: "FK_MessageData_Message_messageId",
-                        column: x => x.messageId,
-                        principalTable: "Message",
-                        principalColumn: "messageId");
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_ChatData_ChatseUserId",
                 table: "ChatData",
                 column: "ChatseUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MessageData_messageId",
-                table: "MessageData",
-                column: "messageId");
         }
 
         /// <inheritdoc />
@@ -92,13 +70,10 @@ namespace TicketResell_API.Migrations
                 name: "ChatData");
 
             migrationBuilder.DropTable(
-                name: "MessageData");
+                name: "Message");
 
             migrationBuilder.DropTable(
                 name: "Chats");
-
-            migrationBuilder.DropTable(
-                name: "Message");
         }
     }
 }

@@ -40,6 +40,7 @@ namespace TicketResell_API.Controllers.User
             }
             //create and save chat
             var createChat = await _chatService.CreateChatAsync(model);
+            //Returns the GetChatsByUserId and create a path to the newly created resource
             return CreatedAtAction(nameof(GetChatsByUserId), new {seUserId = createChat.seUserId}, createChat);
         }
 
@@ -49,13 +50,26 @@ namespace TicketResell_API.Controllers.User
             //get all messages belonging to chatId
             var message = await _chatService.GetMessageByIdAsync(messageId);
             //Check if no messages were found
-            if (message == null || !message.Any())
+            if (message == null || !messageId.Any())
             {
                 return NotFound();
             }
             //Returns a list of messages
             return Ok(message);
+        }
 
+        [HttpPost("post-message")]
+        public async Task<ActionResult<Message>> PostMessage([FromBody] Message model)
+        {
+            //check data and message is null or not
+            if(model == null || string.IsNullOrEmpty(model.messageId))
+            {
+                return BadRequest("Message data is null or message id is missing. Please try again.");
+            }
+            //save message 
+            var createdMessage = await _chatService.CreateMessageAsync(model);
+            //Returns the GetMessageById and create a path to the newly created resource
+            return CreatedAtAction(nameof(GetMessageById), new {messageId = createdMessage.messageId}, createdMessage);
         }
     }
 }

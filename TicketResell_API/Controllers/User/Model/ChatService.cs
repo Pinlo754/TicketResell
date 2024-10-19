@@ -38,6 +38,13 @@ namespace TicketResell_API.Controllers.User.Model
                 //list all message
                 .ToListAsync();
         }
-        
+
+        public async Task<Message> CreateMessageAsync(Message message)
+        {
+            _context.Message.Add(message);
+            await _context.SaveChangesAsync();
+            return message;
+        }
+
     }
 }

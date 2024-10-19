@@ -224,7 +224,7 @@ namespace TicketResell_API.Controllers.User
                 return Unauthorized();
             }
             //Use _userManager to find user by username based on userID from Profile model
-            var user = await _userManager.FindByNameAsync(model.userID);
+            var user = await _userManager.FindByNameAsync(model.userId);
             //Check if user exists
             if (user is null)
             {
