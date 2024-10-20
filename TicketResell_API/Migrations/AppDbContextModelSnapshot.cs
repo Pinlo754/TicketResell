@@ -186,27 +186,28 @@ namespace TicketResell_API.Migrations
 
             modelBuilder.Entity("TicketResell_API.Controllers.User.Model.ChatData", b =>
                 {
-                    b.Property<string>("reUserId")
+                    b.Property<string>("messageId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ChatseUserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("LastMessage")
+                    b.Property<string>("lastMessage")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MessageId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("MessageSeen")
+                    b.Property<bool>("messageSeen")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<string>("reUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("updatedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("reUserId");
+                    b.HasKey("messageId");
 
                     b.HasIndex("ChatseUserId");
 
@@ -366,7 +367,9 @@ namespace TicketResell_API.Migrations
                 {
                     b.HasOne("TicketResell_API.Controllers.User.Model.Chat", null)
                         .WithMany("ChatData")
-                        .HasForeignKey("ChatseUserId");
+                        .HasForeignKey("ChatseUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TicketResell_API.Controllers.User.Model.Chat", b =>

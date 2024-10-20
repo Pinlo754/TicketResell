@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TicketResell_API.Controllers.User.Model;
 using TicketResell_API.Controllers.User.Service;
 
@@ -34,14 +35,14 @@ namespace TicketResell_API.Controllers.User
         public async Task<ActionResult<Chat>> PostChat([FromBody] Chat model)
         {
             //check the chat data and seUserId
-            if(model == null || string.IsNullOrEmpty(model.seUserId))
+            if (model == null || string.IsNullOrEmpty(model.seUserId))
             {
                 return BadRequest("Chat data is null or Send User Id is missing. Please try again.");
             }
             //create and save chat
             var createChat = await _chatService.CreateChatAsync(model);
             //Returns the GetChatsByUserId and create a path to the newly created resource
-            return CreatedAtAction(nameof(GetChatsByUserId), new {seUserId = createChat.seUserId}, createChat);
+            return CreatedAtAction(nameof(GetChatsByUserId), new { seUserId = createChat.seUserId }, createChat);
         }
 
         [HttpGet("message/{messageId}")]

@@ -40,21 +40,22 @@ namespace TicketResell_API.Migrations
                 name: "ChatData",
                 columns: table => new
                 {
-                    reUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LastMessage = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MessageId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MessageSeen = table.Column<bool>(type: "bit", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ChatseUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    messageId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    lastMessage = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    messageSeen = table.Column<bool>(type: "bit", nullable: false),
+                    reUserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    updatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ChatseUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChatData", x => x.reUserId);
+                    table.PrimaryKey("PK_ChatData", x => x.messageId);
                     table.ForeignKey(
                         name: "FK_ChatData_Chats_ChatseUserId",
                         column: x => x.ChatseUserId,
                         principalTable: "Chats",
-                        principalColumn: "seUserId");
+                        principalColumn: "seUserId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
