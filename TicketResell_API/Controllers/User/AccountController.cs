@@ -213,18 +213,13 @@ namespace TicketResell_API.Controllers.User
 
         }
 
-        [HttpGet("ID")]
-        [Authorize]
-        public async Task<IActionResult> GetProfileById([FromBody] Profile model)
+        [HttpPost("ID")]
+        public async Task<IActionResult> GetProfileById(string userID)
         {
             //check registered user
-            var userID = User?.Identity?.Name;
-            if (userID == null)
-            {
-                return Unauthorized();
-            }
+            Profile model = new Profile();
             //Use _userManager to find user by username based on userID from Profile model
-            var user = await _userManager.FindByNameAsync(model.userID);
+            var user = await _userManager.FindByIdAsync(userID);
             //Check if user exists
             if (user is null)
             {
@@ -235,7 +230,9 @@ namespace TicketResell_API.Controllers.User
             var profile = new
             {
                 user.Email,
-                user.PhoneNumber
+                user.firstName,
+                user.lastName,
+                user.Id
             };
             //If all steps are successful look up the profile object containing the user profile information
             return Ok(profile);

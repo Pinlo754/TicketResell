@@ -1,14 +1,26 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "E:\\SWP391\\TicketResell_1710\\TicketResell\\TicketResell_API\\",
+  "WorkspaceRootPath": "E:\\FPT\\Semester5\\TicketResell-nghiadt\\TicketResell_API\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1710\\ticketresell\\ticketresell_api\\controllers\\user\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\fpt\\semester5\\ticketresell-nghiadt\\ticketresell_api\\controllers\\user\\model\\chat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:controllers\\user\\model\\chat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\fpt\\semester5\\ticketresell-nghiadt\\ticketresell_api\\controllers\\user\\chatcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:controllers\\user\\chatcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\fpt\\semester5\\ticketresell-nghiadt\\ticketresell_api\\controllers\\user\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:controllers\\user\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1710\\ticketresell\\ticketresell_api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\fpt\\semester5\\ticketresell-nghiadt\\ticketresell_api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\fpt\\semester5\\ticketresell-nghiadt\\ticketresell_api\\migrations\\20241019073228_khiem1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:migrations\\20241019073228_khiem1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,12 +30,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 507,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 5,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
@@ -47,27 +55,69 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "AccountController.cs",
-              "DocumentMoniker": "E:\\SWP391\\TicketResell_1710\\TicketResell\\TicketResell_API\\Controllers\\User\\AccountController.cs",
-              "RelativeDocumentMoniker": "Controllers\\User\\AccountController.cs",
-              "ToolTip": "E:\\SWP391\\TicketResell_1710\\TicketResell\\TicketResell_API\\Controllers\\User\\AccountController.cs",
-              "RelativeToolTip": "Controllers\\User\\AccountController.cs",
-              "ViewState": "AQIAAF4AAAAAAAAAAAAYwHcAAABDAAAA",
+              "Title": "Chat.cs",
+              "DocumentMoniker": "E:\\FPT\\Semester5\\TicketResell-nghiadt\\TicketResell_API\\Controllers\\User\\Model\\Chat.cs",
+              "RelativeDocumentMoniker": "Controllers\\User\\Model\\Chat.cs",
+              "ToolTip": "E:\\FPT\\Semester5\\TicketResell-nghiadt\\TicketResell_API\\Controllers\\User\\Model\\Chat.cs",
+              "RelativeToolTip": "Controllers\\User\\Model\\Chat.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-17T07:07:37.386Z",
+              "WhenOpened": "2024-10-20T09:31:48.824Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "E:\\FPT\\Semester5\\TicketResell-nghiadt\\TicketResell_API\\Controllers\\User\\AccountController.cs",
+              "RelativeDocumentMoniker": "Controllers\\User\\AccountController.cs",
+              "ToolTip": "E:\\FPT\\Semester5\\TicketResell-nghiadt\\TicketResell_API\\Controllers\\User\\AccountController.cs",
+              "RelativeToolTip": "Controllers\\User\\AccountController.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAAAuwEQAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-19T17:49:40.503Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "ChatController.cs",
+              "DocumentMoniker": "E:\\FPT\\Semester5\\TicketResell-nghiadt\\TicketResell_API\\Controllers\\User\\ChatController.cs",
+              "RelativeDocumentMoniker": "Controllers\\User\\ChatController.cs",
+              "ToolTip": "E:\\FPT\\Semester5\\TicketResell-nghiadt\\TicketResell_API\\Controllers\\User\\ChatController.cs",
+              "RelativeToolTip": "Controllers\\User\\ChatController.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAQwB0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-19T17:49:22.583Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "appsettings.json",
-              "DocumentMoniker": "E:\\SWP391\\TicketResell_1710\\TicketResell\\TicketResell_API\\appsettings.json",
+              "DocumentMoniker": "E:\\FPT\\Semester5\\TicketResell-nghiadt\\TicketResell_API\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "E:\\SWP391\\TicketResell_1710\\TicketResell\\TicketResell_API\\appsettings.json",
+              "ToolTip": "E:\\FPT\\Semester5\\TicketResell-nghiadt\\TicketResell_API\\appsettings.json",
               "RelativeToolTip": "appsettings.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAABAAAA",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-10-17T06:54:16.38Z"
+              "WhenOpened": "2024-10-19T07:31:58.016Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "20241019073228_Khiem1.cs",
+              "DocumentMoniker": "E:\\FPT\\Semester5\\TicketResell-nghiadt\\TicketResell_API\\Migrations\\20241019073228_Khiem1.cs",
+              "RelativeDocumentMoniker": "Migrations\\20241019073228_Khiem1.cs",
+              "ToolTip": "E:\\FPT\\Semester5\\TicketResell-nghiadt\\TicketResell_API\\Migrations\\20241019073228_Khiem1.cs",
+              "RelativeToolTip": "Migrations\\20241019073228_Khiem1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-19T07:32:28.96Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
             }
           ]
         },

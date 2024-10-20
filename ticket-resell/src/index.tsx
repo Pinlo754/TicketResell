@@ -5,9 +5,11 @@ import WelcomeScreen from './pages/WelcomeScreen';
 import {RouterProvider } from 'react-router-dom';
 import routers from './routers'; 
 
+
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
-    <RouterProvider router={routers} />
+    <RouterProvider router={routers}/>
   </React.StrictMode>
 );
+

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TicketResell_API.Controllers.User.Model;
+using TicketResell_API.Controllers.User.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,7 +52,7 @@ builder.Services.AddAuthentication(options =>
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
         };
-    });
+    }); 
 
 //Establish authorization policies
 builder.Services.AddAuthorization(Options =>
@@ -67,9 +68,11 @@ builder.Services.AddAuthorization(Options =>
 //    options.TokenLifespan = TimeSpan.FromHours(2)
 //);
 
-//
+//add send email service
 builder.Services.AddTransient<TicketResell_API.Controllers.User.Service.IEmailSender, EmailSender>();
 
+//add chat service
+builder.Services.AddTransient<IChatService, ChatService>();
 
 builder.Services.AddSwaggerGen(c =>
 {

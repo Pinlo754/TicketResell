@@ -12,6 +12,7 @@ import RegisterScreen from "../pages/RegisterScreen/RegisterScreen";
 import ResetPasswordScreen from "../pages/ResetPasswordScreen";
 import VerifyEmailScreen from "../pages/VerifyEmailScreen/VerifyEmailScreen";
 import UserProfile from "../pages/UserProfile";
+import AppChatContextProvider from "../context/AppChatContext";
 
 const routers = createBrowserRouter([
   {
@@ -24,7 +25,11 @@ const routers = createBrowserRouter([
   },
   {
     path: "/chat",
-    element: <Chat />,
+    element: (
+      <AppChatContextProvider> {/* Bọc AppChatContextProvider quanh Chat route */}
+        <Chat />
+      </AppChatContextProvider>
+    ),
   },
   {
     path: "/cart",
