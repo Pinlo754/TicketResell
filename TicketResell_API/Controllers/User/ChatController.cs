@@ -45,7 +45,7 @@ namespace TicketResell_API.Controllers.User
             return CreatedAtAction(nameof(GetChatsByUserId), new { seUserId = createChat.seUserId }, createChat);
         }
 
-        [HttpGet("message/{messageId}")]
+        [HttpGet("{messageId}")]
         public async Task<ActionResult<Message>> GetMessageById(string messageId)
         {
             //get all messages belonging to chatId
@@ -71,6 +71,40 @@ namespace TicketResell_API.Controllers.User
             var createdMessage = await _chatService.CreateMessageAsync(model);
             //Returns the GetMessageById and create a path to the newly created resource
             return CreatedAtAction(nameof(GetMessageById), new {messageId = createdMessage.messageId}, createdMessage);
+        }
+
+        [HttpPut("{messageId}")]
+        public async Task<ActionResult<Message>> UpdateMessage([FromBody] Message model, String messageId)
+        {
+            if (model == null || string.IsNullOrEmpty(messageId))
+            {
+                return BadRequest("Message data is null.");
+            }
+            var result = await _chatService.UpdateMessageAsync(model,messageId);
+
+            if (result == null)
+            {
+                return NotFound("Message not found.");
+            }
+            return Ok(result);
+        }
+
+        [HttpPut("update-chat/{seUserId}")]
+        public async Task<ActionResult<Chat>> UpdateChat([FromBody] Chat model, string seUserId)
+        {
+            if (model == null)
+            {
+                return BadRequest("Chat data is null.");
+            }
+
+            var updatedChat = await _chatService.UpdateChatAsync(model, seUserId);
+
+            if (updatedChat == null)
+            {
+                return NotFound("Chat not found.");
+            }
+
+            return Ok(updatedChat);
         }
     }
 }

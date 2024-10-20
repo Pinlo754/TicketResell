@@ -46,5 +46,66 @@ namespace TicketResell_API.Controllers.User.Model
             return message;
         }
 
+        public async Task<Message> UpdateMessageAsync(Message updMessage, string messageId)
+        {
+            var existingMessage = await _context.Message
+                 .Include(m => m.Messages) 
+                 .FirstOrDefaultAsync(m => m.messageId == messageId);
+            if (existingMessage == null)
+            {
+                return null;
+            }
+            foreach (var updatedMessageData in updMessage.Messages)
+            {
+                var existingMessageData = existingMessage.Messages
+                    .FirstOrDefault(md => md.Id == updatedMessageData.Id);
+
+                if (existingMessageData != null)
+                {
+                    existingMessageData.SeUserId = updatedMessageData.SeUserId;
+                    existingMessageData.Data = updatedMessageData.Data;
+                    existingMessageData.CreatedAt = updatedMessageData.CreatedAt;
+                }
+                else
+                {
+                    existingMessage.Messages.Add(updatedMessageData);
+                }
+            }          
+                await _context.SaveChangesAsync(); 
+            return existingMessage; 
+        }
+
+        public async Task <Chat> UpdateChatAsync(Chat updChat, string seUserId)
+        {
+            var existingChat = await _context.Chats
+            .Include(c => c.ChatData) 
+            .FirstOrDefaultAsync(c => c.seUserId == seUserId);
+            if (existingChat == null) 
+            {
+                return null;
+            }
+            foreach (var updatedChatData in updChat.ChatData)
+            {
+                var existingChatData = existingChat.ChatData
+                    .FirstOrDefault(cd => cd.messageId == updatedChatData.messageId);
+
+                if (existingChatData != null)
+                {
+                    existingChatData.lastMessage = updatedChatData.lastMessage;
+                    existingChatData.messageSeen = updatedChatData.messageSeen;
+                    existingChatData.updatedAt = DateTime.UtcNow;
+                    existingChatData.reUserId = updatedChatData.reUserId;
+                    existingChatData.messageId = updatedChatData.messageId;
+                }
+                else
+                {
+                    existingChat.ChatData.Add(updatedChatData);
+                }
+            }
+            await _context.SaveChangesAsync();
+
+            return existingChat;
+
+        }
     }
 }

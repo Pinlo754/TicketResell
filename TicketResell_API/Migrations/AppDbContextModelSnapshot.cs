@@ -298,18 +298,38 @@ namespace TicketResell_API.Migrations
                     b.Property<string>("messageId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Data")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("createdAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("seUserId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("messageId");
 
                     b.ToTable("Message");
+                });
+
+            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.MessageData", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Data")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SeUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("messageId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("messageId");
+
+                    b.ToTable("MessageData");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -372,9 +392,21 @@ namespace TicketResell_API.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.MessageData", b =>
+                {
+                    b.HasOne("TicketResell_API.Controllers.User.Model.Message", null)
+                        .WithMany("Messages")
+                        .HasForeignKey("messageId");
+                });
+
             modelBuilder.Entity("TicketResell_API.Controllers.User.Model.Chat", b =>
                 {
                     b.Navigation("ChatData");
+                });
+
+            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.Message", b =>
+                {
+                    b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618
         }
