@@ -13,8 +13,11 @@ namespace TicketResell_API.Controllers.User.Model
 
         public async Task<Chat> CreateChatAsync(Chat chat)
         {
+            //Add chat object to DbContext
             _context.Chats.Add(chat);
+            // Save changes to database
             await _context.SaveChangesAsync();
+            // Returns the saved chat object
             return chat;
 
         }
@@ -30,31 +33,38 @@ namespace TicketResell_API.Controllers.User.Model
             .ToListAsync();
         }
 
-        public async Task<List<Message>> GetMessageByIdAsync(string messageId)
+        public async Task<Message?> GetMessageByIdAsync(string messageId)
         {
             return await _context.Message
-                //filter Message so that only message messageId=messageId
-                .Where(c => c.messageId! == messageId)
-                //list all message
-                .ToListAsync();
+                //add data from message data
+                .Include(m => m.Messages)
+                //Search Message by messageId
+                .FirstOrDefaultAsync(c => c.messageId == messageId);
         }
 
         public async Task<Message> CreateMessageAsync(Message message)
         {
+            // Add new message to context
             _context.Message.Add(message);
+            // Save changes to database
             await _context.SaveChangesAsync();
+            // Returns the message object after saving
             return message;
         }
 
         public async Task<Message> UpdateMessageAsync(Message updMessage, string messageId)
         {
+            // Search for existing messages by messageId
             var existingMessage = await _context.Message
                  .Include(m => m.Messages) 
                  .FirstOrDefaultAsync(m => m.messageId == messageId);
+            // Check if message exists
             if (existingMessage == null)
             {
+                // Return null if message not found
                 return null;
             }
+            // Update MessageData in existing message
             foreach (var updatedMessageData in updMessage.Messages)
             {
                 var existingMessageData = existingMessage.Messages
@@ -62,28 +72,36 @@ namespace TicketResell_API.Controllers.User.Model
 
                 if (existingMessageData != null)
                 {
+                    // If MessageData already exists, update the properties
                     existingMessageData.SeUserId = updatedMessageData.SeUserId;
                     existingMessageData.Data = updatedMessageData.Data;
                     existingMessageData.CreatedAt = updatedMessageData.CreatedAt;
                 }
                 else
                 {
+                    // If MessageData does not exist, add new one to the list
                     existingMessage.Messages.Add(updatedMessageData);
                 }
-            }          
-                await _context.SaveChangesAsync(); 
+            }
+            // Save changes to database
+            await _context.SaveChangesAsync();
+            // Return the updated message
             return existingMessage; 
         }
 
         public async Task <Chat> UpdateChatAsync(Chat updChat, string seUserId)
         {
+            // Search existing chat by seUserId
             var existingChat = await _context.Chats
             .Include(c => c.ChatData) 
             .FirstOrDefaultAsync(c => c.seUserId == seUserId);
+            // Check if chat exists
             if (existingChat == null) 
             {
+                // Return null if chat not found
                 return null;
             }
+            // Update the ChatData in the existing chat
             foreach (var updatedChatData in updChat.ChatData)
             {
                 var existingChatData = existingChat.ChatData
@@ -91,6 +109,7 @@ namespace TicketResell_API.Controllers.User.Model
 
                 if (existingChatData != null)
                 {
+                    // If ChatData already exists, update the properties
                     existingChatData.lastMessage = updatedChatData.lastMessage;
                     existingChatData.messageSeen = updatedChatData.messageSeen;
                     existingChatData.updatedAt = DateTime.UtcNow;
@@ -99,11 +118,13 @@ namespace TicketResell_API.Controllers.User.Model
                 }
                 else
                 {
+                    // If ChatData does not exist, add new one to the list
                     existingChat.ChatData.Add(updatedChatData);
                 }
             }
+            // Save changes to database
             await _context.SaveChangesAsync();
-
+            // Returns the updated chat
             return existingChat;
 
         }

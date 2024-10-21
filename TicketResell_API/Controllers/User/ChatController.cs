@@ -16,7 +16,7 @@ namespace TicketResell_API.Controllers.User
             _chatService = chatService;
         }
 
-        [HttpGet("{seUserId}")]
+        [HttpGet("get-chat/{seUserId}")]
         public async Task<ActionResult<List<Chat>>> GetChatsByUserId(string seUserId)
         {
             //get chat list by userId
@@ -45,15 +45,15 @@ namespace TicketResell_API.Controllers.User
             return CreatedAtAction(nameof(GetChatsByUserId), new { seUserId = createChat.seUserId }, createChat);
         }
 
-        [HttpGet("{messageId}")]
+        [HttpGet("get-message/{messageId}")]
         public async Task<ActionResult<Message>> GetMessageById(string messageId)
         {
-            //get all messages belonging to chatId
+            //get all messages belonging to messageIds
             var message = await _chatService.GetMessageByIdAsync(messageId);
             //Check if no messages were found
-            if (message == null || !messageId.Any())
+            if (message == null || string.IsNullOrEmpty(messageId))
             {
-                return NotFound();
+                return NotFound(new { error = $"Message with ID {messageId} not found." });
             }
             //Returns a list of messages
             return Ok(message);
