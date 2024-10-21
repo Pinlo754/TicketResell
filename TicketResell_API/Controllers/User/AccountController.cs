@@ -134,6 +134,9 @@ namespace TicketResell_API.Controllers.User
             //Check if the user exists and if so, validate the password using the CheckPasswordAsync method
             if (user != null && await _userManager.CheckPasswordAsync(user, model.password))
             {
+                //add claim if not have
+                var claim = new Claim("YourClaimType", "YourClaimValue");
+                await _userManager.AddClaimAsync(user, claim);
                 //If authentication is successful, get a list of roles the user belongs to
                 var userRole = await _userManager.GetRolesAsync(user);
                 //Create a list of claims (information about the user stored in the token) that will be included in the token
@@ -143,6 +146,7 @@ namespace TicketResell_API.Controllers.User
                     new Claim(JwtRegisteredClaimNames.Sub, user.Email!),
                     //Add jti claim (JWT ID), create a unique identifier for the token using Guid.NewGuid()
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
                 };
                 //Add claims for user roles to the authClaims list
                 authClaims.AddRange(userRole.Select(role => new Claim(ClaimTypes.Role, role)));
@@ -213,29 +217,32 @@ namespace TicketResell_API.Controllers.User
 
         }
 
-        [HttpGet("ID")]
+        [HttpGet("{userId}")]
         [Authorize]
-        public async Task<IActionResult> GetProfileById([FromBody] Profile model)
+        public async Task<IActionResult> GetProfileById(string userId)
         {
             //check registered user
-            var userID = User?.Identity?.Name;
-            if (userID == null)
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (currentUserId == null)
             {
                 return Unauthorized();
             }
             //Use _userManager to find user by username based on userID from Profile model
-            var user = await _userManager.FindByNameAsync(model.userId);
+            var user = await _userManager.FindByIdAsync(userId);
             //Check if user exists
             if (user is null)
             {
                 //If the user does not exist it will say that the user was not found.
-                return NotFound();
+                return NotFound(new { error = $"User with ID {userId} not found." });
             }
             //Create an anonymous object containing the user's Email and PhoneNumber properties
             var profile = new
             {
-                user.Email,
-                user.PhoneNumber
+                FirstName = user.firstName,
+                LastName = user.lastName,
+                Address = user.address,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
             };
             //If all steps are successful look up the profile object containing the user profile information
             return Ok(profile);
@@ -246,13 +253,11 @@ namespace TicketResell_API.Controllers.User
         public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfile model)
         {
             //Get the Claim containing the user's ID information
-            var userIDClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-            //Check if Claim exists and get value
-            var userId = userIDClaim != null ? userIDClaim.Value : null;
-            //check if userID is null
-            if (userId == null)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //Check if userId exists 
+            if (string.IsNullOrEmpty(userId))
             {
-                return Unauthorized("User not login");
+                return Unauthorized("User not logged in");
             }
             //find by id of user
             var user = await _userManager.FindByIdAsync(userId);
@@ -268,6 +273,7 @@ namespace TicketResell_API.Controllers.User
             user.PhoneNumber = model.phoneNumber;
             //update in database
             var result = await _userManager.UpdateAsync(user);
+            //check result
             if (!result.Succeeded)
             {
                 return BadRequest(result.Errors);
