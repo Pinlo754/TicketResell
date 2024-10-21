@@ -10,5 +10,6 @@ public class AppDbContext : IdentityDbContext<MainUser>
     public DbSet<Product> Products { get; set; }
     public DbSet<Chat> Chats { get; set; }
     public DbSet<Message> Message { get; set; }
-    
+
+
 }

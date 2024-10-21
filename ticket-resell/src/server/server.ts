@@ -3,7 +3,6 @@ import express from 'express';
 import { Server } from 'socket.io';
 import http from 'http';
 import axios from 'axios';
-import { log } from 'console';
 
 const app = express();
 const server = http.createServer(app);
@@ -31,12 +30,15 @@ io.on('connection', (socket) => {
   socket.on('getChats', async (seUserId, callback) => {
     try {
       // Gọi API để lấy danh sách chat
-      const response = await axios.get(`http://localhost:5158/api/Chat/${seUserId}`);         
+      const response = await axios.get(`http://localhost:5158/api/Chat/get-chat/${seUserId}`);         
       // const userData = await axios.get(`/api/Chat/${seUserId}`);         
       //Nếu thành công, gửi dữ liệu chat về cho client
       if (response.status === 200) {
         const chatResponse = response.data;
+        console.log(chatResponse);
+        
         const chatsPromises = chatResponse.flatMap((item: chats) =>
+          // 
           item.chatData.map(async (data: chatsData) => {
             try {
               const chatUser = await axios.post(`http://localhost:5158/api/Account/ID?userID=${data.reUserId}`);
@@ -67,24 +69,30 @@ io.on('connection', (socket) => {
     }
   });
 
-  // socket.on('updateMessageSeen', async (data: { userId: string, messageId: string }, callback) => {
-  //   try {
-  //     // Gọi API để cập nhật trạng thái messageSeen
-  //     const response = await axios.post(`http://localhost:5158/api/Chat/UpdateMessageSeen`, {
-  //       userId: data.userId,
-  //       messageId: data.messageId
-  //     });
-
-  //     if (response.status === 200) {
-  //       callback({ success: true });
-  //     } else {
-  //       callback({ success: false, message: 'Failed to update message seen status' });
-  //     }
-  //   } catch (error) {
-  //     console.error('Error updating message seen status:', error);
-  //     callback({ success: false, message: 'Error updating message seen status' });
-  //   }
-  // });
+  socket.on('updateMessageSeen', async (data: { userId: string, lastMess: string, messId:string, messSeen : boolean, rId: string, update:Date }, callback) => {
+    try {
+      // Gọi API để cập nhật trạng thái messageSeen
+      const response = await axios.put(`http://localhost:5158/api/Chat/update-chat/${data.userId}`, {
+        seUserId: data.userId,
+        chatData:[{
+                  lastMessage: data.lastMess,
+                  messageId: data.messId,
+                  messageSeen: data.messSeen,
+                  reUserId: data.rId,
+                  updatedAt: data.update     
+        }
+      ]
+      });
+      if (response.status === 200) {
+        callback({ success: true });
+      } else {
+        callback({ success: false, message: 'Failed to update message seen status' });
+      }
+    } catch (error) {
+      console.error('Error updating message seen status:', error);
+      callback({ success: false, message: 'Error updating message seen status' });
+    }
+  });
   
   socket.on('disconnect', () => {
     console.log('user disconnected');

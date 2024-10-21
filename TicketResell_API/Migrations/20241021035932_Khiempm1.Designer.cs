@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TicketResell_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241019073228_Khiem1")]
-    partial class Khiem1
+    [Migration("20241021035932_Khiempm1")]
+    partial class Khiempm1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -189,27 +189,27 @@ namespace TicketResell_API.Migrations
 
             modelBuilder.Entity("TicketResell_API.Controllers.User.Model.ChatData", b =>
                 {
-                    b.Property<string>("reUserId")
+                    b.Property<string>("messageId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ChatseUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("LastMessage")
+                    b.Property<string>("lastMessage")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MessageId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("MessageSeen")
+                    b.Property<bool>("messageSeen")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<string>("reUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("updatedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("reUserId");
+                    b.HasKey("messageId");
 
                     b.HasIndex("ChatseUserId");
 
@@ -307,22 +307,27 @@ namespace TicketResell_API.Migrations
 
             modelBuilder.Entity("TicketResell_API.Controllers.User.Model.MessageData", b =>
                 {
-                    b.Property<string>("messageDataId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Data")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("createdAt")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("SeUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("messageId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("seUserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("messageDataId");
+                    b.HasKey("Id");
 
                     b.HasIndex("messageId");
 
@@ -390,7 +395,7 @@ namespace TicketResell_API.Migrations
             modelBuilder.Entity("TicketResell_API.Controllers.User.Model.MessageData", b =>
                 {
                     b.HasOne("TicketResell_API.Controllers.User.Model.Message", null)
-                        .WithMany("messages")
+                        .WithMany("Messages")
                         .HasForeignKey("messageId");
                 });
 
@@ -401,7 +406,7 @@ namespace TicketResell_API.Migrations
 
             modelBuilder.Entity("TicketResell_API.Controllers.User.Model.Message", b =>
                 {
-                    b.Navigation("messages");
+                    b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618
         }

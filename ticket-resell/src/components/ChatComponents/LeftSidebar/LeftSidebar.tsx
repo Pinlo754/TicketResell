@@ -11,7 +11,7 @@ interface chatUserData {
 }
 
 interface Chat {
-  rID: string;
+  reUserId: string;
   lastMessage: string;
   messageId: string;
   messageSeen: boolean;
@@ -29,47 +29,47 @@ const LeftSidebar: React.FC = () => {
   const { 
     socket, 
     userData, 
-    chatData, 
+    allChat,
+    chatUser,
+    messagesId, 
     setMessagesId, 
     setChatUser, 
     setChatVisible, 
-    setChatData 
+//    setAllChat 
   } = context;
 
-  // const setChat = async (item: Chat) => {
-  //   try {
-  //     setMessagesId(item.messageId);
-  //     setChatUser(item);
+  const setChat = async (item: Chat) => {
+    try {
+      setMessagesId(item.messageId);
+      setChatUser(item);
+      console.log(item.updatedAt.toISOString());
+      if (socket) {
+        socket.emit('updateMessageSeen', {
+          userId: userData.id,
+          lastMess: item.lastMessage,
+          messId: item.messageId,
+          messSeen: true,
+          rId: item.reUserId,
+          update: item.updatedAt
+        }, (response: { success: boolean, message?: string }) => {
+          if (response.success) {
+            setChatVisible(true)
+            console.log("success"); 
+          } else {
+            console.error(response.message || 'Failed to update message seen status');
+          }
+        });
+      } else {
+        console.error('Socket connection not available');
+      }
+      console.log(item);
       
-  //     if (socket) {
-  //       socket.emit('updateMessageSeen', {
-  //         userId: userData.id,
-  //         messageId: item.messageId
-  //       }, (response: { success: boolean, message?: string }) => {
-  //         if (response.success) {
-  //           setChatData(prevChatData => {
-  //             if (prevChatData === null) return null;
-  //             return prevChatData.map(chat => 
-  //               chat.messageId === item.messageId 
-  //                 ? { ...chat, messageSeen: true } 
-  //                 : chat
-  //             );
-  //           });
-  //           setChatVisible(true);
-  //         } else {
-  //           console.error(response.message || 'Failed to update message seen status');
-  //         }
-  //       });
-  //     } else {
-  //       console.error('Socket connection not available');
-  //     }
-
-  //   } catch (error) {
-  //     console.error('An error occurred while setting the chat');
-  //     console.error(error);
-  //   }
-  // };
-
+    } catch (error) {
+      console.error('An error occurred while setting the chat');
+      console.error(error);
+    }
+  };
+  
   return (
     <div className="ls">
       <div className="ls-top">
@@ -85,8 +85,8 @@ const LeftSidebar: React.FC = () => {
         </div>
       </div>
       <div className="ls-list">
-        {chatData?.map((item: Chat, index: number) => (
-          <div key={index} className="friends"> 
+        {allChat?.map((item: Chat, index: number) => (
+          <div key={index} onClick={() =>setChat(item)} className="friends"> 
             <img src={assets.hongle} alt="" />
             <div>        
               <p>{item.chatUserData.email}</p>

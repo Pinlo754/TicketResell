@@ -212,7 +212,6 @@ namespace TicketResell_API.Controllers.User
             return Ok(new { message = "Password have been change. You can continue to login" });
 
         }
-
         [HttpPost("ID")]
         public async Task<IActionResult> GetProfileById(string userID)
         {

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TicketResell_API.Migrations
 {
     /// <inheritdoc />
-    public partial class Khiem1 : Migration
+    public partial class Khiempm1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -200,16 +200,16 @@ namespace TicketResell_API.Migrations
                 name: "ChatData",
                 columns: table => new
                 {
-                    reUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LastMessage = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MessageId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MessageSeen = table.Column<bool>(type: "bit", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    messageId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    lastMessage = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    messageSeen = table.Column<bool>(type: "bit", nullable: false),
+                    reUserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    updatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ChatseUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChatData", x => x.reUserId);
+                    table.PrimaryKey("PK_ChatData", x => x.messageId);
                     table.ForeignKey(
                         name: "FK_ChatData_Chats_ChatseUserId",
                         column: x => x.ChatseUserId,
@@ -221,15 +221,16 @@ namespace TicketResell_API.Migrations
                 name: "MessageData",
                 columns: table => new
                 {
-                    messageDataId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    createdAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    seUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Data = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SeUserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Data = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     messageId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MessageData", x => x.messageDataId);
+                    table.PrimaryKey("PK_MessageData", x => x.Id);
                     table.ForeignKey(
                         name: "FK_MessageData_Message_messageId",
                         column: x => x.messageId,
