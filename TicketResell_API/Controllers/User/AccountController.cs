@@ -135,7 +135,7 @@ namespace TicketResell_API.Controllers.User
             if (user != null && await _userManager.CheckPasswordAsync(user, model.password))
             {
                 //add claim if not have
-                var claim = new Claim("YourClaimType", "YourClaimValue");
+                var claim = new Claim(ClaimTypes.Email, user.Email);
                 await _userManager.AddClaimAsync(user, claim);
                 //If authentication is successful, get a list of roles the user belongs to
                 var userRole = await _userManager.GetRolesAsync(user);
@@ -147,6 +147,7 @@ namespace TicketResell_API.Controllers.User
                     //Add jti claim (JWT ID), create a unique identifier for the token using Guid.NewGuid()
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(ClaimTypes.NameIdentifier, user.Id),
+                    new Claim(ClaimTypes.Email, user.Email!)
                 };
                 //Add claims for user roles to the authClaims list
                 authClaims.AddRange(userRole.Select(role => new Claim(ClaimTypes.Role, role)));
@@ -252,15 +253,15 @@ namespace TicketResell_API.Controllers.User
         [Authorize]
         public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfile model)
         {
-            //Get the Claim containing the user's ID information
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //Get the Claim containing the user's email information
+            var userEmail = User.FindFirstValue(ClaimTypes.Email);
             //Check if userId exists 
-            if (string.IsNullOrEmpty(userId))
+            if (string.IsNullOrEmpty(userEmail))
             {
                 return Unauthorized("User not logged in");
             }
-            //find by id of user
-            var user = await _userManager.FindByIdAsync(userId);
+            //find by email of user
+            var user = await _userManager.FindByEmailAsync(userEmail);
             //check if user is null
             if (user is null)
             {
