@@ -30,21 +30,17 @@ const LeftSidebar: React.FC = () => {
     socket, 
     userData, 
     allChat,
-    chatUser,
-    messagesId, 
-    setMessagesId, 
-    setChatUser, 
+    chatUser, setChatUser,
+    messagesId, setMessagesId,
     setChatVisible, 
-//    setAllChat 
   } = context;
 
   const setChat = async (item: Chat) => {
     try {
       setMessagesId(item.messageId);
       setChatUser(item);
-      console.log(item.updatedAt.toISOString());
       if (socket) {
-        socket.emit('updateMessageSeen', {
+        socket.emit('updateChatData', {
           userId: userData.id,
           lastMess: item.lastMessage,
           messId: item.messageId,
@@ -54,7 +50,7 @@ const LeftSidebar: React.FC = () => {
         }, (response: { success: boolean, message?: string }) => {
           if (response.success) {
             setChatVisible(true)
-            console.log("success"); 
+            console.log("success update chat in leftside"); 
           } else {
             console.error(response.message || 'Failed to update message seen status');
           }
@@ -62,8 +58,6 @@ const LeftSidebar: React.FC = () => {
       } else {
         console.error('Socket connection not available');
       }
-      console.log(item);
-      
     } catch (error) {
       console.error('An error occurred while setting the chat');
       console.error(error);

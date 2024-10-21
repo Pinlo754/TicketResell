@@ -3,8 +3,23 @@
   "WorkspaceRootPath": "E:\\FPT\\Semester5\\SWP391\\ticketResell-21-10-2024\\TicketResell_API\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\FPT\\Semester5\\SWP391\\ticketResell-21-10-2024\\TicketResell_API\\Migrations\\20241021035932_Khiempm1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Migrations\\20241021035932_Khiempm1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\Microsoft VS Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\fpt\\semester5\\swp391\\ticketresell-21-10-2024\\ticketresell_api\\controllers\\user\\model\\chatservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:controllers\\user\\model\\chatservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\fpt\\semester5\\swp391\\ticketresell-21-10-2024\\ticketresell_api\\controllers\\user\\model\\chat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:controllers\\user\\model\\chat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\fpt\\semester5\\swp391\\ticketresell-21-10-2024\\ticketresell_api\\controllers\\user\\model\\message.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:controllers\\user\\model\\message.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\fpt\\semester5\\swp391\\ticketresell-21-10-2024\\ticketresell_api\\migrations\\20241021035932_khiempm1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:migrations\\20241021035932_khiempm1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -39,6 +54,55 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Microsoft.Common.CurrentVersion.targets",
+              "DocumentMoniker": "E:\\Microsoft VS Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Microsoft VS Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "ToolTip": "E:\\Microsoft VS Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\Microsoft VS Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "ViewState": "AgIAAL4UAAAAAAAAAAAuwMgUAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
+              "WhenOpened": "2024-10-21T15:10:34.827Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ChatService.cs",
+              "DocumentMoniker": "E:\\FPT\\Semester5\\SWP391\\ticketResell-21-10-2024\\TicketResell_API\\Controllers\\User\\Model\\ChatService.cs",
+              "RelativeDocumentMoniker": "Controllers\\User\\Model\\ChatService.cs",
+              "ToolTip": "E:\\FPT\\Semester5\\SWP391\\ticketResell-21-10-2024\\TicketResell_API\\Controllers\\User\\Model\\ChatService.cs",
+              "RelativeToolTip": "Controllers\\User\\Model\\ChatService.cs",
+              "ViewState": "AgIAAFcAAAAAAAAAAAAuwGcAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-21T15:09:07.697Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Message.cs",
+              "DocumentMoniker": "E:\\FPT\\Semester5\\SWP391\\ticketResell-21-10-2024\\TicketResell_API\\Controllers\\User\\Model\\Message.cs",
+              "RelativeDocumentMoniker": "Controllers\\User\\Model\\Message.cs",
+              "ToolTip": "E:\\FPT\\Semester5\\SWP391\\ticketResell-21-10-2024\\TicketResell_API\\Controllers\\User\\Model\\Message.cs",
+              "RelativeToolTip": "Controllers\\User\\Model\\Message.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA0AAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-21T14:47:27.434Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Chat.cs",
+              "DocumentMoniker": "E:\\FPT\\Semester5\\SWP391\\ticketResell-21-10-2024\\TicketResell_API\\Controllers\\User\\Model\\Chat.cs",
+              "RelativeDocumentMoniker": "Controllers\\User\\Model\\Chat.cs",
+              "ToolTip": "E:\\FPT\\Semester5\\SWP391\\ticketResell-21-10-2024\\TicketResell_API\\Controllers\\User\\Model\\Chat.cs",
+              "RelativeToolTip": "Controllers\\User\\Model\\Chat.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAA0wBIAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-21T14:46:57.033Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "20241021035932_Khiempm1.cs",
               "DocumentMoniker": "E:\\FPT\\Semester5\\SWP391\\ticketResell-21-10-2024\\TicketResell_API\\Migrations\\20241021035932_Khiempm1.cs",
               "RelativeDocumentMoniker": "Migrations\\20241021035932_Khiempm1.cs",
@@ -46,8 +110,7 @@
               "RelativeToolTip": "Migrations\\20241021035932_Khiempm1.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-21T03:59:32.554Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-21T03:59:32.554Z"
             },
             {
               "$type": "Bookmark",

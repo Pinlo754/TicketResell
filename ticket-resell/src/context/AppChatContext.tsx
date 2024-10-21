@@ -2,6 +2,11 @@ import { createContext, useEffect, useState, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import io, { Socket }from "socket.io-client"; 
 // Định nghĩa các interface cho dữ liệu
+interface status {
+  success: boolean;
+  chats: Chat[];
+}
+
 interface chatUserData {
   email: string;
   firstName: string;
@@ -18,13 +23,12 @@ interface Chat {
   chatUserData: chatUserData;
 }
 
-interface status {
-  success: boolean;
-  chats: Chat[];
+interface user{
+  id: string
 }
 
 interface AppChatContextProps {
-  userData: any; // thog tin nguoi dung
+  userData: user; // thog tin nguoi dung
   setUserData: React.Dispatch<React.SetStateAction<any>>;
 
   allChat: Chat[] | null; // thong tin tat ca doan chat va nguoi nhan === chatData
@@ -61,34 +65,35 @@ const AppChatContextProvider = ({ children }: AppChatContextProviderProps) => {
   const [chatVisible, setChatVisible] = useState<boolean>(false);
   const [socket, setSocket] = useState<Socket | null>(null);
 
+  const fetchChats = (newSocket :Socket) => {
+    if (userData) {
+      // Gửi yêu cầu getChats tới server qua socket
+      newSocket .emit('getChats', userData.id, (response: status) => {   
+        if (response.success) {
+          const data = response.chats    
+          if(data){
+            const sortedData = data.map(chat => ({
+              ...chat,
+              updatedAt: new Date(chat.updatedAt)
+            })).sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
+            setAllChat(sortedData);
+          }            
+        } else {
+          console.error('Failed to fetch chats');
+        }
+      });
+    }
+  };
+  
   useEffect(() => {
     if (userData) {
       // Kết nối socket và gửi yêu cầu getChats
       const newSocket  = io('http://localhost:3020');  
-      newSocket .on('connect', () => {
+      newSocket.on('connect', () => {
         console.log('Connected to socket server:', newSocket.id);
         fetchChats(newSocket ); // Gọi fetchChats ngay sau khi kết nối thành công
       });
-      setSocket(newSocket);
-      const fetchChats = (newSocket :Socket) => {
-        if (userData) {
-          // Gửi yêu cầu getChats tới server qua socket
-          newSocket .emit('getChats', userData.id, (response: status) => {   
-            if (response.success) {
-              const data = response.chats    
-              if(data){
-                const sortedData = data.map(chat => ({
-                  ...chat,
-                  updatedAt: new Date(chat.updatedAt)
-                })).sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
-                setAllChat(sortedData);
-              }            
-            } else {
-              console.error('Failed to fetch chats');
-            }
-          });
-        }
-      };
+      setSocket(newSocket); 
       // Clean up socket khi component unmount
       return () => {
         newSocket .disconnect();

@@ -16,6 +16,6 @@ namespace TicketResell_API.Controllers.User.Model
 
         [Required]
         public string reUserId { get; set; }
-        public DateTime updatedAt { get; set; } = DateTime.Now;
+        public DateTime updatedAt { get; set; }
     }
 }

@@ -112,7 +112,7 @@ namespace TicketResell_API.Controllers.User.Model
                     // If ChatData already exists, update the properties
                     existingChatData.lastMessage = updatedChatData.lastMessage;
                     existingChatData.messageSeen = updatedChatData.messageSeen;
-                    existingChatData.updatedAt = DateTime.UtcNow;
+                    existingChatData.updatedAt = updatedChatData.updatedAt;
                     existingChatData.reUserId = updatedChatData.reUserId;
                     existingChatData.messageId = updatedChatData.messageId;
                 }
