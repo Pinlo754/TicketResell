@@ -8,7 +8,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000", // Địa chỉ frontend React của bạn
+    origin: ["http://localhost:3000", "http://localhost:3001"],// Địa chỉ frontend React của bạn
     methods: ["GET", "POST"]
   }
 });
@@ -41,9 +41,11 @@ io.on('connection', (socket) => {
           // 
           item.chatData.map(async (data: chatsData) => {
             try {
-              const chatUser = await axios.post(`http://localhost:5158/api/Account/ID?userID=${data.reUserId}`);
-              const chatUserData = chatUser.data;
-              return { ...data, chatUserData };
+              const chatUser = await axios.get(`http://localhost:5158/api/Account/user-information/${data.reUserId}`);
+              if(chatUser.status === 200){
+                const chatUserData = chatUser.data;
+                return { ...data, chatUserData };
+              }
             } catch (error) {
               console.error('Error occurred while fetching chats:', error);
               return null;
@@ -113,10 +115,11 @@ io.on('connection', (socket) => {
   socket.on('sendMessage', async (data :{ messagesId: string, id: string, input: string, time: Date}, callback) => {
     try {
       // Gọi API để cập nhật trạng thái messageSeen
+      console.log(data.time);
       const response = await axios.put(`http://localhost:5158/api/Chat/${data.messagesId}`, {
         messageId: data.messagesId,
         messages:[{
-                  createdAt:data.time.toISOString,
+                  createdAt:data.time,
                   seUserId: data.id,
                   data: data.input,    
         }

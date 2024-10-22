@@ -8,7 +8,7 @@ interface status {
 }
 
 interface chatUserData {
-  email: string;
+  bio: string;
   firstName: string;
   lastName: string;
   id: string;
@@ -57,7 +57,7 @@ interface AppChatContextProviderProps {
 
 const AppChatContextProvider = ({ children }: AppChatContextProviderProps) => {
   const navigate = useNavigate();
-  const [userData, setUserData] = useState<any>({ id: '2f4ed17e-6bf6-4828-92c2-c3d35374b06e' });// Giả lập dữ liệu người dùng đăng nhập
+  const [userData, setUserData] = useState<any>({ id: 'f73bbeab-2394-4a27-a59f-5da2b435f1a7' });// Giả lập dữ liệu người dùng đăng nhập
   const [allChat, setAllChat] = useState<Chat[] | null>(null);
   const [messagesId, setMessagesId] = useState<string | null>(null);
   const [messages, setMessages] = useState<any[]>([]);

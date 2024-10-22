@@ -4,7 +4,7 @@ import assets from "../../../assets/assetsChat";
 import { AppChatContext } from "../../../context/AppChatContext";
 
 interface chatUserData {
-  email: string;
+  bio: string;
   firstName: string;
   lastName: string;
   id: string;
@@ -50,7 +50,7 @@ const LeftSidebar: React.FC = () => {
         }, (response: { success: boolean, message?: string }) => {
           if (response.success) {
             setChatVisible(true)
-            console.log("success update chat in leftside"); 
+            console.log("success update messSeen in leftside"); 
           } else {
             console.error(response.message || 'Failed to update message seen status');
           }
@@ -83,7 +83,7 @@ const LeftSidebar: React.FC = () => {
           <div key={index} onClick={() =>setChat(item)} className="friends"> 
             <img src={assets.hongle} alt="" />
             <div>        
-              <p>{item.chatUserData.email}</p>
+              <p>{item.chatUserData.lastName+ " "+item.chatUserData.firstName}</p>
               <span>{item.lastMessage}</span>
             </div>
           </div>

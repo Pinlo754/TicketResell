@@ -134,6 +134,9 @@ namespace TicketResell_API.Controllers.User
             //Check if the user exists and if so, validate the password using the CheckPasswordAsync method
             if (user != null && await _userManager.CheckPasswordAsync(user, model.password))
             {
+                //add claim if not have
+                var claim = new Claim(ClaimTypes.Email, user.Email);
+                await _userManager.AddClaimAsync(user, claim);
                 //If authentication is successful, get a list of roles the user belongs to
                 var userRole = await _userManager.GetRolesAsync(user);
                 //Create a list of claims (information about the user stored in the token) that will be included in the token
@@ -143,6 +146,8 @@ namespace TicketResell_API.Controllers.User
                     new Claim(JwtRegisteredClaimNames.Sub, user.Email!),
                     //Add jti claim (JWT ID), create a unique identifier for the token using Guid.NewGuid()
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
+                    new Claim(ClaimTypes.Email, user.Email!)
                 };
                 //Add claims for user roles to the authClaims list
                 authClaims.AddRange(userRole.Select(role => new Claim(ClaimTypes.Role, role)));
@@ -212,26 +217,35 @@ namespace TicketResell_API.Controllers.User
             return Ok(new { message = "Password have been change. You can continue to login" });
 
         }
-        [HttpPost("ID")]
-        public async Task<IActionResult> GetProfileById(string userID)
+
+        //get user when authorize
+        [HttpGet("{userId}")]
+        [Authorize]
+        public async Task<IActionResult> GetProfileById(string userId)
         {
             //check registered user
-            Profile model = new Profile();
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (currentUserId == null)
+            {
+                return Unauthorized();
+            }
             //Use _userManager to find user by username based on userID from Profile model
-            var user = await _userManager.FindByIdAsync(userID);
+            var user = await _userManager.FindByIdAsync(userId);
             //Check if user exists
             if (user is null)
             {
                 //If the user does not exist it will say that the user was not found.
-                return NotFound();
+                return NotFound(new { error = $"User with ID {userId} not found." });
             }
             //Create an anonymous object containing the user's Email and PhoneNumber properties
             var profile = new
             {
-                user.Email,
-                user.firstName,
-                user.lastName,
-                user.Id
+                FirstName = user.firstName,
+                LastName = user.lastName,
+                Bio = user.bio,
+                Address = user.address,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
             };
             //If all steps are successful look up the profile object containing the user profile information
             return Ok(profile);
@@ -241,17 +255,15 @@ namespace TicketResell_API.Controllers.User
         [Authorize]
         public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfile model)
         {
-            //Get the Claim containing the user's ID information
-            var userIDClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-            //Check if Claim exists and get value
-            var userId = userIDClaim != null ? userIDClaim.Value : null;
-            //check if userID is null
-            if (userId == null)
+            //Get the Claim containing the user's email information
+            var userEmail = User.FindFirstValue(ClaimTypes.Email);
+            //Check if userId exists 
+            if (string.IsNullOrEmpty(userEmail))
             {
-                return Unauthorized("User not login");
+                return Unauthorized("User not logged in");
             }
-            //find by id of user
-            var user = await _userManager.FindByIdAsync(userId);
+            //find by email of user
+            var user = await _userManager.FindByEmailAsync(userEmail);
             //check if user is null
             if (user is null)
             {
@@ -260,10 +272,12 @@ namespace TicketResell_API.Controllers.User
             //Update missing information
             user.firstName = model.firstName;
             user.lastName = model.lastName;
+            user.bio = model.bio;
             user.address = model.address;
             user.PhoneNumber = model.phoneNumber;
             //update in database
             var result = await _userManager.UpdateAsync(user);
+            //check result
             if (!result.Succeeded)
             {
                 return BadRequest(result.Errors);
@@ -272,6 +286,30 @@ namespace TicketResell_API.Controllers.User
 
         }
 
+        [HttpGet("user-information/{userId}")]
+        public async Task<IActionResult> GetUserInformation(string userId)
+        {
+            //find user by id
+            var user = await _userManager.FindByIdAsync(userId);
+            //check if user is null or not
+            if (user is null)
+            {
+                return NotFound("User is not registered. PLease try again");
+            }
+            //return the information of user
+            var userInfor = new
+            {
+                user.Id,
+                user.firstName,
+                user.lastName,
+                user.bio,
+                user.address,
+                user.Email,
+                user.PhoneNumber
+            };
+            return Ok(userInfor);
+
+        }
     }
 
 }
