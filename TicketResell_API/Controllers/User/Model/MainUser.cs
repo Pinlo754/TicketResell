@@ -10,8 +10,8 @@ namespace TicketResell_API.Controllers.User.Model
         [MaxLength(256)]
         public string? lastName { get; set; }
         [MaxLength(256)]
-        public string bio {  get; set; }
-         
+        public string? bio {  get; set; } = string.Empty;
+
         public string? address {  get; set; }
         public int FailedConfirmationAttemps { get; set; } = 0;
     }

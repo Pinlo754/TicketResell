@@ -279,7 +279,6 @@ namespace TicketResell_API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("bio")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 

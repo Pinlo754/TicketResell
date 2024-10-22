@@ -26,8 +26,7 @@ namespace TicketResell_API.Migrations
                 table: "AspNetUsers",
                 type: "nvarchar(256)",
                 maxLength: 256,
-                nullable: false,
-                defaultValue: "");
+                nullable: true);
 
             migrationBuilder.CreateTable(
                 name: "Chats",

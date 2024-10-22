@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TicketResell_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241022000502_ChatFields")]
+    [Migration("20241022042613_ChatFields")]
     partial class ChatFields
     {
         /// <inheritdoc />
@@ -282,7 +282,6 @@ namespace TicketResell_API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("bio")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
