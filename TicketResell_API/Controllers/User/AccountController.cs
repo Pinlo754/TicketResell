@@ -218,6 +218,7 @@ namespace TicketResell_API.Controllers.User
 
         }
 
+        //get user when authorize
         [HttpGet("{userId}")]
         [Authorize]
         public async Task<IActionResult> GetProfileById(string userId)
@@ -241,6 +242,7 @@ namespace TicketResell_API.Controllers.User
             {
                 FirstName = user.firstName,
                 LastName = user.lastName,
+                Bio = user.bio,
                 Address = user.address,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
@@ -270,6 +272,7 @@ namespace TicketResell_API.Controllers.User
             //Update missing information
             user.firstName = model.firstName;
             user.lastName = model.lastName;
+            user.bio = model.bio;
             user.address = model.address;
             user.PhoneNumber = model.phoneNumber;
             //update in database
@@ -283,6 +286,29 @@ namespace TicketResell_API.Controllers.User
 
         }
 
+        [HttpGet("user-information/{userId}")]
+        public async Task<IActionResult> GetUserInformation(string userId)
+        {
+            //find user by id
+            var user = await _userManager.FindByIdAsync(userId);
+            //check if user is null or not
+            if (user is null)
+            {
+                return NotFound("User is not registered. PLease try again");
+            }
+            //return the information of user
+            var userInfor = new
+            {
+                user.firstName,
+                user.lastName,
+                user.bio,
+                user.address,
+                user.Email,
+                user.PhoneNumber
+            };
+            return Ok(userInfor);
+
+        }
     }
 
 }
