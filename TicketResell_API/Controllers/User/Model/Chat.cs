@@ -9,13 +9,14 @@ namespace TicketResell_API.Controllers.User.Model
        public List<ChatData> ChatData { get; set; } = new List<ChatData>();
     }
     public class ChatData
-    {        
+    {       
+        [Key]public int id {  get; set; }
         public string lastMessage { get; set; }
-        [Key]public string messageId { get; set; }
+        public string messageId { get; set; }
         public bool messageSeen { get; set; } = false;
 
         [Required]
         public string reUserId { get; set; }
-        public DateTime updatedAt { get; set; } = DateTime.Now;
+        public DateTime updatedAt { get; set; } 
     }
 }

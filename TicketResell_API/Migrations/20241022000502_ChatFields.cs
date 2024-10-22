@@ -11,6 +11,24 @@ namespace TicketResell_API.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterColumn<string>(
+                name: "address",
+                table: "AspNetUsers",
+                type: "nvarchar(max)",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(256)",
+                oldMaxLength: 256,
+                oldNullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "bio",
+                table: "AspNetUsers",
+                type: "nvarchar(256)",
+                maxLength: 256,
+                nullable: false,
+                defaultValue: "");
+
             migrationBuilder.CreateTable(
                 name: "Chats",
                 columns: table => new
@@ -37,22 +55,23 @@ namespace TicketResell_API.Migrations
                 name: "ChatData",
                 columns: table => new
                 {
-                    messageId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     lastMessage = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    messageId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     messageSeen = table.Column<bool>(type: "bit", nullable: false),
                     reUserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     updatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ChatseUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    ChatseUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChatData", x => x.messageId);
+                    table.PrimaryKey("PK_ChatData", x => x.id);
                     table.ForeignKey(
                         name: "FK_ChatData_Chats_ChatseUserId",
                         column: x => x.ChatseUserId,
                         principalTable: "Chats",
-                        principalColumn: "seUserId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "seUserId");
                 });
 
             migrationBuilder.CreateTable(
@@ -101,6 +120,20 @@ namespace TicketResell_API.Migrations
 
             migrationBuilder.DropTable(
                 name: "Message");
+
+            migrationBuilder.DropColumn(
+                name: "bio",
+                table: "AspNetUsers");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "address",
+                table: "AspNetUsers",
+                type: "nvarchar(256)",
+                maxLength: 256,
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(max)",
+                oldNullable: true);
         }
     }
 }

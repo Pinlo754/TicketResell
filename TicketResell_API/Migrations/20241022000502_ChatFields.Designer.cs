@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TicketResell_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241020170306_ChatFields")]
+    [Migration("20241022000502_ChatFields")]
     partial class ChatFields
     {
         /// <inheritdoc />
@@ -189,14 +189,20 @@ namespace TicketResell_API.Migrations
 
             modelBuilder.Entity("TicketResell_API.Controllers.User.Model.ChatData", b =>
                 {
-                    b.Property<string>("messageId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<string>("ChatseUserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("lastMessage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("messageId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -210,7 +216,7 @@ namespace TicketResell_API.Migrations
                     b.Property<DateTime>("updatedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("messageId");
+                    b.HasKey("id");
 
                     b.HasIndex("ChatseUserId");
 
@@ -273,6 +279,10 @@ namespace TicketResell_API.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("bio")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -390,9 +400,7 @@ namespace TicketResell_API.Migrations
                 {
                     b.HasOne("TicketResell_API.Controllers.User.Model.Chat", null)
                         .WithMany("ChatData")
-                        .HasForeignKey("ChatseUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ChatseUserId");
                 });
 
             modelBuilder.Entity("TicketResell_API.Controllers.User.Model.MessageData", b =>
