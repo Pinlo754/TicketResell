@@ -299,6 +299,7 @@ namespace TicketResell_API.Controllers.User
             //return the information of user
             var userInfor = new
             {
+                user.Id,
                 user.firstName,
                 user.lastName,
                 user.bio,
