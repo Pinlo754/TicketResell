@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "./LeftSidebar.css";
 import assets from "../../../assets/assetsChat";
 import { AppChatContext } from "../../../context/AppChatContext";
@@ -34,6 +34,50 @@ const LeftSidebar: React.FC = () => {
     messagesId, setMessagesId,
     setChatVisible, 
   } = context;
+
+
+  interface ChatResponse {
+    success: boolean;
+    chatUser: chatUserData;
+    error?: string;
+  }
+  
+  useEffect(() => {
+      const updateChatUserData = () => {
+        if (!chatUser || !socket) {
+          return;
+        }
+  
+        try {
+          socket.emit("getChatUser", chatUser.chatUserData.id, (response: ChatResponse) => {
+            if (response.success && response.chatUser) {
+              const userData = response.chatUser;
+              setChatUser(prev => {
+                if (!prev) return null;
+                return {
+                  ...prev,
+                  chatUserData: userData
+                };
+              });
+            } else {
+              console.error("Failed to get user data:", response.error);
+            }
+          });
+        } catch (error) {
+          console.error("Error in updateChatUserData:", error);
+        }
+      };
+  
+      updateChatUserData();
+      
+      // Cleanup
+      return () => {
+        if (socket) {
+          socket.off("getChatUser");
+          socket.off("updateChatData");
+        }
+      };
+  }, [allChat,socket]);
 
   const setChat = async (item: Chat) => {
     try {
@@ -80,7 +124,7 @@ const LeftSidebar: React.FC = () => {
       </div>
       <div className="ls-list">
         {allChat?.map((item: Chat, index: number) => (
-          <div key={index} onClick={() =>setChat(item)} className="friends"> 
+          <div key={index} onClick={() =>setChat(item)} className={`friends ${item.messageSeen || item.messageId === messagesId ? "" : "border"}`}> 
             <img src={assets.hongle} alt="" />
             <div>        
               <p>{item.chatUserData.lastName+ " "+item.chatUserData.firstName}</p>

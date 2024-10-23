@@ -27,16 +27,35 @@ interface chatsData {
 io.on('connection', (socket) => {
   console.log('Client mới kết nối:', socket.id);
 
+
+  //lấy thông tin của người nhận
+  socket.on('getChatUser', async(reUserId, callback)=>{
+    try {
+      const response = await axios.get(`http://localhost:5158/api/Account/user-information/${reUserId}`);
+      if (response.status===200) {
+        console.log("get infor user success");
+        const chatUser = response.data
+        callback({success:true, chatUser})
+      }else{
+        callback({success: false, message: "failed to get user data"})
+      }
+    } catch (error) {
+      console.error('Error occurred while fetching chats:', error)
+      callback({success: false, message: "can't call api"})
+    }
+  })
+
+
+  //lấy thông tin của tất cả đoạn chat
+
   socket.on('getChats', async (seUserId, callback) => {
     try {
       // Gọi API để lấy danh sách chat
-      const response = await axios.get(`http://localhost:5158/api/Chat/get-chat/${seUserId}`);         
-      // const userData = await axios.get(`/api/Chat/${seUserId}`);         
+      const response = await axios.get(`http://localhost:5158/api/Chat/get-chat/${seUserId}`);                 
       //Nếu thành công, gửi dữ liệu chat về cho client
       if (response.status === 200) {
         const chatResponse = response.data;
-        console.log(chatResponse);
-        
+        console.log("get infor chat success");
         const chatsPromises = chatResponse.flatMap((item: chats) =>
           // 
           item.chatData.map(async (data: chatsData) => {
@@ -44,6 +63,7 @@ io.on('connection', (socket) => {
               const chatUser = await axios.get(`http://localhost:5158/api/Account/user-information/${data.reUserId}`);
               if(chatUser.status === 200){
                 const chatUserData = chatUser.data;
+                console.log("get infor user success");
                 return { ...data, chatUserData };
               }
             } catch (error) {
@@ -55,7 +75,6 @@ io.on('connection', (socket) => {
       
         try {
           const chats = (await Promise.all(chatsPromises)).filter(chat => chat !== null);
-          console.log(chats);
           callback({ success: true, chats }); // return 1 array cau truc Chat trong appContext
         } catch (error) {
           console.error('Error occurred while processing chats:', error);
@@ -71,12 +90,13 @@ io.on('connection', (socket) => {
     }
   });
 
+  //lấy thông tin của tất cả đoạn tin nhắn
   socket.on('getMessData', async (messId, callback) => {
     try {
       const response = await axios.get(`http://localhost:5158/api/Chat/get-message/${messId}`);
       if(response.status === 200){
         const messageResponse = response.data
-        console.log(messageResponse);
+        console.log("get infor mess success");
         callback({success: true, messageResponse})
       } else{
         callback({success: false, message: "failed to get message data"})
@@ -87,6 +107,7 @@ io.on('connection', (socket) => {
     }
   })
 
+  //cập nhật thông tin của đoạn chat
   socket.on('updateChatData', async (data: { userId: string, lastMess: string, messId:string, messSeen : boolean, rId: string, update:Date }, callback) => {
     try {
       // Gọi API để cập nhật trạng thái messageSeen
@@ -102,6 +123,8 @@ io.on('connection', (socket) => {
       ]
       });
       if (response.status === 200) {
+        console.log("update infor chat success");
+        io.emit('chatUpdated')
         callback({ success: true });
       } else {
         callback({ success: false, message: 'Failed to update message seen status' });
@@ -112,6 +135,7 @@ io.on('connection', (socket) => {
     }
   });
 
+  //cập nhật thông tin của đoạn tin nhắn
   socket.on('sendMessage', async (data :{ messagesId: string, id: string, input: string, time: Date}, callback) => {
     try {
       // Gọi API để cập nhật trạng thái messageSeen
@@ -128,7 +152,9 @@ io.on('connection', (socket) => {
       if (response.status === 200) {
         const data = response.data
         const messages = data.messages
+        console.log("update infor mess success");
         io.emit('newMessage', messages);
+        io.emit('chatUpdated')
         callback({ success: true });
       } else {
         callback({ success: false, message: 'Failed to update message seen status' });
@@ -139,8 +165,6 @@ io.on('connection', (socket) => {
     }
   });
 
-
-  
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
