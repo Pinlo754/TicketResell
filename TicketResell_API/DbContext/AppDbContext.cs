@@ -11,5 +11,7 @@ public class AppDbContext : IdentityDbContext<MainUser>
     public DbSet<Chat> Chats { get; set; }
     public DbSet<Message> Message { get; set; }
 
+    public DbSet<Event> Events { get; set; }
+
 
 }
