@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TicketResell_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241022042613_ChatFields")]
+    partial class ChatFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -218,31 +221,6 @@ namespace TicketResell_API.Migrations
                     b.HasIndex("ChatseUserId");
 
                     b.ToTable("ChatData");
-                });
-
-            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.Event", b =>
-                {
-                    b.Property<string>("eventId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("eventImage")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("eventName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("eventStatus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("eventTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("location")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("eventId");
-
-                    b.ToTable("Events");
                 });
 
             modelBuilder.Entity("TicketResell_API.Controllers.User.Model.MainUser", b =>

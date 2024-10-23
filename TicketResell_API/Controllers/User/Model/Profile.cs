@@ -2,7 +2,7 @@
 {
     public class Profile
     {
-        public string userID { get; set; }
+        //public string userId { get; set; }
         public string firsName { get; set; }
         public string lastName { get; set; }
         public string address {  get; set; }
