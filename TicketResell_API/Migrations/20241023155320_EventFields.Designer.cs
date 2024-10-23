@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TicketResell_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241023082904_EventFields")]
+    [Migration("20241023155320_EventFields")]
     partial class EventFields
     {
         /// <inheritdoc />
@@ -316,6 +316,9 @@ namespace TicketResell_API.Migrations
                     b.Property<string>("lastName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("userImage")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

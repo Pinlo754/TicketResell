@@ -5,7 +5,7 @@ namespace TicketResell_API.Controllers.User.Model
 {
     public class MainUser : IdentityUser
     {
-        
+        public string? userImage {  get; set; }
         public string? firstName { get; set; }
         [MaxLength(256)]
         public string? lastName { get; set; }
