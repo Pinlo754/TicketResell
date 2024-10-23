@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./LeftSidebar.css";
 import assets from "../../../assets/assetsChat";
 import { AppChatContext } from "../../../context/AppChatContext";
@@ -19,6 +19,13 @@ interface Chat {
   chatUserData: chatUserData;
 }
 
+interface ChatResponse {
+  success: boolean;
+  chatUser: chatUserData;
+  error?: string;
+}
+
+
 const LeftSidebar: React.FC = () => {
   const context = useContext(AppChatContext);
 
@@ -34,14 +41,10 @@ const LeftSidebar: React.FC = () => {
     messagesId, setMessagesId,
     setChatVisible, 
   } = context;
-
-
-  interface ChatResponse {
-    success: boolean;
-    chatUser: chatUserData;
-    error?: string;
-  }
   
+  const [showSearch, setShowSearch] = useState(false)
+  const [searchResult, setSearchResult] = useState<Chat[]>([])
+
   useEffect(() => {
       const updateChatUserData = () => {
         if (!chatUser || !socket) {
@@ -79,6 +82,30 @@ const LeftSidebar: React.FC = () => {
       };
   }, [allChat,socket]);
 
+
+
+  const inputHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      const input = e.target.value
+      if(input && allChat){
+        const inputResult= allChat.filter((item) =>
+          `${item.chatUserData.lastName} ${item.chatUserData.firstName}`
+            .toLowerCase()
+            .includes(input.trim().toLowerCase())
+        );
+        if(inputResult.length>0){
+          setSearchResult(inputResult)
+          setShowSearch(true)
+        }
+      }
+      else{
+        setShowSearch(false)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  
   const setChat = async (item: Chat) => {
     try {
       setMessagesId(item.messageId);
@@ -119,11 +146,19 @@ const LeftSidebar: React.FC = () => {
         </div>
         <div className="ls-search">
           <img src={assets.search_icon} alt="" />
-          <input type="text" placeholder="Search here.." />
+          <input onChange={inputHandler} type="text" placeholder="Search here.." />
         </div>
       </div>
       <div className="ls-list">
-        {allChat?.map((item: Chat, index: number) => (
+      {showSearch
+          ? searchResult?.map((item, index)=>(
+            ( <div key={index} onClick={()=>setChat(item)} className="friends add-users">
+              <img src={assets.hongle} alt="" />
+              <p>{item.chatUserData.lastName+ " "+item.chatUserData.firstName}</p>
+            </div>)
+          ))
+        :  
+        allChat?.map((item, index) => (
           <div key={index} onClick={() =>setChat(item)} className={`friends ${item.messageSeen || item.messageId === messagesId ? "" : "border"}`}> 
             <img src={assets.hongle} alt="" />
             <div>        

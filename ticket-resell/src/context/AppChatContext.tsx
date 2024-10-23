@@ -75,42 +75,6 @@ const AppChatContextProvider = ({ children }: AppChatContextProviderProps) => {
   const [chatVisible, setChatVisible] = useState<boolean>(false);
   const [socket, setSocket] = useState<Socket | null>(null);
 
-  // const fetchChats = (newSocket :Socket) => {
-  //   if (userData) {
-  //     // Gửi yêu cầu getChats tới server qua socket
-  //     newSocket .emit('getChats', userData.id, (response: status) => {
-  //       if (response.success) {
-  //         const data = response.chats
-  //         if(data){
-  //           const sortedData = data.map(chat => ({
-  //             ...chat,
-  //             updatedAt: new Date(chat.updatedAt)
-  //           })).sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
-  //           setAllChat(sortedData);
-  //         }
-  //       } else {
-  //         console.error('Failed to fetch chats');
-  //       }
-  //     });
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (userData) {
-  //     // Kết nối socket và gửi yêu cầu getChats
-  //     const newSocket  = io('http://localhost:3020');
-  //     newSocket.on('connect', () => {
-  //       console.log('Connected to socket server:', newSocket.id);
-  //       fetchChats(newSocket ); // Gọi fetchChats ngay sau khi kết nối thành công
-  //     });
-  //     setSocket(newSocket);
-  //     // Clean up socket khi component unmount
-  //     return () => {
-  //       newSocket .disconnect();
-  //     };
-  //   }
-  // }, [userData]);
-
   const fetchChats = useCallback(
     (socket: Socket) => {
       if (!userData) return;
