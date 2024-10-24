@@ -159,7 +159,7 @@ const LeftSidebar: React.FC = () => {
           ))
         :  
         allChat?.map((item, index) => (
-          <div key={index} onClick={() =>setChat(item)} className={`friends ${item.messageSeen || item.messageId === messagesId ? "" : "border"}`}> 
+          <div key={index} onClick={() =>setChat(item)} className={`friends ${item.messageSeen || item.messageId === messagesId ? "" : "notSeen"}`}> 
             <img src={assets.hongle} alt="" />
             <div>        
               <p>{item.chatUserData.lastName+ " "+item.chatUserData.firstName}</p>

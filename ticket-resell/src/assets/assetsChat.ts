@@ -10,7 +10,7 @@ import green_dot from './green_dot.png'
 import logo from './Logo_festix.png'
 import hongle from './avatar.png'
 import ticket from './ticket.png'
-
+import avatar from './avatar_icon.png'
 const assets = {
     gallery_icon,
     help_icon,
@@ -23,7 +23,8 @@ const assets = {
     green_dot,
     logo,
     hongle,
-    ticket
+    ticket,
+    avatar
 }
 
 export default assets;

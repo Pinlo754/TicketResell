@@ -13,7 +13,7 @@ import ResetPasswordScreen from "../pages/ResetPasswordScreen";
 import VerifyEmailScreen from "../pages/VerifyEmailScreen/VerifyEmailScreen";
 import UserProfile from "../pages/UserProfile";
 import AppChatContextProvider from "../context/AppChatContext";
-
+import AccountProfile from "../pages/Account/Account"
 const routers = createBrowserRouter([
   {
     path: "/",
@@ -62,6 +62,10 @@ const routers = createBrowserRouter([
   {
     path: "/userProfile",
     element: <UserProfile />,
+  },
+  {
+    path: "/profile",
+    element: <AccountProfile/>,
   },
 ]);
 

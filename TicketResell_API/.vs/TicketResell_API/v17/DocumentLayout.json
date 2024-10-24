@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "E:\\FPT\\Semester5\\SWP391\\ticketResell-23-10-2024\\TicketResell_API\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\fpt\\semester5\\swp391\\ticketresell-23-10-2024\\ticketresell_api\\controllers\\user\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:controllers\\user\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\fpt\\semester5\\swp391\\ticketresell-23-10-2024\\ticketresell_api\\controllers\\user\\model\\chatservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:controllers\\user\\model\\chatservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -55,6 +59,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "E:\\FPT\\Semester5\\SWP391\\ticketResell-23-10-2024\\TicketResell_API\\Controllers\\User\\AccountController.cs",
+              "RelativeDocumentMoniker": "Controllers\\User\\AccountController.cs",
+              "ToolTip": "E:\\FPT\\Semester5\\SWP391\\ticketResell-23-10-2024\\TicketResell_API\\Controllers\\User\\AccountController.cs",
+              "RelativeToolTip": "Controllers\\User\\AccountController.cs",
+              "ViewState": "AgIAANQAAAAAAAAAAAAAwN4AAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-23T15:35:32.2Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "ChatService.cs",
               "DocumentMoniker": "E:\\FPT\\Semester5\\SWP391\\ticketResell-23-10-2024\\TicketResell_API\\Controllers\\User\\Model\\ChatService.cs",
               "RelativeDocumentMoniker": "Controllers\\User\\Model\\ChatService.cs",
@@ -62,12 +79,11 @@
               "RelativeToolTip": "Controllers\\User\\Model\\ChatService.cs",
               "ViewState": "AgIAADQAAAAAAAAAAAAcwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-22T18:14:27.152Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-22T18:14:27.152Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "MainUser.cs",
               "DocumentMoniker": "E:\\FPT\\Semester5\\SWP391\\ticketResell-23-10-2024\\TicketResell_API\\Controllers\\User\\Model\\MainUser.cs",
               "RelativeDocumentMoniker": "Controllers\\User\\Model\\MainUser.cs",
@@ -79,7 +95,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "IChatService.cs",
               "DocumentMoniker": "E:\\FPT\\Semester5\\SWP391\\ticketResell-23-10-2024\\TicketResell_API\\Controllers\\User\\Service\\IChatService.cs",
               "RelativeDocumentMoniker": "Controllers\\User\\Service\\IChatService.cs",
@@ -91,7 +107,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "ChatController.cs",
               "DocumentMoniker": "E:\\FPT\\Semester5\\SWP391\\ticketResell-23-10-2024\\TicketResell_API\\Controllers\\User\\ChatController.cs",
               "RelativeDocumentMoniker": "Controllers\\User\\ChatController.cs",
@@ -103,7 +119,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Message.cs",
               "DocumentMoniker": "E:\\FPT\\Semester5\\SWP391\\ticketResell-23-10-2024\\TicketResell_API\\Controllers\\User\\Model\\Message.cs",
               "RelativeDocumentMoniker": "Controllers\\User\\Model\\Message.cs",

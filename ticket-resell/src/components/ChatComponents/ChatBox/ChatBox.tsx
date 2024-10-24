@@ -63,8 +63,6 @@ const ChatBox = () => {
     chatUser,
     messages,
     setMessages,
-    chatVisible,
-    setChatVisible,
   } = context;
 
   const [input, setInput] = useState("");
