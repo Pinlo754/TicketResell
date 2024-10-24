@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -224,6 +225,7 @@ namespace TicketResell_API.Controllers.User
         }
 
         //get user when authorize
+        [EnableCors("AllowAllOrigins")]
         [HttpGet("{userId}")]
         [Authorize]
         public async Task<IActionResult> GetProfileById(string userId)
@@ -257,6 +259,7 @@ namespace TicketResell_API.Controllers.User
             return Ok(profile);
         }
 
+        [EnableCors("AllowAllOrigins")]
         [HttpPut("update-profile")]
         [Authorize]
         public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfile model)
