@@ -50,12 +50,13 @@ namespace TicketResell_API.Controllers.User
         [HttpGet("list-event")]
         public async Task<IActionResult> GetEventList()
         {
+            //list all event
             var events = await _appDbContext.Events.ToListAsync();
             return Ok(events);
         }
 
         [HttpPut("update-event/{eventId}")]
-        public async Task<IActionResult> UpdateEvent(string eventId, [FromBody] Event model)
+        public async Task<IActionResult> UpdateEvent(string eventId, [FromBody] UpdateEvent model)
         {
             //find event by id
             var existingEvent = await _appDbContext.Events
@@ -69,10 +70,11 @@ namespace TicketResell_API.Controllers.User
             existingEvent.eventImage = model.eventImage;
             existingEvent.eventTime = model.eventTime;
             existingEvent.location = model.location;
+            existingEvent.city = model.city;
             existingEvent.eventStatus = model.eventStatus;
             //save to db
             var result = await _appDbContext.SaveChangesAsync();
-
+            //check the result <= 0 or not
             if (result <= 0)
             {
                 return BadRequest("Failed to update event");

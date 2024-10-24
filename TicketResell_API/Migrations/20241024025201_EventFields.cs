@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -24,8 +23,9 @@ namespace TicketResell_API.Migrations
                     eventId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     eventName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     eventImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    eventTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    eventTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     location = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    city = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     eventStatus = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
