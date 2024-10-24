@@ -166,7 +166,12 @@ namespace TicketResell_API.Controllers.User
                     )
                     );
                 //If authentication is successful and token has been created, the WriteToken(token) method converts the token object to a JWT string.
-                return Ok(new { Token = new JwtSecurityTokenHandler().WriteToken(token) });
+                return Ok(new 
+                { 
+                    UserId = user.Id,
+                    Token = new JwtSecurityTokenHandler().WriteToken(token) ,
+                    Expiration = token.ValidTo,
+                });
             }
             //If the login information is incorrect, return HTTP status code 401 (Unauthorized)
             return Unauthorized();

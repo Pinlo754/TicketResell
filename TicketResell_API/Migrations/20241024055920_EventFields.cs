@@ -11,6 +11,12 @@ namespace TicketResell_API.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
+                name: "gender",
+                table: "AspNetUsers",
+                type: "nvarchar(max)",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
                 name: "userImage",
                 table: "AspNetUsers",
                 type: "nvarchar(max)",
@@ -39,6 +45,10 @@ namespace TicketResell_API.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Events");
+
+            migrationBuilder.DropColumn(
+                name: "gender",
+                table: "AspNetUsers");
 
             migrationBuilder.DropColumn(
                 name: "userImage",

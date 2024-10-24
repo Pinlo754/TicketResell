@@ -313,6 +313,9 @@ namespace TicketResell_API.Migrations
                     b.Property<string>("firstName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("gender")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("lastName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
