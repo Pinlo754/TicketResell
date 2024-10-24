@@ -1,8 +1,7 @@
 ﻿namespace TicketResell_API.Controllers.User.Model
 {
-    public class Event
+    public class UpdateEvent
     {
-        public string? eventId { get; set; }
         public string? eventName { get; set; }
         public string? eventImage { get; set; }
         public string? eventTime { get; set; }
