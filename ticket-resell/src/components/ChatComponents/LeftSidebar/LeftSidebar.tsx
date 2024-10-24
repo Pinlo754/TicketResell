@@ -8,6 +8,7 @@ interface chatUserData {
   firstName: string;
   lastName: string;
   id: string;
+  userImage: string
 }
 
 interface Chat {
@@ -46,6 +47,8 @@ const LeftSidebar: React.FC = () => {
   const [searchResult, setSearchResult] = useState<Chat[]>([])
 
   useEffect(() => {
+    console.log(allChat);
+    
       const updateChatUserData = () => {
         if (!chatUser || !socket) {
           return;
@@ -153,14 +156,14 @@ const LeftSidebar: React.FC = () => {
       {showSearch
           ? searchResult?.map((item, index)=>(
             ( <div key={index} onClick={()=>setChat(item)} className="friends add-users">
-              <img src={assets.hongle} alt="" />
+              <img src={item.chatUserData.userImage} alt="" />
               <p>{item.chatUserData.lastName+ " "+item.chatUserData.firstName}</p>
             </div>)
           ))
         :  
         allChat?.map((item, index) => (
           <div key={index} onClick={() =>setChat(item)} className={`friends ${item.messageSeen || item.messageId === messagesId ? "" : "notSeen"}`}> 
-            <img src={assets.hongle} alt="" />
+            <img src={item.chatUserData.userImage} alt="" />
             <div>        
               <p>{item.chatUserData.lastName+ " "+item.chatUserData.firstName}</p>
               <span>{item.lastMessage}</span>

@@ -220,6 +220,34 @@ namespace TicketResell_API.Migrations
                     b.ToTable("ChatData");
                 });
 
+            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.Event", b =>
+                {
+                    b.Property<string>("eventId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("city")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("eventImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("eventName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("eventStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("eventTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("eventId");
+
+                    b.ToTable("Events");
+                });
+
             modelBuilder.Entity("TicketResell_API.Controllers.User.Model.MainUser", b =>
                 {
                     b.Property<string>("Id")
@@ -285,9 +313,15 @@ namespace TicketResell_API.Migrations
                     b.Property<string>("firstName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("gender")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("lastName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("userImage")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

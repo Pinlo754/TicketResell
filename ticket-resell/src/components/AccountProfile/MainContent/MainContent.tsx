@@ -1,9 +1,10 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import assets from "../../../assets/assetsChat";
 import "./MainContent.css";
 import { toast } from "react-toastify";
 import upload from "../../../lib/upload";
 import axios from "axios";
+
 
 
 const MainContent = () => {
@@ -12,26 +13,14 @@ const MainContent = () => {
   const [gender, setGender] = useState("");
   const [address, setAddress] = useState("");
   const [bio, setBio] = useState("");
-  const [avatar, setAvatar] = useState<File | null>(null);
-  const [prevImage, setPrevImage] = useState("");
-  const [image, setImage] = useState<File | "">();
+  const [prevImage, setPrevImage] = useState<File | "">();
+  const [image, setImage] = useState("");
+  const token = localStorage.getItem("token")
+  const uId = localStorage.getItem("userId")
 
   const updateProfile = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     try {
-      let imageUrl = ""; // Mặc định là chuỗi rỗng
-
-      // Nếu có ảnh mới, upload ảnh
-      if (image) {
-        imageUrl = await upload(image);
-        setPrevImage(imageUrl);
-      }
-      // Nếu có prevImage và không có ảnh mới
-      else if (prevImage) {
-        imageUrl = prevImage;
-      }
-      // Gửi request cập nhật thông tin
       const response = await axios.put(
         "http://localhost:5158/api/Account/update-profile",
         {
@@ -39,12 +28,15 @@ const MainContent = () => {
           lastName: lastName,
           address: address,
           gender: gender,
-          userImage: imageUrl, // URL ảnh sau khi upload
+          userImage: image, // URL ảnh sau khi upload
           bio: bio,
+         },
+        {
+          headers: {
+            Authorization: `Bearer ${token}` 
+          }
         }
       );
-
-      console.log(response);
       if (response.status === 200) {
         
         toast.success("Cập nhật thông tin thành công!");
@@ -56,6 +48,44 @@ const MainContent = () => {
       toast.error("Có lỗi xảy ra khi cập nhật thông tin!");
     }
   };
+
+  const sendImage= async(e: React.ChangeEvent<HTMLInputElement>) =>{
+    try {
+      const file = e.target.files?.[0];
+      if (file) {
+        const fileUrl = await upload(file);
+        setImage(fileUrl)
+      }
+    } catch (error) {
+      toast.error("can't upload avatar right now")
+    }
+  }
+
+  useEffect(() => {
+    const getProfile = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5158/api/Account/${uId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        
+        if (response.status === 200) {
+          const data = response.data;
+          setFirstName(data.firstName || "");
+          setLastName(data.lastName || "");
+          setGender(data.gender || "");
+          setAddress(data.address || "");
+          setBio(data.bio || "");
+          setImage(data.userImage || "");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
+    getProfile();
+  }, [uId, token]); 
 
   return (
     <div className="content">
@@ -69,10 +99,10 @@ const MainContent = () => {
               id="avatar"
               accept=".png, .jpg, .jpeg"
               hidden
-              onChange={(e) => setImage(e.target.files?.[0])}
+              onChange={(e) => sendImage(e)}
             />
             <img
-              src={image ? URL.createObjectURL(image) : assets.avatar}
+              src={image ? image : assets.avatar}
               alt=""
             />
             <span>Cập nhật hình ảnh</span>

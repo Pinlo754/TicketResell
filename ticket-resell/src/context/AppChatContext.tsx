@@ -18,6 +18,7 @@ interface chatUserData {
   firstName: string;
   lastName: string;
   id: string;
+  userImage: string
 }
 
 interface Chat {
@@ -66,7 +67,7 @@ export const AppChatContext = createContext<AppChatContextProps | undefined>(
 const AppChatContextProvider = ({ children }: AppChatContextProviderProps) => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState<any>({
-    id: "f73bbeab-2394-4a27-a59f-5da2b435f1a7",
+    id: localStorage.getItem("userId"),
   }); // Giả lập dữ liệu người dùng đăng nhập
   const [allChat, setAllChat] = useState<Chat[] | null>(null);
   const [messagesId, setMessagesId] = useState<string | null>(null);

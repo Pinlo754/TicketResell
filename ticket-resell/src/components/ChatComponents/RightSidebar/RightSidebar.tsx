@@ -28,7 +28,7 @@ const RightSidebar = () => {
   return chatUser? (
     <div className="rs">
       <div className="rs-profile">
-        <img src={assets.hongle} className="khongchinhdc" alt="" />
+        <img src={chatUser.chatUserData.userImage} className="khongchinhdc" alt="" />
         <h3>{chatUser?.chatUserData.lastName +" " + chatUser?.chatUserData.firstName}</h3>
         <p>{chatUser.chatUserData.bio}</p>
       </div>

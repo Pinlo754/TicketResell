@@ -133,8 +133,6 @@ const ChatBox = () => {
     }
   };
   
-
-
   // function chat 
   const sendMessage = async () => {
     try {
@@ -200,8 +198,15 @@ const ChatBox = () => {
     }
     setInput("");
   };
-  
 
+  // bam enter de gui
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
+  
   const sendImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       const file = e.target.files?.[0];
@@ -287,11 +292,10 @@ const ChatBox = () => {
     setInput("");
   };
   
-  
   return chatUser ?(
     <div className="chat-box">
       <div className="chat-user">
-        <img src={assets.hongle} alt="" />
+        <img src={chatUser.chatUserData.userImage} alt="" />
         <p>{chatUser?.chatUserData.lastName +" " + chatUser?.chatUserData.firstName}</p>{" "}
         {/* <img className="dot" src={assets.green_dot} alt="" />
         <img src={assets.help_icon} alt="" /> */}
@@ -305,7 +309,7 @@ const ChatBox = () => {
             : (<p className="msg">{msg.data}</p>)
             }
             <div>
-              <img src={assets.hongle} alt="" />
+               <img src={msg.seUserId === userData.id ? assets.hongle : chatUser.chatUserData.userImage} alt="" />
               <p>{convertTimestamp(msg.createdAt)}</p>
             </div>
           </div>
@@ -313,7 +317,13 @@ const ChatBox = () => {
       </div>
 
       <div className="chat-input">
-        <input onChange={(e) => setInput(e.target.value)} value={input} type="text" placeholder="Send a message"/>
+        <input 
+          onChange={(e) => setInput(e.target.value)} 
+          onKeyPress={handleKeyPress}
+          value={input} 
+          type="text" 
+          placeholder="Send a message"
+        />
         <input onChange={sendImage} type="file" id="image" accept="image/png, img/jpeg" hidden />
         <label htmlFor="image">
           <img src={assets.gallery_icon} alt="" />

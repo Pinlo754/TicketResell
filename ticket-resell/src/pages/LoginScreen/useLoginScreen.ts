@@ -55,7 +55,7 @@ const useLoginScreen = () => {
       }
 
       localStorage.setItem("token", data.token);
-
+      localStorage.setItem("userId", data.userId);
       navigate("/main");
     } catch (error) {
       setErrorMessage("Something went wrong");

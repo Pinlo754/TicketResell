@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -60,6 +60,18 @@ builder.Services.AddAuthorization(Options =>
     Options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
     Options.AddPolicy("StaffPolicy", policy => policy.RequireRole("Staff"));
     Options.AddPolicy("UserPolicy", policy => policy.RequireRole("User"));
+});
+
+//CORS service
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins", policyBuilder =>
+    {
+        policyBuilder
+            .AllowAnyOrigin()    // Cho phép mọi nguồn (domain)
+            .AllowAnyMethod()    // Cho phép mọi phương thức (GET, POST, PUT, DELETE,...)
+            .AllowAnyHeader();   // Cho phép mọi header
+    });
 });
 
 
@@ -128,6 +140,7 @@ if (app.Environment.IsDevelopment())
         c.RoutePrefix = string.Empty; 
     });
 }
+app.UseCors("AllowAllOrigins");
 
 app.UseAuthentication();
 

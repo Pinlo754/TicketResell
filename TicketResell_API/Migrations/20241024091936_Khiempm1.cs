@@ -30,9 +30,11 @@ namespace TicketResell_API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    userImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     firstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     lastName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     bio = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FailedConfirmationAttemps = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -64,6 +66,23 @@ namespace TicketResell_API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Chats", x => x.seUserId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Events",
+                columns: table => new
+                {
+                    eventId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    eventName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    eventImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    eventTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    location = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    city = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    eventStatus = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Events", x => x.eventId);
                 });
 
             migrationBuilder.CreateTable(
@@ -311,6 +330,9 @@ namespace TicketResell_API.Migrations
 
             migrationBuilder.DropTable(
                 name: "ChatData");
+
+            migrationBuilder.DropTable(
+                name: "Events");
 
             migrationBuilder.DropTable(
                 name: "MessageData");

@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -166,7 +167,12 @@ namespace TicketResell_API.Controllers.User
                     )
                     );
                 //If authentication is successful and token has been created, the WriteToken(token) method converts the token object to a JWT string.
-                return Ok(new { Token = new JwtSecurityTokenHandler().WriteToken(token) });
+                return Ok(new 
+                { 
+                    UserId = user.Id,
+                    Token = new JwtSecurityTokenHandler().WriteToken(token) ,
+                    Expiration = token.ValidTo,
+                });
             }
             //If the login information is incorrect, return HTTP status code 401 (Unauthorized)
             return Unauthorized();
@@ -219,6 +225,7 @@ namespace TicketResell_API.Controllers.User
         }
 
         //get user when authorize
+        [EnableCors("AllowAllOrigins")]
         [HttpGet("{userId}")]
         [Authorize]
         public async Task<IActionResult> GetProfileById(string userId)
@@ -245,12 +252,14 @@ namespace TicketResell_API.Controllers.User
                 Bio = user.bio,
                 Address = user.address,
                 Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
+                Gender = user.gender,
+                UserImage = user.userImage,
             };
             //If all steps are successful look up the profile object containing the user profile information
             return Ok(profile);
         }
 
+        [EnableCors("AllowAllOrigins")]
         [HttpPut("update-profile")]
         [Authorize]
         public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfile model)
@@ -274,7 +283,8 @@ namespace TicketResell_API.Controllers.User
             user.lastName = model.lastName;
             user.bio = model.bio;
             user.address = model.address;
-            user.PhoneNumber = model.phoneNumber;
+            user.gender = model.gender;
+            user.userImage = model.userImage;
             //update in database
             var result = await _userManager.UpdateAsync(user);
             //check result
@@ -300,12 +310,13 @@ namespace TicketResell_API.Controllers.User
             var userInfor = new
             {
                 user.Id,
+                user.userImage,
                 user.firstName,
                 user.lastName,
                 user.bio,
                 user.address,
                 user.Email,
-                user.PhoneNumber
+                user.gender,
             };
             return Ok(userInfor);
 

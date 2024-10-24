@@ -17,12 +17,13 @@ namespace TicketResell_API.Controllers.User
             return Ok(new {message = "You have accessed the Admin Controller"});
         }
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly UserManager<IdentityUser> _userManager;
-        public AdminController(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
+        private readonly UserManager<MainUser> _userManager;
+        public AdminController(RoleManager<IdentityRole> roleManager, UserManager<MainUser> userManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;
         }
+
         [HttpPost("add-role")]
         public async Task<IActionResult> AddRole([FromBody] string role)
         {
