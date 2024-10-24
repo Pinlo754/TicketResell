@@ -2,7 +2,7 @@
     color: white;
     background: #577D86;
     position: relative;
-    height: 80vh;
+    height: 75vh;
     overflow-y: scroll;
 }
 .rs-profile{
@@ -40,7 +40,7 @@
     font-size: 13px;
 }
 .rs-media div{
-    max-height: 60%;
+    max-height: 180px;
     overflow-y: scroll;
     display: grid;
     grid-template-columns: 1fr 1fr;
