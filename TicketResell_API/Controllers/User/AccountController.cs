@@ -245,7 +245,7 @@ namespace TicketResell_API.Controllers.User
                 Bio = user.bio,
                 Address = user.address,
                 Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
+                Gender = user.gender,
                 UserImage = user.userImage,
             };
             //If all steps are successful look up the profile object containing the user profile information
@@ -275,7 +275,7 @@ namespace TicketResell_API.Controllers.User
             user.lastName = model.lastName;
             user.bio = model.bio;
             user.address = model.address;
-            user.PhoneNumber = model.phoneNumber;
+            user.gender = model.gender;
             user.userImage = model.userImage;
             //update in database
             var result = await _userManager.UpdateAsync(user);
@@ -308,7 +308,7 @@ namespace TicketResell_API.Controllers.User
                 user.bio,
                 user.address,
                 user.Email,
-                user.PhoneNumber
+                user.gender,
             };
             return Ok(userInfor);
 
