@@ -97,6 +97,30 @@ namespace TicketResell_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Tickets",
+                columns: table => new
+                {
+                    ticketId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ticketName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    quantity = table.Column<int>(type: "int", nullable: true),
+                    price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    originPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    image = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    userId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    time = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    isValid = table.Column<bool>(type: "bit", nullable: false),
+                    location = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    eventId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    createAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    updateAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tickets", x => x.ticketId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -322,6 +346,9 @@ namespace TicketResell_API.Migrations
 
             migrationBuilder.DropTable(
                 name: "MessageData");
+
+            migrationBuilder.DropTable(
+                name: "Tickets");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
