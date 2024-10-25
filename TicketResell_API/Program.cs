@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using TicketResell_API.Controllers.User.Model;
-using TicketResell_API.Controllers.User.Service;
+using TicketResell_API.Controllers.ChatController.Model;
+using TicketResell_API.Controllers.Service;
+using TicketResell_API.Controllers.UserController.Model;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -81,7 +83,7 @@ builder.Services.AddCors(options =>
 //);
 
 //add send email service
-builder.Services.AddTransient<TicketResell_API.Controllers.User.Service.IEmailSender, EmailSender>();
+builder.Services.AddTransient<TicketResell_API.Controllers.Service.IEmailSender, EmailSender>();
 
 //add chat service
 builder.Services.AddTransient<IChatService, ChatService>();

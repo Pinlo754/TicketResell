@@ -154,27 +154,7 @@ namespace TicketResell_API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Product", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.Chat", b =>
+            modelBuilder.Entity("TicketResell_API.Controllers.ChatController.Model.Chat", b =>
                 {
                     b.Property<string>("seUserId")
                         .HasColumnType("nvarchar(450)");
@@ -184,7 +164,7 @@ namespace TicketResell_API.Migrations
                     b.ToTable("Chats");
                 });
 
-            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.ChatData", b =>
+            modelBuilder.Entity("TicketResell_API.Controllers.ChatController.Model.ChatData", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -220,7 +200,46 @@ namespace TicketResell_API.Migrations
                     b.ToTable("ChatData");
                 });
 
-            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.Event", b =>
+            modelBuilder.Entity("TicketResell_API.Controllers.ChatController.Model.Message", b =>
+                {
+                    b.Property<string>("messageId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("messageId");
+
+                    b.ToTable("Message");
+                });
+
+            modelBuilder.Entity("TicketResell_API.Controllers.ChatController.Model.MessageData", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Data")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SeUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("messageId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("messageId");
+
+                    b.ToTable("MessageData");
+                });
+
+            modelBuilder.Entity("TicketResell_API.Controllers.EventController.Model.Event", b =>
                 {
                     b.Property<string>("eventId")
                         .HasColumnType("nvarchar(450)");
@@ -248,7 +267,7 @@ namespace TicketResell_API.Migrations
                     b.ToTable("Events");
                 });
 
-            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.MainUser", b =>
+            modelBuilder.Entity("TicketResell_API.Controllers.UserController.Model.MainUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -336,45 +355,6 @@ namespace TicketResell_API.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.Message", b =>
-                {
-                    b.Property<string>("messageId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("messageId");
-
-                    b.ToTable("Message");
-                });
-
-            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.MessageData", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Data")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SeUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("messageId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("messageId");
-
-                    b.ToTable("MessageData");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -386,7 +366,7 @@ namespace TicketResell_API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("TicketResell_API.Controllers.User.Model.MainUser", null)
+                    b.HasOne("TicketResell_API.Controllers.UserController.Model.MainUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -395,7 +375,7 @@ namespace TicketResell_API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("TicketResell_API.Controllers.User.Model.MainUser", null)
+                    b.HasOne("TicketResell_API.Controllers.UserController.Model.MainUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -410,7 +390,7 @@ namespace TicketResell_API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TicketResell_API.Controllers.User.Model.MainUser", null)
+                    b.HasOne("TicketResell_API.Controllers.UserController.Model.MainUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -419,33 +399,33 @@ namespace TicketResell_API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("TicketResell_API.Controllers.User.Model.MainUser", null)
+                    b.HasOne("TicketResell_API.Controllers.UserController.Model.MainUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.ChatData", b =>
+            modelBuilder.Entity("TicketResell_API.Controllers.ChatController.Model.ChatData", b =>
                 {
-                    b.HasOne("TicketResell_API.Controllers.User.Model.Chat", null)
+                    b.HasOne("TicketResell_API.Controllers.ChatController.Model.Chat", null)
                         .WithMany("ChatData")
                         .HasForeignKey("ChatseUserId");
                 });
 
-            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.MessageData", b =>
+            modelBuilder.Entity("TicketResell_API.Controllers.ChatController.Model.MessageData", b =>
                 {
-                    b.HasOne("TicketResell_API.Controllers.User.Model.Message", null)
+                    b.HasOne("TicketResell_API.Controllers.ChatController.Model.Message", null)
                         .WithMany("Messages")
                         .HasForeignKey("messageId");
                 });
 
-            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.Chat", b =>
+            modelBuilder.Entity("TicketResell_API.Controllers.ChatController.Model.Chat", b =>
                 {
                     b.Navigation("ChatData");
                 });
 
-            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.Message", b =>
+            modelBuilder.Entity("TicketResell_API.Controllers.ChatController.Model.Message", b =>
                 {
                     b.Navigation("Messages");
                 });
