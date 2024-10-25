@@ -6,6 +6,7 @@ import ListEvent from "../pages/ListEvent";
 import EventDetail from "../pages/EventDetail";
 import TicketDetail from "../pages/TicketDetail";
 import UserProfile from "../pages/UserProfile";
+import Sell from "../pages/Sell";
 
 const routers = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const routers = createBrowserRouter([
   {
     path: "/userProfile",
     element: <UserProfile />,
+  },
+  {
+    path: "/sell",
+    element: <Sell />,
   },
 ]);
 
