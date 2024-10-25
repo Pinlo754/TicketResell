@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TicketResell_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241025133829_InitialCreate")]
+    [Migration("20241025150707_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -268,6 +268,59 @@ namespace TicketResell_API.Migrations
                     b.HasKey("eventId");
 
                     b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("TicketResell_API.Controllers.TicketController.Model.Ticket", b =>
+                {
+                    b.Property<string>("ticketId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("createAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("eventId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isValid")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("originPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ticketName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("time")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("updateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("userId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ticketId");
+
+                    b.ToTable("Tickets");
                 });
 
             modelBuilder.Entity("TicketResell_API.Controllers.UserController.Model.MainUser", b =>
