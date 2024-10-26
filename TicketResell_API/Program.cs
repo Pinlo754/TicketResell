@@ -4,8 +4,12 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using TicketResell_API.Controllers.User.Model;
-using TicketResell_API.Controllers.User.Service;
+using TicketResell_API.Controllers.ChatController.Model;
+using TicketResell_API.Controllers.Service;
+
+using TicketResell_API.Controllers.UserController.Model;
+using TicketResell_API.Controllers.VnPayController.Model;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,6 +66,11 @@ builder.Services.AddAuthorization(Options =>
     Options.AddPolicy("UserPolicy", policy => policy.RequireRole("User"));
 });
 
+
+
+//add vnpayservice in scoped
+builder.Services.AddScoped<VnPayService>();
+
 //CORS service
 builder.Services.AddCors(options =>
 {
@@ -81,7 +90,7 @@ builder.Services.AddCors(options =>
 //);
 
 //add send email service
-builder.Services.AddTransient<TicketResell_API.Controllers.User.Service.IEmailSender, EmailSender>();
+builder.Services.AddTransient<TicketResell_API.Controllers.Service.IEmailSender, EmailSender>();
 
 //add chat service
 builder.Services.AddTransient<IChatService, ChatService>();
@@ -130,6 +139,17 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    // Create the "User" role if it does not exist.
+    if (!await roleManager.RoleExistsAsync("User"))
+    {
+        await roleManager.CreateAsync(new IdentityRole("User"));
+    }
+}
 
 if (app.Environment.IsDevelopment())
 {

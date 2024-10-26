@@ -1,0 +1,54 @@
+.Admin{
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    flex-direction: row;
+    background-color: #577D86;
+
+}
+.table-container {
+    max-width: 1200px;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    flex: 1;
+  }
+  
+  .table-container h4 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: white;
+  }
+  
+  .inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius:10px;
+  }
+  
+  .inventory-table thead th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+    padding: 12px;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+    border-radius: 10px 10px
+  }
+  
+  .inventory-table tbody td {
+    padding: 12px;
+    border-top: 1px solid #ddd;
+    vertical-align: middle;
+  }
+  
+  .thumbnail-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    object-fit: cover;
+  }
+  
+  .inventory-table .nho{
+    text-align: center;
+  }
+  
