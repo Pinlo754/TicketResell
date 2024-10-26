@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using TicketResell_API.Controllers.UserController.Model;
 namespace TicketResell_API.Controllers.UserController.Controller
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
@@ -72,9 +72,36 @@ namespace TicketResell_API.Controllers.UserController.Controller
         [HttpGet("list-user")]
         public async Task<IActionResult> GetUserList()
         {
-            //list all user
+            // take all user infor from UserManager
             var users = await _userManager.Users.ToListAsync();
-            return Ok(users);
+
+            // Create a DTO list to contain user information and their roles
+            var usersWithRoles = new List<UserWithRoles>();
+
+            foreach (var user in users)
+            {
+                // Get a list of this user's roles
+                var roles = await _userManager.GetRolesAsync(user);
+
+                //Create DTO for each user, including details and roles
+                var userWithRolesDto = new UserWithRoles
+                {
+                    userId = user.Id,
+                    userName = user.UserName,
+                    email = user.Email,
+                    firstName = user.firstName,
+                    lastName = user.lastName,
+                    bio = user.bio,
+                    gender = user.gender,
+                    address = user.address,
+                    roles = roles 
+                };
+
+                // Add users to results list
+                usersWithRoles.Add(userWithRolesDto);
+            }
+
+            return Ok(usersWithRoles);
         }
 
         [HttpDelete("delete-user/{userId}")]
