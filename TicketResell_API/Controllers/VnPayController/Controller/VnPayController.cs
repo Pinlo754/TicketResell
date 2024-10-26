@@ -78,7 +78,7 @@ namespace TicketResell_API.Controllers.VnPayController.Controller
             }
 
             // Lấy thông tin từ appsettings.json
-            string vnp_HashSecret = _configuration["VNPay:HashSecret"];
+            string vnp_HashSecret = _configuration["VNPay:vnp_HashSecret"];
 
             // Tạo chuỗi dữ liệu để kiểm tra chữ ký
             string rawData = string.Join("&", vnpayData
