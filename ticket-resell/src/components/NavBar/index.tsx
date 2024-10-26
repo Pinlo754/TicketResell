@@ -1,22 +1,43 @@
+
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/Logo_festix.png";
 
 
 const NavBar = () => {
+
     const navigate = useNavigate();
+
     return (
         <div className="w-screen">
             <nav className="fixed top-0 left-0 w-full bg-black/50 p-4 z-50 backdrop-blur-lg">
                 <div className="max-w-8xl mx-auto flex justify-between items-center">
                     {/* Logo */}
                     <div className="flex items-center">
-                    <img src={logo} alt="Festix" className="w-8 h-12 mr-3 cursor-pointer" />
-                    <h1 className="text-white text-3xl font-bold hover:text-gray-300 cursor-pointer">Festix</h1>
+                    <img 
+                    src={logo} alt="Festix" className="w-8 h-12 mr-3 cursor-pointer" 
+                    onClick={() => navigate("/main")}
+                    />
+                    <h1 
+                    className="text-white text-3xl font-bold hover:text-gray-300 cursor-pointer"
+                    onClick={() => navigate("/main")}
+                    >
+                        Festix
+                        </h1>
                     </div>
                     {/* Menu */}
                     <ul className="flex space-x-6">
-                        <li className="text-white text-lg hover:text-gray-300 cursor-pointer">Home</li>
-                        <li className="text-white text-lg hover:text-gray-300 cursor-pointer">Event List</li>
+                        <li 
+                        className="text-white text-lg hover:text-gray-300 cursor-pointer"
+                        onClick={() => navigate("/main")}
+                        >
+                            Home
+                        </li>
+                        <li 
+                        className="text-white text-lg hover:text-gray-300 cursor-pointer"
+                        onClick={() => navigate("/listEvent")}
+                        >
+                            Event List
+                        </li>
                         <li className="text-white text-lg hover:text-gray-300 cursor-pointer">About</li>
 
                         {/* Search */}

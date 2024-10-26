@@ -1,54 +1,9 @@
-import { useEffect, useRef, useState } from "react";
-import { NavigateFunction, useNavigate } from "react-router-dom";
 import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
 import ScrollToTopButton from "../../components/ScrollToTopButton";
 import ScrollToTop from "../../components/ScrollToTop";
-
-    // EVENT CARDS
-    type Event = {
-    id: number;
-    img: string;
-    day: string;
-    time: string;
-    name: string;
-    location: string;
-    city: string;
-    quantity: number;
-  };
-  
-  const events = [
-    {
-      id: 1,
-      img : "https://cdn0-production-images-kly.akamaized.net/xYEcqMdBWw6pN0mFBFD5_5uIjz8=/800x450/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/3396365/original/023706600_1615209973-concert-768722_1280.jpg",
-      day: "9/7/2024",
-      time: "12:00 PM",
-      name: "Event 1",
-      location: "District 9",
-      city: "Ho Chi Minh",
-      quantity: 28,
-    },
-    {
-      id: 2,
-      img: "https://cdn0-production-images-kly.akamaized.net/xYEcqMdBWw6pN0mFBFD5_5uIjz8=/800x450/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/3396365/original/023706600_1615209973-concert-768722_1280.jpg",
-      day: "11/5/2024",
-      time: "1:00 PM",
-      name: "Event 2",
-      location: "District 1",
-      city: "Ho Chi Minh",
-      quantity: 18,
-    },
-    {
-      id: 3,
-      img: "https://cdn0-production-images-kly.akamaized.net/xYEcqMdBWw6pN0mFBFD5_5uIjz8=/800x450/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/3396365/original/023706600_1615209973-concert-768722_1280.jpg",
-      day: "23/12/2024",
-      time: "2:00 PM",
-      name: "Event 3",
-      location: "District 2",
-      city: "Ho Chi Minh",
-      quantity: 5,
-    },
-  ];
+import Pagination from "../../components/Pagination";
+import useListEvent from "./useListEvent";
 
   // DROPDOWN SORT
   type SortOption = {
@@ -63,54 +18,27 @@ import ScrollToTop from "../../components/ScrollToTop";
 
     const ListEvent = () => {
 
-    const navigate: NavigateFunction = useNavigate();
-
-    // DROPDOWN SORT
-
-   // Khai báo state `isOpen` để theo dõi trạng thái của dropdown (mở hoặc đóng)
-    const [isOpen, setIsOpen] = useState<{ [key: string]: boolean }>({});
-
-    // Khai báo state `selectedOption` để lưu tùy chọn hiện tại mà người dùng đã chọn (mặc định là 'latest')
-    const [selectedOption, setSelectedOption] = useState<string>("latest");
-
-    // Hàm `toggleDropdown` dùng để mở hoặc đóng dropdown menu khi người dùng click vào nút
-    // Toggle dropdown dựa vào id
-   const toggleDropdown = (id: string) => {
-    setIsOpen((prevState) => ({
-      ...prevState,
-      [id]: !prevState[id], // Đảo ngược trạng thái của dropdown có id tương ứng
-    }));
-   };
-
-    // Hàm `handleSelect` được gọi khi người dùng chọn một tùy chọn từ dropdown
-    const handleSelect = (option: string) => {
-    setSelectedOption(option); // Cập nhật giá trị tùy chọn mà người dùng đã chọn
-    setIsOpen({}); // Đóng menu sau khi chọn
-    };
-
-    // Sử dụng hook `useRef` để tạo ra một tham chiếu đến phần tử DOM của container dropdown
-    // `dropdownRef` giúp chúng ta xác định vị trí phần tử trong DOM để xử lý click ra ngoài
-    const dropdownRef = useRef<HTMLDivElement>(null);
-    // Hàm `handleClickOutside` để kiểm tra xem người dùng có click ra ngoài container của dropdown hay không
-    const handleClickOutside = (event: MouseEvent) => {
-    // Kiểm tra nếu `dropdownRef.current` tồn tại và nếu phần tử bị click (event.target) không nằm bên trong container
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen({}); // Nếu click ra ngoài, đóng dropdown
-    }
-    };
-
-    // Sử dụng hook `useEffect` để gắn và gỡ sự kiện click toàn trang
-    useEffect(() => {
-    // Gắn sự kiện `mousedown` vào tài liệu (toàn trang) để theo dõi sự kiện click
-    // Mỗi khi người dùng click chuột, hàm `handleClickOutside` sẽ được gọi
-    document.addEventListener("mousedown", handleClickOutside);
-
-    // Cleanup function: khi component bị hủy (unmount), sự kiện sẽ được gỡ bỏ
-    // Điều này giúp tránh rò rỉ bộ nhớ khi component không còn tồn tại
-    return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-    };
-    }, []); // Chỉ chạy một lần khi component được render lần đầu tiên (do mảng dependency rỗng)
+   const {
+     navigate,
+     events,
+     setEvents,
+     filteredEvents,
+     setFilteredEvents,
+     isOpen,
+     setIsOpen,
+     toggleDropdown,
+     selectedOption,
+     setSelectedOption,
+     handleSelect,
+     dropdownRef,
+     handleClickOutside,
+     eventsPerPage,
+     currentPage,
+     setCurrentPage,
+     totalPages,
+     currentEvents,
+     goToPage,
+   } = useListEvent();
 
     return (
         <div className="w-screen min-h-screen flex flex-col">
@@ -186,17 +114,17 @@ import ScrollToTop from "../../components/ScrollToTop";
 
                 {/* EVENT LIST */}
                 <div className="w-full h-full">
-                    {events.map((ev) => (   
+                    {filteredEvents.map((ev) => (   
                         <div 
-                        key={ev.id} 
+                        key={ev.eventId} 
                         className="bg-[#F4F4F4] w-full h-[18%] mt-4 flex rounded-lg shadow-md cursor-pointer group hover:shadow-2xl"
-                        onClick={() => navigate("/eventDetail")}
+                        onClick={() => navigate(`/eventDetail/${ev.eventId}`)}
                         >
                             <div className="flex items-center w-1/5 pl-3 my-5">
                                 <div className="relative overflow-hidden rounded-lg">
                                     <img 
-                                    src={ev.img}
-                                    alt={ev.name}
+                                    src={ev.eventImage}
+                                    alt={ev.eventName}
                                     className="object-cover w-28 h-28 group-hover:scale-110 transition-transform duration-300"
                                     />
                                     <div className="absolute top-0 right-0 p-1 bg-black bg-opacity-50 text-white rounded-lg">
@@ -211,9 +139,9 @@ import ScrollToTop from "../../components/ScrollToTop";
                                 <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 pr-1 text-red-600 cursor-pointer" viewBox="0 0 24 24" fill="currentColor">
                                     <path fill-rule="evenodd" d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z" clip-rule="evenodd" />
                                 </svg>
-                                <p className="text-red-600 font-medium">{ev.day}, {ev.time}</p>
+                                <p className="text-red-600 font-medium">{ev.eventTime}</p>
                                 </div>
-                                <h3 className="font-bold text-xl mt-1 text-ellipsis whitespace-nowrap overflow-hidden">{ev.name}</h3>
+                                <h3 className="font-bold text-xl mt-1 text-ellipsis whitespace-nowrap overflow-hidden">{ev.eventName}</h3>
                                 <div className="flex text-sm text-gray-600 mt-2">
                                     {/* Location */}
                                     <div className="flex items-center">
@@ -236,11 +164,19 @@ import ScrollToTop from "../../components/ScrollToTop";
                                     <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-1 text-white" viewBox="0 0 24 24" fill="currentColor">
                                         <path fill-rule="evenodd" d="M1.5 6.375c0-1.036.84-1.875 1.875-1.875h17.25c1.035 0 1.875.84 1.875 1.875v3.026a.75.75 0 0 1-.375.65 2.249 2.249 0 0 0 0 3.898.75.75 0 0 1 .375.65v3.026c0 1.035-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 17.625v-3.026a.75.75 0 0 1 .374-.65 2.249 2.249 0 0 0 0-3.898.75.75 0 0 1-.374-.65V6.375Zm15-1.125a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-1.5 0V6a.75.75 0 0 1 .75-.75Zm.75 4.5a.75.75 0 0 0-1.5 0v.75a.75.75 0 0 0 1.5 0v-.75Zm-.75 3a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-1.5 0v-.75a.75.75 0 0 1 .75-.75Zm.75 4.5a.75.75 0 0 0-1.5 0V18a.75.75 0 0 0 1.5 0v-.75ZM6 12a.75.75 0 0 1 .75-.75H12a.75.75 0 0 1 0 1.5H6.75A.75.75 0 0 1 6 12Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" clip-rule="evenodd" />
                                     </svg>
-                                    <p className="text-white">{ev.quantity}</p>
+                                    <p className="text-white">28</p>
                                 </div>
                             </div>
                         </div>
                     ))}
+                      {/* Pagination component */}
+                      <div className="flex justify-center">
+                        <Pagination
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            goToPage={goToPage}
+                        />
+                      </div>
                 </div>
             </div>
 

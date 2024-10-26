@@ -18,6 +18,8 @@ import AdminBoard from "../pages/Admin/AdminBoard";
 import TicketBoard from "../components/Admin/Ticket/TicketBoard";
 import OrderBoard from "../components/Admin/OrderBoard/OrderBoard";
 import UserBoard from "../components/Admin/UserBoard/UserBoard";
+=======
+import Sell from "../pages/Sell";
 
 const routers = createBrowserRouter([
   {
@@ -45,11 +47,11 @@ const routers = createBrowserRouter([
     element: <ListEvent />,
   },
   {
-    path: "/eventDetail",
+    path: "/eventDetail/:eventId",
     element: <EventDetail />,
   },
   {
-    path: "/ticketDetail",
+    path: "/ticketDetail/:ticketId",
     element: <TicketDetail />,
   },
   {
@@ -67,6 +69,10 @@ const routers = createBrowserRouter([
   {
     path: "/userProfile",
     element: <UserProfile />,
+  },
+  {
+    path: "/sell",
+    element: <Sell />,
   },
   {
     path: "/profile",
