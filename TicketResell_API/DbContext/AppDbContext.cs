@@ -7,6 +7,7 @@ using TicketResell_API.Controllers.UserController.Model;
 using TicketResell_API.Controllers.TicketController.Model;
 using TicketResell_API.Controllers.User.Model;
 using TicketResell_API.Controllers.CartController.Model;
+using TicketResell_API.Controllers.OrderController.Model;
 
 public class AppDbContext : IdentityDbContext<MainUser>
 {
@@ -18,8 +19,7 @@ public class AppDbContext : IdentityDbContext<MainUser>
     public DbSet<Event> Events { get; set; }
     public DbSet<Ticket> Tickets { get; set; }
     public DbSet<Order> Orders { get; set; }
-
-   
+   public DbSet<OrderDetail> OrderDetails { get; set; }
 
 
 }
