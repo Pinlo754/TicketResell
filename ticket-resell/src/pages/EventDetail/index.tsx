@@ -1,9 +1,10 @@
 import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
-import { useState } from "react";
-import { NavigateFunction, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
 import ScrollToTopButton from "../../components/ScrollToTopButton";
 import ScrollToTop from "../../components/ScrollToTop";
+import axios from "axios";
 
 // SORT
 type SortOption = {
@@ -29,6 +30,19 @@ type SortOption = {
     quantity: number;
     description: string;
   }
+
+      // EVENTS
+
+      type Event = {
+        eventId: number;
+        eventName: string;
+        eventImage: string;
+        eventTime: string;
+        location: string;
+        city: string;
+        eventStatus: string;
+      };
+
   const tickets: Ticket[] = [
     { 
         id: 1,
@@ -68,6 +82,22 @@ type SortOption = {
 const EventDetail = () => {
 
     const navigate: NavigateFunction = useNavigate();
+    const { evId } = useParams();
+    const [event, setEvent] = useState<Event>();
+
+    useEffect(() => {
+        fetchEvent();
+      }, []);
+
+      const fetchEvent = async () => {
+        try {
+          const response = await axios.get(`/api/Event/${evId}`);
+          setEvent(response.data);
+        }
+        catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
 
    // Tạo state để lưu số lượng cho từng ticket
    const [quantities, setQuantities] = useState<Record<number, number>>(() => {
@@ -99,6 +129,15 @@ const EventDetail = () => {
     const formatCurrency = (amount: number): string => {
     return amount.toLocaleString('vi-VN');
   };
+
+  if (!evId || evId === "undefined") {
+    // Nếu evId không hợp lệ, chuyển hướng hoặc hiển thị thông báo
+    return (
+      <div>
+        Lỗi gòi
+      </div>
+    )
+  }
     
     return (
         <div className="w-screen min-h-screen flex flex-col">
@@ -119,7 +158,7 @@ const EventDetail = () => {
                     {/* Background */}
                     <div
                     className="absolute inset-0 bg-cover bg-center blur-2xl bg-opacity-80"
-                    style={{ backgroundImage:'url(https://www.oyorooms.com/blog/wp-content/uploads/2018/02/event.jpg)'}}
+                    style={{ backgroundImage: `url(${event?.eventImage})` }}
                     > </div>
                     {/* Overlay màu tối */}
                     <div className="absolute inset-0 bg-black opacity-60"></div>
@@ -130,16 +169,16 @@ const EventDetail = () => {
                         <div className="relative py-10">
                             <div className="overflow-hidden rounded-lg">
                             <img
-                                src="https://www.oyorooms.com/blog/wp-content/uploads/2018/02/event.jpg"
-                                alt="Event"
-                                className="object-cover w-46 h-56 hover:scale-110 transition-transform duration-300"
+                                src={event?.eventImage}
+                                alt="Event Img"
+                                className="object-center w-50 h-60 hover:scale-110 transition-transform duration-300"
                             />
                             </div>
                         </div>
 
                         {/* Tên sự kiện */}
                         <h1 className="mt-4 text-4xl font-bold  sm:text-5xl">
-                        Gewoon Boef
+                        {event?.eventName}
                         </h1>
                         <div className="mt-6 text-lg flex justify-center gap-x-8">
                             {/* Date */}
@@ -147,21 +186,21 @@ const EventDetail = () => {
                                 <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mx-2" viewBox="0 0 24 24" fill="currentColor">
                                     <path fill-rule="evenodd" d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z" clip-rule="evenodd" />
                                 </svg>
-                                <p>Sat, Oct 12, 8:00 PM</p>
+                                <p>{event?.eventTime}</p>
                             </div>
                             {/* Venue */}
                             <div className="flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mx-2" viewBox="0 0 24 24" fill="currentColor">
                                     <path fill-rule="evenodd" d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" clip-rule="evenodd" />
                                 </svg>
-                                <p>Ziggo Dome</p>
+                                <p>{event?.location}</p>
                             </div>
                             {/* City */}
                             <div className="flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mx-2" viewBox="0 0 24 24" fill="currentColor">
                                     <path fill-rule="evenodd" d="M3 2.25a.75.75 0 0 0 0 1.5v16.5h-.75a.75.75 0 0 0 0 1.5H15v-18a.75.75 0 0 0 0-1.5H3ZM6.75 19.5v-2.25a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75ZM6 6.75A.75.75 0 0 1 6.75 6h.75a.75.75 0 0 1 0 1.5h-.75A.75.75 0 0 1 6 6.75ZM6.75 9a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM6 12.75a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 6a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75Zm-.75 3.75A.75.75 0 0 1 10.5 9h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 12a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM16.5 6.75v15h5.25a.75.75 0 0 0 0-1.5H21v-12a.75.75 0 0 0 0-1.5h-4.5Zm1.5 4.5a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Zm.75 2.25a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75v-.008a.75.75 0 0 0-.75-.75h-.008ZM18 17.25a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Z" clip-rule="evenodd" />
                                 </svg>
-                                <p>Amsterdam, Netherlands</p>
+                                <p>{event?.city}</p>
                             </div>
                         </div>
                         {/* Subcribe */}
@@ -179,7 +218,7 @@ const EventDetail = () => {
                     <div className="relative z-10 pb-12 flex justify-between mt-10">
                         <button 
                         className="bg-transparent text-white font-semibold ml-10 group flex items-center"
-                        onClick={() => navigate("/sell")}
+                        onClick={() => navigate(`/sell/${event?.eventId}`)}
                         >
                             Sell your tickets on Festix
                             <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-2" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">

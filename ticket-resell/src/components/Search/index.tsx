@@ -7,7 +7,6 @@ interface SearchProps<T> {
   onSelect: (item: T) => void;
   renderResult: (item: T) => React.ReactNode; // Cách hiển thị kết quả
   filterFunction: (item: T, query: string) => boolean; // Hàm lọc kết quả
-  showMoreResults?: boolean;
   handleEnterKey?: () => void;
 }
 
@@ -20,7 +19,7 @@ const Search = <T,>({
   handleEnterKey,
 }: SearchProps<T>) => {
   const [query, setQuery] = useState<string>("");
-  const { visibleResults, showMoreResults } = useSearch({
+  const { filteredResults, visibleResults, showMoreResults } = useSearch({
     query,
     results,
     visibleCount: 10,
@@ -62,27 +61,28 @@ const Search = <T,>({
         />
       </div>
 
-      {query !== "" && visibleResults.length > 0 && ( // Kiểm tra nếu query không rỗng
-        <div className="mt-2">
-          {visibleResults.map((item, index) => (
-            <div
-              key={index}
-              className="border p-2 cursor-pointer hover:bg-gray-100"
-              onClick={() => onSelect(item)}
-            >
-              {renderResult(item)}
-            </div>
-          ))}
-          {visibleResults.length < results.length && (
-            <button
-              onClick={showMoreResults}
-              className="bg-gray-300 text-gray-700 py-1 px-3 mt-2 rounded-lg hover:bg-gray-400"
-            >
-              Hiển thị thêm ({results.length - visibleResults.length})
-            </button>
-          )}
-        </div>
-      )}
+      {query !== "" &&
+        visibleResults.length > 0 && ( // Kiểm tra nếu query không rỗng
+          <div className="mt-2">
+            {visibleResults.map((item, index) => (
+              <div
+                key={index}
+                className="border p-2 cursor-pointer hover:bg-gray-100"
+                onClick={() => onSelect(item)}
+              >
+                {renderResult(item)}
+              </div>
+            ))}
+            {visibleResults.length < filteredResults.length && (
+              <button
+                onClick={showMoreResults}
+                className="bg-gray-300 text-gray-700 py-1 px-3 mt-2 rounded-lg hover:bg-gray-400"
+              >
+                Hiển thị thêm ({filteredResults.length - visibleResults.length})
+              </button>
+            )}
+          </div>
+        )}
 
       {query !== "" && visibleResults.length === 0 && (
         <p className="text-gray-600 mt-2">Không tìm thấy kết quả nào.</p>

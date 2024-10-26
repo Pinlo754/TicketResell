@@ -14,7 +14,7 @@ import VerifyEmailScreen from "../pages/VerifyEmailScreen/VerifyEmailScreen";
 import UserProfile from "../pages/UserProfile";
 import AppChatContextProvider from "../context/AppChatContext";
 import AccountProfile from "../pages/Account/Account"
-import Sell from "../pages/Sell";
+import SellScreen from "../pages/SellScreen";
 
 const routers = createBrowserRouter([
   {
@@ -42,7 +42,7 @@ const routers = createBrowserRouter([
     element: <ListEvent />,
   },
   {
-    path: "/eventDetail",
+    path: "/eventDetail/:evId",
     element: <EventDetail />,
   },
   {
@@ -66,8 +66,8 @@ const routers = createBrowserRouter([
     element: <UserProfile />,
   },
   {
-    path: "/sell",
-    element: <Sell />,
+    path: "/sell/:evId?",
+    element: <SellScreen />,
   },
   {
     path: "/profile",

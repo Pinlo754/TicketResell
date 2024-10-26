@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import Slider from 'react-slick'; 
 import "slick-carousel/slick/slick.css";
@@ -9,51 +9,7 @@ import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
 import ScrollToTopButton from "../../components/ScrollToTopButton";
 import ScrollToTop from "../../components/ScrollToTop";
-
-// EVENT CARDS
-type Event = {
-  id: number;
-  img: string;
-  day: string;
-  time: string;
-  name: string;
-  location: string;
-  city: string;
-  quantity: number;
-};
-
-const events = [
-  {
-    id: 1,
-    img : "https://cdn0-production-images-kly.akamaized.net/xYEcqMdBWw6pN0mFBFD5_5uIjz8=/800x450/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/3396365/original/023706600_1615209973-concert-768722_1280.jpg",
-    day: "9/7/2024",
-    time: "12:00 PM",
-    name: "Event 1",
-    location: "District 9",
-    city: "Ho Chi Minh",
-    quantity: 28,
-  },
-  {
-    id: 2,
-    img: "https://cdn0-production-images-kly.akamaized.net/xYEcqMdBWw6pN0mFBFD5_5uIjz8=/800x450/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/3396365/original/023706600_1615209973-concert-768722_1280.jpg",
-    day: "31/10/2024",
-    time: "7:00 AM",
-    name: "Event 2",
-    location: "District 9",
-    city: "Ho Chi Minh",
-    quantity: 18,
-  },
-  {
-    id: 3,
-    img: "https://cdn0-production-images-kly.akamaized.net/xYEcqMdBWw6pN0mFBFD5_5uIjz8=/800x450/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/3396365/original/023706600_1615209973-concert-768722_1280.jpg",
-    day: "3/5/2024",
-    time: "8:00 PM",
-    name: "Event 3",
-    location: "District 9",
-    city: "Ho Chi Minh",
-    quantity: 5,
-  },
-];
+import axios from "axios";
 
 // Next and Previous arrows outside the container
 // SLIDE - MŨI TÊN
@@ -87,7 +43,35 @@ const PrevArrow = (props: any) => {
 
 
 const MainScreen = () => {
+
+  type Event = {
+    eventId: number;
+    eventName: string;
+    eventImage: string;
+    eventTime: string;
+    location: string;
+    city: string;
+    eventStatus: string;
+  };
+
   const navigate: NavigateFunction = useNavigate();
+  const [events, setEvents] = useState<Event[]>([]);
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  const fetchEvents = async () => {
+    try {
+      const response = await axios.get('/api/Event/list-event');
+      const events: Event[] = response.data;
+      const activeEvents = events.filter(event => event.eventStatus === 'Ongoing');
+      setEvents(activeEvents);
+    }
+    catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
   // SLIDE
   const settings = {
@@ -120,32 +104,6 @@ const MainScreen = () => {
     ],
   };
 
-  // TEST BUTTON
-  const handleClick = (buttonType: string) => {
-    switch (buttonType) {
-      case 'makeSome':
-        console.log('Bạn đã bấm nút Make some money');
-        break;
-      case 'seeWhat':
-        console.log('Bạn đã bấm nút See what');
-        break;
-      case 'viewMore':
-        console.log('Bạn đã bấm nút View More');
-        break;
-        case 'sellNow':
-        console.log('Bạn đã bấm nút Sell Now');
-        break;
-        case 'ourStory':
-        console.log('Bạn đã bấm nút Our Story');
-        break;
-        case 'helpCenter':
-        console.log('Bạn đã bấm nút Help Center');
-        break;
-      default:
-        console.log('Không xác định');
-    }
-  };
-
   return (
     <div className="w-screen min-h-screen flex flex-col">
 
@@ -168,7 +126,7 @@ const MainScreen = () => {
             <h1 className="font-montserrat text-6xl text-white font-bold mb-2">Sell</h1>
             {/* Sub-Headline */}
             <div className="flex items-center">
-              <p className="font-open-sans text-white text-lg mb-3">Turn your unused tickets into cash</p>
+              <p className="font-open-sans text-white text-lg mb-3">Biến những tấm vé chưa sử dụng của bạn thành tiền mặt</p>
               <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 pb-2 text-white hover:text-gray-500 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
               </svg>
@@ -176,7 +134,7 @@ const MainScreen = () => {
             {/* Button */}
             <button 
             className="font-poppins bg-white text-[#8ACDD7] px-6 py-3 rounded-full font-semibold flex items-center hover:translate-x-3 transition ease-in-out delay-150 duration-300 hover:shadow-2xl hover:ring-2 hover:ring-[#8ACDD7] "
-            onClick={() => handleClick('makeSome')}
+            onClick={() => navigate("/sell")}
             >
               Make some money
               <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 ml-2 mr-0 text-current" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -199,7 +157,7 @@ const MainScreen = () => {
             {/* Button */}
             <button 
             className="bg-white text-[#FF6F61] px-6 py-3 rounded-full font-semibold flex items-center hover:translate-x-3 transition ease-in-out delay-150 duration-300 hover:shadow-2xl hover:ring-2 hover:ring-[#FF6F61]"
-            onClick={() => { handleClick('seeWhat'); navigate("/listEvent"); }}
+            onClick={() => navigate("/listEvent") }
             >
               See what's out there
               <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 ml-2 mr-0 text-current " fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -220,7 +178,7 @@ const MainScreen = () => {
               {/* Card */}
               <Slider {...settings} className="flex justify-center items-center">
                 {events.map((ev) => (
-                  <div key={ev.id} className="pl-10 pr-1 "> {/* Add spacing between cards */}
+                  <div key={ev.eventId} className="pl-10 pr-1 "> {/* Add spacing between cards */}
                     <div 
                     className="bg-[#F4F4F4] w-[90%] h-fit rounded-lg shadow-md  transition duration-300 group cursor-pointer"
                     onClick={() => navigate("/eventDetail")}
@@ -228,9 +186,9 @@ const MainScreen = () => {
                       {/* Card-Img */}
                       <div className="overflow-hidden rounded-t-lg">
                         <img
-                          src={ev.img}
-                          alt={ev.name}
-                          className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-300"
+                          src={ev.eventImage}
+                          alt={ev.eventName}
+                          className="object-center w-full h-[250px] group-hover:scale-110 transition-transform duration-300"
                         />
                       </div>
                       {/* Card-Content */}
@@ -249,10 +207,10 @@ const MainScreen = () => {
                             />
                           </svg>
                           <p className="text-red-600 font-medium">
-                            {ev.day}, {ev.time}
+                            {ev.eventTime}
                           </p>
                         </div>
-                        <h3 className="font-bold text-xl text-ellipsis whitespace-nowrap overflow-hidden">{ev.name}</h3>
+                        <h3 className="font-bold text-xl text-ellipsis whitespace-nowrap overflow-hidden">{ev.eventName}</h3>
                         <div className="flex justify-around text-sm text-gray-600 mt-2">
                           {/* Location */}
                           <div className="flex items-center">
@@ -284,7 +242,7 @@ const MainScreen = () => {
                                 clipRule="evenodd"
                               />
                             </svg>
-                            <p className="text-white">{ev.quantity}</p>
+                            <p className="text-white">28</p>
                           </div>
                         </div>
                       </div>
@@ -298,7 +256,7 @@ const MainScreen = () => {
           <div className="flex justify-center pb-2 pt-4">
             <button 
             className="outline outline-2 rounded-sm text-[#8ACDD7] font-medium text-lg px-6 py-3 mx-auto hover:bg-[#8ACDD7] hover:text-white"
-            onClick={() => { handleClick('viewMore'); navigate("/listEvent"); }}
+            onClick={() => navigate("/listEvent")}
             >
               View More
             </button>
@@ -323,7 +281,7 @@ const MainScreen = () => {
               </div>
               <button 
               className="px-6 py-3 text-lg font-medium bg-transparent rounded-sm border border-white hover:bg-white hover:text-[#FF6F61] transition"
-              onClick={() => handleClick('sellNow')}
+              onClick={() => navigate("/sell")}
               >
               Sell Now
               </button>
@@ -380,7 +338,7 @@ const MainScreen = () => {
           <div className="flex justify-center">
             <button 
             className="bg-[#8ACDD7] text-white text-lg px-6 py-3 font-medium rounded-sm hover:bg-[#FF7878]"
-            onClick={() => handleClick('ourStory')}
+            onClick={() => navigate("/about")}
             >
               Our Story
             </button>
@@ -399,7 +357,7 @@ const MainScreen = () => {
             </p>
             <button 
             className="bg-transparent text-white font-medium py-2 px-4 rounded-sm border border-white self-start hover:bg-white hover:text-[#FF6F61] transition"
-            onClick={() => handleClick('helpCenter')}
+            onClick={() => navigate("/help")}
             >
               Go to Help Center
             </button>  
