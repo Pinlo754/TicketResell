@@ -18,8 +18,8 @@ import AdminBoard from "../pages/Admin/AdminBoard";
 import TicketBoard from "../components/Admin/Ticket/TicketBoard";
 import OrderBoard from "../components/Admin/OrderBoard/OrderBoard";
 import UserBoard from "../components/Admin/UserBoard/UserBoard";
-=======
 import Sell from "../pages/Sell";
+import CheckOut from "../pages/CheckOutScreen/CheckOut";
 
 const routers = createBrowserRouter([
   {
@@ -93,6 +93,10 @@ const routers = createBrowserRouter([
   {
     path: "/Admin/Customers",
     element: <UserBoard/>,
+  },
+  {
+    path: "/checkout",
+    element: <CheckOut/>,
   },
 ]);
 

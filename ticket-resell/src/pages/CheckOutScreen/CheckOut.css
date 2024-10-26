@@ -1,0 +1,305 @@
+.checkout-page {
+    background-color: #E5F6F1;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.checkout-page * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.checkout-page .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 2rem;
+}
+
+.checkout-page .checkout-section {
+    background: white;
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.checkout-page .checkout-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+    color: #2D3748;
+}
+
+.checkout-page .section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #2D3748;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #BFEEE6;
+}
+
+.checkout-page .ticket-item {
+    border: 1px solid #BFEEE6;
+    border-radius: 12px;
+    padding: 1.75rem;
+    margin-bottom: 2rem;
+    transition: box-shadow 0.3s ease;
+}
+
+.checkout-page .ticket-item:hover {
+    box-shadow: 0 4px 12px rgba(152, 216, 200, 0.15);
+}
+
+.checkout-page .ticket-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1.5rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.checkout-page .ticket-image {
+    width: 140px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.checkout-page .ticket-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.checkout-page .ticket-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: v#F5F7FA;
+    text-align: center;
+}
+
+.checkout-page .ticket-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2D3748;
+}
+
+.checkout-page .ticket-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    padding: 1.25rem;
+    background: #E5F6F1;
+    border-radius: 8px;
+    margin-top: 1.25rem;
+}
+
+.checkout-page .detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.checkout-page .detail-label {
+    font-size: 0.875rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.checkout-page .detail-value {
+    font-weight: 600;
+    color: #2D3748;
+}
+
+.checkout-page .seller-info {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.25rem;
+    background: #F5F7FA;
+    border-radius: 8px;
+    margin-top: 1.25rem;
+}
+
+.checkout-page .seller-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #BFEEE6;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.checkout-page .rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+}
+
+.checkout-page .star {
+    color: #FFB800;
+    letter-spacing: 2px;
+}
+
+.checkout-page .payment-section {
+    margin: 2.5rem 0;
+    padding: 2rem;
+    background: #F5F7FA;
+    border-radius: 12px;
+}
+
+.checkout-page .payment-method {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.25rem;
+    border: 2px solid #98D8C8;
+    border-radius: 8px;
+    background: white;
+    margin-top: 1.25rem;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+.checkout-page .payment-method:hover {
+    transform: translateY(-2px);
+}
+
+.checkout-page .payment-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 1.5rem;
+}
+
+.checkout-page .form-group {
+    margin-bottom: 2rem;
+}
+
+.checkout-page label {
+    display: block;
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+    color: #2D3748;
+}
+
+.checkout-page input {
+    width: 100%;
+    padding: 0.875rem;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.checkout-page input:focus {
+    outline: none;
+    border-color: #98D8C8;
+    box-shadow: 0 0 0 4px rgba(152, 216, 200, 0.2);
+}
+
+.checkout-page input::placeholder {
+    color: #A0AEC0;
+}
+
+.checkout-page .summary-section {
+    background: white;
+    border-radius: 16px;
+    padding: 2.5rem;
+    height: fit-content;
+    position: sticky;
+    top: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.checkout-page .summary-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: #2D3748;
+}
+
+.checkout-page .summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #E2E8F0;
+    font-size: 1.1rem;
+}
+
+.checkout-page .summary-row:last-of-type {
+    border-bottom: 2px solid #BFEEE6;
+    margin-bottom: 2rem;
+    padding-top: 0.5rem;
+    font-weight: 700;
+    font-size: 1.35rem;
+}
+
+.checkout-page .checkout-btn {
+    width: 100%;
+    padding: 1.25rem;
+    background: #98D8C8;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(152, 216, 200, 0.3);
+}
+
+.checkout-page .checkout-btn:hover {
+    background-color: #7BC0B0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(152, 216, 200, 0.4);
+}
+
+.checkout-page .checkout-btn:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 968px) {
+    .checkout-page {
+        padding: 1rem;
+    }
+
+    .checkout-page .container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .checkout-page .checkout-section,
+    .checkout-page .summary-section {
+        padding: 1.5rem;
+    }
+    
+    .checkout-page .ticket-header {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .checkout-page .ticket-image {
+        width: 100%;
+        height: 200px;
+        margin-bottom: 1rem;
+    }
+
+    .checkout-page .ticket-price {
+        text-align: center;
+        margin-top: 1rem;
+    }
+
+    .checkout-page .summary-section {
+        position: static;
+    }
+}
