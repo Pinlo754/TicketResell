@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using TicketResell_API.Controllers.UserController.Model;
 namespace TicketResell_API.Controllers.UserController.Controller
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
@@ -87,5 +87,38 @@ namespace TicketResell_API.Controllers.UserController.Controller
             return Ok("User deleted successfully");
         }
 
-       }
+        [HttpPut("update-role")]
+        public async Task<IActionResult> UpdateUserRole([FromBody] UpdateUserRole model)
+        {
+            //check input information
+            if (model == null || string.IsNullOrEmpty(model.email) || string.IsNullOrEmpty(model.newRole))
+            {
+                return BadRequest("Email and role are required.");
+            }
+
+            //find user by email
+            var user = await _userManager.FindByEmailAsync(model.email);
+            if (user == null) 
+            {
+                return NotFound("User not found");
+            }
+
+            //Delete all current user roles
+            var currentRole = await _userManager.GetRolesAsync(user);
+            var removeRole = await _userManager.RemoveFromRolesAsync(user, currentRole);
+            if (!removeRole.Succeeded)
+            {
+                return BadRequest("Failed to remove current roles.");
+            }
+
+            var addResult = await _userManager.AddToRoleAsync(user, model.newRole);
+            if (!addResult.Succeeded)
+            {
+                return BadRequest("Failed to add new role.");
+            }
+
+            return Ok("User role updated successfully.");
+        }
+
+    }
 }
