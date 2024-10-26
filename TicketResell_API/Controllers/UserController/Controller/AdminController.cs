@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using TicketResell_API.Controllers.UserController.Model;
 namespace TicketResell_API.Controllers.UserController.Controller
 {
-   [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
