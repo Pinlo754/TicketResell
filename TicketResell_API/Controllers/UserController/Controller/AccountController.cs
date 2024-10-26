@@ -75,8 +75,7 @@ namespace TicketResell_API.Controllers.UserController.Controller
                     //create notification to let user know that registration is successful
                     return Ok(new { message = "User registered successfully", 
                                     sendEmailResult, 
-                                    UserId = user.Id,
-                                    
+                                    UserId = user.Id,                 
                     });
                 }
             }
@@ -130,7 +129,11 @@ namespace TicketResell_API.Controllers.UserController.Controller
                 return StatusCode(500, "Failed to update user information");
             }
             //Returns successfully after email has been confirmed and saved to database
-            return Ok("Email confirmed successfully");
+            return Ok(new
+            {
+                message = "Email confirmed successfully",
+                userId = user.Id,
+            });
         }
 
         [HttpPost("login")]
