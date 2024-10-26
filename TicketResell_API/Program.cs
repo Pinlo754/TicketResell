@@ -6,7 +6,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TicketResell_API.Controllers.ChatController.Model;
 using TicketResell_API.Controllers.Service;
+
 using TicketResell_API.Controllers.UserController.Model;
+using TicketResell_API.Controllers.VnPayController.Model;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -63,6 +65,11 @@ builder.Services.AddAuthorization(Options =>
     Options.AddPolicy("StaffPolicy", policy => policy.RequireRole("Staff"));
     Options.AddPolicy("UserPolicy", policy => policy.RequireRole("User"));
 });
+
+
+
+//add vnpayservice in scoped
+builder.Services.AddScoped<VnPayService>();
 
 //CORS service
 builder.Services.AddCors(options =>
@@ -132,6 +139,17 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    // Create the "User" role if it does not exist.
+    if (!await roleManager.RoleExistsAsync("User"))
+    {
+        await roleManager.CreateAsync(new IdentityRole("User"));
+    }
+}
 
 if (app.Environment.IsDevelopment())
 {

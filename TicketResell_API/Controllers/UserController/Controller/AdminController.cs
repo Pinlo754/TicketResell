@@ -2,10 +2,11 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TicketResell_API.Controllers.UserController.Model;
 namespace TicketResell_API.Controllers.UserController.Controller
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
@@ -17,6 +18,7 @@ namespace TicketResell_API.Controllers.UserController.Controller
         }
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<MainUser> _userManager;
+
         public AdminController(RoleManager<IdentityRole> roleManager, UserManager<MainUser> userManager)
         {
             _roleManager = roleManager;
@@ -66,5 +68,67 @@ namespace TicketResell_API.Controllers.UserController.Controller
             //If the role assignment fails, notify of errors that occurred during the role assignment process.
             return BadRequest(result.Errors);
         }
+
+        [HttpGet("list-user")]
+        public async Task<IActionResult> GetUserList()
+        {
+            //list all user
+            var users = await _userManager.Users.ToListAsync();
+            return Ok(users);
+        }
+
+        [HttpDelete("delete-user/{userId}")]
+        public async Task<IActionResult> DeleteUser(string userId)
+        {
+            //find user by Id
+            var deUser = await _userManager.FindByIdAsync(userId);
+            //check if user is null or not
+            if (deUser == null)
+            {
+                return BadRequest("User not found");
+            }
+            //delete user
+            var result = await _userManager.DeleteAsync(deUser);
+            //if false return 500
+            if (!result.Succeeded)
+            {
+                return StatusCode(500, "Failed to delete user");
+            }
+            return Ok("User deleted successfully");
+        }
+
+        [HttpPut("update-role")]
+        public async Task<IActionResult> UpdateUserRole([FromBody] UpdateUserRole model)
+        {
+            //check input information
+            if (model == null || string.IsNullOrEmpty(model.email) || string.IsNullOrEmpty(model.newRole))
+            {
+                return BadRequest("Email and role are required.");
+            }
+
+            //find user by email
+            var user = await _userManager.FindByEmailAsync(model.email);
+            if (user == null) 
+            {
+                return NotFound("User not found");
+            }
+
+            //Delete all current user roles
+            var currentRole = await _userManager.GetRolesAsync(user);
+            var removeRole = await _userManager.RemoveFromRolesAsync(user, currentRole);
+            if (!removeRole.Succeeded)
+            {
+                return BadRequest("Failed to remove current roles.");
+            }
+
+            var addResult = await _userManager.AddToRoleAsync(user, model.newRole);
+            if (!addResult.Succeeded)
+            {
+                return BadRequest("Failed to add new role.");
+            }
+
+            return Ok("User role updated successfully.");
+        }
+
     }
 }

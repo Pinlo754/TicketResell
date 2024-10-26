@@ -2,12 +2,11 @@
 
 namespace TicketResell_API.Controllers.UserController.Model
 {
-    public class EmailConfirmation
+    public class UpdateUserRole
     {
-
         [Required]
-        public string? email { get; set; }
+        public string? email {  get; set; }
         [Required]
-        public string? code { get; set; }
+        public string? newRole { get; set; }
     }
 }
