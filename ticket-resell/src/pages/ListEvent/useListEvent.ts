@@ -11,7 +11,7 @@ const useListEvent = () => {
 
 
     type Event = {
-      eventId: number;
+      eventId: string;
       eventName: string;
       eventImage: string;
       eventTime: string;
@@ -36,6 +36,47 @@ const useListEvent = () => {
             console.error('Error fetching data:', error);
           });
       };
+
+       // TICKET 
+       type Ticket = {
+        ticketId: string;
+        ticketName: string;
+        quantity: number;
+        price: number;
+        originPrice: number;
+        images: string[];
+        userId: string;
+        type?: string;
+        section?: string;
+        row?: number;
+        description?: string;
+        status: string;
+        eventId: string;
+        createAt: Date;
+        updateAt?: Date;
+    }
+    
+      const [tickets, setTickets] = useState<Ticket[]>([]);
+
+      useEffect(() => {
+        fetchTickets();
+      }, []);
+      
+      const fetchTickets = () => {
+        axios.get('/api/Ticket/list-ticket')
+          .then(response => {
+            const tickets: Ticket[] = response.data;            
+            setTickets(tickets);
+          })
+          .catch(error => {
+            console.error('Error fetching data:', error);
+          });
+      };
+      const totalTickets = (eventId : string) => {
+        return tickets
+        .filter(ticket => ticket.eventId === eventId)
+        .reduce((total, ticket) => total + ticket.quantity, 0);
+      }
     
     // DROPDOWN SORT
 
@@ -126,6 +167,7 @@ const useListEvent = () => {
         totalPages,
         currentEvents,
         goToPage,
+        totalTickets
     };
 }
 

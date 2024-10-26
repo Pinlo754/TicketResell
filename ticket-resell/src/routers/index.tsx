@@ -71,7 +71,7 @@ const routers = createBrowserRouter([
     element: <UserProfile />,
   },
   {
-    path: "/sell",
+    path: "/sell/:eventId?",
     element: <Sell />,
   },
   {

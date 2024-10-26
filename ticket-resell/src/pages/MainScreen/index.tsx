@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import Slider from 'react-slick'; 
+import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import commitent from "../../assets/Commitment.png";
@@ -9,51 +9,7 @@ import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
 import ScrollToTopButton from "../../components/ScrollToTopButton";
 import ScrollToTop from "../../components/ScrollToTop";
-
-// EVENT CARDS
-type Event = {
-  id: number;
-  img: string;
-  day: string;
-  time: string;
-  name: string;
-  location: string;
-  city: string;
-  quantity: number;
-};
-
-const events = [
-  {
-    id: 1,
-    img : "https://cdn0-production-images-kly.akamaized.net/xYEcqMdBWw6pN0mFBFD5_5uIjz8=/800x450/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/3396365/original/023706600_1615209973-concert-768722_1280.jpg",
-    day: "9/7/2024",
-    time: "12:00 PM",
-    name: "Event 1",
-    location: "District 9",
-    city: "Ho Chi Minh",
-    quantity: 28,
-  },
-  {
-    id: 2,
-    img: "https://cdn0-production-images-kly.akamaized.net/xYEcqMdBWw6pN0mFBFD5_5uIjz8=/800x450/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/3396365/original/023706600_1615209973-concert-768722_1280.jpg",
-    day: "31/10/2024",
-    time: "7:00 AM",
-    name: "Event 2",
-    location: "District 9",
-    city: "Ho Chi Minh",
-    quantity: 18,
-  },
-  {
-    id: 3,
-    img: "https://cdn0-production-images-kly.akamaized.net/xYEcqMdBWw6pN0mFBFD5_5uIjz8=/800x450/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/3396365/original/023706600_1615209973-concert-768722_1280.jpg",
-    day: "3/5/2024",
-    time: "8:00 PM",
-    name: "Event 3",
-    location: "District 9",
-    city: "Ho Chi Minh",
-    quantity: 5,
-  },
-];
+import useMainScreen from "./userMainScreen";
 
 // Next and Previous arrows outside the container
 // SLIDE - MŨI TÊN
@@ -64,7 +20,14 @@ const NextArrow = (props: any) => {
       className="absolute right-0 z-10 top-1/2 -translate-y-1/2 bg-[#8ACDD7] text-white p-2 rounded-full hover:bg-white hover:ring-2 hover:ring-[#8ACDD7] hover:text-[#8ACDD7] cursor-pointer"
       onClick={onClick}
     >
-      <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-5 h-5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+      >
         <path strokeLinecap="round" strokeLinejoin="round" d="M9 18l6-6-6-6" />
       </svg>
     </div>
@@ -78,16 +41,29 @@ const PrevArrow = (props: any) => {
       className="absolute left-0 z-10 top-1/2 -translate-y-1/2 bg-[#8ACDD7] text-white p-2 rounded-full hover:bg-white hover:ring-2 hover:ring-[#8ACDD7] hover:text-[#8ACDD7] cursor-pointer"
       onClick={onClick}
     >
-      <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M15 18l-6-6 6-6" />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-5 h-5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M15 18l-6-6 6-6"
+        />
       </svg>
     </div>
   );
-};	
-
-
+};
 const MainScreen = () => {
-  const navigate: NavigateFunction = useNavigate();
+  const {
+    navigate,
+    events,
+    totalTickets
+  } = useMainScreen();
 
   // SLIDE
   const settings = {
@@ -123,41 +99,40 @@ const MainScreen = () => {
   // TEST BUTTON
   const handleClick = (buttonType: string) => {
     switch (buttonType) {
-      case 'makeSome':
-        console.log('Bạn đã bấm nút Make some money');
+      case "makeSome":
+        console.log("Bạn đã bấm nút Make some money");
         break;
-      case 'seeWhat':
-        console.log('Bạn đã bấm nút See what');
+      case "seeWhat":
+        console.log("Bạn đã bấm nút See what");
         break;
-      case 'viewMore':
-        console.log('Bạn đã bấm nút View More');
+      case "viewMore":
+        console.log("Bạn đã bấm nút View More");
         break;
-        case 'sellNow':
-        console.log('Bạn đã bấm nút Sell Now');
+      case "sellNow":
+        console.log("Bạn đã bấm nút Sell Now");
         break;
-        case 'ourStory':
-        console.log('Bạn đã bấm nút Our Story');
+      case "ourStory":
+        console.log("Bạn đã bấm nút Our Story");
         break;
-        case 'helpCenter':
-        console.log('Bạn đã bấm nút Help Center');
+      case "helpCenter":
+        console.log("Bạn đã bấm nút Help Center");
         break;
       default:
-        console.log('Không xác định');
+        console.log("Không xác định");
     }
   };
 
   return (
     <div className="w-screen min-h-screen flex flex-col">
-
       {/* SCROLL TO TOP */}
-      <ScrollToTop/>
+      <ScrollToTop />
 
-      {/* NAVBAR */} 
-      <NavBar/>
+      {/* NAVBAR */}
+      <NavBar />
 
       {/* SCROLL TO TOP BUTTON */}
-      <ScrollToTopButton/>
-      
+      <ScrollToTopButton />
+
       {/* MAIN CONTENT */}
       <div className="w-full min-h-screen flex-grow">
         {/* MAIN NAVIGATE */}
@@ -165,22 +140,48 @@ const MainScreen = () => {
           {/* Section 1 */}
           <div className="bg-[#FF7878] w-1/2 pt-52 pb-36 flex flex-col justify-center items-center">
             {/* Headline */}
-            <h1 className="font-montserrat text-6xl text-white font-bold mb-2">Sell</h1>
+            <h1 className="font-montserrat text-6xl text-white font-bold mb-2">
+              Sell
+            </h1>
             {/* Sub-Headline */}
             <div className="flex items-center">
-              <p className="font-open-sans text-white text-lg mb-3">Turn your unused tickets into cash</p>
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 pb-2 text-white hover:text-gray-500 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+              <p className="font-open-sans text-white text-lg mb-3">
+                Turn your unused tickets into cash
+              </p>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-7 h-7 pb-2 text-white hover:text-gray-500 cursor-pointer"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
+                />
               </svg>
             </div>
             {/* Button */}
-            <button 
-            className="font-poppins bg-white text-[#8ACDD7] px-6 py-3 rounded-full font-semibold flex items-center hover:translate-x-3 transition ease-in-out delay-150 duration-300 hover:shadow-2xl hover:ring-2 hover:ring-[#8ACDD7] "
-            onClick={() => handleClick('makeSome')}
+            <button
+              className="font-poppins bg-white text-[#8ACDD7] px-6 py-3 rounded-full font-semibold flex items-center hover:translate-x-3 transition ease-in-out delay-150 duration-300 hover:shadow-2xl hover:ring-2 hover:ring-[#8ACDD7] "
+              onClick={() => handleClick("makeSome")}
             >
               Make some money
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 ml-2 mr-0 text-current" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-6 h-6 ml-2 mr-0 text-current"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={1.5}
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m8.25 4.5 7.5 7.5-7.5 7.5"
+                />
               </svg>
             </button>
           </div>
@@ -188,22 +189,51 @@ const MainScreen = () => {
           {/* Section 2 */}
           <div className="bg-[#8ACDD7] w-1/2 pt-52 pb-36  flex flex-col justify-center items-center">
             {/* Headline */}
-            <h1 className="font-montserrat text-6xl text-white font-bold mb-4">Buy</h1>
+            <h1 className="font-montserrat text-6xl text-white font-bold mb-4">
+              Buy
+            </h1>
             {/* Sub-Headline */}
             <div className="flex items-center">
-              <p className="font-open-sans text-white text-lg mb-3">Find last-minute tickets at great prices</p>
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 pb-2 text-white hover:text-gray-500 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+              <p className="font-open-sans text-white text-lg mb-3">
+                Find last-minute tickets at great prices
+              </p>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-7 h-7 pb-2 text-white hover:text-gray-500 cursor-pointer"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
+                />
               </svg>
             </div>
             {/* Button */}
-            <button 
-            className="bg-white text-[#FF6F61] px-6 py-3 rounded-full font-semibold flex items-center hover:translate-x-3 transition ease-in-out delay-150 duration-300 hover:shadow-2xl hover:ring-2 hover:ring-[#FF6F61]"
-            onClick={() => { handleClick('seeWhat'); navigate("/listEvent"); }}
+            <button
+              className="bg-white text-[#FF6F61] px-6 py-3 rounded-full font-semibold flex items-center hover:translate-x-3 transition ease-in-out delay-150 duration-300 hover:shadow-2xl hover:ring-2 hover:ring-[#FF6F61]"
+              onClick={() => {
+                handleClick("seeWhat");
+                navigate("/listEvent");
+              }}
             >
               See what's out there
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 ml-2 mr-0 text-current " fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-6 h-6 ml-2 mr-0 text-current "
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={1.5}
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m8.25 4.5 7.5 7.5-7.5 7.5"
+                />
               </svg>
             </button>
           </div>
@@ -212,24 +242,31 @@ const MainScreen = () => {
         {/* EVENT CARDS */}
         <div className=" w-screen pt-20">
           <h1 className="text-5xl text-center font-bold">Popular Events</h1>
-          <h4 className="text-center py-2 text-[18px]">Don’t miss out on your favorite events</h4>
+          <h4 className="text-center py-2 text-[18px]">
+            Don’t miss out on your favorite events
+          </h4>
 
           {/* Card-Container */}
           <div className="w-full h-fit flex flex-row justify-center items-center py-5">
             <div className="relative w-full max-w-screen-xl h-fit mx-auto">
               {/* Card */}
-              <Slider {...settings} className="flex justify-center items-center">
+              <Slider
+                {...settings}
+                className="flex justify-center items-center"
+              >
                 {events.map((ev) => (
-                  <div key={ev.id} className="pl-10 pr-1 "> {/* Add spacing between cards */}
-                    <div 
-                    className="bg-[#F4F4F4] w-[90%] h-fit rounded-lg shadow-md  transition duration-300 group cursor-pointer"
-                    onClick={() => navigate("/eventDetail")}
+                  <div key={ev.eventId} className="pl-10 pr-1 ">
+                    {" "}
+                    {/* Add spacing between cards */}
+                    <div
+                      className="bg-[#F4F4F4] w-[90%] h-fit rounded-lg shadow-md  transition duration-300 group cursor-pointer"
+                      onClick={() => navigate("/eventDetail")}
                     >
                       {/* Card-Img */}
                       <div className="overflow-hidden rounded-t-lg">
                         <img
-                          src={ev.img}
-                          alt={ev.name}
+                          src={ev.eventImage}
+                          alt={ev.eventName}
                           className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-300"
                         />
                       </div>
@@ -248,23 +285,41 @@ const MainScreen = () => {
                               clipRule="evenodd"
                             />
                           </svg>
-                          <p className="text-red-600 font-medium">
-                            {ev.day}, {ev.time}
-                          </p>
+                          <p className="text-red-600 font-medium">{ev.eventTime}</p>
                         </div>
-                        <h3 className="font-bold text-xl text-ellipsis whitespace-nowrap overflow-hidden">{ev.name}</h3>
+                        <h3 className="font-bold text-xl text-ellipsis whitespace-nowrap overflow-hidden">
+                          {ev.eventName}
+                        </h3>
                         <div className="flex justify-around text-sm text-gray-600 mt-2">
                           {/* Location */}
                           <div className="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="currentColor">
-                              <path fill-rule="evenodd" d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" clip-rule="evenodd"/>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="w-4 h-4 mr-1"
+                              viewBox="0 0 24 24"
+                              fill="currentColor"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+                                clip-rule="evenodd"
+                              />
                             </svg>
                             <p>{ev.location}</p>
                           </div>
                           {/* City */}
                           <div className="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="currentColor">
-                              <path fill-rule="evenodd" d="M3 2.25a.75.75 0 0 0 0 1.5v16.5h-.75a.75.75 0 0 0 0 1.5H15v-18a.75.75 0 0 0 0-1.5H3ZM6.75 19.5v-2.25a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75ZM6 6.75A.75.75 0 0 1 6.75 6h.75a.75.75 0 0 1 0 1.5h-.75A.75.75 0 0 1 6 6.75ZM6.75 9a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM6 12.75a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 6a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75Zm-.75 3.75A.75.75 0 0 1 10.5 9h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 12a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM16.5 6.75v15h5.25a.75.75 0 0 0 0-1.5H21v-12a.75.75 0 0 0 0-1.5h-4.5Zm1.5 4.5a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Zm.75 2.25a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75v-.008a.75.75 0 0 0-.75-.75h-.008ZM18 17.25a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Z" clip-rule="evenodd"/>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="w-4 h-4 mr-1"
+                              viewBox="0 0 24 24"
+                              fill="currentColor"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M3 2.25a.75.75 0 0 0 0 1.5v16.5h-.75a.75.75 0 0 0 0 1.5H15v-18a.75.75 0 0 0 0-1.5H3ZM6.75 19.5v-2.25a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75ZM6 6.75A.75.75 0 0 1 6.75 6h.75a.75.75 0 0 1 0 1.5h-.75A.75.75 0 0 1 6 6.75ZM6.75 9a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM6 12.75a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 6a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75Zm-.75 3.75A.75.75 0 0 1 10.5 9h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 12a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM16.5 6.75v15h5.25a.75.75 0 0 0 0-1.5H21v-12a.75.75 0 0 0 0-1.5h-4.5Zm1.5 4.5a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Zm.75 2.25a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75v-.008a.75.75 0 0 0-.75-.75h-.008ZM18 17.25a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Z"
+                                clip-rule="evenodd"
+                              />
                             </svg>
                             <p>{ev.city}</p>
                           </div>
@@ -284,7 +339,7 @@ const MainScreen = () => {
                                 clipRule="evenodd"
                               />
                             </svg>
-                            <p className="text-white">{ev.quantity}</p>
+                            <p className="text-white">{totalTickets(ev.eventId)}</p>
                           </div>
                         </div>
                       </div>
@@ -296,36 +351,48 @@ const MainScreen = () => {
           </div>
           {/* Button */}
           <div className="flex justify-center pb-2 pt-4">
-            <button 
-            className="outline outline-2 rounded-sm text-[#8ACDD7] font-medium text-lg px-6 py-3 mx-auto hover:bg-[#8ACDD7] hover:text-white"
-            onClick={() => { handleClick('viewMore'); navigate("/listEvent"); }}
+            <button
+              className="outline outline-2 rounded-sm text-[#8ACDD7] font-medium text-lg px-6 py-3 mx-auto hover:bg-[#8ACDD7] hover:text-white"
+              onClick={() => {
+                handleClick("viewMore");
+                navigate("/listEvent");
+              }}
             >
               View More
             </button>
           </div>
         </div>
-        
+
         {/* HERO-SECTION */}
         <div className="w-screen h-[70vh] flex justify-center overflow-hidden pt-20">
           {/* Hero-Img */}
-          <div 
-          className="relative bg-cover bg-center w-full" 
-          style={{ backgroundImage: 'url(https://www.oyorooms.com/blog/wp-content/uploads/2018/02/event.jpg)', backgroundAttachment: 'fixed'}}
+          <div
+            className="relative bg-cover bg-center w-full"
+            style={{
+              backgroundImage:
+                "url(https://www.oyorooms.com/blog/wp-content/uploads/2018/02/event.jpg)",
+              backgroundAttachment: "fixed",
+            }}
           >
             {/* Overlay màu tối */}
             <div className="absolute inset-0 bg-black opacity-50"></div>
             {/* Hero-Content */}
             <div className="relative z-10 flex flex-col items-center justify-center text-center text-white h-full">
-              <h1 className="text-4xl mb-4 font-bold">Can’t Attend? Sell Your Tickets Instantly – Safe and Easy!</h1>
+              <h1 className="text-4xl mb-4 font-bold">
+                Can’t Attend? Sell Your Tickets Instantly – Safe and Easy!
+              </h1>
               <div className="w-1/2">
-                <p className="mb-8 text-[18px]">Don't let your tickets go to waste! Festix provides a fast and secure way to resell your tickets in just a few clicks,
-                ensuring peace of mind with every transaction.</p>
+                <p className="mb-8 text-[18px]">
+                  Don't let your tickets go to waste! Festix provides a fast and
+                  secure way to resell your tickets in just a few clicks,
+                  ensuring peace of mind with every transaction.
+                </p>
               </div>
-              <button 
-              className="px-6 py-3 text-lg font-medium bg-transparent rounded-sm border border-white hover:bg-white hover:text-[#FF6F61] transition"
-              onClick={() => handleClick('sellNow')}
+              <button
+                className="px-6 py-3 text-lg font-medium bg-transparent rounded-sm border border-white hover:bg-white hover:text-[#FF6F61] transition"
+                onClick={() => handleClick("sellNow")}
               >
-              Sell Now
+                Sell Now
               </button>
             </div>
           </div>
@@ -339,48 +406,78 @@ const MainScreen = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-10 pt-3">
             {/* Column 1 */}
             <div className="p-6 text-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 mb-2 mx-auto" viewBox="0 0 24 24" fill="currentColor">
-                <path fill-rule="evenodd" d="M9.315 7.584C12.195 3.883 16.695 1.5 21.75 1.5a.75.75 0 0 1 .75.75c0 5.056-2.383 9.555-6.084 12.436A6.75 6.75 0 0 1 9.75 22.5a.75.75 0 0 1-.75-.75v-4.131A15.838 15.838 0 0 1 6.382 15H2.25a.75.75 0 0 1-.75-.75 6.75 6.75 0 0 1 7.815-6.666ZM15 6.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" clip-rule="evenodd" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-10 h-10 mb-2 mx-auto"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M9.315 7.584C12.195 3.883 16.695 1.5 21.75 1.5a.75.75 0 0 1 .75.75c0 5.056-2.383 9.555-6.084 12.436A6.75 6.75 0 0 1 9.75 22.5a.75.75 0 0 1-.75-.75v-4.131A15.838 15.838 0 0 1 6.382 15H2.25a.75.75 0 0 1-.75-.75 6.75 6.75 0 0 1 7.815-6.666ZM15 6.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z"
+                  clip-rule="evenodd"
+                />
                 <path d="M5.26 17.242a.75.75 0 1 0-.897-1.203 5.243 5.243 0 0 0-2.05 5.022.75.75 0 0 0 .625.627 5.243 5.243 0 0 0 5.022-2.051.75.75 0 1 0-1.202-.897 3.744 3.744 0 0 1-3.008 1.51c0-1.23.592-2.323 1.51-3.008Z" />
               </svg>
-              <h2 className="text-3xl font-semibold text-gray-700 mb-4">Mission</h2>
+              <h2 className="text-3xl font-semibold text-gray-700 mb-4">
+                Mission
+              </h2>
               <p className="text-gray-600 text-lg">
-                Bringing unforgettable event experiences. We believe that every ticket is not just
-                an entry pass, but a chance for you to participate and enjoy unforgettable moments.
+                Bringing unforgettable event experiences. We believe that every
+                ticket is not just an entry pass, but a chance for you to
+                participate and enjoy unforgettable moments.
               </p>
             </div>
 
             {/* Column 2 */}
             <div className="p-6 text-center">
-              <img src={commitent} alt="Commitent" className="w-16 h-[48px] mx-auto"/>
-              <h2 className="text-3xl font-semibold text-gray-700 mb-4">Commitment</h2>
+              <img
+                src={commitent}
+                alt="Commitent"
+                className="w-16 h-[48px] mx-auto"
+              />
+              <h2 className="text-3xl font-semibold text-gray-700 mb-4">
+                Commitment
+              </h2>
               <p className="text-gray-600 text-lg">
-                Ensuring genuine tickets and competitive pricing. We are committed to providing
-                legitimate tickets, transparent transactions, and delivering the best value for
-                our customers.
+                Ensuring genuine tickets and competitive pricing. We are
+                committed to providing legitimate tickets, transparent
+                transactions, and delivering the best value for our customers.
               </p>
             </div>
 
             {/* Column 3 */}
             <div className="p-6 text-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 mb-2 mx-auto" viewBox="0 0 24 24" fill="currentColor">
-                <path fill-rule="evenodd" d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z" clip-rule="evenodd" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-10 h-10 mb-2 mx-auto"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z"
+                  clip-rule="evenodd"
+                />
                 <path d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
               </svg>
-              <h2 className="text-3xl font-semibold text-gray-700 mb-4">Our Team</h2>
+              <h2 className="text-3xl font-semibold text-gray-700 mb-4">
+                Our Team
+              </h2>
               <p className="text-gray-600 text-lg">
-                A professional and dedicated team. With experienced professionals, we are always
-                ready to assist you in finding tickets, answering inquiries, and providing the
-                best service possible.
+                A professional and dedicated team. With experienced
+                professionals, we are always ready to assist you in finding
+                tickets, answering inquiries, and providing the best service
+                possible.
               </p>
             </div>
           </div>
 
           {/* Button */}
           <div className="flex justify-center">
-            <button 
-            className="bg-[#8ACDD7] text-white text-lg px-6 py-3 font-medium rounded-sm hover:bg-[#FF7878]"
-            onClick={() => handleClick('ourStory')}
+            <button
+              className="bg-[#8ACDD7] text-white text-lg px-6 py-3 font-medium rounded-sm hover:bg-[#FF7878]"
+              onClick={() => handleClick("ourStory")}
             >
               Our Story
             </button>
@@ -390,22 +487,23 @@ const MainScreen = () => {
         {/* HELP CENTER */}
         <div className="flex h-[60%] bg-black overflow-hidden mt-20">
           {/* Content */}
-          <div className="w-2/5 text-white p-32 flex items-center justify-center flex-col">        
+          <div className="w-2/5 text-white p-32 flex items-center justify-center flex-col">
             <h2 className="text-4xl font-bold mb-6">
               Need Help? Check Out Our Help Center
             </h2>
             <p className="text-lg mb-6">
-            Explore our Help Center for quick solutions, step-by-step guides, and personalized support to keep you moving forward.
+              Explore our Help Center for quick solutions, step-by-step guides,
+              and personalized support to keep you moving forward.
             </p>
-            <button 
-            className="bg-transparent text-white font-medium py-2 px-4 rounded-sm border border-white self-start hover:bg-white hover:text-[#FF6F61] transition"
-            onClick={() => handleClick('helpCenter')}
+            <button
+              className="bg-transparent text-white font-medium py-2 px-4 rounded-sm border border-white self-start hover:bg-white hover:text-[#FF6F61] transition"
+              onClick={() => handleClick("helpCenter")}
             >
               Go to Help Center
-            </button>  
+            </button>
           </div>
 
-          {/* Img */}     
+          {/* Img */}
           <div className="w-3/5 transform skew-x-12 translate-x-12">
             <img
               src={helpCenter}
@@ -416,7 +514,7 @@ const MainScreen = () => {
         </div>
       </div>
 
-      {/* FOOTER */}           
+      {/* FOOTER */}
       <div className="flex-grow-0">
         <Footer />
       </div>
