@@ -58,6 +58,21 @@ namespace TicketResell_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Carts",
+                columns: table => new
+                {
+                    cartId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    userId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ticketId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    quanity = table.Column<int>(type: "int", nullable: false),
+                    price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Carts", x => x.cartId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Chats",
                 columns: table => new
                 {
@@ -94,6 +109,43 @@ namespace TicketResell_API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Message", x => x.messageId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderDetails",
+                columns: table => new
+                {
+                    orderDetailId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    orderId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ticketId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    receiverName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    receiverPhone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    receiverEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    quantity = table.Column<int>(type: "int", nullable: true),
+                    status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    createdAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderDetails", x => x.orderDetailId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    orderId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    userId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    orderDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    totalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.orderId);
                 });
 
             migrationBuilder.CreateTable(
@@ -339,6 +391,9 @@ namespace TicketResell_API.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Carts");
+
+            migrationBuilder.DropTable(
                 name: "ChatData");
 
             migrationBuilder.DropTable(
@@ -346,6 +401,12 @@ namespace TicketResell_API.Migrations
 
             migrationBuilder.DropTable(
                 name: "MessageData");
+
+            migrationBuilder.DropTable(
+                name: "OrderDetails");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Tickets");
