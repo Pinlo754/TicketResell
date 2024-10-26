@@ -11,6 +11,7 @@ import logo from './Logo_festix.png'
 import hongle from './avatar.png'
 import ticket from './ticket.png'
 import avatar from './avatar_icon.png'
+import card from './card.png'
 const assets = {
     gallery_icon,
     help_icon,
@@ -24,7 +25,8 @@ const assets = {
     logo,
     hongle,
     ticket,
-    avatar
+    avatar,
+    card
 }
 
 export default assets;
