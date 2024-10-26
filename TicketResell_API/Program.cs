@@ -66,6 +66,9 @@ builder.Services.AddAuthorization(Options =>
     Options.AddPolicy("UserPolicy", policy => policy.RequireRole("User"));
 });
 
+
+
+//add vnpayservice in scoped
 builder.Services.AddScoped<VnPayService>();
 
 //CORS service
@@ -136,6 +139,17 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    // Create the "User" role if it does not exist.
+    if (!await roleManager.RoleExistsAsync("User"))
+    {
+        await roleManager.CreateAsync(new IdentityRole("User"));
+    }
+}
 
 if (app.Environment.IsDevelopment())
 {

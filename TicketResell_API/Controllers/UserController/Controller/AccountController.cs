@@ -60,6 +60,14 @@ namespace TicketResell_API.Controllers.UserController.Controller
                 {
                     //Find user after successful creation
                     var _user = await _userManager.FindByEmailAsync(model.email!);
+                    // Assign default role "User" to new users
+                    var roleResult = await _userManager.AddToRoleAsync(_user!, "User");
+                    if (!roleResult.Succeeded)
+                    {
+                        //If role assignment fails, delete user and return error
+                        await _userManager.DeleteAsync(_user!);
+                        return StatusCode(500, "Failed to assign default role.");
+                    }
                     //Generate email confirmation code
                     var emailCode = await _userManager.GenerateEmailConfirmationTokenAsync(_user!);
                     //Send confirmation email
