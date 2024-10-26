@@ -73,7 +73,9 @@ namespace TicketResell_API.Controllers.UserController.Controller
                     //Send confirmation email
                     string sendEmailResult = await _emailSender.SendConfirmationEmailAsync(_user.Email, emailCode);
                     //create notification to let user know that registration is successful
-                    return Ok(new { message = "User registered successfully", sendEmailResult });
+                    return Ok(new { message = "User registered successfully", 
+                                    sendEmailResult, 
+                                    UserId = user.Id });
                 }
             }
             //Returns error if account creation fails
