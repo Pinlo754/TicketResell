@@ -14,6 +14,11 @@ import VerifyEmailScreen from "../pages/VerifyEmailScreen/VerifyEmailScreen";
 import UserProfile from "../pages/UserProfile";
 import AppChatContextProvider from "../context/AppChatContext";
 import AccountProfile from "../pages/Account/Account"
+import AdminBoard from "../pages/Admin/AdminBoard";
+import TicketBoard from "../components/Admin/Ticket/TicketBoard";
+import OrderBoard from "../components/Admin/OrderBoard/OrderBoard";
+import UserBoard from "../components/Admin/UserBoard/UserBoard";
+=======
 import Sell from "../pages/Sell";
 
 const routers = createBrowserRouter([
@@ -72,6 +77,22 @@ const routers = createBrowserRouter([
   {
     path: "/profile",
     element: <AccountProfile/>,
+  },
+  {
+    path: "/Admin",
+    element: <AdminBoard/>,
+  },
+  {
+    path: "/Admin/Ticket",
+    element: <TicketBoard/>,
+  },
+  {
+    path: "/Admin/Orders",
+    element: <OrderBoard/>,
+  },
+  {
+    path: "/Admin/Customers",
+    element: <UserBoard/>,
   },
 ]);
 

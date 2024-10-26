@@ -15,6 +15,7 @@ const MainContent = () => {
   const [bio, setBio] = useState("");
   const [prevImage, setPrevImage] = useState<File | "">();
   const [image, setImage] = useState("");
+  
   const token = localStorage.getItem("token")
   const uId = localStorage.getItem("userId")
 

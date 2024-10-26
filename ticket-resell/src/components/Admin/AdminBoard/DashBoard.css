@@ -1,0 +1,145 @@
+  
+  .dashboard {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .dashboard-title {
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: white;
+    font-weight: normal;
+  }
+
+  .cards-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .dashboard-card {
+    background: white;
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    min-width: 250px;
+    flex: 1;
+  }
+
+  .card-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .icon-wrapper.orders {
+    background-color: rgba(0,255,0,0.1);
+    color: #4CAF50;
+  }
+
+  .icon-wrapper.inventory {
+    background-color: rgba(63,81,255,0.1);
+    color: #3F51B5;
+  }
+
+  .icon-wrapper.customers {
+    background-color: rgba(0,255,255,0.1);
+    color: #00BCD4;
+  }
+
+  .icon-wrapper.revenue {
+    background-color: rgba(255,0,0,0.1);
+    color: #F44336;
+  }
+
+  .stat-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-title {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .stat-value {
+    font-size: 24px;
+    color: #333;
+  }
+
+  .bottom-section {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .recent-orders {
+    flex: 1;
+    min-width: 300px;
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    max-height: 50%;
+  }
+
+  .recent-orders h5 {
+    margin-bottom: 16px;
+    color: #333;
+    font-weight: normal;
+  }
+
+  .orders-table {
+    width: 100%;
+    border-collapse: collapse;
+        align-items: center;
+  }
+
+  .orders-table th {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+    font-weight: normal;
+  }
+
+  .orders-table td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    color: #666;
+  }
+
+  .gia-tri-bang{
+    text-align: center;
+  }
+
+  .chart-container {
+    flex: 2;
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    height: 400px;
+  }
+
+  @media (max-width: 768px) {
+    .dashboard-card {
+      min-width: 100%;
+    }
+    
+    .recent-orders, .chart-container {
+      min-width: 100%;
+    }
+  }

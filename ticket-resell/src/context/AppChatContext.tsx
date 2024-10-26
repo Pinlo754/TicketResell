@@ -128,8 +128,8 @@ const AppChatContextProvider = ({ children }: AppChatContextProviderProps) => {
     newSocket.on("connect", handleConnect);
     newSocket.on("disconnect", handleDisconnect);
     newSocket.on("error", handleError);
-    newSocket.on("chatUpdated", handleChatUpdate); // Add listener for chat updates
-    newSocket.on("newMessage", handleChatUpdate); // Also refresh on new messages
+    newSocket.on("chatUpdated", handleChatUpdate); // 
+    newSocket.on("newMessage", handleChatUpdate); // 
     setSocket(newSocket);
 
     // Cleanup function
