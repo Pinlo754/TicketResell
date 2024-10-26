@@ -177,7 +177,10 @@ const EventDetail = () => {
 
                     {/* Quantity */}
                     <div className="relative z-10 pb-12 flex justify-between mt-10">
-                        <button className="bg-transparent text-white font-semibold ml-10 group flex items-center">
+                        <button 
+                        className="bg-transparent text-white font-semibold ml-10 group flex items-center"
+                        onClick={() => navigate("/sell")}
+                        >
                             Sell your tickets on Festix
                             <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-2" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />

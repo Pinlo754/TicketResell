@@ -14,6 +14,8 @@ import VerifyEmailScreen from "../pages/VerifyEmailScreen/VerifyEmailScreen";
 import UserProfile from "../pages/UserProfile";
 import AppChatContextProvider from "../context/AppChatContext";
 import AccountProfile from "../pages/Account/Account"
+import Sell from "../pages/Sell";
+
 const routers = createBrowserRouter([
   {
     path: "/",
@@ -62,6 +64,10 @@ const routers = createBrowserRouter([
   {
     path: "/userProfile",
     element: <UserProfile />,
+  },
+  {
+    path: "/sell",
+    element: <Sell />,
   },
   {
     path: "/profile",
