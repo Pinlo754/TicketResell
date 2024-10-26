@@ -66,5 +66,26 @@ namespace TicketResell_API.Controllers.UserController.Controller
             //If the role assignment fails, notify of errors that occurred during the role assignment process.
             return BadRequest(result.Errors);
         }
-    }
+
+        [HttpDelete("delete-user/{userId}")]
+        public async Task<IActionResult> DeleteUser(string userId)
+        {
+            //find user by Id
+            var deUser = await _userManager.FindByIdAsync(userId);
+            //check if user is null or not
+            if (deUser == null)
+            {
+                return BadRequest("User not found");
+            }
+            //delete user
+            var result = await _userManager.DeleteAsync(deUser);
+            //if false return 500
+            if (!result.Succeeded)
+            {
+                return StatusCode(500, "Failed to delete user");
+            }
+            return Ok("User deleted successfully");
+        }
+
+       }
 }
