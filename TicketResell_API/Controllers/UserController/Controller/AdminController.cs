@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TicketResell_API.Controllers.UserController.Model;
 namespace TicketResell_API.Controllers.UserController.Controller
 {
@@ -17,6 +18,7 @@ namespace TicketResell_API.Controllers.UserController.Controller
         }
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<MainUser> _userManager;
+
         public AdminController(RoleManager<IdentityRole> roleManager, UserManager<MainUser> userManager)
         {
             _roleManager = roleManager;
@@ -65,6 +67,14 @@ namespace TicketResell_API.Controllers.UserController.Controller
             }
             //If the role assignment fails, notify of errors that occurred during the role assignment process.
             return BadRequest(result.Errors);
+        }
+
+        [HttpGet("list-user")]
+        public async Task<IActionResult> GetUserList()
+        {
+            //list all user
+            var users = await _userManager.Users.ToListAsync();
+            return Ok(users);
         }
 
         [HttpDelete("delete-user/{userId}")]
