@@ -10,6 +10,25 @@ const useVerifyEmailScreen = () => {
   const [isSendingOTP, setIsSendingOTP] = useState<boolean>(true);
   const navigate = useNavigate(); 
 
+
+  type chatData = {
+    id: string;
+    lastMessage: string;
+    messageId: string;
+    messageSeen: boolean;
+    reUserId: string;
+    updatedAt: Date;
+  };
+
+  const chat = {
+    id : "",
+    lastMessage: "",
+    messageId: "",
+    messageSeen: false,
+    reUserId: "",
+    updatedAt: new Date(),
+  }
+
   const handleResendOTP = async () => {
     if (isSendingOTP) return;
     setIsSendingOTP(true);
@@ -23,9 +42,15 @@ const useVerifyEmailScreen = () => {
 
     try {
       const response = await axios.post("/api/account/confirmation-email", { email, code });
-      navigate('/')
-      setSuccessMessage("Mã OTP đã được gửi đến email của bạn. Vui lòng kiểm tra hộp thư.");
-      setErrorMessage("");
+      console.log(response.data.message);
+      if (response.data.userId) {
+        const seUserId = response.data.userId;
+        const response1 = await axios.post("/api/Chat/post-chat", { seUserId,  chat });
+        console.log(response1.data.message);
+        navigate('/');
+      } else {
+        setErrorMessage("User object not found in the response.");
+      }
     } catch (error: any) {
       if (axios.isAxiosError(error) && error.response) {
         setErrorMessage(error.response.data.errors[0] || "Đã có lỗi xảy ra.");

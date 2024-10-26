@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TicketResell_API.Migrations
 {
     /// <inheritdoc />
-    public partial class initmigration : Migration
+    public partial class phongpinlo : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -97,22 +97,45 @@ namespace TicketResell_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    orderId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    userId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    receiverName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    receiverPhone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    receiverEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    orderDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    totalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    statusId = table.Column<int>(type: "int", nullable: true),
+                    rateId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.orderId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tickets",
                 columns: table => new
                 {
                     ticketId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ticketName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    quantity = table.Column<int>(type: "int", nullable: true),
+                    quantity = table.Column<int>(type: "int", nullable: false),
                     price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     originPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    image = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    images = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     userId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    section = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    row = table.Column<int>(type: "int", nullable: true),
                     description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    time = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    isValid = table.Column<bool>(type: "bit", nullable: false),
-                    location = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     eventId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    createAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    createAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     updateAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
@@ -346,6 +369,9 @@ namespace TicketResell_API.Migrations
 
             migrationBuilder.DropTable(
                 name: "MessageData");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Tickets");

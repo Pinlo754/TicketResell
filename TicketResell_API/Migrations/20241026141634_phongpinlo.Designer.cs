@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TicketResell_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241026040217_initmigration")]
-    partial class initmigration
+    [Migration("20241026141634_phongpinlo")]
+    partial class phongpinlo
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -275,7 +275,7 @@ namespace TicketResell_API.Migrations
                     b.Property<string>("ticketId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime?>("createAt")
+                    b.Property<DateTime>("createAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("description")
@@ -285,14 +285,8 @@ namespace TicketResell_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("image")
+                    b.Property<string>("images")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("isValid")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("location")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("originPrice")
@@ -301,15 +295,25 @@ namespace TicketResell_API.Migrations
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("quantity")
+                    b.Property<int>("quantity")
                         .HasColumnType("int");
+
+                    b.Property<int?>("row")
+                        .HasColumnType("int");
+
+                    b.Property<string>("section")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ticketName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("time")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("type")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("updateAt")
                         .HasColumnType("datetime2");
@@ -321,6 +325,49 @@ namespace TicketResell_API.Migrations
                     b.HasKey("ticketId");
 
                     b.ToTable("Tickets");
+                });
+
+            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.Order", b =>
+                {
+                    b.Property<int?>("orderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("orderId"));
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("orderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("rateId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("receiverEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("receiverName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("receiverPhone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("statusId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("totalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("userId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("orderId");
+
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("TicketResell_API.Controllers.UserController.Model.MainUser", b =>
