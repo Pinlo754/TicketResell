@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import ProgressBar from '../../components/ProgressBar';
-import useSell, { Event } from './useSell';
-import Search from '../../components/Search';
+import React, { useState } from "react";
+import ProgressBar from "../../components/ProgressBar";
+import useSell, { Event } from "./useSell";
+import Search from "../../components/Search";
 import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
 import ScrollToTopButton from "../../components/ScrollToTopButton";
@@ -10,9 +10,7 @@ import ScrollToTop from "../../components/ScrollToTop";
 const Sell: React.FC = () => {
   const {
     mockEvents,
-    navigate,
     step,
-    setStep,
     selectedEvent,
     setSelectedEvent,
     handleEventSelect,
@@ -39,13 +37,26 @@ const Sell: React.FC = () => {
             setSelectedEvent(null); // Hủy chọn sự kiện
           }}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-5 h-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18 18 6M6 6l12 12"
+            />
           </svg>
         </button>
       )}
       <h3 className="font-semibold">{event.name}</h3>
-      <p>{event.date} - {event.time}</p>
+      <p>
+        {event.date} - {event.time}
+      </p>
       <p>{event.location}</p>
     </div>
   );
@@ -64,8 +75,7 @@ const Sell: React.FC = () => {
       {/* MAIN CONTENT */}
       <div className="w-[50%] mx-auto p-4 ">
         <div className="w-full mt-20 flex justify-center items-center mx-auto">
-         
-            <ProgressBar currentStep={step} steps={2} />
+          <ProgressBar currentStep={step} steps={2} />
         </div>
 
         {step === 1 && (
