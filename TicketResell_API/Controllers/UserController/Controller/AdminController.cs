@@ -87,6 +87,7 @@ namespace TicketResell_API.Controllers.UserController.Controller
                 var userWithRolesDto = new UserWithRoles
                 {
                     userId = user.Id,
+                    userImage = user.userImage,
                     userName = user.UserName,
                     email = user.Email,
                     firstName = user.firstName,
