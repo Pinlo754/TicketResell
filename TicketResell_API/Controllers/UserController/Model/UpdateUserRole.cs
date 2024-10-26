@@ -5,7 +5,7 @@ namespace TicketResell_API.Controllers.UserController.Model
     public class UpdateUserRole
     {
         [Required]
-        public string? email {  get; set; }
+        public string? userId {  get; set; }
         [Required]
         public string? newRole { get; set; }
     }

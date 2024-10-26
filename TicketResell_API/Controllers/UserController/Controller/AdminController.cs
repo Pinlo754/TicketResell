@@ -101,13 +101,13 @@ namespace TicketResell_API.Controllers.UserController.Controller
         public async Task<IActionResult> UpdateUserRole([FromBody] UpdateUserRole model)
         {
             //check input information
-            if (model == null || string.IsNullOrEmpty(model.email) || string.IsNullOrEmpty(model.newRole))
+            if (model == null || string.IsNullOrEmpty(model.userId) || string.IsNullOrEmpty(model.newRole))
             {
-                return BadRequest("Email and role are required.");
+                return BadRequest("UserId and role are required.");
             }
 
             //find user by email
-            var user = await _userManager.FindByEmailAsync(model.email);
+            var user = await _userManager.FindByIdAsync(model.userId);
             if (user == null) 
             {
                 return NotFound("User not found");
