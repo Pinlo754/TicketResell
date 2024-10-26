@@ -6,7 +6,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TicketResell_API.Controllers.ChatController.Model;
 using TicketResell_API.Controllers.Service;
+
 using TicketResell_API.Controllers.UserController.Model;
+using TicketResell_API.Controllers.VnPayController.Model;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -63,6 +65,8 @@ builder.Services.AddAuthorization(Options =>
     Options.AddPolicy("StaffPolicy", policy => policy.RequireRole("Staff"));
     Options.AddPolicy("UserPolicy", policy => policy.RequireRole("User"));
 });
+
+builder.Services.AddScoped<VnPayService>();
 
 //CORS service
 builder.Services.AddCors(options =>

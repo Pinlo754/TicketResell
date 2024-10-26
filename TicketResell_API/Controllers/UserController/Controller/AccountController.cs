@@ -76,7 +76,7 @@ namespace TicketResell_API.Controllers.UserController.Controller
         public async Task<IActionResult> Confirmation([FromBody] EmailConfirmation model)
         {
             //check the email not null and code not <=0
-            if (string.IsNullOrEmpty(model.email) || model.code <= 0)
+            if (string.IsNullOrEmpty(model.email) || string.IsNullOrEmpty(model.code))
             {
                 return BadRequest("Invalid code provided");
             }
@@ -94,7 +94,7 @@ namespace TicketResell_API.Controllers.UserController.Controller
                 return BadRequest("Too many fail attemp. Please try again later");
             }
             //Email confirmation
-            var result = await _userManager.ConfirmEmailAsync(user, model.code.ToString()!);
+            var result = await _userManager.ConfirmEmailAsync(user, model.code);
             if (!result.Succeeded)
             {
                 //If the code is incorrect, increase the number of incorrect entries by 1
@@ -170,7 +170,7 @@ namespace TicketResell_API.Controllers.UserController.Controller
                 {
                     UserId = user.Id,
                     Token = new JwtSecurityTokenHandler().WriteToken(token),
-                    Expiration = token.ValidTo,
+                    Role = userRole,
                 });
             }
             //If the login information is incorrect, return HTTP status code 401 (Unauthorized)

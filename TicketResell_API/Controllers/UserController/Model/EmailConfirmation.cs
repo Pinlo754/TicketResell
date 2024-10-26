@@ -8,6 +8,6 @@ namespace TicketResell_API.Controllers.UserController.Model
         [Required]
         public string? email { get; set; }
         [Required]
-        public int? code { get; set; }
+        public string? code { get; set; }
     }
 }
