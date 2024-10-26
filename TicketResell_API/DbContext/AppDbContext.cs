@@ -5,6 +5,7 @@ using TicketResell_API.Controllers.ChatController.Model;
 using TicketResell_API.Controllers.EventController.Model;
 using TicketResell_API.Controllers.UserController.Model;
 using TicketResell_API.Controllers.TicketController.Model;
+using TicketResell_API.Controllers.User.Model;
 
 public class AppDbContext : IdentityDbContext<MainUser>
 {
@@ -16,6 +17,7 @@ public class AppDbContext : IdentityDbContext<MainUser>
     public DbSet<Event> Events { get; set; }
 
     public DbSet<Ticket> Tickets { get; set; }
+    public DbSet<Order> Orders { get; set; }
 
 
 }

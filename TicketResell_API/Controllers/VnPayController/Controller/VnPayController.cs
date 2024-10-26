@@ -6,6 +6,7 @@ using Org.BouncyCastle.Utilities.Net;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using TicketResell_API.Controllers.User.Model;
 using TicketResell_API.Controllers.VnPayController.Model;
 
 
@@ -17,15 +18,17 @@ namespace TicketResell_API.Controllers.VnPayController.Controller
     {
         private readonly IConfiguration _configuration;
         private readonly VnPayService _vpnPayService;
+        private readonly AppDbContext _context;
 
-        public VnPayController(IConfiguration configuration, VnPayService vnPayService)
+        public VnPayController(IConfiguration configuration, VnPayService vnPayService, AppDbContext context)
         {
             _configuration = configuration;
             _vpnPayService = vnPayService;
+            _context = context;
         }
 
         [HttpPost("create-payment")]
-        public IActionResult CreatePaymentUrl([FromBody] VnPayPayment model)
+        public IActionResult CreatePaymentUrl([FromBody] Order model)
         {
             string? ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
             string? vnp_TmnCode = _configuration["VNPAY:vnp_TmnCode"];
@@ -33,21 +36,19 @@ namespace TicketResell_API.Controllers.VnPayController.Controller
             string? vnp_Url = _configuration["VNPAY:vnp_Url"];
             string? vnp_ReturnUrl = _configuration["VNPAY:vnp_ReturnUrl"];
 
-            var vnp_Params = new SortedList<string, string>
-            {
-            { "vnp_Version", "2.1.0" },
-            { "vnp_Command", "pay" },
-            { "vnp_TmnCode", vnp_TmnCode },
-            { "vnp_Amount", ((int)(model.Amount * 100)).ToString() },
-            { "vnp_CreateDate", DateTime.Now.ToString("yyyyMMddHHmmss")},
-            { "vnp_CurrCode", "VND" },
-            { "vnp_IpAddr", ipAddress},
-            { "vnp_Locale", "vn" },
-            { "vnp_OrderInfo", $"Thanh toan don hang: {model.OrderId}" },
-            { "vnp_OrderType", "billpayment" },
-            { "vnp_ReturnUrl", vnp_ReturnUrl },
-            { "vnp_TxnRef", model.OrderId.ToString() }
-        };
+            var vnp_Params = new SortedList<string, string>();
+            vnp_Params.Add("vnp_Version", "2.1.0");
+            vnp_Params.Add("vnp_Command", "pay");
+            vnp_Params.Add("vnp_TmnCode", vnp_TmnCode);
+            vnp_Params.Add("vnp_Amount", ((int)(model.totalAmount * 100)).ToString());
+            vnp_Params.Add("vnp_CreateDate", model.orderDate?.ToString("yyyyMMddHHmmss") ?? DateTime.Now.ToString("yyyyMMddHHmmss"));
+            vnp_Params.Add("vnp_CurrCode", "VND");
+            vnp_Params.Add("vnp_IpAddr", ipAddress);
+            vnp_Params.Add("vnp_Locale", "vn");
+            vnp_Params.Add("vnp_OrderInfo", $"Thanh toan don hang: {model.orderId}");
+            vnp_Params.Add("vnp_OrderType", "billpayment");
+            vnp_Params.Add("vnp_ReturnUrl", vnp_ReturnUrl);
+            vnp_Params.Add("vnp_TxnRef", model.orderId.ToString());
 
             StringBuilder data = new StringBuilder();
             foreach (var kv in vnp_Params)
@@ -94,8 +95,26 @@ namespace TicketResell_API.Controllers.VnPayController.Controller
 
             if (calculatedHash.Equals(secureHash, StringComparison.OrdinalIgnoreCase))
             {
-                // Không cần cập nhật trạng thái đơn hàng
-                return Ok("Giao dịch hoàn tất");
+                 if (vnpayData.TryGetValue("vnp_TxnRef", out string txnRef) && int.TryParse(txnRef, out int orderId))
+                {
+                    var order = _context.Orders.FirstOrDefault(c => c.orderId == orderId);
+                    if (order != null)
+                    {
+                        order.Status = vnpayData["vnp_ResponseCode"] == "00" ? "paid" : "failed";
+                        _context.Orders.Update(order);
+                        _context.SaveChanges();
+
+                        return Ok("Giao dịch hoàn tất");
+                    }
+                    else
+                    {
+                        return NotFound("Không tìm thấy đơn hàng.");
+                    }
+                }
+                else
+                {
+                    return NotFound("Không tìm thấy đơn hàng.");
+                }
             }
             else
             {
