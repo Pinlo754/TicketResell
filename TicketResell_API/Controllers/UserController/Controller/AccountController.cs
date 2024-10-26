@@ -75,7 +75,9 @@ namespace TicketResell_API.Controllers.UserController.Controller
                     //create notification to let user know that registration is successful
                     return Ok(new { message = "User registered successfully", 
                                     sendEmailResult, 
-                                    UserId = user.Id });
+                                    UserId = user.Id,
+                                    
+                    });
                 }
             }
             //Returns error if account creation fails
@@ -179,6 +181,14 @@ namespace TicketResell_API.Controllers.UserController.Controller
                 return Ok(new
                 {
                     UserId = user.Id,
+                    UserName = user.UserName,
+                    EmailConfirm = user.EmailConfirmed,
+                    UserImage = user.userImage,
+                    UserFirstName = user.firstName,
+                    UserLastName = user.lastName,
+                    UserBio = user.bio,
+                    UserGender = user.gender,
+                    UserAddress = user.address,
                     Token = new JwtSecurityTokenHandler().WriteToken(token),
                     Role = userRole,
                 });
