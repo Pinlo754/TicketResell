@@ -35,12 +35,33 @@ namespace TicketResell_API.Controllers.TicketController.Controller
             }
 
             model.ticketId = Guid.NewGuid().ToString();
+            model.createAt = DateTime.Now;
+            model.status = "Pending";
 
             await _appDbContext.Tickets.AddAsync(model);
             await _appDbContext.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetTicketById), new { model.ticketId }, model);
         }
+
+        [HttpPut("verify-ticket/{ticketId}")]
+        public async Task<IActionResult> VerifyTicket([FromBody] String ticketId)
+        {
+            var ticket = await _appDbContext.Tickets.FindAsync(ticketId);
+            if (ticket == null)
+            {
+                return NotFound("No ticket found");
+            }
+
+            ticket.status = "Approved";
+
+            await _appDbContext.Tickets.AddAsync(ticket);
+            await _appDbContext.SaveChangesAsync();
+
+            return Ok("Verify ticket successfully");
+        }
+
+
 
         [HttpGet("get-ticket/{ticketId}")]
         public async Task<IActionResult> GetTicketById(string ticketId)
@@ -52,6 +73,22 @@ namespace TicketResell_API.Controllers.TicketController.Controller
                 return NotFound("No ticket found");
             }
             return Ok(ticket);
+        }
+
+        [HttpGet("get-tickets-by-event/{eventId}")]
+        public async Task<IActionResult> GetTicketsByEvent(string eventId)
+        {
+            // Tìm danh sách ticket theo eventId
+            var tickets = await _appDbContext.Tickets
+                .Where(ticket => ticket.eventId == eventId)
+                .ToListAsync();
+
+            if (tickets == null || !tickets.Any())
+            {
+                return NotFound("No tickets found for this event");
+            }
+
+            return Ok(tickets);
         }
 
         [HttpPut("update-ticket/{ticketId}")]
@@ -70,14 +107,14 @@ namespace TicketResell_API.Controllers.TicketController.Controller
             existingTicket.quantity = model.quantity;
             existingTicket.price = model.price;
             existingTicket.originPrice = model.originPrice;
-            existingTicket.image = model.image;
+            existingTicket.images = model.images;
             existingTicket.description = model.description;
-            existingTicket.time = model.time;
-            existingTicket.isValid = model.isValid;
-            existingTicket.location = model.location;
+            existingTicket.status = model.status;
+            existingTicket.type = model.type;
+            existingTicket.section = model.section;
+            existingTicket.row = model.row;
             existingTicket.eventId = model.eventId;
-            existingTicket.createAt = model.createAt;
-            existingTicket.updateAt = model.updateAt;
+            existingTicket.updateAt = DateTime.Now;
             //save to db
             var result = await _appDbContext.SaveChangesAsync();
             //check the result <= 0 or not

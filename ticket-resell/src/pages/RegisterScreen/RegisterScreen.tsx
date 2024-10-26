@@ -21,7 +21,7 @@ const RegisterScreen = () => {
   return (
     <main className="flex h-screen bg-gradient-to-t from-[#B9EDDD] to-[#577D86] items-center justify-center">
       <div className="flex flex-col max-w-full">
-        <div className="flex flex-col px-7 py-2 w-[389px] h-[411px] rounded-xl bg-zinc-100 shadow-2xl">
+        <div className="flex flex-col px-7 py-2 w-[389px] h-[440px] rounded-xl bg-zinc-100 shadow-2xl">
           <div className="self-center w-[54%] h-[15%] mt-[12px] max-w-full w-[88px]">
           <div className="self-center w-[54%] h-[15%] mt-[12px] max-w-full w-[351px]">
             <div className="flex items-center justify-center">

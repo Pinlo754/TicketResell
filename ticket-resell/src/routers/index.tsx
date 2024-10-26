@@ -42,11 +42,11 @@ const routers = createBrowserRouter([
     element: <ListEvent />,
   },
   {
-    path: "/eventDetail",
+    path: "/eventDetail/:eventId",
     element: <EventDetail />,
   },
   {
-    path: "/ticketDetail",
+    path: "/ticketDetail/:ticketId",
     element: <TicketDetail />,
   },
   {

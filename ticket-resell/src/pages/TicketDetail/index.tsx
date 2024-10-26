@@ -1,167 +1,20 @@
 import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
-import { NavigateFunction, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import ScrollToTopButton from "../../components/ScrollToTopButton";
 import ScrollToTop from "../../components/ScrollToTop";
-
-// TICKET
-type Ticket = {
-    id: number;
-    img: string;
-    category: string;
-    section: string;
-    type: string;
-    row: number;
-    originalPrice: number;
-    price: number;
-    quantity: number;
-    description: string;
-  }
-  const ticket: Ticket ={
-    id: 1,
-    img: "https://www.oyorooms.com/blog/wp-content/uploads/2018/02/event.jpg",
-    category: "E-Ticket",
-    section: "A",
-    type: "Seat",
-    row: 28,
-    originalPrice: 90000,
-    price: 100000,
-    quantity: 5,
-    description: "Bla bla"
-  }
-
-  type Comment = {
-    id: number;
-    name: string;
-    avatar: string; // URL ảnh đại diện
-    rating: number;
-    date: string;
-    time: string;
-    comment: string;
-  };
-  
-  const comments: Comment[] = [
-    {
-      id: 1,
-      name: "Martin Luather",
-      avatar:
-        "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
-      rating: 3,
-      date: "28/08/2004",
-      time: "07:45 AM",
-      comment:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    },
-    {
-      id: 2,
-      name: "John Doe",
-      avatar:
-        "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
-      rating: 2,
-      date: "31/08/2004",
-      time: "07:45 AM",
-      comment:
-        "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
-    },
-    {
-      id: 3,
-      name: "Jane Smith",
-      avatar:
-        "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
-      rating: 2,
-      date: "25/05/2004",
-      time: "07:45 AM",
-      comment:
-        "It has survived not only five centuries, but also the leap into electronic typesetting.",
-    },
-    {
-      id: 4,
-      name: "Martin Luather",
-      avatar:
-        "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
-      rating: 3,
-      date: "28/08/2004",
-      time: "07:45 AM",
-      comment:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    },
-    {
-      id: 5,
-      name: "John Doe",
-      avatar:
-        "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
-      rating: 2,
-      date: "31/08/2004",
-      time: "07:45 AM",
-      comment:
-        "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
-    },
-    {
-      id: 6,
-      name: "Jane Smith",
-      avatar:
-        "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
-      rating: 2,
-      date: "25/05/2004",
-      time: "07:45 AM",
-      comment:
-        "It has survived not only five centuries, but also the leap into electronic typesetting.",
-    },
-    {
-      id: 7,
-      name: "Martin Luather",
-      avatar:
-        "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
-      rating: 3,
-      date: "28/08/2004",
-      time: "07:45 AM",
-      comment:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    },
-    {
-      id: 8,
-      name: "John Doe",
-      avatar:
-        "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
-      rating: 2,
-      date: "31/08/2004",
-      time: "07:45 AM",
-      comment:
-        "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
-    },
-  ];  
+import useTicketDetail from "./useTicketDetail";
 
 const TicketDetail = () => {
-
-    const navigate: NavigateFunction = useNavigate();
-
-    // Rating
-  const totalRating = comments.reduce((acc, comment) => acc + comment.rating,0);
-  const averageRating = (totalRating / comments.length).toFixed(1); // Tính trung bình rating
-
-    // Hàm định dạng tiền tệ
-    const formatCurrency = (amount: number): string => {
-        return amount.toLocaleString('vi-VN');
-      };
-
-    // State để quản lý số lượng vé hiện tại
-  const [quantity, setQuantity] = useState(1); // Bắt đầu với 1
-
-    // Hàm để giảm số lượng
-  const decreaseQuantity = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    }
-  };
-
-    // Hàm để tăng số lượng
-  const increaseQuantity = () => {
-    if (quantity < ticket.quantity) {
-      setQuantity(quantity + 1);
-    }
-  };
-
+  const {
+    navigate,
+    formatCurrency,
+    averageRating,
+    comments,
+    ticket,
+    quantity,
+    decreaseQuantity,
+    increaseQuantity,
+  } = useTicketDetail();
     return (
         <div className="w-screen min-h-screen flex flex-col">
             {/* SCROLL TO TOP */}
@@ -248,7 +101,7 @@ const TicketDetail = () => {
                     {/* Navigate */}
                     <div 
                     className="flex gap-1 items-center group cursor-pointer"
-                    onClick={() => navigate("/eventDetail")}
+                    onClick={() => navigate(`/eventDetail/${ticket.eventId}`)}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-[#87CBB9] transition-transform duration-300 group-hover:-translate-x-2" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
@@ -317,7 +170,6 @@ const TicketDetail = () => {
                                     </div>
                                     <div className="flex flex-col">
                                         <p className="font-bold text-3xl text-center">{ticket.quantity}</p>
-                                        <p className="text-sm text-gray-600">{ticket.category}</p>
                                     </div>
                                 </div>
                             </div>
@@ -325,7 +177,7 @@ const TicketDetail = () => {
                             {/* Price */}
                             <div className="bg-[#F4F4F4] rounded-t-lg drop-shadow-xl mt-6 py-8 px-10">
                                 <p className="text-3xl font-bold">Pricing</p>
-                                <p className="text-sm text-gray-400 mt-2">Original Price: <span className="text-gray-400 font-bold">{formatCurrency(ticket.originalPrice)}/Ticket</span></p>
+                                <p className="text-sm text-gray-400 mt-2">Original Price: <span className="text-gray-400 font-bold">{formatCurrency(ticket.originPrice)}/Ticket</span></p>
                                 <div className="flex items-center justify-between px-3 pt-6 mt-6 border-t-2">
                                     <p className="text-xl">{formatCurrency(ticket.price)} VND <span className="text-gray-500 text-lg">per ticket</span></p>
                                     <div className="flex justify-center items-center">

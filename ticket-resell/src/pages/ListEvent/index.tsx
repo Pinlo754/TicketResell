@@ -5,10 +5,6 @@ import ScrollToTop from "../../components/ScrollToTop";
 import Pagination from "../../components/Pagination";
 import useListEvent from "./useListEvent";
 
-    
-  
-
-
   // DROPDOWN SORT
   type SortOption = {
     label: string;
@@ -122,7 +118,7 @@ import useListEvent from "./useListEvent";
                         <div 
                         key={ev.eventId} 
                         className="bg-[#F4F4F4] w-full h-[18%] mt-4 flex rounded-lg shadow-md cursor-pointer group hover:shadow-2xl"
-                        onClick={() => navigate("/eventDetail")}
+                        onClick={() => navigate(`/eventDetail/${ev.eventId}`)}
                         >
                             <div className="flex items-center w-1/5 pl-3 my-5">
                                 <div className="relative overflow-hidden rounded-lg">

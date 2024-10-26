@@ -9,7 +9,6 @@ const useListEvent = () => {
     const [events, setEvents] = useState<Event[]>([]); // State quản lý tất cả sản phẩm
     const [filteredEvents, setFilteredEvents] = useState<Event[]>([]); // Sản phẩm sau khi lọc
 
-    // EVENTS
 
     type Event = {
       eventId: number;
@@ -100,10 +99,12 @@ const useListEvent = () => {
         currentPage * eventsPerPage
     );
 
+    
     // Chuyển trang
     const goToPage = (page: number) => {
         setCurrentPage(page);
     };
+
 
     return {
         navigate,

@@ -272,7 +272,7 @@ namespace TicketResell_API.Migrations
                     b.Property<string>("ticketId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime?>("createAt")
+                    b.Property<DateTime>("createAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("description")
@@ -282,14 +282,8 @@ namespace TicketResell_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("image")
+                    b.Property<string>("images")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("isValid")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("location")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("originPrice")
@@ -298,15 +292,25 @@ namespace TicketResell_API.Migrations
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("quantity")
+                    b.Property<int>("quantity")
                         .HasColumnType("int");
+
+                    b.Property<int?>("row")
+                        .HasColumnType("int");
+
+                    b.Property<string>("section")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ticketName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("time")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("type")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("updateAt")
                         .HasColumnType("datetime2");
