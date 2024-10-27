@@ -449,7 +449,7 @@ const UserProfile = () => {
       <div className="w-[60%] min-h-screen flex flex-grow justify-between gap-8 mx-auto mt-32">
         <div className="flex w-1/3 h-full bg-[#F4F4F4] rounded-lg drop-shadow-xl">
           <div className="w-full h-fit flex flex-col items-center justify-center mb-3 pt-10 pb-6">
-            <div className="relative overflow-hidden rounded-full">
+            <div className="relative rounded-full">
               <img
                 src="https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"
                 alt="User Img"
