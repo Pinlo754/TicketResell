@@ -73,6 +73,7 @@ namespace TicketResell_API.Controllers.CartController.Controller
                     ticketType = model.ticketType,
                     ticketSection = model.ticketSection,
                     quanity = model.quanity,
+                    maxQuantity = model.maxQuantity,
                     price = model.price,
                     eventName = model.eventName,
                     eventImage = model.eventImage,

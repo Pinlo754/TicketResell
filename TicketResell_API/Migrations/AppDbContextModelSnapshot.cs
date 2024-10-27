@@ -171,6 +171,9 @@ namespace TicketResell_API.Migrations
                     b.Property<string>("lastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("maxQuantity")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(18,2)");
 

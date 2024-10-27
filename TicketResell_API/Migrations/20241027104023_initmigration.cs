@@ -73,6 +73,7 @@ namespace TicketResell_API.Migrations
                     ticketType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ticketSection = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     quanity = table.Column<int>(type: "int", nullable: false),
+                    maxQuantity = table.Column<int>(type: "int", nullable: false),
                     price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     eventName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     eventImage = table.Column<string>(type: "nvarchar(max)", nullable: true)

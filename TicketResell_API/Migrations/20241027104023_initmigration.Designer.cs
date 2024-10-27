@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TicketResell_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241027103004_initmigration")]
+    [Migration("20241027104023_initmigration")]
     partial class initmigration
     {
         /// <inheritdoc />
@@ -173,6 +173,9 @@ namespace TicketResell_API.Migrations
 
                     b.Property<string>("lastName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("maxQuantity")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(18,2)");

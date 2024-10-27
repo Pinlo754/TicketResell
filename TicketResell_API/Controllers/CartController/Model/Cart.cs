@@ -18,6 +18,7 @@ namespace TicketResell_API.Controllers.CartController.Model
         public string? ticketType {  get; set; }
         public string? ticketSection { get; set; }
         public int quanity { get; set; }
+        public int maxQuantity { get; set; }
         public decimal price { get; set; }
         public string? eventName { get; set; }
         public string? eventImage { get; set; } 
