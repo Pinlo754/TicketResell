@@ -1,7 +1,7 @@
-import NavBar from "../../../components/NavBar";
-import Footer from "../../../components/Footer";
-import ScrollToTopButton from "../../../components/ScrollToTopButton";
-import ScrollToTop from "../../../components/ScrollToTop";
+import NavBar from "../../components/NavBar";
+import Footer from "../../components/Footer";
+import ScrollToTopButton from "../../components/ScrollToTopButton";
+import ScrollToTop from "../../components/ScrollToTop";
 import useEventDetail from "./useEventDetail";
 
 const EventDetail = () => {
@@ -206,9 +206,9 @@ const EventDetail = () => {
                 </p>
                 <p className="text-sm text-gray-500">"{ticket.description}"</p>
               </div>
-              <div className="w-1/5 flex flex-col border-l-2">
-                <div className="flex justify-center items-center mt-4">
-                  {/* Button giảm số lượng */}
+              {/* <div className="w-1/5 flex flex-col border-l-2">
+                 <div className="flex justify-center items-center mt-4">
+                  
                   <button
                     onClick={() => handleDecrease(ticket.ticketId)}
                     className={`px-4 py-2 rounded-sm border-2 ${
@@ -220,11 +220,11 @@ const EventDetail = () => {
                   >
                     -
                   </button>
-                  {/* Hiển thị số lượng hiện tại */}
+                  
                   <p className="text-center mx-1 py-2 w-16 rounded-sm border-2 border-gray-300 cursor-not-allowed">
                     {quantities[ticket.ticketId]}
                   </p>
-                  {/* Button tăng số lượng */}
+                  
                   <button
                     onClick={() => handleIncrease(ticket.ticketId)}
                     className={`px-4 py-2 rounded-sm border-2 ${
@@ -238,14 +238,14 @@ const EventDetail = () => {
                   </button>
                 </div>
 
-                {/* Button */}
+                {/* 
                 <button className="bg-[#87CBB9] w-[87%] text-white py-2 mt-3 mx-auto rounded-sm hover:bg-[#B9EDDD] hover:text-black">
                   Add to cart
                 </button>
                 <button className="bg-[#87CBB9] w-[87%] text-white py-2 mt-1.5 mb-4 mx-auto rounded-sm hover:bg-[#B9EDDD] hover:text-black">
                   Buy
-                </button>
-              </div>
+                </button> 
+              </div>*/}
             </div>
           ))}
         </div>

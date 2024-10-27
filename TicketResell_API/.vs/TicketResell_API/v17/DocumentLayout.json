@@ -1,10 +1,10 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "E:\\FPT\\Semester5\\SWP391\\ticketResell-27-10-2024\\TicketResell_API\\",
+  "WorkspaceRootPath": "E:\\SWP391\\test\\TicketResell\\TicketResell_API\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\FPT\\Semester5\\SWP391\\ticketResell-27-10-2024\\TicketResell_API\\Migrations\\20241027041738_khiempm1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Migrations\\20241027041738_khiempm1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\test\\ticketresell\\ticketresell_api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,8 +14,25 @@
       "DocumentGroups": [
         {
           "DockedWidth": 507,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "E:\\SWP391\\test\\TicketResell\\TicketResell_API\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "E:\\SWP391\\test\\TicketResell\\TicketResell_API\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-10-27T16:35:18.328Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
@@ -35,23 +52,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:1:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "20241027041738_khiempm1.cs",
-              "DocumentMoniker": "E:\\FPT\\Semester5\\SWP391\\ticketResell-27-10-2024\\TicketResell_API\\Migrations\\20241027041738_khiempm1.cs",
-              "RelativeDocumentMoniker": "Migrations\\20241027041738_khiempm1.cs",
-              "ToolTip": "E:\\FPT\\Semester5\\SWP391\\ticketResell-27-10-2024\\TicketResell_API\\Migrations\\20241027041738_khiempm1.cs",
-              "RelativeToolTip": "Migrations\\20241027041738_khiempm1.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T04:17:38.715Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
             }
           ]
         },
