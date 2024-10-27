@@ -1,26 +1,53 @@
-import React from 'react'
-import './SummaryCost.css'
-import { useNavigate } from 'react-router-dom'
-const SummaryCost = () => {
+import React from 'react';
+import './SummaryCost.css';
+import { useNavigate } from 'react-router-dom';
+
+  interface SummaryCostProps {
+    subtotal: number;
+    totalQuantity: number;
+    selectedItems: {
+      ticketId: string;
+      sellerName: string;
+      quantity: number;
+      sellerImg: string;
+    }[];
+  }
+
+const SummaryCost: React.FC<SummaryCostProps> = ({ 
+  subtotal, 
+  totalQuantity, 
+  selectedItems 
+}) => {
   const navigate = useNavigate();
+  const totalPrice = subtotal;
+
+  const handleCheckout = () => {
+    if (selectedItems.length !== 0) {
+      navigate("/checkout", { state: { subtotal, totalQuantity, selectedItems } });
+    }
+  };
+
   return (
     <div className='cart-summary'>
-      <h3 className='summary-title'>Summary</h3>
+      <h3 className='summary-title'>Tổng tiền</h3>
       <div className="summary-total">
-        <span>Subtotal*</span> $1000
-      </div>
-      <div className="summary-total-shipping">
-        <span>Shipping charges</span> $20
+        <span>tổng cộng*</span> ${subtotal.toFixed(2)}
       </div>
       <div className="summary-total-quantity">
-        <span>Total Quantity*</span> 5
+        <span>Tổng số vé*</span> {totalQuantity}
       </div>
       <div className="summary-total-amount">
-        <span>Total Price</span> $12000
+        <span>Tống giá</span> ${totalPrice.toFixed(2)}
       </div>
-      <button className="check-out-btn"  onClick={() => navigate("/checkout")}>Proceed to checkout</button>
+      <button 
+        className="check-out-btn" 
+        onClick={handleCheckout}
+        disabled={selectedItems.length === 0}
+      >
+        Xác nhận thanh toán
+      </button>
     </div>
-  )
-}
+  );
+};
 
-export default SummaryCost
+export default SummaryCost;

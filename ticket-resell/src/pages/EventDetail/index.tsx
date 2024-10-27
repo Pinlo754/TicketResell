@@ -206,14 +206,15 @@ const EventDetail = () => {
                 </p>
                 <p className="text-sm text-gray-500">"{ticket.description}"</p>
               </div>
-              <div className="w-1/5 flex flex-col border-l-2">
+              
+              {/* <div className="w-1/5 flex flex-col border-l-2">
                 <div className="flex justify-center items-center mt-4">
-                  {/* Button giảm số lượng */}
                   <button
                     onClick={(e) => {
                       e.stopPropagation(); // Prevents navigation
                       handleDecrease(ticket.ticketId);
                     }}
+
                     className={`px-4 py-2 rounded-sm border-2 ${
                       quantities[ticket.ticketId] === 1
                         ? "cursor-not-allowed bg-gray-100 border-gray-200"
@@ -223,11 +224,12 @@ const EventDetail = () => {
                   >
                     -
                   </button>
-                  {/* Hiển thị số lượng hiện tại */}
+                  
+                  
                   <p className="text-center mx-1 py-2 w-16 rounded-sm border-2 border-gray-300 cursor-not-allowed">
                     {quantities[ticket.ticketId]}
                   </p>
-                  {/* Button tăng số lượng */}
+                  
                   <button
                     onClick={(e) => {
                       e.stopPropagation(); // Prevents navigation
@@ -243,8 +245,6 @@ const EventDetail = () => {
                     +
                   </button>
                 </div>
-
-                {/* Button */}
                 <button 
                 onClick={(e) => {
                   e.stopPropagation(); // Prevents navigation
@@ -261,7 +261,7 @@ const EventDetail = () => {
                 >
                   Mua
                 </button>
-              </div>
+              </div>*/}
             </div>
           ))}
         </div>

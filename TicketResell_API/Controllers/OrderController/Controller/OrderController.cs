@@ -135,6 +135,33 @@ namespace TicketResell_API.Controllers.OrderController.Controller
             // Save order details to database
             await _context.SaveChangesAsync();
 
+            // Update the quantity of tickets after order details are saved
+            foreach (var detail in model.OrderDetails)
+            {
+                var ticket = await _context.Tickets.FirstOrDefaultAsync(t => t.ticketId == detail.ticketId);
+                if (ticket != null)
+                {
+                    if (ticket.quantity >= detail.quantity)
+                    {
+                        //Subtract the number of tickets
+                        ticket.quantity -= detail.quantity;
+
+                        // If after subtraction the quantity becomes negative, report an error
+                        if (ticket.quantity < 0)
+                        {
+                            return BadRequest($"Not enough tickets available for {detail.ticketName}");
+                        }
+                    }
+                }
+                else
+                {
+                    return NotFound($"Ticket with ID {detail.ticketId} not found.");
+                }
+            }
+
+            // Save updated ticket quantities to database
+            await _context.SaveChangesAsync();
+
             //Get user's IP address to send to VNPay
             var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
 

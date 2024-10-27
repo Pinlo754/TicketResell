@@ -8511,11 +8511,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\FPT\\Semester5\\SWP391\\ticketResell-27-10-2024\\TicketResell_API\\TicketResell_API.csproj",
+      "projectUniqueName": "E:\\FPT\\Semester5\\SWP391\\ticketResell-28-10-2024\\TicketResell_API\\TicketResell_API.csproj",
       "projectName": "TicketResell_API",
-      "projectPath": "E:\\FPT\\Semester5\\SWP391\\ticketResell-27-10-2024\\TicketResell_API\\TicketResell_API.csproj",
+      "projectPath": "E:\\FPT\\Semester5\\SWP391\\ticketResell-28-10-2024\\TicketResell_API\\TicketResell_API.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "E:\\FPT\\Semester5\\SWP391\\ticketResell-27-10-2024\\TicketResell_API\\obj\\",
+      "outputPath": "E:\\FPT\\Semester5\\SWP391\\ticketResell-28-10-2024\\TicketResell_API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
