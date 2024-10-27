@@ -111,12 +111,17 @@ namespace TicketResell_API.Controllers.OrderController.Controller
                 {
                     orderId = order.orderId,
                     ticketId = detail.ticketId,
-                    receiverName = detail.receiverName,
+                    ticketName = detail.ticketName,
+                    ticketType = detail.ticketType,
+                    eventImage = detail.eventImage,
+                    eventName = detail.eventName,
+                    userName = detail.userName,
                     receiverPhone = detail.receiverPhone,
                     receiverEmail = detail.receiverEmail,
                     address = detail.address,
                     price = detail.price,
                     quantity = detail.quantity,
+                    paymentMethod = detail.paymentMethod,
                     status = "Pending",
                     createdAt = DateTime.UtcNow
                 };
