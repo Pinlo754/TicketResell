@@ -177,7 +177,7 @@ namespace TicketResell_API.Migrations
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("quanity")
+                    b.Property<int>("quantity")
                         .HasColumnType("int");
 
                     b.Property<string>("sellerId")

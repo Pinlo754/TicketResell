@@ -17,7 +17,7 @@ namespace TicketResell_API.Controllers.OrderController.Model
         public string? receiverEmail { get; set; }
         public string? address { get; set; }
         public decimal price { get; set; }
-        public int? quantity { get; set; }
+        public int quantity { get; set; }
         public string? status { get; set; }
         public string? paymentMethod { get; set; }
         public DateTime? createdAt { get; set; }
