@@ -1,6 +1,8 @@
 import React from 'react'
 import './SummaryCost.css'
+import { useNavigate } from 'react-router-dom'
 const SummaryCost = () => {
+  const navigate = useNavigate();
   return (
     <div className='cart-summary'>
       <h3 className='summary-title'>Summary</h3>
@@ -16,7 +18,7 @@ const SummaryCost = () => {
       <div className="summary-total-amount">
         <span>Total Price</span> $12000
       </div>
-      <button className="check-out-btn">Proceed to checkout</button>
+      <button className="check-out-btn"  onClick={() => navigate("/checkout")}>Proceed to checkout</button>
     </div>
   )
 }
