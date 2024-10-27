@@ -20,6 +20,8 @@ import OrderBoard from "../components/Admin/OrderBoard/OrderBoard";
 import UserBoard from "../components/Admin/UserBoard/UserBoard";
 import SellScreen from "../pages/SellScreen";
 import CheckOut from "../pages/CheckOutScreen/CheckOut";
+import StaffMainScreen from "../pages/Staff/StaffMainScreen";
+import ManageEventScreen from "../pages/Staff/ManageEventScreen";
 
 const routers = createBrowserRouter([
   {
@@ -97,6 +99,14 @@ const routers = createBrowserRouter([
   {
     path: "/checkout",
     element: <CheckOut/>,
+  },
+  {
+    path: "/staff/main",
+    element: <StaffMainScreen/>,
+  },
+  {
+    path: "/staff/events",
+    element: <ManageEventScreen/>,
   },
 ]);
 
