@@ -7,6 +7,7 @@ import useTicketDetail from "./useTicketDetail";
 const TicketDetail = () => {
   const {
     navigate,
+    event,
     formatCurrency,
     averageRating,
     comments,
@@ -33,7 +34,7 @@ const TicketDetail = () => {
                     {/* Background */}
                     <div
                     className="absolute inset-0 bg-cover bg-center blur-2xl bg-opacity-80"
-                    style={{ backgroundImage: 'url(https://www.oyorooms.com/blog/wp-content/uploads/2018/02/event.jpg)' }}
+                    style={{ backgroundImage: `url(${event?.eventImage})` }}
                     ></div>
                     {/* Overlay màu tối */}
                     <div className="absolute inset-0 bg-black opacity-60"></div>
@@ -43,7 +44,7 @@ const TicketDetail = () => {
                         {/* Info */}
                         <div className="flex flex-col">
                             <h1 className="mt-4 text-4xl font-bold  sm:text-5xl">
-                            Gewoon Boef
+                            {event?.eventName}
                             </h1>
                             <div className="mt-6 text-lg flex justify-center gap-x-8">
                                 {/* Date */}
@@ -51,21 +52,21 @@ const TicketDetail = () => {
                                     <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mx-2" viewBox="0 0 24 24" fill="currentColor">
                                         <path fill-rule="evenodd" d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z" clip-rule="evenodd" />
                                     </svg>
-                                    <p>Sat, Oct 12, 8:00 PM</p>
+                                    <p>{event?.eventTime}</p>
                                 </div>
                                 {/* Venue */}
                                 <div className="flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mx-2" viewBox="0 0 24 24" fill="currentColor">
                                         <path fill-rule="evenodd" d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" clip-rule="evenodd" />
                                     </svg>
-                                    <p>Ziggo Dome</p>
+                                    <p>{event?.location}</p>
                                 </div>
                                 {/* City */}
                                 <div className="flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mx-2" viewBox="0 0 24 24" fill="currentColor">
                                         <path fill-rule="evenodd" d="M3 2.25a.75.75 0 0 0 0 1.5v16.5h-.75a.75.75 0 0 0 0 1.5H15v-18a.75.75 0 0 0 0-1.5H3ZM6.75 19.5v-2.25a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75ZM6 6.75A.75.75 0 0 1 6.75 6h.75a.75.75 0 0 1 0 1.5h-.75A.75.75 0 0 1 6 6.75ZM6.75 9a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM6 12.75a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 6a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75Zm-.75 3.75A.75.75 0 0 1 10.5 9h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 12a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM16.5 6.75v15h5.25a.75.75 0 0 0 0-1.5H21v-12a.75.75 0 0 0 0-1.5h-4.5Zm1.5 4.5a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Zm.75 2.25a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75v-.008a.75.75 0 0 0-.75-.75h-.008ZM18 17.25a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Z" clip-rule="evenodd" />
                                     </svg>
-                                    <p>Amsterdam, Netherlands</p>
+                                    <p>{event?.city}</p>
                                 </div>
                             </div>
                         </div>
@@ -73,7 +74,7 @@ const TicketDetail = () => {
                         <div className="relative">
                             <div className="overflow-hidden rounded-lg">
                                 <img
-                                    src="https://www.oyorooms.com/blog/wp-content/uploads/2018/02/event.jpg"
+                                    src={event?.eventImage}
                                     alt="Event"
                                     className="object-cover w-46 h-56 hover:scale-110 transition-transform duration-300"
                                 />
@@ -85,9 +86,9 @@ const TicketDetail = () => {
                     <div className="relative z-10 pb-10 flex justify-between mt-12">
                         <button 
                         className="bg-transparent text-white font-semibold ml-10 group flex items-center"
-                        onClick={() => navigate("/sell")}
+                        onClick={() => navigate(`/sell/${event?.eventId}`)}
                         >
-                            Sell your tickets on Festix
+                            Bán vé của bạn trên Festix
                             <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-2" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                             </svg>
@@ -106,7 +107,7 @@ const TicketDetail = () => {
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-[#87CBB9] transition-transform duration-300 group-hover:-translate-x-2" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                         </svg>
-                        <p className="text-[#87CBB9] text-xl font-semibold">All tickets</p>
+                        <p className="text-[#87CBB9] text-xl font-semibold">Danh sách vé</p>
                     </div>
 
                     
@@ -149,7 +150,7 @@ const TicketDetail = () => {
                                     <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
                                     </svg>
-                                    Chat
+                                    Nhắn tin
                                 </button>
                             </div>
                         </div>
@@ -161,9 +162,9 @@ const TicketDetail = () => {
                                 <div className="flex justify-between px-6">
                                     <div className="flex flex-col">
                                         <div className="flex gap-1.5">
-                                            <p className="font-bold text-3xl">Section {ticket.section}</p>
+                                            <p className="font-bold text-3xl">Khu vực {ticket.section}</p>
                                             {ticket.type === "Seat" && (
-                                                <p className="font-bold text-gray-500 text-3xl mr-10">• Row {ticket.row}</p>
+                                                <p className="font-bold text-gray-500 text-3xl mr-10">• Hàng {ticket.row}</p>
                                             )}
                                         </div>
                                         <p className="text-sm text-gray-500">{ticket.type}</p>
@@ -176,10 +177,10 @@ const TicketDetail = () => {
 
                             {/* Price */}
                             <div className="bg-[#F4F4F4] rounded-t-lg drop-shadow-xl mt-6 py-8 px-10">
-                                <p className="text-3xl font-bold">Pricing</p>
-                                <p className="text-sm text-gray-400 mt-2">Original Price: <span className="text-gray-400 font-bold">{formatCurrency(ticket.originPrice)}/Ticket</span></p>
+                                <p className="text-3xl font-bold">Giá</p>
+                                <p className="text-sm text-gray-400 mt-2">Giá gốc: <span className="text-gray-400 font-bold">{formatCurrency(ticket.originPrice)}/Vé</span></p>
                                 <div className="flex items-center justify-between px-3 pt-6 mt-6 border-t-2">
-                                    <p className="text-xl">{formatCurrency(ticket.price)} VND <span className="text-gray-500 text-lg">per ticket</span></p>
+                                    <p className="text-xl">{formatCurrency(ticket.price)} VND <span className="text-gray-500 text-lg">mỗi vé</span></p>
                                     <div className="flex justify-center items-center">
                                         {/* Nút giảm số lượng */}
                                         <button
@@ -214,15 +215,15 @@ const TicketDetail = () => {
 
                                 {/* Subtotal */}
                                 <div className="flex items-center justify-between mt-6 pt-6 border-t-2">
-                                    <p className="text-gray-400 text-lg">Subtotal</p>
+                                    <p className="text-gray-400 text-lg">Tổng</p>
                                     <p className="text-2xl text-[#87CBB9] font-bold">{formatCurrency(ticket.price*quantity)} VND</p>
                                 </div>
                             </div>
 
                             {/* Button */}
                             <div className="w-full flex items-center justify-center gap-10 bg-black rounded-b-lg drop-shadow-xl">
-                                <button className="py-2 px-2 my-4 bg-[#87CBB9] text-white text-lg rounded-xl hover:bg-[#B9EDDD] hover:text-black">Add to cart</button>
-                                <button className="py-2 px-10 my-4 bg-[#87CBB9] text-white text-lg rounded-xl hover:bg-[#B9EDDD] hover:text-black">Buy</button>
+                                <button className="py-2 px-2 my-4 bg-[#87CBB9] text-white text-lg rounded-xl hover:bg-[#B9EDDD] hover:text-black">Thêm vào giỏ hàng</button>
+                                <button className="py-2 px-10 my-4 bg-[#87CBB9] text-white text-lg rounded-xl hover:bg-[#B9EDDD] hover:text-black">Mua</button>
                             </div>
                         </div>
                     </div>

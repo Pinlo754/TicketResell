@@ -115,21 +115,34 @@ const MainScreen = () => {
           <div className="bg-[#FF7878] w-1/2 pt-52 pb-36 flex flex-col justify-center items-center">
             {/* Headline */}
             <h1 className="font-montserrat text-6xl text-white font-bold mb-2">
-              Sell
+              Bán
             </h1>
             {/* Sub-Headline */}
             <div className="flex items-center">
-              <p className="font-open-sans text-white text-lg mb-3">Biến những tấm vé chưa sử dụng của bạn thành tiền mặt</p>
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 pb-2 text-white hover:text-gray-500 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+              <p className="font-open-sans text-white text-lg mb-3">
+                Biến những tấm vé chưa sử dụng của bạn thành tiền
+              </p>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-7 h-7 pb-2 text-white hover:text-gray-500 cursor-pointer"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
+                />
               </svg>
             </div>
             {/* Button */}
-            <button 
-            className="font-poppins bg-white text-[#8ACDD7] px-6 py-3 rounded-full font-semibold flex items-center hover:translate-x-3 transition ease-in-out delay-150 duration-300 hover:shadow-2xl hover:ring-2 hover:ring-[#8ACDD7] "
-            onClick={() => navigate("/sell")}
+            <button
+              className="font-poppins bg-white text-[#8ACDD7] px-6 py-3 rounded-full font-semibold flex items-center hover:translate-x-3 transition ease-in-out delay-150 duration-300 hover:shadow-2xl hover:ring-2 hover:ring-[#8ACDD7] "
+              onClick={() => navigate("/sell")}
             >
-              Make some money
+              Kiếm Tiền Dễ Dàng
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-6 h-6 ml-2 mr-0 text-current"
@@ -151,12 +164,12 @@ const MainScreen = () => {
           <div className="bg-[#8ACDD7] w-1/2 pt-52 pb-36  flex flex-col justify-center items-center">
             {/* Headline */}
             <h1 className="font-montserrat text-6xl text-white font-bold mb-4">
-              Buy
+              Mua
             </h1>
             {/* Sub-Headline */}
             <div className="flex items-center">
               <p className="font-open-sans text-white text-lg mb-3">
-                Find last-minute tickets at great prices
+                Tìm vé vào phút cuối với giá cả tuyệt vời
               </p>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -174,11 +187,11 @@ const MainScreen = () => {
               </svg>
             </div>
             {/* Button */}
-            <button 
-            className="bg-white text-[#FF6F61] px-6 py-3 rounded-full font-semibold flex items-center hover:translate-x-3 transition ease-in-out delay-150 duration-300 hover:shadow-2xl hover:ring-2 hover:ring-[#FF6F61]"
-            onClick={() => navigate("/listEvent") }
+            <button
+              className="bg-white text-[#FF6F61] px-6 py-3 rounded-full font-semibold flex items-center hover:translate-x-3 transition ease-in-out delay-150 duration-300 hover:shadow-2xl hover:ring-2 hover:ring-[#FF6F61]"
+              onClick={() => navigate("/listEvent")}
             >
-              See what's out there
+              Khám Phá
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-6 h-6 ml-2 mr-0 text-current "
@@ -199,9 +212,9 @@ const MainScreen = () => {
 
         {/* EVENT CARDS */}
         <div className=" w-screen pt-20">
-          <h1 className="text-5xl text-center font-bold">Popular Events</h1>
+          <h1 className="text-5xl text-center font-bold">Sự Kiện Phổ Biến</h1>
           <h4 className="text-center py-2 text-[18px]">
-            Don’t miss out on your favorite events
+            Đừng bỏ lỡ những sự kiện yêu thích của bạn
           </h4>
 
           {/* Card-Container */}
@@ -213,10 +226,12 @@ const MainScreen = () => {
                 className="flex justify-center items-center"
               >
                 {events.map((ev) => (
-                  <div key={ev.eventId} className="pl-10 pr-1 "> {/* Add spacing between cards */}
-                    <div 
-                    className="bg-[#F4F4F4] w-[90%] h-fit rounded-lg shadow-md  transition duration-300 group cursor-pointer"
-                    onClick={() => navigate("/eventDetail")}
+                  <div key={ev.eventId} className="pl-10 pr-1 ">
+                    {" "}
+                    {/* Add spacing between cards */}
+                    <div
+                      className="bg-[#F4F4F4] w-[90%] h-fit rounded-lg shadow-md  transition duration-300 group cursor-pointer"
+                      onClick={() => navigate(`/eventDetail/${ev.eventId}`)}
                     >
                       {/* Card-Img */}
                       <div className="overflow-hidden rounded-t-lg">
@@ -241,7 +256,9 @@ const MainScreen = () => {
                               clipRule="evenodd"
                             />
                           </svg>
-                          <p className="text-red-600 font-medium">{ev.eventTime}</p>
+                          <p className="text-red-600 font-medium">
+                            {ev.eventTime}
+                          </p>
                         </div>
                         <h3 className="font-bold text-xl text-ellipsis whitespace-nowrap overflow-hidden">
                           {ev.eventName}
@@ -295,7 +312,9 @@ const MainScreen = () => {
                                 clipRule="evenodd"
                               />
                             </svg>
-                            <p className="text-white">{totalTickets(ev.eventId)}</p>
+                            <p className="text-white">
+                              {totalTickets(ev.eventId)}
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -307,11 +326,11 @@ const MainScreen = () => {
           </div>
           {/* Button */}
           <div className="flex justify-center pb-2 pt-4">
-            <button 
-            className="outline outline-2 rounded-sm text-[#8ACDD7] font-medium text-lg px-6 py-3 mx-auto hover:bg-[#8ACDD7] hover:text-white"
-            onClick={() => navigate("/listEvent")}
+            <button
+              className="outline outline-2 rounded-sm text-[#8ACDD7] font-medium text-lg px-6 py-3 mx-auto hover:bg-[#8ACDD7] hover:text-white"
+              onClick={() => navigate("/listEvent")}
             >
-              View More
+              Xem Thêm
             </button>
           </div>
         </div>
@@ -332,20 +351,21 @@ const MainScreen = () => {
             {/* Hero-Content */}
             <div className="relative z-10 flex flex-col items-center justify-center text-center text-white h-full">
               <h1 className="text-4xl mb-4 font-bold">
-                Can’t Attend? Sell Your Tickets Instantly – Safe and Easy!
+                Không Thể Tham Dự? Bán Vé Của Bạn Ngay Lập Tức – An Toàn và Dễ
+                Dàng!
               </h1>
               <div className="w-1/2">
                 <p className="mb-8 text-[18px]">
-                  Don't let your tickets go to waste! Festix provides a fast and
-                  secure way to resell your tickets in just a few clicks,
-                  ensuring peace of mind with every transaction.
+                  Đừng để vé của bạn bị lãng phí! Festix cung cấp cách thức
+                  nhanh chóng và an toàn để bạn có thể bán vé chỉ với vài cú
+                  nhấp chuột, đảm bảo tâm lý thoải mái trong mỗi giao dịch.
                 </p>
               </div>
-              <button 
-              className="px-6 py-3 text-lg font-medium bg-transparent rounded-sm border border-white hover:bg-white hover:text-[#FF6F61] transition"
-              onClick={() => navigate("/sell")}
+              <button
+                className="px-6 py-3 text-lg font-medium bg-transparent rounded-sm border border-white hover:bg-white hover:text-[#FF6F61] transition"
+                onClick={() => navigate("/sell")}
               >
-                Sell Now
+                Bán Ngay
               </button>
             </div>
           </div>
@@ -353,7 +373,7 @@ const MainScreen = () => {
 
         {/* ABOUT */}
         <div className="w-screen pt-20">
-          <h1 className="text-5xl font-bold text-center">Who We Are</h1>
+          <h1 className="text-5xl font-bold text-center">Về Chúng Tôi</h1>
 
           {/* 3 Column Section */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-10 pt-3">
@@ -373,12 +393,12 @@ const MainScreen = () => {
                 <path d="M5.26 17.242a.75.75 0 1 0-.897-1.203 5.243 5.243 0 0 0-2.05 5.022.75.75 0 0 0 .625.627 5.243 5.243 0 0 0 5.022-2.051.75.75 0 1 0-1.202-.897 3.744 3.744 0 0 1-3.008 1.51c0-1.23.592-2.323 1.51-3.008Z" />
               </svg>
               <h2 className="text-3xl font-semibold text-gray-700 mb-4">
-                Mission
+                Sứ Mệnh
               </h2>
               <p className="text-gray-600 text-lg">
-                Bringing unforgettable event experiences. We believe that every
-                ticket is not just an entry pass, but a chance for you to
-                participate and enjoy unforgettable moments.
+                Mang đến những trải nghiệm sự kiện khó quên. Chúng tôi tin rằng
+                mỗi tấm vé không chỉ là một chiếc thẻ vào cửa, mà còn là cơ hội
+                để bạn tham gia và tận hưởng những khoảnh khắc đáng nhớ.
               </p>
             </div>
 
@@ -390,12 +410,12 @@ const MainScreen = () => {
                 className="w-16 h-[48px] mx-auto"
               />
               <h2 className="text-3xl font-semibold text-gray-700 mb-4">
-                Commitment
+                Cam Kết
               </h2>
               <p className="text-gray-600 text-lg">
-                Ensuring genuine tickets and competitive pricing. We are
-                committed to providing legitimate tickets, transparent
-                transactions, and delivering the best value for our customers.
+                Đảm bảo vé thật và giá cả cạnh tranh. Chúng tôi cam kết cung cấp
+                vé hợp pháp, giao dịch minh bạch và mang đến giá trị tốt nhất
+                cho khách hàng.
               </p>
             </div>
 
@@ -415,24 +435,23 @@ const MainScreen = () => {
                 <path d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
               </svg>
               <h2 className="text-3xl font-semibold text-gray-700 mb-4">
-                Our Team
+                Đội Ngũ Của Chúng Tôi
               </h2>
               <p className="text-gray-600 text-lg">
-                A professional and dedicated team. With experienced
-                professionals, we are always ready to assist you in finding
-                tickets, answering inquiries, and providing the best service
-                possible.
+                Một đội ngũ chuyên nghiệp và tận tâm. Với đội ngũ chuyên gia dày
+                dạn kinh nghiệm, chúng tôi luôn sẵn sàng hỗ trợ bạn trong việc
+                tìm vé, giải đáp thắc mắc và cung cấp dịch vụ tốt nhất có thể.
               </p>
             </div>
           </div>
 
           {/* Button */}
           <div className="flex justify-center">
-            <button 
-            className="bg-[#8ACDD7] text-white text-lg px-6 py-3 font-medium rounded-sm hover:bg-[#FF7878]"
-            onClick={() => navigate("/about")}
+            <button
+              className="bg-[#8ACDD7] text-white text-lg px-6 py-3 font-medium rounded-sm hover:bg-[#FF7878]"
+              onClick={() => navigate("/about")}
             >
-              Our Story
+              Câu Chuyện Của Chúng Tôi
             </button>
           </div>
         </div>
@@ -442,17 +461,18 @@ const MainScreen = () => {
           {/* Content */}
           <div className="w-2/5 text-white p-32 flex items-center justify-center flex-col">
             <h2 className="text-4xl font-bold mb-6">
-              Need Help? Check Out Our Help Center
+              Cần Giúp Đỡ? Hãy Tham Khảo Trung Tâm Trợ Giúp Của Chúng Tôi
             </h2>
             <p className="text-lg mb-6">
-              Explore our Help Center for quick solutions, step-by-step guides,
-              and personalized support to keep you moving forward.
+              Khám phá Trung Tâm Trợ Giúp của chúng tôi để tìm ra những giải
+              pháp nhanh chóng, hướng dẫn từng bước và hỗ trợ cá nhân hóa giúp
+              bạn tiếp tục tiến bước.
             </p>
-            <button 
-            className="bg-transparent text-white font-medium py-2 px-4 rounded-sm border border-white self-start hover:bg-white hover:text-[#FF6F61] transition"
-            onClick={() => navigate("/help")}
+            <button
+              className="bg-transparent text-white font-medium py-2 px-4 rounded-sm border border-white self-start hover:bg-white hover:text-[#FF6F61] transition"
+              onClick={() => navigate("/help")}
             >
-              Go to Help Center
+              Đi Đến Trung Tâm Trợ Giúp
             </button>
           </div>
 

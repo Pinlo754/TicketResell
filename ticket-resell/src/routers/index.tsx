@@ -51,7 +51,7 @@ const routers = createBrowserRouter([
     element: <EventDetail />,
   },
   {
-    path: "/ticketDetail/:ticketId",
+    path: "/ticketDetail/:eventId?/:ticketId",
     element: <TicketDetail />,
   },
   {

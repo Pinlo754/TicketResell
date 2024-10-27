@@ -1,16 +1,25 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { removeVietnameseTones } from '../../components/Search/useSearch';
+import upload from "../../lib/upload";
 import axios from 'axios';
 
-interface TicketInfo {
+type TicketInfo = {
+  ticketId: string;
+  ticketName: string,
   type: string;
   section: string;
-  row?: string;
+  row: number;
   quantity: number;
+  originPrice: number;
   price: number;
   images: File[];
-}
+  description: string;
+  status: string;
+  createAt: string;
+  updateAt: string
+};
+
 
 export type Event = {
   eventId: string;
@@ -24,31 +33,46 @@ export type Event = {
 
 const useSellScreen = () => {
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
   const [events, setEvents] = useState<Event[]>([]);
-  const { evId } = useParams<{ evId?: string }>();
+  const { eventId } = useParams<{ eventId: string }>();
+  const [imagesURL, setImagesURL] = useState<string[]>([]);
   const [step, setStep] = useState(1);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [ticketInfo, setTicketInfo] = useState<TicketInfo>({
+    ticketId: "",
+    ticketName: "",
     type: "",
     section: "",
+    row: 0,
     quantity: 0,
+    originPrice: 0,
     price: 0,
     images: [],
+    description: "",
+    status: "pending",
+    createAt: new Date().toISOString(),
+    updateAt: new Date().toISOString(),
   });
 
   const [showRow, setShowRow] = useState<boolean>(false);
 
   useEffect(() => {
-    if (evId) {
-      fetchEvent();
+    if (token !== null && userId !== null) {
+      if (eventId) {
+        fetchEvent();
+      } else {
+        fetchEvents();
+      }
     } else {
-      fetchEvents();
+      navigate("/");
     }
-  }, [evId]);
+  }, [eventId]);
 
   const fetchEvent = async () => {
     try {
-      const response = await axios.get(`/api/Event/${evId}`);
+      const response = await axios.get(`/api/Event/${eventId}`);
       setSelectedEvent(response.data);
     }
     catch (error) {
@@ -77,83 +101,101 @@ const useSellScreen = () => {
     return normalizedEventName.includes(query);
   };
 
-  const goNext = () => {
-    if (step === 1) {
-      // Bước 1: Kiểm tra xem sự kiện đã được chọn chưa
-      if (!selectedEvent) {
-        alert("Vui lòng chọn sự kiện để bán vé.");
-        return;
-      }
-      // Chuyển sang bước 2 nếu sự kiện đã được chọn
-      setStep((prev) => Math.min(prev + 1, 2));
-    } else if (step === 2) {
-      // Bước 2: Kiểm tra các thông tin vé
-      if (
-        !ticketInfo.type ||
-        !ticketInfo.section ||
-        (showRow && !ticketInfo.row) || // Kiểm tra hàng nếu loại vé là "Ngồi"
-        !ticketInfo.quantity ||
-        !ticketInfo.price ||
-        ticketInfo.images.length === 0
-      ) {
-        alert("Vui lòng điền đầy đủ thông tin vé!");
-        return;
-      }
-      // Logic xử lý khi đủ thông tin ở bước 2
-      // Ví dụ: Gửi thông tin vé lên server hoặc chuyển sang bước hoàn tất
-      alert("Thông tin vé hợp lệ, tiến hành bán vé!");
-    }
-  };
+  const goNext = () => setStep((prev) => Math.min(prev + 1, 2));
   const goBack = () => setStep((prev) => Math.max(prev - 1, 1));
 
   const handleTicketInfoChange = (
     field: keyof TicketInfo,
     value: string | number | File[]
   ) => {
-    setTicketInfo((prev) => ({ ...prev, [field]: value }));
+    setTicketInfo((prev) => ({ ...prev, [field]: value, updateAt: new Date().toISOString(), }));
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-  
-    // Lọc bỏ các file không phải PDF
-    const validPDFFiles = files.filter((file) => {
-      if (file.type !== "application/pdf") {
-        alert("Chỉ được phép tải file PDF!");
-        return false; // Không nhận file không phải PDF
-      }
-      return true;
-    });
-  
-    // Kiểm tra xem có file nào bị trùng không
-    const uniqueFiles = validPDFFiles.filter((file, index, self) => {
+    
+    // Kiểm tra trùng lặp trước khi tải lên
+    const uniqueFiles = files.filter((file, index, self) => {
       const isDuplicate = self.findIndex(f => f.name === file.name) !== index;
       if (isDuplicate) {
         alert("Có ảnh bị trùng!");
-        return false; // Không nhận file bị trùng
+        return false;
       }
       return true;
     });
   
-    // Cập nhật danh sách file nếu có file hợp lệ
-    if (uniqueFiles.length > 0) {
-      handleTicketInfoChange("images", uniqueFiles);
+    const uploadedUrls: string[] = []; // Mảng để lưu các URL của ảnh đã tải lên
+    
+    // Duyệt qua từng file và tải lên
+    for (const file of uniqueFiles) {
+      try {
+        const fileUrl = await upload(file); // Tải từng file và lấy URL
+        uploadedUrls.push(fileUrl); // Thêm URL vào mảng
+      } catch (error) {
+        console.error("Error uploading file:", error);
+      }
     }
+    
+    setImagesURL(uploadedUrls);
   };
   
 
   const handleSubmit = () => {
-    // Lấy danh sách file đã tải lên
-    const files = ticketInfo.images;
+  
+    if (
+      !ticketInfo.ticketName ||
+      !ticketInfo.type ||
+      !ticketInfo.section ||
+      (showRow && !ticketInfo.row) || // Kiểm tra hàng nếu loại vé là "Ngồi"
+      !ticketInfo.quantity ||
+      !ticketInfo.originPrice ||
+      !ticketInfo.price ||
+      imagesURL.length === 0
+    ) {
+      alert("Vui lòng điền đầy đủ thông tin vé!");
+      return;
+    }
 
     // Kiểm tra số lượng file tải lên phải bằng số lượng vé
-    if (files.length !== ticketInfo.quantity) {
+    if (imagesURL.length !== ticketInfo.quantity) {
       alert("Số lượng ảnh tải lên phải bằng số lượng vé!");
       return;
     }
-    alert("Đăng bán vé thành công!");
-    navigate("/main");
+
+    handleSubmitInfo();
   };
+
+  const handleSubmitInfo = async () => {
+    try {
+      const response = await axios.post("/api/Ticket/create-ticket", {
+        ticketId: ticketInfo.ticketId,
+        ticketName: ticketInfo.ticketName,
+        quantity: ticketInfo.quantity,
+        price: ticketInfo.price,
+        originPrice: ticketInfo.originPrice,
+        images: imagesURL,
+        userId: userId,
+        type: ticketInfo.type,
+        section: ticketInfo.section,
+        row: ticketInfo.row,
+        description: ticketInfo.description,
+        eventId: selectedEvent?.eventId,
+        status: ticketInfo.status,
+        createAt: ticketInfo.createAt,
+        updateAt: ticketInfo.updateAt,
+      });
+  
+      if (response.data.ticketId) { 
+        alert("Đăng bán vé thành công!");
+        navigate("/main");
+      }
+    } catch (error: any) {
+      console.error("handleSubmitInfo error:", error);
+    }
+  };
+  
+  
+  
     
  // Hàm định dạng tiền tệ
  const formatCurrency = (amount: number): string => {
@@ -163,7 +205,7 @@ const useSellScreen = () => {
   return {
     events,
     setEvents,
-    evId,
+    eventId,
     navigate,
     step,
     setStep,

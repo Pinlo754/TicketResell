@@ -5,6 +5,7 @@ import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
 const useTicketDetail = () => {
   const navigate: NavigateFunction = useNavigate();
   const { ticketId } = useParams<{ ticketId: string }>();
+  const {eventId} = useParams<{ eventId: string }>();
 
   type Comment = {
     id: number;
@@ -126,6 +127,17 @@ const useTicketDetail = () => {
     updateAt?: Date;
   };
 
+  type Event = {
+    eventId: string;
+    eventName: string;
+    eventImage: string;
+    eventTime: string;
+    location: string;
+    city: string;
+    eventStatus: string;
+  };
+
+  const [event, setEvent] = useState<Event>();
   const [ticket, setTicket] = useState<Ticket>({
     ticketId: "TICKET_001",                // ID vé
     ticketName: "Concert Ticket",           // Tên vé
@@ -144,8 +156,20 @@ const useTicketDetail = () => {
     updateAt: new Date()                    // Thời gian cập nhật vé
 });
   useEffect(() => {
+    if (eventId) {
+      fetchEvent();
+    }
     fetchTickets();
   }, []);
+
+  const fetchEvent = async () => {
+    try {
+      const response = await axios.get(`/api/Event/${eventId}`);
+      setEvent(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const fetchTickets = () => {
     axios
@@ -188,6 +212,7 @@ const useTicketDetail = () => {
 
   return {
     navigate,
+    event,
     formatCurrency,
     totalRating,
     averageRating,
