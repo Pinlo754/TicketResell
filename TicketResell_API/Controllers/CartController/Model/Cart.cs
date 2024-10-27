@@ -20,7 +20,7 @@ namespace TicketResell_API.Controllers.CartController.Model
         public int quanity { get; set; }
         public decimal price { get; set; }
         public string? eventName { get; set; }
-        public string? eventImage { get; set; }
+        public string? eventImage { get; set; } 
     }
 
 }

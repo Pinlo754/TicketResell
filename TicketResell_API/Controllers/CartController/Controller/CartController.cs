@@ -40,32 +40,6 @@ namespace TicketResell_API.Controllers.CartController.Controller
             return Ok(cartItems);
         }
 
-        //list all cart
-        [HttpGet("list-all-cart")]
-        public async Task<ActionResult<IEnumerable<Cart>>> GetAllCarts()
-        {
-            try
-            {
-                // Get a list of all Carts from the database
-                var carts = await _context.Carts.ToListAsync();
-
-                // Check if cart list is empty
-                if (carts == null || carts.Count == 0)
-                {
-                    return NotFound("No carts found.");
-                }
-
-                // Returns the shopping cart list
-                return Ok(carts);
-            }
-            catch (Exception ex)
-            {
-                // Trả về thông báo lỗi nếu có lỗi xảy ra
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-
-
         [HttpPost("add-cart")]
         public async Task<ActionResult<Cart>> AddToCart([FromBody] Cart model)
         {
