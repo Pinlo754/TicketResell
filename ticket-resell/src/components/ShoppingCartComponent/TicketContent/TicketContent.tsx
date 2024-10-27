@@ -1,141 +1,248 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./TicketContent.css";
 import { TbMinus, TbPlus, TbX } from "react-icons/tb";
-import assets from "../../../assets/assetsChat";
-import { useNavigate } from "react-router-dom";
-const TicketContent = () => {
-  const navigate = useNavigate();
-  const [ownerSelected, setOwnerSelected] = useState(false);
-  const [tickets, setTickets] = useState([
-    {
-      id: 1,
-      title: "Imagine Dragon ",
-      subtitle: "Ngồi, khu A, hàng 28",
-      type: "Event",
-      price: 800,
-      quantity: 2,
-      selected: false
-    },
-    {
-      id: 2,
-      title: "Tên vé là",
-      subtitle: "Ngồi, khu A, hàng 28",
-      type: "Event",
-      price: 400,
-      quantity: 3,
-      selected: false
-    }
-  ]);
-  // Handle owner checkbox selection
-  const handleOwnerSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const isChecked = e.target.checked;
-    setOwnerSelected(isChecked);
-    setTickets(tickets.map(ticket => ({
-      ...ticket,
-      selected: isChecked
-    })));
-  };
+import axios from "axios";
+import { toast } from "react-toastify";
 
-  // Handle individual ticket selection
-  const handleTicketSelect = (ticketId:number) => {
-    setTickets(tickets.map(ticket => 
-      ticket.id === ticketId 
-        ? { ...ticket, selected: !ticket.selected }
-        : ticket
-    ));
-  };
+interface Cart {
+  firstName: string;
+  lastName: string;
+  userId: string;
+  sellerId: string;
+  ticketId: string;
+  ticketName: string;
+  ticketRow: string;
+  ticketType: string;
+  ticketSection: string;
+  quantity: number;
+  price: number;
+  eventName: string;
+  eventImage: string;
+  sellerImage: string;
+  maxQuantity: number;
+}
 
-  // Handle quantity changes
-  const handleQuantityChange = (ticketId:number, change:number) => {
-    setTickets(tickets.map(ticket => {
-      if (ticket.id === ticketId) {
-        const newQuantity = Math.max(1, ticket.quantity + change);
-        return {
-          ...ticket,
-          quantity: newQuantity
-        };
+interface CartUpdateRequest {
+  userId: string;
+  ticketId: string;
+  quantity: number;
+}
+
+interface TicketContentProps {
+  onTotalChange: (
+    subtotal: number,
+    totalQuantity: number,
+    selectedItems: {
+      ticketId: string;
+      sellerName: string;
+      quantity: number;
+      sellerImg: string;
+    }[]
+  ) => void;
+}
+
+const TicketContent: React.FC<TicketContentProps> = ({ onTotalChange }) => {
+  const [cardData, setCardData] = useState<Cart[]>([]);
+  const [selectedTickets, setSelectedTickets] = useState<Set<string>>(
+    new Set()
+  );
+  const user = localStorage.getItem("userId");
+
+
+  //Tính total money, total quantity, và thông tin gửi về component cha 
+  const calculateTotals = (cards: Cart[], selected: Set<string>) => {
+    let subtotal = 0;
+    let totalQuantity = 0;
+
+    cards.forEach((item) => {
+      if (selected.has(item.ticketId)) {
+        subtotal += item.price * item.quantity;
+        totalQuantity += item.quantity;
       }
-      return ticket;
-    }));
+    });
+    const selectedItems = cards
+      .filter((item) => selected.has(item.ticketId)) // Lọc vé được chọn
+      .map((item) => ({
+        ticketId: item.ticketId,
+        sellerName: item.firstName + " " + item.lastName,
+        quantity: item.quantity,
+        sellerImg: item.sellerImage,
+      }));
+    onTotalChange(subtotal, totalQuantity, selectedItems);
   };
+
+
+  const handleCheckboxChange = (ticketId: string) => {
+    const newSelected = new Set(selectedTickets);
+    if (newSelected.has(ticketId)) {
+      newSelected.delete(ticketId);
+    } else {
+      newSelected.add(ticketId);
+    }
+    setSelectedTickets(newSelected);
+    calculateTotals(cardData, newSelected);
+  };
+
+  const updateQuantity = async (ticketId: string, newQuantity: number) => {
+    try {
+      // Create request body according to API specification
+      const updateRequest: CartUpdateRequest = {
+        userId: user || "",
+        ticketId: ticketId,
+        quantity: newQuantity,
+      };
+
+      const response = await axios.put(
+        "http://localhost:5158/api/Cart/update-cart",
+        updateRequest
+      );
+
+      if (response.status === 200) {
+        const updatedData = cardData.map((item) =>
+          item.ticketId === ticketId ? { ...item, quantity: newQuantity } : item
+        );
+        setCardData(updatedData);
+        calculateTotals(updatedData, selectedTickets);
+      }
+    } catch (error) {
+      console.error("Error updating quantity:", error);
+      alert("Failed to update quantity. Please try again.");
+    }
+  };
+
+  const handleQuantityChange = (
+    ticketId: string,
+    delta: number,
+    currentQuantity: number,
+    maxQuantity: number
+  ) => {
+    const newQuantity = currentQuantity + delta;
+
+    if (newQuantity < 1) {
+      alert("Số lượng đã đến hạn");
+      return;
+    }
+
+    if (newQuantity > maxQuantity) {
+      alert(`Số lượng đã đến hạn`);
+      return;
+    }
+
+    updateQuantity(ticketId, newQuantity);
+  };
+
+  const handleRemoveTicket = async (ticket: string, id: string) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:5158/api/Cart/remove-cart/`,
+        {
+          params: {
+            userId: id,
+            ticketId: ticket
+          }
+        }
+      );
+
+      if (response.status === 200) {
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error("Error removing ticket:", error);
+      alert("Failed to remove ticket. Please try again.");
+    }
+  };
+
+  useEffect(() => {
+    const getCart = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5158/api/Cart/get-cart/${user}`
+        );
+        if (response.status === 200) {
+          setCardData(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching cart:", error);
+      }
+    };
+
+    if (user) {
+      getCart();
+    }
+  }, [user]);
 
   return (
-    <div className="ticket-content">
-      <div className="ticket-owner">
-      <input 
-          type="checkbox" 
-          name="check-all" 
-          id="check"
-          checked={ownerSelected}
-          onChange={handleOwnerSelect}
-        />
-        <div className="owner-info">
-          <img src={assets.hongle} alt="" />
-          <p>User is the owner of this ticket</p>
-        </div>
-        <svg
-          onClick={() => navigate("/chat")}
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-7 h-7 text-current"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
-          />
-        </svg>
-      </div>
-      {tickets.map(ticket => (
-        <div className="ticket-detail" key={ticket.id}>
-          <input 
-            type="checkbox" 
-            className="check-ticket" 
-            id={`check-${ticket.id}`}
-            checked={ticket.selected}
-            style={{width:"30px"}}
-            onChange={() => handleTicketSelect(ticket.id)}
-          />
-          <div className="ticket-info">
-            <div className="ticket-image">
-              <img src={assets.ticket} alt="ticket" />
-            </div>
-
-            <div className="ticket-title">
-              <div style={{fontSize:"20px"}}>{ticket.title}</div>
-              <span style={{fontSize:"12px", color:"red"}}>{ticket.subtitle}</span>
-            </div>
-          </div>
-
-          <div className="ticket-type">Types: {ticket.type}</div>
-
-          <div className="ticket-unit-price">${ticket.price}</div>
-
-          <div className="ticket-quantity">
-            <TbMinus 
-              onClick={() => handleQuantityChange(ticket.id, -1)}
-              style={{ cursor: 'pointer' }}
-            /> 
-            {ticket.quantity} 
-            <TbPlus 
-              onClick={() => handleQuantityChange(ticket.id, 1)}
-              style={{ cursor: 'pointer' }}
+    <div>
+      {cardData?.map((item) => (
+        <div className="ticket-content" key={item.ticketId}>
+          <div className="ticket-detail">
+            <input
+              type="checkbox"
+              className="check-ticket"
+              checked={selectedTickets.has(item.ticketId)}
+              onChange={() => handleCheckboxChange(item.ticketId)}
             />
-          </div>
+            <div className="ticket-info">
+              <div className="ticket-image">
+                <img src={item.eventImage} alt="" />
+              </div>
 
-          <div className="ticket-total-price">
-            ${ticket.price * ticket.quantity}
-          </div>
+              <div className="ticket-title">
+                {item.ticketName}
+                <div style={{ color: "red", fontSize: "10px" }}>
+                  {`${item.ticketType}, khu ${item.ticketSection}, hàng ${item.ticketRow}`}
+                </div>
+              </div>
+            </div>
 
-          <div className="ticket-remove">
-            <TbX style={{ cursor: 'pointer' }} />
+            <div className="ticket-owner">
+              <div className="owner-info">
+                <img src={item.sellerImage} alt="" />
+                <p>{item.firstName + " " + item.lastName}</p>
+              </div>
+            </div>
+            <div className="ticket-type">{"Sự kiện: " + item.eventName}</div>
+
+            <div className="ticket-unit-price">${item.price}</div>
+
+            <div className="ticket-quantity">
+              <TbMinus
+                className="quantity-btn"
+                onClick={() =>
+                  handleQuantityChange(
+                    item.ticketId,
+                    -1,
+                    item.quantity,
+                    item.maxQuantity
+                  )
+                }
+              />
+              {item.quantity}
+              <TbPlus
+                className="quantity-btn"
+                onClick={() =>
+                  handleQuantityChange(
+                    item.ticketId,
+                    1,
+                    item.quantity,
+                    item.maxQuantity
+                  )
+                }
+              />
+            </div>
+
+            <div className="ticket-total-price">
+              ${(item.price * item.quantity).toFixed(2)}
+            </div>
+
+            <div
+              className="ticket-remove"
+              onClick={() => handleRemoveTicket(item.ticketId,item.userId)}>
+              <TbX />
+            </div>
           </div>
         </div>
       ))}
-
     </div>
   );
 };

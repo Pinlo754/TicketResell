@@ -341,7 +341,7 @@ const useTicketDetail = () => {
       ticketRow: ticket.row,
       ticketType: ticket.type,
       ticketSection: ticket.section,
-      quanity: quantity,
+      quantity: quantity,
       maxQuantity: ticket.quantity,
       price: ticket.price,
       eventName: eventName,
