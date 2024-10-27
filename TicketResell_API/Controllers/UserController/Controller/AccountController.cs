@@ -69,7 +69,7 @@ namespace TicketResell_API.Controllers.UserController.Controller
                         return StatusCode(500, "Failed to assign default role.");
                     }
                     //Generate email confirmation code
-                    var emailCode = await _userManager.GenerateEmailConfirmationTokenAsync(_user!);
+                    string emailCode = _emailSender.GenerateConfirmationCode(_user.Email);
                     //Send confirmation email
                     string sendEmailResult = await _emailSender.SendConfirmationEmailAsync(_user.Email, emailCode);
                     //create notification to let user know that registration is successful
