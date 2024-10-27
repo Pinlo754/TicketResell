@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TicketResell_API.Migrations
 {
     /// <inheritdoc />
-    public partial class khiempm1 : Migration
+    public partial class initmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -63,9 +63,19 @@ namespace TicketResell_API.Migrations
                 {
                     cartId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     userId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    sellerId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    sellerImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    firstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    lastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ticketId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ticketName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ticketRow = table.Column<int>(type: "int", nullable: true),
+                    ticketType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ticketSection = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     quanity = table.Column<int>(type: "int", nullable: false),
-                    price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    eventName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    eventImage = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -81,6 +91,23 @@ namespace TicketResell_API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Chats", x => x.seUserId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Comment",
+                columns: table => new
+                {
+                    commentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    userId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    rating = table.Column<int>(type: "int", nullable: true),
+                    time = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    orderId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    toUserId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comment", x => x.commentId);
                 });
 
             migrationBuilder.CreateTable(
@@ -119,13 +146,18 @@ namespace TicketResell_API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     orderId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ticketId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    receiverName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ticketName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ticketType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    eventImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    eventName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    userName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     receiverPhone = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    receiverEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    receiverEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     quantity = table.Column<int>(type: "int", nullable: true),
                     status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    paymentMethod = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     createdAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
@@ -396,6 +428,9 @@ namespace TicketResell_API.Migrations
 
             migrationBuilder.DropTable(
                 name: "ChatData");
+
+            migrationBuilder.DropTable(
+                name: "Comment");
 
             migrationBuilder.DropTable(
                 name: "Events");

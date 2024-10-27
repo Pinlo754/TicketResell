@@ -9,6 +9,7 @@ namespace TicketResell_API.Controllers.CartController.Model
         public string? cartId { get; set; }
         public string? userId { get; set; }
         public string? sellerId { get; set; }
+        public string? sellerImage {  get; set; }
         public string? firstName { get; set; }
         public string? lastName { get; set; }
         public string? ticketId { get; set; }
@@ -19,7 +20,7 @@ namespace TicketResell_API.Controllers.CartController.Model
         public int quanity { get; set; }
         public decimal price { get; set; }
         public string? eventName { get; set; }
-        public string? eventImage { get; set; }
+        public string? eventImage { get; set; } 
     }
 
 }
