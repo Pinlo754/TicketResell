@@ -159,6 +159,9 @@ namespace TicketResell_API.Migrations
                     b.Property<string>("cartId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("eventName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(18,2)");
 
@@ -168,7 +171,22 @@ namespace TicketResell_API.Migrations
                     b.Property<string>("ticketId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ticketName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ticketRow")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ticketSection")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ticketType")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("userId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("cartId");

@@ -63,9 +63,15 @@ namespace TicketResell_API.Migrations
                 {
                     cartId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     userId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    userName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ticketId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ticketName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ticketRow = table.Column<int>(type: "int", nullable: true),
+                    ticketType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ticketSection = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     quanity = table.Column<int>(type: "int", nullable: false),
-                    price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    eventName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
