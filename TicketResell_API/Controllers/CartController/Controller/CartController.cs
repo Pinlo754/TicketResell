@@ -89,7 +89,8 @@ namespace TicketResell_API.Controllers.CartController.Controller
                 {
                     cartId = Guid.NewGuid().ToString(),
                     userId = model.userId,
-                    buyerId = model.buyerId,
+                    sellerId = model.sellerId,
+                    sellerImage = model.sellerImage,
                     firstName = model.firstName,
                     lastName = model.lastName,
                     ticketId = model.ticketId,
@@ -100,6 +101,7 @@ namespace TicketResell_API.Controllers.CartController.Controller
                     quanity = model.quanity,
                     price = model.price,
                     eventName = model.eventName,
+                    eventImage = model.eventImage,
                 };
                 _context.Carts.Add(newCartItem);
             }
