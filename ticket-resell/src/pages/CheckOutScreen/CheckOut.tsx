@@ -24,6 +24,7 @@ interface OrderDetailItem {
   eventImage: string;
   location: string;
   time: string;
+  id: string
 }
 
 const CheckOut = () => {
@@ -31,14 +32,56 @@ const CheckOut = () => {
   const location = useLocation();
   const { subtotal, totalQuantity, selectedItems } = location.state || {};
   const [orderDetail, setOrderDetail] = useState<OrderDetailItem[]>([]);
+  const [email,setEmail] = useState("")
+  const [name,setName] = useState("")
+  const [phone,setPhone] = useState("")
 
+  const submit = (() =>{
+    const detail = orderDetail.map((item)=>{
+      return {
+        ticketId: item.id,
+        ticketName: item.name,
+        ticketType: item.type,
+        eventImage: item.eventImage,
+        eventName: item.eventName,
+        userName: name,
+        receiverPhone: phone,
+        receiverEmail: email,
+        price: item.price,
+        quantity: item.quantity,
+        paymentMethod: "VNPay",
+      }
+    })
+  
+    const data = {
+      userId: localStorage.getItem("userId"),
+      totalAmount: 6000000,
+      orderDetails: detail
+    }
+    
+    const put = async () => {
+      try {
+        const response = await axios.post("https://localhost:7286/api/Order/create", data)
+        if(response.status === 201){
+          console.log(response.data + "succes");
+          const url = response.data.paymentUrl
+          window.open(url)
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    put()
+  })
+  
+  // lấy data từ shopping cart
   useEffect(() => {
     const fetchOrderData = async () => {
       try {
         const orderData = await Promise.all(
           selectedItems.map(async (item: selectedTicket) => {
             const response = await axios.get(
-              `http://localhost:5158/api/Ticket/get-ticket/${item.ticketId}`
+              `https://localhost:7286/api/Ticket/get-ticket/${item.ticketId}`
             );
             if (response.status === 200) {
               const order = response.data;
@@ -50,6 +93,7 @@ const CheckOut = () => {
                 userName: item.sellerName,
                 userImg: item.sellerImg,
                 eventId: order.eventId,
+                id: item.ticketId
               };
             }
             return null;
@@ -59,7 +103,7 @@ const CheckOut = () => {
         const order = await Promise.all(
           orderData.map(async (item) => {
             const response = await axios.get(
-              `http://localhost:5158/api/Event/${item.eventId}`
+              `https://localhost:7286/api/Event/${item.eventId}`
             );
             if (response.status === 200) {
               const event = response.data;
@@ -68,7 +112,7 @@ const CheckOut = () => {
                 eventName: event.eventName, // nối thêm event vào
                 eventImage: event.eventImage,
                 location: event.location,
-                time: event.eventTime,
+                time: event.eventTime, 
               };
             }
             return null;
@@ -84,7 +128,6 @@ const CheckOut = () => {
       fetchOrderData();
     }
   }, [selectedItems]);
-
   return (
     <div className="checkout-page">
       <div className="checkout-section">
@@ -157,18 +200,32 @@ const CheckOut = () => {
         <div className="contact-form">
           <h2 className="section-title">Phương thức liên lạc</h2>
           <div className="form-group">
+            <label htmlFor="name">Họ và tên</label>
+            <input
+              type="text"
+              id="phone"
+              required
+              placeholder="Nhập tên của bạn"
+              onChange={(e) => setName(e.target.value)}
+              value={name}
+            />
+          </div>
+
+          <div className="form-group">
             <label htmlFor="phone">Số điện thoại</label>
             <input
               type="tel"
               id="phone"
               required
               placeholder="Nhập số điện thoại của bạn"
+              onChange={(e) => setPhone(e.target.value)}
+              value={phone}
             />
           </div>
 
           <div className="form-group">
             <label htmlFor="gmail">Email</label>
-            <input type="tel" id="phone" required placeholder="Nhập email của bạn" />
+            <input type="email" value={email} required placeholder="Nhập email của bạn"  onChange={(e) => setEmail(e.target.value)}/>
           </div>
         </div>
       </div>
@@ -187,7 +244,7 @@ const CheckOut = () => {
           <span>Tổng</span>
           <span>{subtotal} VND</span>
         </div>
-        <button className="checkout-btn">Xác nhận đơn hàng</button>
+        <button className="checkout-btn" onClick={()=>submit()}>Xác nhận đơn hàng</button>
         <button
           onClick={() => navigate("/cart")}
           className="checkout-btn"

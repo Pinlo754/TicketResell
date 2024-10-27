@@ -22,7 +22,6 @@ import SellScreen from "../pages/SellScreen";
 import CheckOut from "../pages/CheckOutScreen/CheckOut";
 import StaffMainScreen from "../pages/Staff/StaffMainScreen";
 import ManageEventScreen from "../pages/Staff/ManageEventScreen";
-
 const routers = createBrowserRouter([
   {
     path: "/",
