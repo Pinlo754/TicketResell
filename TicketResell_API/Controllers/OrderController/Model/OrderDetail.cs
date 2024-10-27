@@ -13,6 +13,7 @@ namespace TicketResell_API.Controllers.OrderController.Model
         public string? eventName {  get; set; }
         public string? userName { get; set; }
         public string? receiverPhone { get; set; }
+        [Required]
         public string? receiverEmail { get; set; }
         public string? address { get; set; }
         public decimal price { get; set; }
