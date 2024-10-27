@@ -18,7 +18,7 @@ import AdminBoard from "../pages/Admin/AdminBoard";
 import TicketBoard from "../components/Admin/Ticket/TicketBoard";
 import OrderBoard from "../components/Admin/OrderBoard/OrderBoard";
 import UserBoard from "../components/Admin/UserBoard/UserBoard";
-import Sell from "../pages/Sell";
+import SellScreen from "../pages/SellScreen";
 import CheckOut from "../pages/CheckOutScreen/CheckOut";
 
 const routers = createBrowserRouter([
@@ -72,7 +72,7 @@ const routers = createBrowserRouter([
   },
   {
     path: "/sell/:eventId?",
-    element: <Sell />,
+    element: <SellScreen />,
   },
   {
     path: "/profile",

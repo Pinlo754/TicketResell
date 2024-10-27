@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { removeVietnameseTones } from '../../components/Search/useSearch';
+import axios from 'axios';
 
 interface TicketInfo {
   type: string;
@@ -11,21 +12,20 @@ interface TicketInfo {
   images: File[];
 }
 
-export interface Event {
-  name: string;
-  date: string;
-  time: string;
+export type Event = {
+  eventId: string;
+  eventName: string;
+  eventImage: string;
+  eventTime: string;
   location: string;
-}
+  city: string;
+  eventStatus: string;
+};
 
-// Giả lập danh sách sự kiện từ database
-const mockEvents: Event[] = [
-  { name: "Sự kiện bóng đá", date: "25/10/2024", time: "18:00", location: "Sân vận động" },
-  { name: "Sự kiện âm nhạc", date: "30/10/2024", time: "20:00", location: "Nhà hát thành phố" },
-];
-
-const useSell = () => {
+const useSellScreen = () => {
   const navigate = useNavigate();
+  const [events, setEvents] = useState<Event[]>([]);
+  const { evId } = useParams<{ evId?: string }>();
   const [step, setStep] = useState(1);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [ticketInfo, setTicketInfo] = useState<TicketInfo>({
@@ -38,12 +38,42 @@ const useSell = () => {
 
   const [showRow, setShowRow] = useState<boolean>(false);
 
-  const handleEventSelect = (event: Event) => {
-    console.log("Selected event:", event);
+  useEffect(() => {
+    if (evId) {
+      fetchEvent();
+    } else {
+      fetchEvents();
+    }
+  }, [evId]);
+
+  const fetchEvent = async () => {
+    try {
+      const response = await axios.get(`/api/Event/${evId}`);
+      setSelectedEvent(response.data);
+    }
+    catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  const fetchEvents = async () => {
+    try {
+      const response = await axios.get('/api/Event/list-event');
+      const events: Event[] = response.data;
+      const activeEvents = events.filter(event => event.eventStatus === 'Ongoing');
+      setEvents(activeEvents);
+    }
+    catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  const handleEventSelect = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const eventFilter = (event: Event, query: string) => {
-    const normalizedEventName = removeVietnameseTones(event.name.toLowerCase());
+    const normalizedEventName = removeVietnameseTones(event.eventName.toLowerCase());
     return normalizedEventName.includes(query);
   };
 
@@ -131,7 +161,9 @@ const useSell = () => {
 };
 
   return {
-    mockEvents,
+    events,
+    setEvents,
+    evId,
     navigate,
     step,
     setStep,
@@ -151,4 +183,4 @@ const useSell = () => {
   };
 };
 
-export default useSell;
+export default useSellScreen;
