@@ -92,19 +92,6 @@ namespace TicketResell_API.Controllers.UserController.Model
             return "Please check your email for the password reset link";
         }
 
-        //public async Task<string> GenerateConfirmationCode(string? email)
-        //{
-        //    using (var hmac = new HMACSHA256(Encoding.UTF8.GetBytes("SecretKey")))
-        //    {
-        //        var currentTime = DateTime.UtcNow.ToString("yyyyMMddHH");
-        //        var data = $"{email}:{currentTime}";
-
-        //        var hashBytes = hmac.ComputeHash(Encoding.UTF8.GetBytes(data));
-        //        var code = BitConverter.ToInt32(hashBytes, 0).ToString("D6");
-
-        //        return code;
-        //    }
-        //}
 
         string IEmailSender.GenerateConfirmationCode(string? email)
         {
@@ -119,6 +106,44 @@ namespace TicketResell_API.Controllers.UserController.Model
                 int code = BitConverter.ToInt32(hashBytes, 0) & 0x7FFFFFFF; // Ensure positive integers
                 return (code % 1000000).ToString("D6"); // 6 digit guarantee
             }
+        }
+
+        //send a http form of order confirm
+        public async Task<string> SendOrderConfirmationEmailAsync(string? email, string? orderId, string? eventName, string? ticketDetails)
+        {
+            StringBuilder emailMessage = new StringBuilder();
+            emailMessage.AppendLine("<!DOCTYPE html>");
+            emailMessage.AppendLine("<html lang=\"en\">");
+            emailMessage.AppendLine("<head>");
+            emailMessage.AppendLine("     <meta charset=\"UTF-8\">");
+            emailMessage.AppendLine("     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
+            emailMessage.AppendLine("     <title>Order Confirmation</title>");
+            emailMessage.AppendLine("     <style>");
+            emailMessage.AppendLine("     body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; }");
+            emailMessage.AppendLine("     .email-container { max-width: 600px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); }");
+            emailMessage.AppendLine("     h1 { color: #323232; }");
+            emailMessage.AppendLine("     p { color: #555; }");
+            emailMessage.AppendLine("     .button { background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px; }");
+            emailMessage.AppendLine("     .button:hover { background-color: #0056b3; }");
+            emailMessage.AppendLine("     </style>");
+            emailMessage.AppendLine("</head>");
+            emailMessage.AppendLine("<body>");
+            emailMessage.AppendLine("     <div class=\"email-container\">");
+            emailMessage.AppendLine($"     <h1>Thank you for your purchase, {email}</h1>");
+            emailMessage.AppendLine($"      <p>Your order ID is: <strong>{orderId}</strong></p>");
+            emailMessage.AppendLine($"      <p>Event: <strong>{eventName}</strong></p>");
+            emailMessage.AppendLine($"      <p>Ticket Details: <strong>{ticketDetails}</strong></p>");
+            emailMessage.AppendLine("      <p>We are excited to have you join us at the event. Please keep this email as your confirmation.</p>");
+            emailMessage.AppendLine("      <br>");
+            emailMessage.AppendLine("      <p>Best regards, <br>Ticket-Resell Team</p>");
+            emailMessage.AppendLine("    </div>");
+            emailMessage.AppendLine("</body>");
+            emailMessage.AppendLine("</html>");
+
+            string message = emailMessage.ToString();
+            await SendEmailAsync(email, "Order Confirmation", message);
+
+            return "Order confirmation email sent successfully";
         }
     }
 

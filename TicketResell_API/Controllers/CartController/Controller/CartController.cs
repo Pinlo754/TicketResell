@@ -27,9 +27,11 @@ namespace TicketResell_API.Controllers.CartController.Controller
             {
                 return BadRequest("UserId is required.");
             }
+            //Query shopping cart data
             var cartItems = await _context.Carts
                                  .Where(c => c.userId == userId)
                                  .ToListAsync();
+            //Check query results
             if (cartItems == null || !cartItems.Any())
             {
                 return NotFound($"No cart items found for user {userId}.");
@@ -44,16 +46,16 @@ namespace TicketResell_API.Controllers.CartController.Controller
         {
             try
             {
-                // Lấy danh sách tất cả các Cart từ database
+                // Get a list of all Carts from the database
                 var carts = await _context.Carts.ToListAsync();
 
-                // Kiểm tra nếu danh sách giỏ hàng trống
+                // Check if cart list is empty
                 if (carts == null || carts.Count == 0)
                 {
                     return NotFound("No carts found.");
                 }
 
-                // Trả về danh sách giỏ hàng
+                // Returns the shopping cart list
                 return Ok(carts);
             }
             catch (Exception ex)
@@ -76,18 +78,20 @@ namespace TicketResell_API.Controllers.CartController.Controller
                                          .FirstOrDefaultAsync(c => c.userId == model.userId && c.ticketId == model.ticketId);
             if (existingCartItem != null)
             {
-                // Nếu sản phẩm đã tồn tại, cập nhật số lượng và giá
+                //If the product already exists, update the quantity and price.
                 existingCartItem.quanity += model.quanity;
                 existingCartItem.price = model.price; // Có thể cập nhật giá nếu cần thiết
             }
             else
             {
-                // Nếu sản phẩm chưa tồn tại, thêm mới vào giỏ hàng
+                // If the product does not exist, add new to cart
                 var newCartItem = new Cart
                 {
                     cartId = Guid.NewGuid().ToString(),
                     userId = model.userId,
-                    userName = model.userName,
+                    buyerId = model.buyerId,
+                    firstName = model.firstName,
+                    lastName = model.lastName,
                     ticketId = model.ticketId,
                     ticketName = model.ticketName,
                     ticketRow = model.ticketRow,
@@ -118,7 +122,7 @@ namespace TicketResell_API.Controllers.CartController.Controller
                 return NotFound($"Cart item for user {model.userId} and ticket {model.ticketId} not found.");
             }
 
-            // Cập nhật số lượng giỏ hàng
+            //Update cart quantity
             existingCartItem.quanity = model.quanity;
 
             try
@@ -137,14 +141,14 @@ namespace TicketResell_API.Controllers.CartController.Controller
     [HttpDelete("remove-cart")]
     public async Task<ActionResult> DeleteCartItem([FromQuery] string userId, [FromQuery] string ticketId)
     {
-        // Kiểm tra dữ liệu đầu vào
-        if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(ticketId))
+            // Check input data
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(ticketId))
         {
             return BadRequest("User ID or Ticket ID is missing. Please try again.");
         }
 
-        // Tìm sản phẩm trong giỏ hàng của người dùng
-        var existingCartItem = await _context.Carts
+            // Find products in user's shopping cart
+            var existingCartItem = await _context.Carts
                                              .FirstOrDefaultAsync(c => c.userId == userId && c.ticketId == ticketId);
 
         if (existingCartItem == null)
@@ -152,11 +156,11 @@ namespace TicketResell_API.Controllers.CartController.Controller
             return NotFound($"Cart item for user {userId} and ticket {ticketId} not found.");
         }
 
-        // Xóa sản phẩm khỏi giỏ hàng
-        _context.Carts.Remove(existingCartItem);
+            // Remove product from cart
+            _context.Carts.Remove(existingCartItem);
 
-        // Lưu thay đổi vào cơ sở dữ liệu
-        await _context.SaveChangesAsync();
+            // Save changes to database
+            await _context.SaveChangesAsync();
 
         return Ok(new { Message = "Cart item deleted successfully." });
     }

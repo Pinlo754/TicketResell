@@ -7,7 +7,6 @@
         
         public DateTime? orderDate { get; set; }
         public string? Status { get; set; }
-
         public decimal? totalAmount { get; set; }
 
     }

@@ -321,7 +321,16 @@ namespace TicketResell_API.Migrations
                     b.Property<DateTime?>("createdAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("eventImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("eventName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("orderId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("paymentMethod")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("price")
@@ -333,9 +342,6 @@ namespace TicketResell_API.Migrations
                     b.Property<string>("receiverEmail")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("receiverName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("receiverPhone")
                         .HasColumnType("nvarchar(max)");
 
@@ -343,6 +349,15 @@ namespace TicketResell_API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ticketId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ticketName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ticketType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("orderDetailId");
