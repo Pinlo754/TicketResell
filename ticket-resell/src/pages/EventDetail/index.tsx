@@ -7,6 +7,7 @@ import useEventDetail from "./useEventDetail";
 const EventDetail = () => {
   const {
     navigate,
+    event,
     tickets,
     quantities,
     handleIncrease,
@@ -33,8 +34,7 @@ const EventDetail = () => {
           <div
             className="absolute inset-0 bg-cover bg-center blur-2xl bg-opacity-80"
             style={{
-              backgroundImage:
-                "url(https://www.oyorooms.com/blog/wp-content/uploads/2018/02/event.jpg)",
+              backgroundImage: `url(${event?.eventImage})`,
             }}
           >
             {" "}
@@ -48,7 +48,7 @@ const EventDetail = () => {
             <div className="relative py-10">
               <div className="overflow-hidden rounded-lg">
                 <img
-                  src="https://www.oyorooms.com/blog/wp-content/uploads/2018/02/event.jpg"
+                  src={event?.eventImage}
                   alt="Event"
                   className="object-cover w-46 h-56 hover:scale-110 transition-transform duration-300"
                 />
@@ -57,7 +57,7 @@ const EventDetail = () => {
 
             {/* Tên sự kiện */}
             <h1 className="mt-4 text-4xl font-bold  sm:text-5xl">
-              Gewoon Boef
+              {event?.eventName}
             </h1>
             <div className="mt-6 text-lg flex justify-center gap-x-8">
               {/* Date */}
@@ -74,7 +74,7 @@ const EventDetail = () => {
                     clip-rule="evenodd"
                   />
                 </svg>
-                <p>Sat, Oct 12, 8:00 PM</p>
+                <p>{event?.eventTime}</p>
               </div>
               {/* Venue */}
               <div className="flex items-center">
@@ -90,7 +90,7 @@ const EventDetail = () => {
                     clip-rule="evenodd"
                   />
                 </svg>
-                <p>Ziggo Dome</p>
+                <p>{event?.location}</p>
               </div>
               {/* City */}
               <div className="flex items-center">
@@ -106,7 +106,7 @@ const EventDetail = () => {
                     clip-rule="evenodd"
                   />
                 </svg>
-                <p>Amsterdam, Netherlands</p>
+                <p>{event?.city}</p>
               </div>
             </div>
             {/* Subcribe */}
@@ -135,9 +135,9 @@ const EventDetail = () => {
           <div className="relative z-10 pb-12 flex justify-between mt-10">
             <button
               className="bg-transparent text-white font-semibold ml-10 group flex items-center"
-              onClick={() => navigate("/sell")}
+              onClick={() => navigate(`/sell/${event?.eventId}`)}
             >
-              Sell your tickets on Festix
+              Bán vé của bạn trên Festix
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-2"
@@ -165,7 +165,7 @@ const EventDetail = () => {
           <div className="w-full bg-black grid grid-cols-1 md:grid-cols-4 gap-5 mt-10 mb-10 px-3 py-3 rounded-lg text-white">
             <div>
               <button className="bg-transparent text-xl">
-                <span className="font-medium">Sort: </span>
+                <span className="font-medium">Sắp xếp: </span>
               </button>
             </div>
           </div>
@@ -175,7 +175,7 @@ const EventDetail = () => {
             <div
               key={ticket.ticketId}
               className="bg-[#F4F4F4] w-full flex rounded-lg mt-4 shadow-md cursor-pointer group hover:shadow-2xl"
-              onClick={() => navigate(`/ticketDetail/${ticket.ticketId}`)}
+              onClick={() => navigate(`/ticketDetail/${event?.eventId}/${ticket.ticketId}`)}
             >
               <div className="flex items-center justify-center w-1/5 my-3">
                 <div className="relative overflow-hidden rounded-full">
@@ -198,19 +198,23 @@ const EventDetail = () => {
                   )}
                 </div>
                 <p>
-                  <span className="font-medium">Quantity:</span>{" "}
+                  <span className="font-medium">Số lượng:</span>{" "}
                   {ticket.quantity}
                 </p>
                 <p className="text-end mr-4 text-red-500 font-semibold">
-                  {formatCurrency(ticket.price)} VND/ Ticket
+                  {formatCurrency(ticket.price)} VND/ Vé
                 </p>
                 <p className="text-sm text-gray-500">"{ticket.description}"</p>
               </div>
+              
               {/* <div className="w-1/5 flex flex-col border-l-2">
-                 <div className="flex justify-center items-center mt-4">
-                  
+                <div className="flex justify-center items-center mt-4">
                   <button
-                    onClick={() => handleDecrease(ticket.ticketId)}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevents navigation
+                      handleDecrease(ticket.ticketId);
+                    }}
+
                     className={`px-4 py-2 rounded-sm border-2 ${
                       quantities[ticket.ticketId] === 1
                         ? "cursor-not-allowed bg-gray-100 border-gray-200"
@@ -221,12 +225,16 @@ const EventDetail = () => {
                     -
                   </button>
                   
+                  
                   <p className="text-center mx-1 py-2 w-16 rounded-sm border-2 border-gray-300 cursor-not-allowed">
                     {quantities[ticket.ticketId]}
                   </p>
                   
                   <button
-                    onClick={() => handleIncrease(ticket.ticketId)}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevents navigation
+                      handleIncrease(ticket.ticketId);
+                    }}
                     className={`px-4 py-2 rounded-sm border-2 ${
                       quantities[ticket.ticketId] === ticket.quantity
                         ? "cursor-not-allowed bg-gray-100 border-gray-200"
@@ -237,14 +245,22 @@ const EventDetail = () => {
                     +
                   </button>
                 </div>
-
-                {/* 
-                <button className="bg-[#87CBB9] w-[87%] text-white py-2 mt-3 mx-auto rounded-sm hover:bg-[#B9EDDD] hover:text-black">
-                  Add to cart
+                <button 
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevents navigation
+                }}
+                className="bg-[#87CBB9] w-[87%] text-white py-2 mt-3 mx-auto rounded-sm hover:bg-[#B9EDDD] hover:text-black"
+                >
+                  Thêm vào giỏ hàng
                 </button>
-                <button className="bg-[#87CBB9] w-[87%] text-white py-2 mt-1.5 mb-4 mx-auto rounded-sm hover:bg-[#B9EDDD] hover:text-black">
-                  Buy
-                </button> 
+                <button 
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevents navigation
+                }}
+                className="bg-[#87CBB9] w-[87%] text-white py-2 mt-1.5 mb-4 mx-auto rounded-sm hover:bg-[#B9EDDD] hover:text-black"
+                >
+                  Mua
+                </button>
               </div>*/}
             </div>
           ))}

@@ -22,6 +22,7 @@ import SellScreen from "../pages/SellScreen";
 import CheckOut from "../pages/CheckOutScreen/CheckOut";
 import StaffMainScreen from "../pages/Staff/StaffMainScreen";
 import ManageEventScreen from "../pages/Staff/ManageEventScreen";
+import ManageTicketScreen from "../pages/Staff/ManageTicketScreen";
 
 const routers = createBrowserRouter([
   {
@@ -107,6 +108,10 @@ const routers = createBrowserRouter([
   {
     path: "/staff/events",
     element: <ManageEventScreen/>,
+  },
+  {
+    path: "/staff/tickets/:eventId",
+    element: <ManageTicketScreen />,
   },
 ]);
 
