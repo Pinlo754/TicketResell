@@ -108,10 +108,10 @@ namespace TicketResell_API.Controllers.UserController.Controller
             var generatedCode = _emailSender.GenerateConfirmationCode(model.email);
             if (model.code != generatedCode)
             {
-                // Tăng số lần nhập sai mã lên 1
+                // Increase the number of incorrect code entries by 1
                 user.FailedConfirmationAttemps += 1;
 
-                // Cập nhật thông tin người dùng
+                // update user infor
                 var updateResult = await _userManager.UpdateAsync(user);
                 if (!updateResult.Succeeded)
                 {
@@ -141,14 +141,16 @@ namespace TicketResell_API.Controllers.UserController.Controller
         [HttpPost("resend-email-code")]
         public async Task<IActionResult> ResendEmailCode([FromBody] ResendEmail model)
         {
+            //email is null or not
             if (string.IsNullOrEmpty(model.email) )
             {
                 return BadRequest("Email are required.");
             }
-
+            // generate new code 
             string newEmailCode = _emailSender.GenerateConfirmationCode(model.email);
-
+            //send new code to email
             var result = await _emailSender.SendConfirmationEmailAsync(model.email, newEmailCode);
+            //return 200
             return Ok(new { message = result });
 
         }
