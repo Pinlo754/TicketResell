@@ -1,13 +1,12 @@
-import NavBar from "../../../components/NavBar";
-import Footer from "../../../components/Footer";
-import ScrollToTopButton from "../../../components/ScrollToTopButton";
-import ScrollToTop from "../../../components/ScrollToTop";
+import NavBar from "../../components/NavBar";
+import Footer from "../../components/Footer";
+import ScrollToTopButton from "../../components/ScrollToTopButton";
+import ScrollToTop from "../../components/ScrollToTop";
 import useEventDetail from "./useEventDetail";
 
 const EventDetail = () => {
   const {
     navigate,
-    event,
     tickets,
     quantities,
     handleIncrease,
@@ -34,7 +33,8 @@ const EventDetail = () => {
           <div
             className="absolute inset-0 bg-cover bg-center blur-2xl bg-opacity-80"
             style={{
-              backgroundImage: `url(${event?.eventImage})`,
+              backgroundImage:
+                "url(https://www.oyorooms.com/blog/wp-content/uploads/2018/02/event.jpg)",
             }}
           >
             {" "}
@@ -48,7 +48,7 @@ const EventDetail = () => {
             <div className="relative py-10">
               <div className="overflow-hidden rounded-lg">
                 <img
-                  src={event?.eventImage}
+                  src="https://www.oyorooms.com/blog/wp-content/uploads/2018/02/event.jpg"
                   alt="Event"
                   className="object-cover w-46 h-56 hover:scale-110 transition-transform duration-300"
                 />
@@ -57,7 +57,7 @@ const EventDetail = () => {
 
             {/* Tên sự kiện */}
             <h1 className="mt-4 text-4xl font-bold  sm:text-5xl">
-              {event?.eventName}
+              Gewoon Boef
             </h1>
             <div className="mt-6 text-lg flex justify-center gap-x-8">
               {/* Date */}
@@ -74,7 +74,7 @@ const EventDetail = () => {
                     clip-rule="evenodd"
                   />
                 </svg>
-                <p>{event?.eventTime}</p>
+                <p>Sat, Oct 12, 8:00 PM</p>
               </div>
               {/* Venue */}
               <div className="flex items-center">
@@ -90,7 +90,7 @@ const EventDetail = () => {
                     clip-rule="evenodd"
                   />
                 </svg>
-                <p>{event?.location}</p>
+                <p>Ziggo Dome</p>
               </div>
               {/* City */}
               <div className="flex items-center">
@@ -106,7 +106,7 @@ const EventDetail = () => {
                     clip-rule="evenodd"
                   />
                 </svg>
-                <p>{event?.city}</p>
+                <p>Amsterdam, Netherlands</p>
               </div>
             </div>
             {/* Subcribe */}
@@ -135,9 +135,9 @@ const EventDetail = () => {
           <div className="relative z-10 pb-12 flex justify-between mt-10">
             <button
               className="bg-transparent text-white font-semibold ml-10 group flex items-center"
-              onClick={() => navigate(`/sell/${event?.eventId}`)}
+              onClick={() => navigate("/sell")}
             >
-              Bán vé của bạn trên Festix
+              Sell your tickets on Festix
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-2"
@@ -165,7 +165,7 @@ const EventDetail = () => {
           <div className="w-full bg-black grid grid-cols-1 md:grid-cols-4 gap-5 mt-10 mb-10 px-3 py-3 rounded-lg text-white">
             <div>
               <button className="bg-transparent text-xl">
-                <span className="font-medium">Sắp xếp: </span>
+                <span className="font-medium">Sort: </span>
               </button>
             </div>
           </div>
@@ -175,7 +175,7 @@ const EventDetail = () => {
             <div
               key={ticket.ticketId}
               className="bg-[#F4F4F4] w-full flex rounded-lg mt-4 shadow-md cursor-pointer group hover:shadow-2xl"
-              onClick={() => navigate(`/ticketDetail/${event?.eventId}/${ticket.ticketId}`)}
+              onClick={() => navigate(`/ticketDetail/${ticket.ticketId}`)}
             >
               <div className="flex items-center justify-center w-1/5 my-3">
                 <div className="relative overflow-hidden rounded-full">
@@ -198,22 +198,19 @@ const EventDetail = () => {
                   )}
                 </div>
                 <p>
-                  <span className="font-medium">Số lượng:</span>{" "}
+                  <span className="font-medium">Quantity:</span>{" "}
                   {ticket.quantity}
                 </p>
                 <p className="text-end mr-4 text-red-500 font-semibold">
-                  {formatCurrency(ticket.price)} VND/ Vé
+                  {formatCurrency(ticket.price)} VND/ Ticket
                 </p>
                 <p className="text-sm text-gray-500">"{ticket.description}"</p>
               </div>
-              <div className="w-1/5 flex flex-col border-l-2">
-                <div className="flex justify-center items-center mt-4">
-                  {/* Button giảm số lượng */}
+              {/* <div className="w-1/5 flex flex-col border-l-2">
+                 <div className="flex justify-center items-center mt-4">
+                  
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation(); // Prevents navigation
-                      handleDecrease(ticket.ticketId);
-                    }}
+                    onClick={() => handleDecrease(ticket.ticketId)}
                     className={`px-4 py-2 rounded-sm border-2 ${
                       quantities[ticket.ticketId] === 1
                         ? "cursor-not-allowed bg-gray-100 border-gray-200"
@@ -223,16 +220,13 @@ const EventDetail = () => {
                   >
                     -
                   </button>
-                  {/* Hiển thị số lượng hiện tại */}
+                  
                   <p className="text-center mx-1 py-2 w-16 rounded-sm border-2 border-gray-300 cursor-not-allowed">
                     {quantities[ticket.ticketId]}
                   </p>
-                  {/* Button tăng số lượng */}
+                  
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation(); // Prevents navigation
-                      handleIncrease(ticket.ticketId);
-                    }}
+                    onClick={() => handleIncrease(ticket.ticketId)}
                     className={`px-4 py-2 rounded-sm border-2 ${
                       quantities[ticket.ticketId] === ticket.quantity
                         ? "cursor-not-allowed bg-gray-100 border-gray-200"
@@ -244,24 +238,14 @@ const EventDetail = () => {
                   </button>
                 </div>
 
-                {/* Button */}
-                <button 
-                onClick={(e) => {
-                  e.stopPropagation(); // Prevents navigation
-                }}
-                className="bg-[#87CBB9] w-[87%] text-white py-2 mt-3 mx-auto rounded-sm hover:bg-[#B9EDDD] hover:text-black"
-                >
-                  Thêm vào giỏ hàng
+                {/* 
+                <button className="bg-[#87CBB9] w-[87%] text-white py-2 mt-3 mx-auto rounded-sm hover:bg-[#B9EDDD] hover:text-black">
+                  Add to cart
                 </button>
-                <button 
-                onClick={(e) => {
-                  e.stopPropagation(); // Prevents navigation
-                }}
-                className="bg-[#87CBB9] w-[87%] text-white py-2 mt-1.5 mb-4 mx-auto rounded-sm hover:bg-[#B9EDDD] hover:text-black"
-                >
-                  Mua
-                </button>
-              </div>
+                <button className="bg-[#87CBB9] w-[87%] text-white py-2 mt-1.5 mb-4 mx-auto rounded-sm hover:bg-[#B9EDDD] hover:text-black">
+                  Buy
+                </button> 
+              </div>*/}
             </div>
           ))}
         </div>

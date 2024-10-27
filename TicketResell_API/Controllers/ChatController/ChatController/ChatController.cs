@@ -60,13 +60,10 @@ namespace TicketResell_API.Controllers.ChatController.ChatController
         }
 
         [HttpPost("post-message")]
-        public async Task<ActionResult<Message>> PostMessage([FromBody] Message model)
+        public async Task<ActionResult<Message>> PostMessage()
         {
-            //check data and message is null or not
-            if (model == null || string.IsNullOrEmpty(model.messageId))
-            {
-                return BadRequest("Message data is null or message id is missing. Please try again.");
-            }
+            Message model = new Message();
+            model.messageId = Guid.NewGuid().ToString();
             //save message 
             var createdMessage = await _chatService.CreateMessageAsync(model);
             //Returns the GetMessageById and create a path to the newly created resource
@@ -89,15 +86,15 @@ namespace TicketResell_API.Controllers.ChatController.ChatController
             return Ok(result);
         }
 
-        [HttpPut("update-chat/{seUserId}")]
-        public async Task<ActionResult<Chat>> UpdateChat([FromBody] Chat model, string seUserId)
+        [HttpPut("update-chat/")]
+        public async Task<ActionResult<Chat>> UpdateChat([FromBody] Chat model)
         {
             if (model == null)
             {
                 return BadRequest("Chat data is null.");
             }
 
-            var updatedChat = await _chatService.UpdateChatAsync(model, seUserId);
+            var updatedChat = await _chatService.UpdateChatAsync(model, model.seUserId);
 
             if (updatedChat == null)
             {
