@@ -24,17 +24,17 @@ const useListEvent = () => {
         fetchEvents();
       }, []);
 
-      const fetchEvents = () => {
-        axios.get('/api/Event/list-event')
-          .then(response => {
-            const events: Event[] = response.data;
-            const activeEvents = events.filter(event => event.eventStatus === 'Ongoing');
-            setEvents(activeEvents);
-            setFilteredEvents(activeEvents);
-          })
-          .catch(error => {
-            console.error('Error fetching data:', error);
-          });
+      const fetchEvents = async () => {
+        try {
+          const response = await axios.get('/api/Event/list-event');
+          const events: Event[] = response.data;
+          const activeEvents = events.filter(event => event.eventStatus === 'Ongoing');
+          setEvents(activeEvents);
+          setFilteredEvents(activeEvents);
+        }
+        catch (error) {
+          console.error('Error fetching data:', error);
+        }
       };
 
        // TICKET 

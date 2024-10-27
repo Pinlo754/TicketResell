@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -96,32 +96,6 @@ const MainScreen = () => {
     ],
   };
 
-  // TEST BUTTON
-  const handleClick = (buttonType: string) => {
-    switch (buttonType) {
-      case "makeSome":
-        console.log("Bạn đã bấm nút Make some money");
-        break;
-      case "seeWhat":
-        console.log("Bạn đã bấm nút See what");
-        break;
-      case "viewMore":
-        console.log("Bạn đã bấm nút View More");
-        break;
-      case "sellNow":
-        console.log("Bạn đã bấm nút Sell Now");
-        break;
-      case "ourStory":
-        console.log("Bạn đã bấm nút Our Story");
-        break;
-      case "helpCenter":
-        console.log("Bạn đã bấm nút Help Center");
-        break;
-      default:
-        console.log("Không xác định");
-    }
-  };
-
   return (
     <div className="w-screen min-h-screen flex flex-col">
       {/* SCROLL TO TOP */}
@@ -145,28 +119,15 @@ const MainScreen = () => {
             </h1>
             {/* Sub-Headline */}
             <div className="flex items-center">
-              <p className="font-open-sans text-white text-lg mb-3">
-                Turn your unused tickets into cash
-              </p>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-7 h-7 pb-2 text-white hover:text-gray-500 cursor-pointer"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
-                />
+              <p className="font-open-sans text-white text-lg mb-3">Biến những tấm vé chưa sử dụng của bạn thành tiền mặt</p>
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 pb-2 text-white hover:text-gray-500 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
               </svg>
             </div>
             {/* Button */}
-            <button
-              className="font-poppins bg-white text-[#8ACDD7] px-6 py-3 rounded-full font-semibold flex items-center hover:translate-x-3 transition ease-in-out delay-150 duration-300 hover:shadow-2xl hover:ring-2 hover:ring-[#8ACDD7] "
-              onClick={() => handleClick("makeSome")}
+            <button 
+            className="font-poppins bg-white text-[#8ACDD7] px-6 py-3 rounded-full font-semibold flex items-center hover:translate-x-3 transition ease-in-out delay-150 duration-300 hover:shadow-2xl hover:ring-2 hover:ring-[#8ACDD7] "
+            onClick={() => navigate("/sell")}
             >
               Make some money
               <svg
@@ -213,12 +174,9 @@ const MainScreen = () => {
               </svg>
             </div>
             {/* Button */}
-            <button
-              className="bg-white text-[#FF6F61] px-6 py-3 rounded-full font-semibold flex items-center hover:translate-x-3 transition ease-in-out delay-150 duration-300 hover:shadow-2xl hover:ring-2 hover:ring-[#FF6F61]"
-              onClick={() => {
-                handleClick("seeWhat");
-                navigate("/listEvent");
-              }}
+            <button 
+            className="bg-white text-[#FF6F61] px-6 py-3 rounded-full font-semibold flex items-center hover:translate-x-3 transition ease-in-out delay-150 duration-300 hover:shadow-2xl hover:ring-2 hover:ring-[#FF6F61]"
+            onClick={() => navigate("/listEvent") }
             >
               See what's out there
               <svg
@@ -255,19 +213,17 @@ const MainScreen = () => {
                 className="flex justify-center items-center"
               >
                 {events.map((ev) => (
-                  <div key={ev.eventId} className="pl-10 pr-1 ">
-                    {" "}
-                    {/* Add spacing between cards */}
-                    <div
-                      className="bg-[#F4F4F4] w-[90%] h-fit rounded-lg shadow-md  transition duration-300 group cursor-pointer"
-                      onClick={() => navigate("/eventDetail")}
+                  <div key={ev.eventId} className="pl-10 pr-1 "> {/* Add spacing between cards */}
+                    <div 
+                    className="bg-[#F4F4F4] w-[90%] h-fit rounded-lg shadow-md  transition duration-300 group cursor-pointer"
+                    onClick={() => navigate("/eventDetail")}
                     >
                       {/* Card-Img */}
                       <div className="overflow-hidden rounded-t-lg">
                         <img
                           src={ev.eventImage}
                           alt={ev.eventName}
-                          className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-300"
+                          className="object-center w-full h-[250px] group-hover:scale-110 transition-transform duration-300"
                         />
                       </div>
                       {/* Card-Content */}
@@ -351,12 +307,9 @@ const MainScreen = () => {
           </div>
           {/* Button */}
           <div className="flex justify-center pb-2 pt-4">
-            <button
-              className="outline outline-2 rounded-sm text-[#8ACDD7] font-medium text-lg px-6 py-3 mx-auto hover:bg-[#8ACDD7] hover:text-white"
-              onClick={() => {
-                handleClick("viewMore");
-                navigate("/listEvent");
-              }}
+            <button 
+            className="outline outline-2 rounded-sm text-[#8ACDD7] font-medium text-lg px-6 py-3 mx-auto hover:bg-[#8ACDD7] hover:text-white"
+            onClick={() => navigate("/listEvent")}
             >
               View More
             </button>
@@ -388,9 +341,9 @@ const MainScreen = () => {
                   ensuring peace of mind with every transaction.
                 </p>
               </div>
-              <button
-                className="px-6 py-3 text-lg font-medium bg-transparent rounded-sm border border-white hover:bg-white hover:text-[#FF6F61] transition"
-                onClick={() => handleClick("sellNow")}
+              <button 
+              className="px-6 py-3 text-lg font-medium bg-transparent rounded-sm border border-white hover:bg-white hover:text-[#FF6F61] transition"
+              onClick={() => navigate("/sell")}
               >
                 Sell Now
               </button>
@@ -475,9 +428,9 @@ const MainScreen = () => {
 
           {/* Button */}
           <div className="flex justify-center">
-            <button
-              className="bg-[#8ACDD7] text-white text-lg px-6 py-3 font-medium rounded-sm hover:bg-[#FF7878]"
-              onClick={() => handleClick("ourStory")}
+            <button 
+            className="bg-[#8ACDD7] text-white text-lg px-6 py-3 font-medium rounded-sm hover:bg-[#FF7878]"
+            onClick={() => navigate("/about")}
             >
               Our Story
             </button>
@@ -495,9 +448,9 @@ const MainScreen = () => {
               Explore our Help Center for quick solutions, step-by-step guides,
               and personalized support to keep you moving forward.
             </p>
-            <button
-              className="bg-transparent text-white font-medium py-2 px-4 rounded-sm border border-white self-start hover:bg-white hover:text-[#FF6F61] transition"
-              onClick={() => handleClick("helpCenter")}
+            <button 
+            className="bg-transparent text-white font-medium py-2 px-4 rounded-sm border border-white self-start hover:bg-white hover:text-[#FF6F61] transition"
+            onClick={() => navigate("/help")}
             >
               Go to Help Center
             </button>
@@ -520,6 +473,6 @@ const MainScreen = () => {
       </div>
     </div>
   );
-};
+ };
 
 export default MainScreen;
