@@ -76,7 +76,7 @@ const StaffNavBar = () => {
           <ul className="flex space-x-6">
             <li
               className="text-white text-lg hover:text-gray-300 cursor-pointer"
-              onClick={() => navigate("/main")}
+              onClick={() => navigate("/staff/main")}
             >
               Trang chủ
             </li>
@@ -84,7 +84,7 @@ const StaffNavBar = () => {
               className="text-white text-lg hover:text-gray-300 cursor-pointer"
               onClick={() => navigate("/staff/events")}
             >
-              Danh sách sự kiện
+              Quản lý sự kiện
             </li>
 
             {/* Search 

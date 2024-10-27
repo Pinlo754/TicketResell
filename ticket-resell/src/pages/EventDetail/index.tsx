@@ -1,7 +1,7 @@
-import NavBar from "../../../components/NavBar";
-import Footer from "../../../components/Footer";
-import ScrollToTopButton from "../../../components/ScrollToTopButton";
-import ScrollToTop from "../../../components/ScrollToTop";
+import NavBar from "../../components/NavBar";
+import Footer from "../../components/Footer";
+import ScrollToTopButton from "../../components/ScrollToTopButton";
+import ScrollToTop from "../../components/ScrollToTop";
 import useEventDetail from "./useEventDetail";
 
 const EventDetail = () => {

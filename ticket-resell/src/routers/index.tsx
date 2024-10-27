@@ -5,7 +5,7 @@ import MainScreen from "../pages/MainScreen";
 import Chat from "../pages/Chat/Chat";
 import ShoppingCart from "../pages/ShoppingCart/ShoppingCart";
 import ListEvent from "../pages/ListEvent";
-import EventDetail from "../pages/ListEvent/EventDetail";
+import EventDetail from "../pages/EventDetail";
 import TicketDetail from "../pages/TicketDetail";
 import LoginScreen from "../pages/LoginScreen";
 import RegisterScreen from "../pages/RegisterScreen/RegisterScreen";
@@ -22,6 +22,7 @@ import SellScreen from "../pages/SellScreen";
 import CheckOut from "../pages/CheckOutScreen/CheckOut";
 import StaffMainScreen from "../pages/Staff/StaffMainScreen";
 import ManageEventScreen from "../pages/Staff/ManageEventScreen";
+import ManageTicketScreen from "../pages/Staff/ManageTicketScreen";
 
 const routers = createBrowserRouter([
   {
@@ -107,6 +108,10 @@ const routers = createBrowserRouter([
   {
     path: "/staff/events",
     element: <ManageEventScreen/>,
+  },
+  {
+    path: "/staff/tickets/:eventId",
+    element: <ManageTicketScreen />,
   },
 ]);
 
