@@ -105,17 +105,19 @@ namespace TicketResell_API.Controllers.UserController.Controller
                 return BadRequest("Too many fail attemp. Please try again later");
             }
             //Email confirmation
-            var result = await _userManager.ConfirmEmailAsync(user, model.code);
-            if (!result.Succeeded)
+            var generatedCode = _emailSender.GenerateConfirmationCode(model.email);
+            if (model.code != generatedCode)
             {
-                //If the code is incorrect, increase the number of incorrect entries by 1
+                // Tăng số lần nhập sai mã lên 1
                 user.FailedConfirmationAttemps += 1;
-                //Update user information
+
+                // Cập nhật thông tin người dùng
                 var updateResult = await _userManager.UpdateAsync(user);
                 if (!updateResult.Succeeded)
                 {
                     return StatusCode(500, "Failed to update user information");
                 }
+
                 return BadRequest($"Invalid code provided. {3 - user.FailedConfirmationAttemps} attempts remaining.");
             }
             //If confirmation is successful, set the number of incorrect entries to 0
@@ -134,6 +136,21 @@ namespace TicketResell_API.Controllers.UserController.Controller
                 message = "Email confirmed successfully",
                 userId = user.Id,
             });
+        }
+
+        [HttpPost("resend-email-code")]
+        public async Task<IActionResult> ResendEmailCode([FromBody] ResendEmail model)
+        {
+            if (string.IsNullOrEmpty(model.email) )
+            {
+                return BadRequest("Email are required.");
+            }
+
+            string newEmailCode = _emailSender.GenerateConfirmationCode(model.email);
+
+            var result = await _emailSender.SendConfirmationEmailAsync(model.email, newEmailCode);
+            return Ok(new { message = result });
+
         }
 
         [HttpPost("login")]
