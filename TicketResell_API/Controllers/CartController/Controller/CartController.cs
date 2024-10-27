@@ -38,8 +38,34 @@ namespace TicketResell_API.Controllers.CartController.Controller
             return Ok(cartItems);
         }
 
+        //list all cart
+        [HttpGet("list-all-cart")]
+        public async Task<ActionResult<IEnumerable<Cart>>> GetAllCarts()
+        {
+            try
+            {
+                // Lấy danh sách tất cả các Cart từ database
+                var carts = await _context.Carts.ToListAsync();
+
+                // Kiểm tra nếu danh sách giỏ hàng trống
+                if (carts == null || carts.Count == 0)
+                {
+                    return NotFound("No carts found.");
+                }
+
+                // Trả về danh sách giỏ hàng
+                return Ok(carts);
+            }
+            catch (Exception ex)
+            {
+                // Trả về thông báo lỗi nếu có lỗi xảy ra
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
         [HttpPost("add-cart")]
-        public async Task<ActionResult<Cart>> AddToCart([FromBody] Cart model) 
+        public async Task<ActionResult<Cart>> AddToCart([FromBody] Cart model)
         {
             if (model == null || string.IsNullOrEmpty(model.ticketId) || model.quanity <= 0)
             {
@@ -61,9 +87,15 @@ namespace TicketResell_API.Controllers.CartController.Controller
                 {
                     cartId = Guid.NewGuid().ToString(),
                     userId = model.userId,
+                    userName = model.userName,
                     ticketId = model.ticketId,
+                    ticketName = model.ticketName,
+                    ticketRow = model.ticketRow,
+                    ticketType = model.ticketType,
+                    ticketSection = model.ticketSection,
                     quanity = model.quanity,
-                    price = model.price
+                    price = model.price,
+                    eventName = model.eventName,
                 };
                 _context.Carts.Add(newCartItem);
             }
@@ -73,7 +105,7 @@ namespace TicketResell_API.Controllers.CartController.Controller
         }
 
         [HttpPut("update-cart")]
-        public async Task<ActionResult<Cart>> UpdateCart([FromBody] Cart model)
+        public async Task<ActionResult<Cart>> UpdateCart([FromBody] UpdateCart model)
         {
             if (model == null || string.IsNullOrEmpty(model.userId) || string.IsNullOrEmpty(model.ticketId))
             {
@@ -85,40 +117,49 @@ namespace TicketResell_API.Controllers.CartController.Controller
             {
                 return NotFound($"Cart item for user {model.userId} and ticket {model.ticketId} not found.");
             }
+
+            // Cập nhật số lượng giỏ hàng
             existingCartItem.quanity = model.quanity;
-            existingCartItem.price = model.price;
-            await _context.SaveChangesAsync();
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error while updating cart: {ex.Message}");
+            }
 
             return Ok(existingCartItem);
-
         }
+    
 
-        [HttpDelete("remove-cart")]
-        public async Task<ActionResult> DeleteCartItem([FromQuery] string userId, [FromQuery] string ticketId)
+    [HttpDelete("remove-cart")]
+    public async Task<ActionResult> DeleteCartItem([FromQuery] string userId, [FromQuery] string ticketId)
+    {
+        // Kiểm tra dữ liệu đầu vào
+        if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(ticketId))
         {
-            // Kiểm tra dữ liệu đầu vào
-            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(ticketId))
-            {
-                return BadRequest("User ID or Ticket ID is missing. Please try again.");
-            }
-
-            // Tìm sản phẩm trong giỏ hàng của người dùng
-            var existingCartItem = await _context.Carts
-                                                 .FirstOrDefaultAsync(c => c.userId == userId && c.ticketId == ticketId);
-
-            if (existingCartItem == null)
-            {
-                return NotFound($"Cart item for user {userId} and ticket {ticketId} not found.");
-            }
-
-            // Xóa sản phẩm khỏi giỏ hàng
-            _context.Carts.Remove(existingCartItem);
-
-            // Lưu thay đổi vào cơ sở dữ liệu
-            await _context.SaveChangesAsync();
-
-            return Ok(new { Message = "Cart item deleted successfully." });
+            return BadRequest("User ID or Ticket ID is missing. Please try again.");
         }
 
+        // Tìm sản phẩm trong giỏ hàng của người dùng
+        var existingCartItem = await _context.Carts
+                                             .FirstOrDefaultAsync(c => c.userId == userId && c.ticketId == ticketId);
+
+        if (existingCartItem == null)
+        {
+            return NotFound($"Cart item for user {userId} and ticket {ticketId} not found.");
+        }
+
+        // Xóa sản phẩm khỏi giỏ hàng
+        _context.Carts.Remove(existingCartItem);
+
+        // Lưu thay đổi vào cơ sở dữ liệu
+        await _context.SaveChangesAsync();
+
+        return Ok(new { Message = "Cart item deleted successfully." });
     }
 }
+    }
+

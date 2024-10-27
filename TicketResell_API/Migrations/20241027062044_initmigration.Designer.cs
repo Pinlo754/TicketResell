@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TicketResell_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241027062044_initmigration")]
+    partial class initmigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -355,7 +358,7 @@ namespace TicketResell_API.Migrations
                     b.Property<string>("ticketId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("createAt")
+                    b.Property<DateTime?>("createAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("description")
@@ -365,8 +368,14 @@ namespace TicketResell_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("images")
+                    b.Property<string>("image")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isValid")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("location")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("originPrice")
@@ -375,25 +384,15 @@ namespace TicketResell_API.Migrations
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("quantity")
+                    b.Property<int?>("quantity")
                         .HasColumnType("int");
-
-                    b.Property<int?>("row")
-                        .HasColumnType("int");
-
-                    b.Property<string>("section")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ticketName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("type")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("time")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("updateAt")
                         .HasColumnType("datetime2");
