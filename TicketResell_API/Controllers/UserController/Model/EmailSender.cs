@@ -1,6 +1,7 @@
 ﻿using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using MimeKit;
+using System.Security.Cryptography;
 using System.Text;
 using IEmailSender = TicketResell_API.Controllers.Service.IEmailSender;
 
@@ -89,6 +90,35 @@ namespace TicketResell_API.Controllers.UserController.Model
             await SendEmailAsync(email, "Password Reset", message);
 
             return "Please check your email for the password reset link";
+        }
+
+        //public async Task<string> GenerateConfirmationCode(string? email)
+        //{
+        //    using (var hmac = new HMACSHA256(Encoding.UTF8.GetBytes("SecretKey")))
+        //    {
+        //        var currentTime = DateTime.UtcNow.ToString("yyyyMMddHH");
+        //        var data = $"{email}:{currentTime}";
+
+        //        var hashBytes = hmac.ComputeHash(Encoding.UTF8.GetBytes(data));
+        //        var code = BitConverter.ToInt32(hashBytes, 0).ToString("D6");
+
+        //        return code;
+        //    }
+        //}
+
+        string IEmailSender.GenerateConfirmationCode(string? email)
+        {
+            using (var hmac = new HMACSHA256(Encoding.UTF8.GetBytes("SecretKey")))
+            {
+                var currentTime = DateTime.UtcNow.ToString("yyyyMMddHH");
+                var data = $"{email}:{currentTime}";
+
+                var hashBytes = hmac.ComputeHash(Encoding.UTF8.GetBytes(data));
+
+                // Chuyển đổi thành số nguyên dương và lấy 6 chữ số cuối
+                int code = BitConverter.ToInt32(hashBytes, 0) & 0x7FFFFFFF; // Đảm bảo số nguyên dương
+                return (code % 1000000).ToString("D6"); // Đảm bảo 6 chữ số
+            }
         }
     }
 
