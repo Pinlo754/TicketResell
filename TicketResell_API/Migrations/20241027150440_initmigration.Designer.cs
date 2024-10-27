@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TicketResell_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241027104023_initmigration")]
+    [Migration("20241027150440_initmigration")]
     partial class initmigration
     {
         /// <inheritdoc />
@@ -180,7 +180,7 @@ namespace TicketResell_API.Migrations
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("quanity")
+                    b.Property<int>("quantity")
                         .HasColumnType("int");
 
                     b.Property<string>("sellerId")

@@ -43,7 +43,7 @@ namespace TicketResell_API.Controllers.CartController.Controller
         [HttpPost("add-cart")]
         public async Task<ActionResult<Cart>> AddToCart([FromBody] Cart model)
         {
-            if (model == null || string.IsNullOrEmpty(model.ticketId) || model.quanity <= 0)
+            if (model == null || string.IsNullOrEmpty(model.ticketId) || model.quantity <= 0)
             {
                 return BadRequest("Cart data is null or required fields are missing (UserId or TicketId).");
             }
@@ -53,7 +53,7 @@ namespace TicketResell_API.Controllers.CartController.Controller
             if (existingCartItem != null)
             {
                 //If the product already exists, update the quantity and price.
-                existingCartItem.quanity += model.quanity;
+                existingCartItem.quantity += model.quantity;
                 existingCartItem.price = model.price; // Có thể cập nhật giá nếu cần thiết
             }
             else
@@ -72,7 +72,7 @@ namespace TicketResell_API.Controllers.CartController.Controller
                     ticketRow = model.ticketRow,
                     ticketType = model.ticketType,
                     ticketSection = model.ticketSection,
-                    quanity = model.quanity,
+                    quantity = model.quantity,
                     maxQuantity = model.maxQuantity,
                     price = model.price,
                     eventName = model.eventName,
@@ -100,7 +100,7 @@ namespace TicketResell_API.Controllers.CartController.Controller
             }
 
             //Update cart quantity
-            existingCartItem.quanity = model.quanity;
+            existingCartItem.quantity = model.quantity;
 
             try
             {
