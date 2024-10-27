@@ -5,7 +5,7 @@ import MainScreen from "../pages/MainScreen";
 import Chat from "../pages/Chat/Chat";
 import ShoppingCart from "../pages/ShoppingCart/ShoppingCart";
 import ListEvent from "../pages/ListEvent";
-import EventDetail from "../pages/EventDetail";
+import EventDetail from "../pages/ListEvent/EventDetail";
 import TicketDetail from "../pages/TicketDetail";
 import LoginScreen from "../pages/LoginScreen";
 import RegisterScreen from "../pages/RegisterScreen/RegisterScreen";

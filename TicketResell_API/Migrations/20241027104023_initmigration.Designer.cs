@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TicketResell_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241026190022_initmigration")]
+    [Migration("20241027104023_initmigration")]
     partial class initmigration
     {
         /// <inheritdoc />
@@ -162,13 +162,46 @@ namespace TicketResell_API.Migrations
                     b.Property<string>("cartId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("eventImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("eventName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("firstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("maxQuantity")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("quanity")
                         .HasColumnType("int");
 
+                    b.Property<string>("sellerId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("sellerImage")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ticketId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ticketName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ticketRow")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ticketSection")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ticketType")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("userId")
@@ -264,6 +297,34 @@ namespace TicketResell_API.Migrations
                     b.ToTable("MessageData");
                 });
 
+            modelBuilder.Entity("TicketResell_API.Controllers.CommentController.Model.Comment", b =>
+                {
+                    b.Property<string>("commentId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("orderId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("rating")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("time")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("toUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("commentId");
+
+                    b.ToTable("Comment");
+                });
+
             modelBuilder.Entity("TicketResell_API.Controllers.EventController.Model.Event", b =>
                 {
                     b.Property<string>("eventId")
@@ -306,7 +367,16 @@ namespace TicketResell_API.Migrations
                     b.Property<DateTime?>("createdAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("eventImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("eventName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("orderId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("paymentMethod")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("price")
@@ -316,9 +386,7 @@ namespace TicketResell_API.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("receiverEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("receiverName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("receiverPhone")
@@ -328,6 +396,15 @@ namespace TicketResell_API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ticketId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ticketName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ticketType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("orderDetailId");
@@ -340,7 +417,7 @@ namespace TicketResell_API.Migrations
                     b.Property<string>("ticketId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime?>("createAt")
+                    b.Property<DateTime>("createAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("description")
@@ -350,14 +427,8 @@ namespace TicketResell_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("image")
+                    b.Property<string>("images")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("isValid")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("location")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("originPrice")
@@ -366,15 +437,25 @@ namespace TicketResell_API.Migrations
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("quantity")
+                    b.Property<int>("quantity")
                         .HasColumnType("int");
+
+                    b.Property<int?>("row")
+                        .HasColumnType("int");
+
+                    b.Property<string>("section")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ticketName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("time")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("type")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("updateAt")
                         .HasColumnType("datetime2");

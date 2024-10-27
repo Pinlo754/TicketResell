@@ -8,9 +8,20 @@ namespace TicketResell_API.Controllers.CartController.Model
     {
         public string? cartId { get; set; }
         public string? userId { get; set; }
+        public string? sellerId { get; set; }
+        public string? sellerImage {  get; set; }
+        public string? firstName { get; set; }
+        public string? lastName { get; set; }
         public string? ticketId { get; set; }
+        public string? ticketName { get; set; }
+        public int? ticketRow {  get; set; }
+        public string? ticketType {  get; set; }
+        public string? ticketSection { get; set; }
         public int quanity { get; set; }
+        public int maxQuantity { get; set; }
         public decimal price { get; set; }
+        public string? eventName { get; set; }
+        public string? eventImage { get; set; } 
     }
 
 }

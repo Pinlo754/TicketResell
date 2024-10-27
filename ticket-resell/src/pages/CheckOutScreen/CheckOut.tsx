@@ -1,7 +1,9 @@
 import React from 'react';
 import "./CheckOut.css"
 import assets from '../../assets/assetsChat';
+import { useNavigate } from 'react-router-dom';
 const CheckOut = () => {
+  const navigate = useNavigate();
   return (
     <div className="checkout-page">
       <div className="checkout-section">
@@ -63,7 +65,7 @@ const CheckOut = () => {
           <h2 className="section-title">Phương thức liên lạc</h2>
           <div className="form-group">
             <label htmlFor="phone">Số điện thoại</label>
-            <input type="tel" id="phone" required placeholder="Enter your phone number" />
+            <input type="tel" id="phone" required placeholder="Nhập số điện thoại của bạn" />
           </div>
         </div>
       </div>
@@ -82,7 +84,8 @@ const CheckOut = () => {
           <span>Tổng</span>
           <span>420.000VND</span>
         </div>
-        <button className="checkout-btn">Complete Purchase</button>
+        <button className="checkout-btn">Xác nhận đơn hàng</button>
+        <button onClick={()=>navigate("/cart") } className="checkout-btn" style={{backgroundColor:"red", marginTop:"10px"}}>Hủy</button>
       </div>
     </div>
   );
