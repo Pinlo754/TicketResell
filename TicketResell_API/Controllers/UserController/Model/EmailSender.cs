@@ -115,9 +115,9 @@ namespace TicketResell_API.Controllers.UserController.Model
 
                 var hashBytes = hmac.ComputeHash(Encoding.UTF8.GetBytes(data));
 
-                // Chuyển đổi thành số nguyên dương và lấy 6 chữ số cuối
-                int code = BitConverter.ToInt32(hashBytes, 0) & 0x7FFFFFFF; // Đảm bảo số nguyên dương
-                return (code % 1000000).ToString("D6"); // Đảm bảo 6 chữ số
+                // Convert to positive integer and take last 6 digits
+                int code = BitConverter.ToInt32(hashBytes, 0) & 0x7FFFFFFF; // Ensure positive integers
+                return (code % 1000000).ToString("D6"); // 6 digit guarantee
             }
         }
     }

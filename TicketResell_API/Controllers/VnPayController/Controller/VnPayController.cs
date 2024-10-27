@@ -77,10 +77,10 @@ namespace TicketResell_API.Controllers.VnPayController.Controller
                 }
             }
 
-            // Lấy thông tin từ appsettings.json
+            // take infor from appsettings.json
             string vnp_HashSecret = _configuration["VNPay:vnp_HashSecret"];
 
-            // Tạo chuỗi dữ liệu để kiểm tra chữ ký
+            // Generate data string to check signature
             string rawData = string.Join("&", vnpayData
                 .Where(x => x.Key != "vnp_SecureHash")
                 .OrderBy(x => x.Key)
@@ -89,7 +89,7 @@ namespace TicketResell_API.Controllers.VnPayController.Controller
             //string secureHash = vnpayData["vnp_SecureHash"];
             if (!vnpayData.TryGetValue("vnp_SecureHash", out string secureHash) || string.IsNullOrEmpty(secureHash))
             {
-                return BadRequest("vnp_SecureHash không có trong dữ liệu truy vấn hoặc rỗng.");
+                return BadRequest("vnp_SecureHash is not present in the query data or is empty.");
             }
             string calculatedHash = _vpnPayService.HmacSHA512(vnp_HashSecret, rawData);
 
@@ -97,28 +97,57 @@ namespace TicketResell_API.Controllers.VnPayController.Controller
             {
                 if (vnpayData.TryGetValue("vnp_TxnRef", out string txnRef))
                 {
+                    //var order = _context.Orders.FirstOrDefault(c => c.orderId == txnRef);
+                    //if (order == null)
+                    //{
+                    //    return NotFound("No order found.");
+                    //}
+
+                    //// Update order status based on vnp_ResponseCode
+                    //order.Status = vnpayData["vnp_ResponseCode"] == "00" ? "paid" : "failed";
+
+                    //_context.Orders.Update(order);
+                    //_context.SaveChanges();
+
+                    //return Ok("Transaction completed");
                     var order = _context.Orders.FirstOrDefault(c => c.orderId == txnRef);
                     if (order == null)
                     {
-                        return NotFound("Không tìm thấy đơn hàng.");
+                        return NotFound("No order found.");
                     }
 
-                    // Cập nhật trạng thái của đơn hàng dựa trên vnp_ResponseCode
-                    order.Status = vnpayData["vnp_ResponseCode"] == "00" ? "paid" : "failed";
-
-                    _context.Orders.Update(order);
-                    _context.SaveChanges();
-
-                    return Ok("Giao dịch hoàn tất");
+                    // Kiểm tra mã vnp_ResponseCode và cập nhật trạng thái đơn hàng chính xác
+                    string responseCode = vnpayData["vnp_ResponseCode"];
+                    if (responseCode == "00")
+                    {
+                        order.Status = "paid";
+                        _context.Orders.Update(order);
+                        _context.SaveChanges();
+                        return Ok("Transaction completed successfully");
+                    }
+                    else if (responseCode == "24")
+                    {
+                        order.Status = "canceled"; // Thêm trạng thái "canceled" cho đơn hàng bị hủy
+                        _context.Orders.Update(order);
+                        _context.SaveChanges();
+                        return BadRequest("Transaction was canceled");
+                    }
+                    else
+                    {
+                        order.Status = "failed";
+                        _context.Orders.Update(order);
+                        _context.SaveChanges();
+                        return BadRequest("Transaction failed with response code: " + responseCode);
+                    }
                 }
                 else
                 {
-                    return NotFound("Không tìm thấy đơn hàng.");
+                    return NotFound("No order found.");
                 }
             }           
             else
             {
-                return BadRequest("Chữ ký không hợp lệ");
+                return BadRequest("Invalid signature");
             }
         }
     }
