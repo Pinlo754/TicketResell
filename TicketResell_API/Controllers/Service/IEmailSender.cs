@@ -1,4 +1,6 @@
-﻿namespace TicketResell_API.Controllers.Service
+﻿using TicketResell_API.Controllers.EventController.Model;
+
+namespace TicketResell_API.Controllers.Service
 {
     public interface IEmailSender
     {
@@ -7,5 +9,6 @@
         Task<string> SendPasswordResetEmailAsync(string? email, string? resetToken);
         Task<string> SendOrderConfirmationEmailAsync(string? email, string? orderId, string? eventName, string? ticketDetails);
         string GenerateConfirmationCode(string? email);
+        Task SendUpcomingEventEmailAsync(string email, Event eventItem);
     }
 }

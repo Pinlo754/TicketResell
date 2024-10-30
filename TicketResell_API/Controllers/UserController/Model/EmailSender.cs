@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using MimeKit;
 using System.Security.Cryptography;
 using System.Text;
+using TicketResell_API.Controllers.EventController.Model;
 using IEmailSender = TicketResell_API.Controllers.Service.IEmailSender;
 
 namespace TicketResell_API.Controllers.UserController.Model
@@ -144,6 +145,14 @@ namespace TicketResell_API.Controllers.UserController.Model
             await SendEmailAsync(email, "Order Confirmation", message);
 
             return "Order confirmation email sent successfully";
+        }
+
+        public async Task SendUpcomingEventEmailAsync(string email, Event eventItem)
+        {
+                string subject = $"Upcoming Event: {eventItem.eventName}";
+                string message = $"<h2>Upcoming Event</h2>" +
+                                 $"<p>The event <strong>{eventItem.eventName}</strong> will take place on <strong>{eventItem.eventTime}</strong> at <strong>{eventItem.location}, {eventItem.city}</strong>.</p>";
+                await SendEmailAsync(email, "Upcoming Event", message);           
         }
     }
 
