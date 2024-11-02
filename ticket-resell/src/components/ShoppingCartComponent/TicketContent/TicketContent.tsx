@@ -3,6 +3,7 @@ import "./TicketContent.css";
 import { TbMinus, TbPlus, TbX } from "react-icons/tb";
 import axios from "axios";
 import { toast } from "react-toastify";
+import assets from "../../../assets/assetsChat";
 
 interface Cart {
   firstName: string;
@@ -19,7 +20,6 @@ interface Cart {
   eventName: string;
   eventImage: string;
   sellerImage: string;
-  maxQuantity: number;
 }
 
 interface CartUpdateRequest {
@@ -71,7 +71,7 @@ const TicketContent: React.FC<TicketContentProps> = ({ onTotalChange }) => {
     onTotalChange(subtotal, totalQuantity, selectedItems);
   };
 
-
+// 
   const handleCheckboxChange = (ticketId: string) => {
     const newSelected = new Set(selectedTickets);
     if (newSelected.has(ticketId)) {
@@ -106,28 +106,30 @@ const TicketContent: React.FC<TicketContentProps> = ({ onTotalChange }) => {
       }
     } catch (error) {
       console.error("Error updating quantity:", error);
-      alert("Failed to update quantity. Please try again.");
+      toast.error("Server hiện đang gặp lỗi. Thử lại sau");
     }
   };
 
-  const handleQuantityChange = (
+  const handleQuantityChange = async (
     ticketId: string,
     delta: number,
-    currentQuantity: number,
-    maxQuantity: number
+    currentQuantity: number
   ) => {
     const newQuantity = currentQuantity + delta;
-
-    if (newQuantity < 1) {
-      alert("Số lượng đã đến hạn");
+    let maxQuantity = newQuantity
+    try {
+        const response = await axios.get(`http://localhost:5158/api/Ticket/get-ticket/${ticketId}`) 
+        if (response.status === 200) {
+          const info = response.data
+          maxQuantity = info.quantity  
+        }     
+    } catch (error) {
+      
+    }
+    if (newQuantity < 1 || newQuantity > maxQuantity ) {
+      toast.warn(`Chỉ còn ${maxQuantity} vé còn lại`)
       return;
     }
-
-    if (newQuantity > maxQuantity) {
-      alert(`Số lượng đã đến hạn`);
-      return;
-    }
-
     updateQuantity(ticketId, newQuantity);
   };
 
@@ -148,7 +150,7 @@ const TicketContent: React.FC<TicketContentProps> = ({ onTotalChange }) => {
       }
     } catch (error) {
       console.error("Error removing ticket:", error);
-      alert("Failed to remove ticket. Please try again.");
+      alert("Server hiện đang gặp lỗi. Thử lại sau");
     }
   };
 
@@ -165,13 +167,12 @@ const TicketContent: React.FC<TicketContentProps> = ({ onTotalChange }) => {
         console.error("Error fetching cart:", error);
       }
     };
-
+    
     if (user) {
       getCart();
     }
   }, [user]);
-
-  return (
+  return cardData.length>0 ? (
     <div>
       {cardData?.map((item) => (
         <div className="ticket-content" key={item.ticketId}>
@@ -212,8 +213,7 @@ const TicketContent: React.FC<TicketContentProps> = ({ onTotalChange }) => {
                   handleQuantityChange(
                     item.ticketId,
                     -1,
-                    item.quantity,
-                    item.maxQuantity
+                    item.quantity
                   )
                 }
               />
@@ -224,8 +224,7 @@ const TicketContent: React.FC<TicketContentProps> = ({ onTotalChange }) => {
                   handleQuantityChange(
                     item.ticketId,
                     1,
-                    item.quantity,
-                    item.maxQuantity
+                    item.quantity
                   )
                 }
               />
@@ -244,7 +243,12 @@ const TicketContent: React.FC<TicketContentProps> = ({ onTotalChange }) => {
         </div>
       ))}
     </div>
-  );
+  ) : (
+    <div className="welcome">
+      <img src={assets.cart} alt="" />
+      <p>Tiếp tục mua sắm với Festix nhé!</p>
+    </div>
+  )
 };
 
 export default TicketContent;

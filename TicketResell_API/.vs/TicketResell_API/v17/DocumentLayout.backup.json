@@ -1,14 +1,10 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "E:\\FPT\\Semester5\\SWP391\\ticketResell-28-10-2024\\TicketResell_API\\",
+  "WorkspaceRootPath": "E:\\FPT\\Semester5\\SWP391\\ticketResell-02-11-2024\\TicketResell_API\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\fpt\\semester5\\swp391\\ticketresell-28-10-2024\\ticketresell_api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\fpt\\semester5\\swp391\\ticketresell-28-10-2024\\ticketresell_api\\migrations\\20241027181559_khiempm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:migrations\\20241027181559_khiempm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\fpt\\semester5\\swp391\\ticketresell-02-11-2024\\ticketresell_api\\migrations\\20241102115130_khiempm1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:migrations\\20241102115130_khiempm1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -47,27 +43,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "E:\\FPT\\Semester5\\SWP391\\ticketResell-28-10-2024\\TicketResell_API\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "E:\\FPT\\Semester5\\SWP391\\ticketResell-28-10-2024\\TicketResell_API\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAiwBUAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-10-27T20:43:35.997Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "20241027181559_khiempm.cs",
-              "DocumentMoniker": "E:\\FPT\\Semester5\\SWP391\\ticketResell-28-10-2024\\TicketResell_API\\Migrations\\20241027181559_khiempm.cs",
-              "RelativeDocumentMoniker": "Migrations\\20241027181559_khiempm.cs",
-              "ToolTip": "E:\\FPT\\Semester5\\SWP391\\ticketResell-28-10-2024\\TicketResell_API\\Migrations\\20241027181559_khiempm.cs",
-              "RelativeToolTip": "Migrations\\20241027181559_khiempm.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAaAAAAAAAAAA==",
+              "Title": "20241102115130_khiempm1.cs",
+              "DocumentMoniker": "E:\\FPT\\Semester5\\SWP391\\ticketResell-02-11-2024\\TicketResell_API\\Migrations\\20241102115130_khiempm1.cs",
+              "RelativeDocumentMoniker": "Migrations\\20241102115130_khiempm1.cs",
+              "ToolTip": "E:\\FPT\\Semester5\\SWP391\\ticketResell-02-11-2024\\TicketResell_API\\Migrations\\20241102115130_khiempm1.cs",
+              "RelativeToolTip": "Migrations\\20241102115130_khiempm1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T18:15:59.308Z",
+              "WhenOpened": "2024-11-02T11:51:30.208Z",
               "EditorCaption": ""
             }
           ]

@@ -3,6 +3,7 @@
     background-color: #b5c0d0;
     padding: 15px;
     border-radius: 4px;
+    min-width: 250px;
 }
 
 .summary-title{
