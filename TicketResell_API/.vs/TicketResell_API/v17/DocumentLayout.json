@@ -1,9 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "E:\\FPT\\Semester5\\SWP391\\ticketResell-02-11-2024\\TicketResell_API\\",
+  "WorkspaceRootPath": "E:\\FPT\\Semester5\\SWP391\\ticketResell-03-11-2024\\TicketResell_API\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\fpt\\semester5\\swp391\\ticketresell-02-11-2024\\ticketresell_api\\migrations\\20241102115130_khiempm1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\fpt\\semester5\\swp391\\ticketresell-03-11-2024\\ticketresell_api\\migrations\\20241102115130_khiempm1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:migrations\\20241102115130_khiempm1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -44,9 +44,9 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "20241102115130_khiempm1.cs",
-              "DocumentMoniker": "E:\\FPT\\Semester5\\SWP391\\ticketResell-02-11-2024\\TicketResell_API\\Migrations\\20241102115130_khiempm1.cs",
+              "DocumentMoniker": "E:\\FPT\\Semester5\\SWP391\\ticketResell-03-11-2024\\TicketResell_API\\Migrations\\20241102115130_khiempm1.cs",
               "RelativeDocumentMoniker": "Migrations\\20241102115130_khiempm1.cs",
-              "ToolTip": "E:\\FPT\\Semester5\\SWP391\\ticketResell-02-11-2024\\TicketResell_API\\Migrations\\20241102115130_khiempm1.cs",
+              "ToolTip": "E:\\FPT\\Semester5\\SWP391\\ticketResell-03-11-2024\\TicketResell_API\\Migrations\\20241102115130_khiempm1.cs",
               "RelativeToolTip": "Migrations\\20241102115130_khiempm1.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",

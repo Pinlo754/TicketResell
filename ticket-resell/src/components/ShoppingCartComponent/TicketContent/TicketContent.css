@@ -65,7 +65,8 @@
   
   .owner-info p {
     font-size: 14px;
-    color: #666;
+    color: black;
+    font-weight: 400;
   }
   
   .ticket-type {
@@ -130,4 +131,35 @@
     font-size: 20px;
     font-weight: 500;
     color: #383838;
+}
+
+.out-of-stock {
+  color: #ff0000;
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 4px;
+  padding: 2px 6px;
+  background-color: #ffe6e6;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.stock-info {
+  color: #4CAF50;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.quantity-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.check-ticket:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ticket-content .ticket-detail:has(.out-of-stock) {
+  opacity: 0.4;
 }
