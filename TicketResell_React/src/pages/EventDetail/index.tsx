@@ -180,7 +180,7 @@ const EventDetail = () => {
               <div className="flex items-center justify-center w-1/5 my-3">
                 <div className="relative overflow-hidden rounded-full">
                   <img
-                    src={""}
+                    src={event?.eventImage}
                     alt={ticket.section}
                     className="object-cover w-28 h-28 group-hover:scale-110 transition-transform duration-300"
                   />

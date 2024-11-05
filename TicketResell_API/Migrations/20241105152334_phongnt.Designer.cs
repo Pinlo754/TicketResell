@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TicketResell_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241102115130_khiempm1")]
-    partial class khiempm1
+    [Migration("20241105152334_phongnt")]
+    partial class phongnt
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

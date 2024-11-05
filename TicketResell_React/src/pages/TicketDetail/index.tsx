@@ -173,8 +173,8 @@ const TicketDetail = () => {
                   onClick={() => navigate("/userProfile")}
                 >
                   <img
-                    src="https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"
-                    alt="User Img"
+                    alt="https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"
+                    src = {user.userImage}
                     className="object-cover w-40 h-40 hover:scale-110 transition-transform duration-300"
                   />
                 </div>

@@ -56,7 +56,11 @@ const useLoginScreen = () => {
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("userId", data.userId);
-      navigate("/main");
+      console.log("role:" + response.data.role[0]);
+      
+      if(response.data.role[0] === "User") navigate("/main");
+      else if (response.data.role[0] === "Admin") navigate("/Admin");
+      else navigate("/staff/main");
     } catch (error) {
       setErrorMessage("Something went wrong");
     } finally {
