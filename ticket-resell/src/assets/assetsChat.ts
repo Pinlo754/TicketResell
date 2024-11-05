@@ -12,6 +12,7 @@ import hongle from './avatar.png'
 import ticket from './ticket.png'
 import avatar from './avatar_icon.png'
 import card from './card.png'
+import cart from './cart.png'
 const assets = {
     gallery_icon,
     help_icon,
@@ -26,7 +27,8 @@ const assets = {
     hongle,
     ticket,
     avatar,
-    card
+    card,
+    cart
 }
 
 export default assets;

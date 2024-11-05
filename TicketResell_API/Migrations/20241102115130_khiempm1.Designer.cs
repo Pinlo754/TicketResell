@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TicketResell_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241027150440_initmigration")]
-    partial class initmigration
+    [Migration("20241102115130_khiempm1")]
+    partial class khiempm1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -342,8 +342,8 @@ namespace TicketResell_API.Migrations
                     b.Property<string>("eventStatus")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("eventTime")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("eventTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("location")
                         .HasColumnType("nvarchar(max)");
@@ -382,7 +382,7 @@ namespace TicketResell_API.Migrations
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("quantity")
+                    b.Property<int>("quantity")
                         .HasColumnType("int");
 
                     b.Property<string>("receiverEmail")

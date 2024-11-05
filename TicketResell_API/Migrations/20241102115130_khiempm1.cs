@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TicketResell_API.Migrations
 {
     /// <inheritdoc />
-    public partial class initmigration : Migration
+    public partial class khiempm1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -118,7 +118,7 @@ namespace TicketResell_API.Migrations
                     eventId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     eventName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     eventImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    eventTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    eventTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     location = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     city = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     eventStatus = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -156,7 +156,7 @@ namespace TicketResell_API.Migrations
                     receiverEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    quantity = table.Column<int>(type: "int", nullable: true),
+                    quantity = table.Column<int>(type: "int", nullable: false),
                     status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     paymentMethod = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     createdAt = table.Column<DateTime>(type: "datetime2", nullable: true)

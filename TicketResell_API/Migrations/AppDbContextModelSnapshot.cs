@@ -339,8 +339,8 @@ namespace TicketResell_API.Migrations
                     b.Property<string>("eventStatus")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("eventTime")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("eventTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("location")
                         .HasColumnType("nvarchar(max)");
