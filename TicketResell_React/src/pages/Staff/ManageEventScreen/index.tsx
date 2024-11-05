@@ -190,7 +190,7 @@ const ManageEventScreen = () => {
                   />
                   <label className="block mb-1">Thời gian:</label>
                   <input
-                    type="text"
+                    type="datetime-local"
                     value={selectedEvent?.eventTime || ""}
                     onChange={(e) =>
                       setSelectedEvent({

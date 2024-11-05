@@ -69,7 +69,7 @@ const useEventDetail = () => {
     try {
       const response = await axios.get("/api/Ticket/list-ticket");
       const tickets: Ticket[] = response.data;
-      const activeTickets = tickets.filter((ticket) => ticket.eventId === eventId);
+      const activeTickets = tickets.filter((ticket) => ticket.eventId === eventId).filter((ticket) =>ticket.status === "Available");
       setTickets(activeTickets);
 
       // Initialize quantities based on tickets fetched from database

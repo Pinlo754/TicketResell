@@ -180,7 +180,7 @@ const useSellScreen = () => {
         row: ticketInfo.row,
         description: ticketInfo.description,
         eventId: selectedEvent?.eventId,
-        status: ticketInfo.status,
+        status: "Pending",
         createAt: ticketInfo.createAt,
         updateAt: ticketInfo.updateAt,
       });
