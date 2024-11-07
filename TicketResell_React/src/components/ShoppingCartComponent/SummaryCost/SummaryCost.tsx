@@ -13,11 +13,7 @@ import { useNavigate } from 'react-router-dom';
     }[];
   }
 
-const SummaryCost: React.FC<SummaryCostProps> = ({ 
-  subtotal, 
-  totalQuantity, 
-  selectedItems 
-}) => {
+const SummaryCost: React.FC<SummaryCostProps> = ({subtotal, totalQuantity, selectedItems}) => {
   const navigate = useNavigate();
   const totalPrice = subtotal;
 
