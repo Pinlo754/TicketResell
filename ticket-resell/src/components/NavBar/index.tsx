@@ -1,57 +1,18 @@
-import { useNavigate } from "react-router-dom";
 import logo from "../../assets/Logo_festix.png";
-import { useEffect, useRef, useState } from "react";
-import axios from "axios";
+import useNavBar from "./useNavBar";
 
 
 const NavBar = () => {
 
-  const navigate = useNavigate();
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userAvt, setUserAvt] = useState();
-
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const userId = localStorage.getItem("userId");
-    if (token !== null && userId !== null) {
-        setIsLoggedIn(true);
-        fetchUserInfo(userId);
-    }
-  }, []); 
-
-  const fetchUserInfo = async (userId: string) => {
-    try {
-      const response = await axios.get(`/api/Account/user-information/${userId}`);
-      const data = response.data;
-      setUserAvt(data.userImage);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
-  // Đóng menu khi nhấp ra ngoài
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsMenuOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
-    setIsLoggedIn(false);
-  };
+  const {
+    navigate,
+    isLoggedIn,
+    isMenuOpen,
+    setIsMenuOpen,
+    menuRef,
+    userAvt,
+    handleLogout,
+ } = useNavBar();
 
   return (
     <div className="w-screen">
@@ -195,6 +156,8 @@ const NavBar = () => {
             >
               Bán vé
             </button>
+
+            {/* Login/ Avt User */}
             {isLoggedIn ? (
                <div 
                className="relative"
@@ -204,11 +167,20 @@ const NavBar = () => {
                         className="overflow-hidden rounded-full cursor-pointer"
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                     >
+                      {userAvt === null ? (
+                        <img
+                        src="https://static.vecteezy.com/system/resources/previews/007/409/974/non_2x/people-icon-design-avatar-icon-person-icons-people-icons-are-set-in-trendy-line-style-user-icon-set-vector.jpg"
+                        alt="User Avt"
+                        className="object-cover w-9 h-9 hover:scale-110 transition-transform duration-300"
+                        />
+                      ) : (
                         <img
                         src={userAvt}
                         alt="User Avt"
-                        className="object-cover w-8 h-8 hover:scale-110 transition-transform duration-300"
+                        className="object-cover w-9 h-9 hover:scale-110 transition-transform duration-300"
                         />
+                      )}
+                        
                     </div>
             
                     {isMenuOpen && (
@@ -220,7 +192,7 @@ const NavBar = () => {
                             className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                             onClick={() => {
                                 setIsMenuOpen(false);
-                                navigate("/profile");
+                                navigate("/user/profile");
                             }}
                             >
                             Tài khoản

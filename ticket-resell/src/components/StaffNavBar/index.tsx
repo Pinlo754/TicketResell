@@ -198,6 +198,8 @@ const StaffNavBar = () => {
             >
               Bán vé
             </button>
+
+            {/* Login/ Avt User */}
             {isLoggedIn ? (
                <div 
                className="relative"
@@ -207,11 +209,19 @@ const StaffNavBar = () => {
                         className="overflow-hidden rounded-full cursor-pointer"
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                     >
+                        {userAvt === null ? (
+                        <img
+                        src="https://static.vecteezy.com/system/resources/previews/007/409/974/non_2x/people-icon-design-avatar-icon-person-icons-people-icons-are-set-in-trendy-line-style-user-icon-set-vector.jpg"
+                        alt="User Avt"
+                        className="object-cover w-9 h-9 hover:scale-110 transition-transform duration-300"
+                        />
+                      ) : (
                         <img
                         src={userAvt}
                         alt="User Avt"
-                        className="object-cover w-8 h-8 hover:scale-110 transition-transform duration-300"
+                        className="object-cover w-9 h-9 hover:scale-110 transition-transform duration-300"
                         />
+                      )}
                     </div>
             
                     {isMenuOpen && (

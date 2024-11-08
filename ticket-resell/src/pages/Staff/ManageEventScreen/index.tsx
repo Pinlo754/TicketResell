@@ -150,7 +150,7 @@ const ManageEventScreen = () => {
           {isModalOpen && (
             <div className="fixed inset-0 mt-20 bg-black bg-opacity-50 flex items-center justify-center py-10 overflow-y-auto">
               <div className="bg-white rounded-lg p-6 w-[500px] max-h-[90vh] overflow-y-auto">
-                <h2 className="text-lg font-bold mb-4">
+                <h2 className="text-xl font-bold mb-4">
                   {!selectedEvent?.eventId ? "Tạo sự kiện" : "Chỉnh sửa sự kiện"}
                 </h2>
                 <form>
@@ -188,6 +188,8 @@ const ManageEventScreen = () => {
                     }
                     className="w-full mb-3 p-2 border border-gray-300 rounded"
                   />
+                  
+                  {/* 
                   <label className="block mb-1">Thời gian:</label>
                   <input
                     type="text"
@@ -200,6 +202,8 @@ const ManageEventScreen = () => {
                     }
                     className="w-full mb-3 p-2 border border-gray-300 rounded"
                   />
+                  */}
+
                   <label className="block mb-1">Địa điểm:</label>
                   <input
                     type="text"

@@ -13,7 +13,7 @@ import ResetPasswordScreen from "../pages/ResetPasswordScreen";
 import VerifyEmailScreen from "../pages/VerifyEmailScreen/VerifyEmailScreen";
 import UserProfile from "../pages/UserProfile";
 import AppChatContextProvider from "../context/AppChatContext";
-import AccountProfile from "../pages/Account/Account"
+import AccountProfile from "../pages/User/Account/Account"
 import AdminBoard from "../pages/Admin/AdminBoard";
 import TicketBoard from "../components/Admin/Ticket/TicketBoard";
 import OrderBoard from "../components/Admin/OrderBoard/OrderBoard";
@@ -23,6 +23,7 @@ import CheckOut from "../pages/CheckOutScreen/CheckOut";
 import StaffMainScreen from "../pages/Staff/StaffMainScreen";
 import ManageEventScreen from "../pages/Staff/ManageEventScreen";
 import ManageTicketScreen from "../pages/Staff/ManageTicketScreen";
+import Purchase from "../pages/User/Purchase";
 
 const routers = createBrowserRouter([
   {
@@ -102,16 +103,34 @@ const routers = createBrowserRouter([
     element: <CheckOut/>,
   },
   {
-    path: "/staff/main",
-    element: <StaffMainScreen/>,
+    path: "/staff",
+    children: [
+      {
+        path: "main",
+        element: <StaffMainScreen />,
+      },
+      {
+        path: "events",
+        element: <ManageEventScreen />,
+      },
+      {
+        path: "tickets/:eventId",
+        element: <ManageTicketScreen />,
+      },
+    ],
   },
   {
-    path: "/staff/events",
-    element: <ManageEventScreen/>,
-  },
-  {
-    path: "/staff/tickets/:eventId",
-    element: <ManageTicketScreen />,
+    path: "/user",
+    children: [
+      {
+        path: "profile",
+        element: <AccountProfile/>,
+      },
+      {
+        path: "purchase",
+        element: <Purchase/>,
+      },
+    ],
   },
 ]);
 
