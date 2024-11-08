@@ -1,0 +1,165 @@
+
+.ticket-content {
+    width: 100%;
+    padding: 8px 16px;
+    background: #fff;
+  }
+  
+  .ticket-detail {
+    display: flex;
+    align-items: center;
+    gap: 1vw;
+    padding: 10px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .check-ticket {
+    width: 5%;
+    height: 5%;
+    cursor: pointer;
+  }
+  
+  .ticket-info {
+    display: flex;
+    align-items: center;
+    gap: 1vw;
+    min-width: 13vw;
+  }
+  
+  .ticket-image {
+    width: 48px;
+    height: 48px;
+    overflow: hidden;
+    border-radius: 4px;
+  }
+  
+  .ticket-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .ticket-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .ticket-owner {
+    min-width: 15vw;
+  }
+  
+  .owner-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .owner-info img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+  }
+  
+  .owner-info p {
+    font-size: 14px;
+    color: black;
+    font-weight: 400;
+  }
+  
+  .ticket-type {
+    min-width: 13vw;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .ticket-unit-price {
+    min-width: 80px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .ticket-quantity {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 5vw;
+    font-size: 14px;
+  }
+  
+  .ticket-quantity svg {
+    cursor: pointer;
+    color: #666;
+  }
+  
+  .ticket-total-price {
+    min-width: 80px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .ticket-remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    color: #666;
+  }
+  
+  .ticket-remove:hover {
+    color: #ff4d4f;
+  }
+  .welcome{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 10%;
+}
+.welcome img{
+    width: 60px;
+}
+.welcome p{
+    font-size: 20px;
+    font-weight: 500;
+    color: #383838;
+}
+
+.out-of-stock {
+  color: #ff0000;
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 4px;
+  padding: 2px 6px;
+  background-color: #ffe6e6;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.stock-info {
+  color: #4CAF50;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.quantity-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.check-ticket:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ticket-content .ticket-detail:has(.out-of-stock) {
+  opacity: 0.4;
+}
