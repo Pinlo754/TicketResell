@@ -344,7 +344,7 @@ const TicketDetail = () => {
                   Thêm vào giỏ
                 </button>
                 <button className="py-2 px-10 my-4 bg-[#87CBB9] text-white text-lg rounded-xl hover:bg-[#B9EDDD] hover:text-black"
-                onClick={handleCheckout}>                 
+                onClick={handleCheckout}>
                   Buy
                 </button>
               </div>

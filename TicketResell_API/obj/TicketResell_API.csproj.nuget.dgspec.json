@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\SWP391\\TicketResell_0511\\TicketResell\\TicketResell_API\\TicketResell_API.csproj": {}
+    "E:\\SWP391\\TicketResell_0911\\TicketResell\\TicketResell_API\\TicketResell_API.csproj": {}
   },
   "projects": {
-    "E:\\SWP391\\TicketResell_0511\\TicketResell\\TicketResell_API\\TicketResell_API.csproj": {
+    "E:\\SWP391\\TicketResell_0911\\TicketResell\\TicketResell_API\\TicketResell_API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\SWP391\\TicketResell_0511\\TicketResell\\TicketResell_API\\TicketResell_API.csproj",
+        "projectUniqueName": "E:\\SWP391\\TicketResell_0911\\TicketResell\\TicketResell_API\\TicketResell_API.csproj",
         "projectName": "TicketResell_API",
-        "projectPath": "E:\\SWP391\\TicketResell_0511\\TicketResell\\TicketResell_API\\TicketResell_API.csproj",
+        "projectPath": "E:\\SWP391\\TicketResell_0911\\TicketResell\\TicketResell_API\\TicketResell_API.csproj",
         "packagesPath": "C:\\Users\\pinlo\\.nuget\\packages\\",
-        "outputPath": "E:\\SWP391\\TicketResell_0511\\TicketResell\\TicketResell_API\\obj\\",
+        "outputPath": "E:\\SWP391\\TicketResell_0911\\TicketResell\\TicketResell_API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\pinlo\\AppData\\Roaming\\NuGet\\NuGet.Config",
