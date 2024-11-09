@@ -26,19 +26,13 @@ const useResetPassword = () => {
         email,
         newPassword,
       });
-
       // Xử lý phản hồi thành công
       setSuccessMessage("Đặt lại mật khẩu thành công. Vui lòng đăng nhập.");
       setTimeout(() => {
         navigate("/login"); // Chuyển hướng về trang đăng nhập
       }, 2000);
-    } catch (error: any) {
-      if (axios.isAxiosError(error) && error.response) {
-        // Xử lý lỗi từ phản hồi của server
-        setErrorMessage(error.response.data.errors[0] || "Đã có lỗi xảy ra.");
-      } else {
-        setErrorMessage("Đã có lỗi xảy ra. Vui lòng thử lại.");
-      }
+    } catch (error: any) {      
+        setErrorMessage("Đã có lỗi xảy ra. Vui lòng thử lại.");      
     }
   };
 

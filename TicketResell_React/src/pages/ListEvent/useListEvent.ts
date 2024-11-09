@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 
 
@@ -33,7 +34,8 @@ const useListEvent = () => {
           setFilteredEvents(activeEvents);
         }
         catch (error) {
-          console.error('Error fetching data:', error);
+          console.error('Error fetching list event data:', error);
+          toast.error('Error fetching list event data!');
         }
       };
 
@@ -69,7 +71,8 @@ const useListEvent = () => {
             setTickets(tickets);
           })
           .catch(error => {
-            console.error('Error fetching data:', error);
+            console.error('Error fetching list ticket data:', error);
+            toast.error('Error fetching list ticket data!');
           });
       };
       const totalTickets = (eventId : string) => {

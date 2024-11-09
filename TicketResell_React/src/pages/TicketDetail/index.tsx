@@ -18,6 +18,11 @@ const TicketDetail = () => {
     handleCheckReUserId,
     AddToCart
   } = useTicketDetail();
+
+  const subtotal = ticket.price * quantity;
+      const selectedItems = [{ ticketId: ticket.ticketId, sellerName: user.firstName + user.lastName, quantity, sellerImg: user.userImage + "" }];
+      const handleCheckout = () => {navigate("/checkout", { state: { subtotal, quantity, selectedItems } });};
+
   return (
     <div className="w-screen min-h-screen flex flex-col">
       {/* SCROLL TO TOP */}
@@ -336,7 +341,8 @@ const TicketDetail = () => {
                 >
                   Add to cart
                 </button>
-                <button className="py-2 px-10 my-4 bg-[#87CBB9] text-white text-lg rounded-xl hover:bg-[#B9EDDD] hover:text-black">
+                <button className="py-2 px-10 my-4 bg-[#87CBB9] text-white text-lg rounded-xl hover:bg-[#B9EDDD] hover:text-black"
+                onClick={handleCheckout}>                 
                   Buy
                 </button>
               </div>

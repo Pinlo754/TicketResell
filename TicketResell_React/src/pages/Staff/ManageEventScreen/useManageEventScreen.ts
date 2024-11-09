@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import upload from "../../../lib/upload";
+import { toast } from "react-toastify";
 
 const useManageEventScreen = () => {
   const [events, setEvents] = useState<Event[]>([]);
@@ -30,6 +31,7 @@ const useManageEventScreen = () => {
       setEvents(events);
     } catch (error) {
       console.error("Error fetching data:", error);
+      toast.error("Error fetching list event data!");
     }
   };
 
@@ -46,11 +48,12 @@ const useManageEventScreen = () => {
     try {
       const response = await axios.put(`/api/Event/update-event/${event.eventId}`, event);
       if (response.status === 200) {
-        alert("Cập nhật sự kiện thành công!");
+        toast.success("Cập nhật sự kiện thành công!");
         fetchEvents();
       }
     } catch (error) {
       console.error("handleUpdateEvent:", error);
+      toast.error("Error updating event!");
     }
   };
 
@@ -58,11 +61,12 @@ const useManageEventScreen = () => {
     try {
       const response = await axios.post("/api/Event/create-event", event);
       if (response.status === 201) {
-        alert("Tạo sự kiện thành công!");
+        toast.success("Tạo sự kiện thành công!");
         fetchEvents();
       }
     } catch (error) {
       console.error("handleCreateEvent:", error);
+      toast.error("Error creating event!");
     }
   };
 
@@ -93,6 +97,7 @@ const useManageEventScreen = () => {
       }
     } catch (error) {
       console.error("sendImage", error);
+      toast.error("can't upload image right now")
     }
   }
 
