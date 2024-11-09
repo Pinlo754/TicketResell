@@ -1,6 +1,5 @@
 import React from "react";
 import {createBrowserRouter } from "react-router-dom";
-import WelcomeScreen from "../pages/WelcomeScreen";
 import MainScreen from "../pages/MainScreen";
 import Chat from "../pages/Chat/Chat";
 import ShoppingCart from "../pages/ShoppingCart/ShoppingCart";
@@ -24,6 +23,7 @@ import StaffMainScreen from "../pages/Staff/StaffMainScreen";
 import ManageEventScreen from "../pages/Staff/ManageEventScreen";
 import ManageTicketScreen from "../pages/Staff/ManageTicketScreen";
 import Purchase from "../pages/User/Purchase";
+import Wallet from "../pages/User/Wallet/Wallet";
 
 const routers = createBrowserRouter([
   {
@@ -118,7 +118,7 @@ const routers = createBrowserRouter([
         element: <ManageTicketScreen />,
       },
     ],
-  },
+  },  
   {
     path: "/user",
     children: [
@@ -126,9 +126,13 @@ const routers = createBrowserRouter([
         path: "profile",
         element: <AccountProfile/>,
       },
-      {
+      { 
         path: "purchase",
         element: <Purchase/>,
+      },
+      { 
+        path: "wallet",
+        element: <Wallet/>,
       },
     ],
   },
