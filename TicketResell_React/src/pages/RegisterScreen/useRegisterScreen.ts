@@ -31,12 +31,7 @@ const useRegisterScreen = () => {
       console.log(response.data.message);
       navigate("/verify-email")     
     } catch (error: any) {
-      if (axios.isAxiosError(error) && error.response) {
-        // Xử lý lỗi từ phản hồi của server
-        setErrorMessage(error.response.data.errors[0] || "Đã có lỗi xảy ra.");
-      } else {
-        setErrorMessage("Đã có lỗi xảy ra. Vui lòng thử lại.");
-      }
+        setErrorMessage("Đã có lỗi xảy ra với server. Vui lòng thử lại." + error.message);      
     }
   };
 

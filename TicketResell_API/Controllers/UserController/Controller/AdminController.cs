@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TicketResell_API.Controllers.OrderController.Model;
+using TicketResell_API.Controllers.User.Model;
 using TicketResell_API.Controllers.UserController.Model;
 namespace TicketResell_API.Controllers.UserController.Controller
 {
@@ -18,11 +20,13 @@ namespace TicketResell_API.Controllers.UserController.Controller
         }
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<MainUser> _userManager;
+        private readonly AppDbContext _appDbContext;
 
-        public AdminController(RoleManager<IdentityRole> roleManager, UserManager<MainUser> userManager)
+        public AdminController(RoleManager<IdentityRole> roleManager, UserManager<MainUser> userManager, AppDbContext appDbContext)
         {
             _roleManager = roleManager;
             _userManager = userManager;
+            _appDbContext = appDbContext;
         }
 
         [HttpPost("add-role")]
@@ -156,6 +160,22 @@ namespace TicketResell_API.Controllers.UserController.Controller
             }
 
             return Ok("User role updated successfully.");
+        }
+
+        [HttpGet("list-order")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
+        {
+            var orders = await _appDbContext.Orders
+            .Select(o => new {
+                o.orderId,
+                o.userId,
+                o.orderDate,
+                o.Status,
+                o.totalAmount
+            })
+            .ToListAsync();
+            return Ok(orders);
+               
         }
 
     }

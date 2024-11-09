@@ -1,8 +1,14 @@
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+using TicketResell_API.Controllers.EventController.Model;
+using TicketResell_API.Controllers.OrderController.Model;
+using TicketResell_API.Controllers.UserController.Model;
+
 namespace TicketResell_API.Controllers.TicketController.Model;
 
 public partial class Ticket
 {
-    public String ticketId { get; set; }
+    [MaxLength(450)] public String ticketId { get; set; }
 
     public string ticketName { get; set; } = null!;
 
@@ -14,7 +20,7 @@ public partial class Ticket
 
     public string[] images { get; set; } = null!;
 
-    public string userId { get; set; }
+    [MaxLength(450)] public string? userId { get; set; }
 
     public string? type { get; set; }
 
@@ -26,10 +32,18 @@ public partial class Ticket
 
     public string status { get; set; }
 
-    public string eventId { get; set; }
+    [MaxLength(450)] public string? eventId { get; set; }
 
     public DateTime createAt { get; set; }
 
     public DateTime? updateAt { get; set; }
+
+    // Navigation properties
+    [JsonIgnore]
+    public MainUser? User { get; set; }
+    [JsonIgnore]
+    public Event? Event { get; set; }
+    [JsonIgnore]
+    public ICollection<OrderDetail>? OrderDetails { get; set; }
 
 }

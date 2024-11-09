@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const usePurchase = () => {
 
@@ -161,6 +162,7 @@ const usePurchase = () => {
           },
         ];
 
+      const navigate = useNavigate();
       // const [orders, setOrders] = useState<Order[]>([]);
       const userId = localStorage.getItem("userId");
       const [showFeedback, setShowFeedback] = useState(false); // State to control Feedback visibility
@@ -190,6 +192,7 @@ const usePurchase = () => {
         };
 
     return {
+        navigate,
         orders,
         handleOpenFeedback,
         handleCloseFeedback,

@@ -29,6 +29,7 @@ const Feedback: React.FC<FeedbackProps> = ({ onClose }) => {
           className="bg-gray-100 flex gap-3 border p-3 rounded-lg group cursor-pointer"
           onClick={() => window.open("/userProfile", "_blank")}
           >
+            {/* Avt Seller */}
             <div className="overflow-hidden rounded-full">
               <img
                 src="https://static.vecteezy.com/system/resources/thumbnails/019/896/012/small_2x/female-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"
@@ -37,7 +38,10 @@ const Feedback: React.FC<FeedbackProps> = ({ onClose }) => {
               />
             </div>
             <div>
+
+              {/* Tên Seller */}
               <p>Mai Nguyen</p>
+
               {/* Rate trung bình */}
               <div className="flex gap-1 items-center">
                 <div className="w-20">
@@ -53,6 +57,8 @@ const Feedback: React.FC<FeedbackProps> = ({ onClose }) => {
               </div>
             </div>
           </div>
+
+          {/* DS vé */}
           <div className={`border-2 border-[#87CBB9] rounded-lg p-3 ${tickets.length > 2 ? 'overflow-y-auto max-h-32' : ''}`}>
             {tickets.map((ticket) => (
               <div 
@@ -94,13 +100,19 @@ const Feedback: React.FC<FeedbackProps> = ({ onClose }) => {
             ))}
           </div>
         </div>
+
+        {/* Form Feedback */}
         <form>
           <div className="p-4 flex justify-center">
+
+            {/* Rating */}
             <div>
               <p className="font-medium mb-1 text-center">Bạn cảm thấy thế nào về người bán?</p>
               <RenderRating onChange={setRating}/>
             </div>
           </div>
+
+          {/* Comment */}
           <div>
             <textarea
               placeholder="Hãy chia sẻ suy nghĩ của bạn về người bán này cho những người mua khác nhé."
@@ -110,6 +122,8 @@ const Feedback: React.FC<FeedbackProps> = ({ onClose }) => {
               rows={4}
             ></textarea>
           </div>
+
+          {/* Button */}
           <div className="flex justify-end mt-4">
             <button
               type="button"

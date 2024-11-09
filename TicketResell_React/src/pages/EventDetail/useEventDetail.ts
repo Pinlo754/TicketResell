@@ -61,7 +61,7 @@ const useEventDetail = () => {
       const response = await axios.get(`/api/Event/${eventId}`);
       setEvent(response.data);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error fetching event data:", error);
     }
   };
 
@@ -69,7 +69,7 @@ const useEventDetail = () => {
     try {
       const response = await axios.get("/api/Ticket/list-ticket");
       const tickets: Ticket[] = response.data;
-      const activeTickets = tickets.filter((ticket) => ticket.eventId === eventId).filter((ticket) =>ticket.status === "Available");
+      const activeTickets = tickets.filter((ticket) => ticket.eventId === eventId).filter((ticket) =>ticket.status === "Available").filter((ticket) =>ticket.quantity > 0);
       setTickets(activeTickets);
 
       // Initialize quantities based on tickets fetched from database
@@ -79,7 +79,7 @@ const useEventDetail = () => {
       });
       setQuantities(initialQuantities);
     } catch (error) {
-      console.error("Error fetching tickets:", error);
+      console.error("Error fetching list ticket data:", error);
     }
   };
 

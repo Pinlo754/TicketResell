@@ -4,17 +4,21 @@ namespace TicketResell_API.Controllers.ChatController.Model
 {
     public class Message
     {
-        [Key] public string? messageId { get; set; }
-        public List<MessageData> Messages { get; set; } = new List<MessageData>();
+        [Key][MaxLength(450)] public string? messageId { get; set; }
+        public ICollection<MessageData> Messages { get; set; } = new List<MessageData>();
     }
     public class MessageData
     {
         [Key]
         public int Id { get; set; }
+        public string messageId { get; set; }
         public DateTime CreatedAt { get; set; }
         [Required]
-        public string SeUserId { get; set; }
+        [MaxLength(450)] public string SeUserId { get; set; }
         [Required]
         public string Data { get; set; }
+
+        // Navigation properties
+        public Message Message { get; set; }
     }
 }
