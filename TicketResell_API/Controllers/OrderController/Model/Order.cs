@@ -18,6 +18,7 @@ namespace TicketResell_API.Controllers.User.Model
         // Navigation properties
         [JsonIgnore]
         public MainUser? User { get; set; }
+        [JsonIgnore]
         public ICollection<OrderDetail> OrderDetails { get; set; }
         [JsonIgnore]
         public ICollection<Comment>? Comments { get; set; }
