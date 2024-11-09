@@ -11,9 +11,10 @@ import useListEvent from "./useListEvent";
     value: string;
   }
   const sortOptions: SortOption[] = [
-    { label: "Most popular", value: "popular" },
-    { label: "Soonest first", value: "latest" },
-    { label: "Lowest price", value: "price_low" },
+    { label: "Sớm nhất", value: "latest" },
+    { label: "Trễ nhất", value: "firstest" },
+    { label: "Nhiều vé nhất", value: "most_tickets" },
+    { label: "Ít vé nhất", value: "least_tickets" },
   ];
 
     const ListEvent = () => {
@@ -55,20 +56,20 @@ import useListEvent from "./useListEvent";
             {/* MAIN CONTENT */}
             <div className="w-[45%] mx-auto mt-28 flex-grow">
                 {/* SEARCH */}
-                <h1 className="text-5xl">Search</h1>
+                <h1 className="text-5xl">Tìm kiếm</h1>
                 <div className="bg-gray-200 backdrop-blur rounded-lg pl-3 mt-8 flex items-center hover:bg-gray-100">
                     <div className="pointer-events-auto">
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-current" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 3a7.5 7.5 0 015.775 12.425l5.35 5.35a.75.75 0 11-1.06 1.06l-5.35-5.35A7.5 7.5 0 1110.5 3zm0 1.5a6 6 0 100 12 6 6 0 000-12z" />
                         </svg>
                     </div>
-                    <input type="text" placeholder="Search for an event..." className="pl-3 text-current bg-transparent outline-none w-full placeholder-gray-400 focus:text-black"/>
-                    <button className="bg-[#87CBB9] text-white hover:bg-[#B9EDDD] hover:text-black rounded-r-lg px-4 py-2">Search</button>
+                    <input type="text" placeholder="Tìm kiếm sự kiện..." className="pl-3 text-current bg-transparent outline-none w-full placeholder-gray-400 focus:text-black"/>
+                    <button className="bg-[#87CBB9] text-white hover:bg-[#B9EDDD] hover:text-black rounded-r-lg px-2 py-2">Tìm kiếm</button>
                 </div>
 
                 {/* FILTER: CHƯA XONG */}
 
-                <h1 className="text-xl mt-10">{filteredEvents.length} Results for "..."</h1>
+                <h1 className="text-xl mt-10">{filteredEvents.length} Kết quả cho "..."</h1>
 
                 {/* DROPDOWN SORT */}
                 <div ref={dropdownRef} className="relative inline-block text-left flex justify-end">
@@ -165,7 +166,7 @@ import useListEvent from "./useListEvent";
                                     <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-1 text-white" viewBox="0 0 24 24" fill="currentColor">
                                         <path fill-rule="evenodd" d="M1.5 6.375c0-1.036.84-1.875 1.875-1.875h17.25c1.035 0 1.875.84 1.875 1.875v3.026a.75.75 0 0 1-.375.65 2.249 2.249 0 0 0 0 3.898.75.75 0 0 1 .375.65v3.026c0 1.035-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 17.625v-3.026a.75.75 0 0 1 .374-.65 2.249 2.249 0 0 0 0-3.898.75.75 0 0 1-.374-.65V6.375Zm15-1.125a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-1.5 0V6a.75.75 0 0 1 .75-.75Zm.75 4.5a.75.75 0 0 0-1.5 0v.75a.75.75 0 0 0 1.5 0v-.75Zm-.75 3a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-1.5 0v-.75a.75.75 0 0 1 .75-.75Zm.75 4.5a.75.75 0 0 0-1.5 0V18a.75.75 0 0 0 1.5 0v-.75ZM6 12a.75.75 0 0 1 .75-.75H12a.75.75 0 0 1 0 1.5H6.75A.75.75 0 0 1 6 12Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" clip-rule="evenodd" />
                                     </svg>
-                                    <p className="text-white">${totalTickets(ev.eventId)}</p>
+                                    <p className="text-white">{totalTickets(ev.eventId)}</p>
                                 </div>
                             </div>
                         </div>

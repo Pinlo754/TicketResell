@@ -129,6 +129,7 @@ const MainScreen = () => {
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
+                onClick={() => navigate("/how-it-works/hts")}
               >
                 <path
                   stroke-linecap="round"
@@ -178,6 +179,7 @@ const MainScreen = () => {
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
+                onClick={() => navigate("/how-it-works/htb")}
               >
                 <path
                   stroke-linecap="round"
@@ -191,7 +193,7 @@ const MainScreen = () => {
               className="bg-white text-[#FF6F61] px-6 py-3 rounded-full font-semibold flex items-center hover:translate-x-3 transition ease-in-out delay-150 duration-300 hover:shadow-2xl hover:ring-2 hover:ring-[#FF6F61]"
               onClick={() => navigate("/listEvent")}
             >
-              Khám Phá
+              Khám Phá Sự Kiện
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-6 h-6 ml-2 mr-0 text-current "
@@ -449,7 +451,7 @@ const MainScreen = () => {
           <div className="flex justify-center">
             <button
               className="bg-[#8ACDD7] text-white text-lg px-6 py-3 font-medium rounded-sm hover:bg-[#FF7878]"
-              onClick={() => navigate("/about")}
+              onClick={() => navigate("/aboutUs")}
             >
               Câu Chuyện Của Chúng Tôi
             </button>
