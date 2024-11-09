@@ -29,7 +29,7 @@ const useRegisterScreen = () => {
 
       // Xử lý phản hồi nếu đăng ký thành công
       console.log(response.data.message);
-      navigate("/verify-email")     
+      navigate("/verify-email?email=" + email)     
     } catch (error: any) {
         setErrorMessage("Đã có lỗi xảy ra với server. Vui lòng thử lại." + error.message);      
     }

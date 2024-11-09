@@ -1,5 +1,6 @@
 import React from "react";
 import useVerifyEmailScreen from "./useVerifyEmailScreen";
+import { ToastContainer } from "react-toastify";
 
 const VerifyEmailScreen = () => {
   const {
@@ -10,23 +11,25 @@ const VerifyEmailScreen = () => {
     successMessage,
     code,
     setCode,
+    handleResendOTP,
   } = useVerifyEmailScreen();
 
   return (
     <main className="flex h-screen bg-gradient-to-t from-[#B9EDDD] to-[#577D86] items-center justify-center">
+      <ToastContainer />
       <div className="flex flex-col max-w-full">
         <div className="flex flex-col px-7 py-2 w-[389px] h-[440px] rounded-xl bg-zinc-100 shadow-2xl">
           <div className="self-center w-[54%] h-[15%] mt-[12px] max-w-full w-[88px]">
-          <div className="self-center w-[54%] h-[15%] mt-[12px] max-w-full w-[351px]">
-            <div className="flex items-center justify-center">
-              <img
-                src="/static/media/Logo_festix.6dafeac744167eb4b442.png"
-                alt="Festix"
-                className="w-8 h-12 mr-3 cursor-pointer"
-              />
-              <h1 className="text-black text-3xl font-bold ">Festix</h1>
+            <div className="self-center w-[54%] h-[15%] mt-[12px] max-w-full w-[351px]">
+              <div className="flex items-center justify-center">
+                <img
+                  src="/static/media/Logo_festix.6dafeac744167eb4b442.png"
+                  alt="Festix"
+                  className="w-8 h-12 mr-3 cursor-pointer"
+                />
+                <h1 className="text-black text-3xl font-bold ">Festix</h1>
+              </div>
             </div>
-          </div>
           </div>
 
           <form
@@ -42,14 +45,15 @@ const VerifyEmailScreen = () => {
             <div className="flex shrink-0 mt-2 h-12 rounded-xl border border-black border-solid bg-zinc-300">
               <input
                 type="email"
-                value={email}
+                value={email || ""} 
                 placeholder="Nhập email"
-                className="w-full h-full px-2 rounded-xl text-[19px]"
+                className="w-full h-full px-2 rounded-xl text-[19px] border-none focus:outline-none"
                 aria-label="Email"
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
                 required
+                readOnly
               />
             </div>
 
@@ -58,7 +62,7 @@ const VerifyEmailScreen = () => {
                 type="otp-email"
                 value={code}
                 placeholder="Nhập OTP"
-                className="w-full h-full px-2 rounded-xl text-[19px]"
+                className="w-full h-full px-2 rounded-xl text-[19px] border-none focus:outline-none"
                 aria-label="OTP"
                 onChange={(e) => {
                   setCode(e.target.value);
@@ -67,7 +71,7 @@ const VerifyEmailScreen = () => {
               />
               <div
                 className={`w-[120px] text-[12px] text-[red] bg-[white] rounded-xl font-bold cursor-pointer flex items-center justify-center`}
-                onClick={() => console.log("enter resend otp")}
+                onClick={handleResendOTP}
               >
                 Gửi OTP
               </div>
