@@ -15,7 +15,7 @@ const SideBar = () => {
     { label: "Hồ sơ", path: "/user/profile" },
     { label: "Ví", path: "/user/wallet"},
     { label: "Đơn mua", path: "/user/purchase" },
-    { label: "Đơn bán", path: "/user/sales" },
+    { label: "Đơn bán", path: "/user/sale" },
     { label: "Thông báo", path: "/user/notification" },
   ];
 

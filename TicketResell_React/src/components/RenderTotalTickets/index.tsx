@@ -30,14 +30,14 @@ const RenderTotalTickets = (tickets: Ticket[]) => {
       return (
         <div className="w-full py-5 mx-auto">
           <p className="text-xl text-center">
-            User does not sell any tickets!!!
+            Người này không bán vé nào!!!
           </p>
           <div className="flex justify-center mt-3">
             <button
               className="flex flex-col items-center gap-y-1 text-gray-600 group hover:text-[#87CBB9]"
               onClick={() => navigate("/listEvent")}
             >
-              Continue shopping for tickets
+              Tiếp tục mua vé
               <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 group-hover:translate-x-2 group-hover:text-[#87CBB9] transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
               </svg>
@@ -80,20 +80,20 @@ const RenderTotalTickets = (tickets: Ticket[]) => {
                 </div>
               </div>
               <div className="mt-5 ml-2 px-8 flex flex-wrap justify-start gap-x-4 gap-y-1 text-sm text-gray-500">
-                <p><span className="font-medium">Category:</span> <span className="text-gray-700">{ticket.category}</span></p>
-                <p><span className="font-medium">Section:</span> <span className="text-gray-700">{ticket.section}</span></p>
+                <p><span className="font-medium">Loại vé:</span> <span className="text-gray-700">{ticket.category === "Seat" ? "Ngồi" : "Đứng"}</span></p>
+                <p><span className="font-medium">Khu:</span> <span className="text-gray-700">{ticket.section}</span></p>
                 {ticket.category === "Seat" && (
-                  <p><span className="font-medium">Row:</span> <span className="text-gray-700">{ticket.row}</span></p>
+                  <p><span className="font-medium">Hàng:</span> <span className="text-gray-700">{ticket.row}</span></p>
                 )}
-                <p><span className="font-medium">Quantity:</span> <span className="text-gray-700">{ticket.quantity}</span></p>
-                <p><span className="font-medium">Price Per Ticket:</span> <span className="text-gray-700">{formatCurrency(ticket.price)} VND</span></p>
+                <p><span className="font-medium">Số lượng:</span> <span className="text-gray-700">{ticket.quantity}</span></p>
+                <p><span className="font-medium">Giá tiền mỗi vé:</span> <span className="text-gray-700">{formatCurrency(ticket.price)} VND</span></p>
               </div>
               <div className="flex justify-end mt-6 pb-4 border-b-2">
                 <button 
                 className="bg-[#87CBB9] px-3 mr-4 py-2 rounded-sm text-white hover:bg-[#B9EDDD] hover:text-black"
-                onClick={() => navigate("/eventDetail")}
+                onClick={() => navigate("/ticketDetail")}
                 >
-                  View Page
+                  Xem vé
                 </button>
               </div>
             </div>
@@ -109,7 +109,7 @@ const RenderTotalTickets = (tickets: Ticket[]) => {
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 mr-1 group-hover:translate-y-2 transition-transform duration-300" viewBox="0 0 24 24" fill="currentColor">
                     <path fill-rule="evenodd" d="M12 2.25a.75.75 0 0 1 .75.75v16.19l6.22-6.22a.75.75 0 1 1 1.06 1.06l-7.5 7.5a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 1 1 1.06-1.06l6.22 6.22V3a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd"/>
                   </svg>
-                  Show More ({tickets.length-visibleTickets})
+                  Hiển thị thêm ({tickets.length-visibleTickets})
                 </button>
               </div>
             )}
@@ -124,7 +124,7 @@ const RenderTotalTickets = (tickets: Ticket[]) => {
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 mr-1 group-hover:-translate-y-2 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
                   </svg>
-                  Show Less
+                  Rút gọn
                 </button>
               </div>
             )}

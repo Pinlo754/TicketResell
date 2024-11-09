@@ -1,13 +1,11 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const usePurchase = () => {
+const useSale = () => {
 
-    type Seller = {
-        sellerId: string;
-        sellerName: string;
-        sellerAvatar: string;
+    type Buyer = {
+        buyerId: string;
+        buyerName: string;
+        buyerAvatar: string;
       };
       
       type Event = {
@@ -35,7 +33,7 @@ const usePurchase = () => {
           status: string,
           paymentMethod: string,
           tickets: Ticket[],
-          seller: Seller;
+          buyer: Buyer;
           events: Event[];
         };
   
@@ -64,10 +62,10 @@ const usePurchase = () => {
                 eventId: "e001",
               },
             ],
-            seller: {
-              sellerId: "s001",
-              sellerName: "Nguyen Van A",
-              sellerAvatar: "https://example.com/avatar-a.jpg",
+            buyer: {
+                buyerId: "s001",
+                buyerName: "Nguyen Van A",
+                buyerAvatar: "https://example.com/avatar-a.jpg",
             },
             events: [
               {
@@ -96,10 +94,10 @@ const usePurchase = () => {
                 eventId: "e001",
               },
             ],
-            seller: {
-              sellerId: "s002",
-              sellerName: "Tran Thi B",
-              sellerAvatar: "https://example.com/avatar-b.jpg",
+            buyer: {
+                buyerId: "s002",
+                buyerName: "Tran Thi B",
+                buyerAvatar: "https://example.com/avatar-b.jpg",
             },
             events: [
               {
@@ -136,10 +134,10 @@ const usePurchase = () => {
                 eventId: "e003",
               },
             ],
-            seller: {
-              sellerId: "s003",
-              sellerName: "Le Van C",
-              sellerAvatar: "https://example.com/avatar-c.jpg",
+            buyer: {
+                buyerId: "s003",
+                buyerName: "Le Van C",
+                buyerAvatar: "https://example.com/avatar-c.jpg",
             },
             events: [
               {
@@ -162,42 +160,12 @@ const usePurchase = () => {
           },
         ];
 
-      const navigate = useNavigate();
-      // const [orders, setOrders] = useState<Order[]>([]);
-      const userId = localStorage.getItem("userId");
-      const [showFeedback, setShowFeedback] = useState(false); // State to control Feedback visibility
-
-      useEffect(() => {
-        if (userId != null) {
-            fetchOrders(userId);
-        };
-      },[]);
-
-      const fetchOrders = async (userId: string) => {
-        try {
-            
-        } catch (error) {
-            console.error("Error fetching orders:", error);
-        }
-      };
-
-        // Function to show Feedback form
-        const handleOpenFeedback = () => {
-            setShowFeedback(true);
-        };
-
-        // Function to close Feedback form
-        const handleCloseFeedback = () => {
-            setShowFeedback(false);
-        };
+        const navigate = useNavigate();
 
     return {
         navigate,
         orders,
-        handleOpenFeedback,
-        handleCloseFeedback,
-        showFeedback,
-    }
-}
+    };
+};
 
-export default usePurchase;
+export default useSale;
