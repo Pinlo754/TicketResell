@@ -619,6 +619,64 @@ namespace TicketResell_API.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("TicketResell_API.Controllers.WalletController.Model.Transaction", b =>
+                {
+                    b.Property<string>("transactionId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("amount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("balanceAfter")
+                        .HasColumnType("int");
+
+                    b.Property<int>("balanceBefore")
+                        .HasColumnType("int");
+
+                    b.Property<string>("orderId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("time")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("transactionType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("walletId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("transactionId");
+
+                    b.ToTable("Transactions");
+                });
+
+            modelBuilder.Entity("TicketResell_API.Controllers.WalletController.Model.Wallet", b =>
+                {
+                    b.Property<string>("walletId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("balance")
+                        .HasColumnType("int");
+
+                    b.Property<string>("status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("walletId");
+
+                    b.ToTable("Wallets");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)

@@ -9,6 +9,7 @@ using TicketResell_API.Controllers.User.Model;
 using TicketResell_API.Controllers.CartController.Model;
 using TicketResell_API.Controllers.OrderController.Model;
 using TicketResell_API.Controllers.CommentController.Model;
+using TicketResell_API.Controllers.WalletController.Model;
 
 public class AppDbContext : IdentityDbContext<MainUser>
 {
@@ -22,6 +23,8 @@ public class AppDbContext : IdentityDbContext<MainUser>
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderDetail> OrderDetails { get; set; }
     public DbSet<Comment> Comment { get; set; }
+    public DbSet<Wallet> Wallets { get; set; }
+    public DbSet<Transaction> Transactions { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
