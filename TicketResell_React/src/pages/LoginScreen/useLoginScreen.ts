@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
-
+import { toast } from "react-toastify";
 const useLoginScreen = () => {
   const navigate = useNavigate();
 
@@ -82,6 +82,7 @@ const useLoginScreen = () => {
     passwordInputRef,
     errorMessage,
     setErrorMessage,
+    toast
   };
 };
 

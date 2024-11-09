@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { removeVietnameseTones } from '../../components/Search/useSearch';
 import upload from "../../lib/upload";
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 type TicketInfo = {
   ticketId: string;
@@ -141,24 +142,24 @@ const useSellScreen = () => {
   
 
   const handleSubmit = () => {
-  
+
     if (
       !ticketInfo.ticketName ||
       !ticketInfo.type ||
       !ticketInfo.section ||
-      (showRow && !ticketInfo.row) || // Kiểm tra hàng nếu loại vé là "Ngồi"
+      (showRow && !ticketInfo.row) ||
       !ticketInfo.quantity ||
       !ticketInfo.originPrice ||
       !ticketInfo.price ||
       imagesURL.length === 0
     ) {
-      alert("Vui lòng điền đầy đủ thông tin vé!");
+     toast.error("Vui lòng điền đầy đủ thông tin vé!");
       return;
     }
 
     // Kiểm tra số lượng file tải lên phải bằng số lượng vé
     if (imagesURL.length !== ticketInfo.quantity) {
-      alert("Số lượng ảnh tải lên phải bằng số lượng vé!");
+     toast.error("Số lượng ảnh tải lên phải bằng số lượng vé!");
       return;
     }
 
@@ -186,7 +187,7 @@ const useSellScreen = () => {
       });
   
       if (response.data.ticketId) { 
-        alert("Đăng bán vé thành công!");
+        toast.success("Đăng bán vé thành công!");
         navigate("/main");
       }
     } catch (error: any) {
@@ -222,6 +223,7 @@ const useSellScreen = () => {
     handleImageUpload,
     handleSubmit,
     formatCurrency,
+    toast
   };
 };
 

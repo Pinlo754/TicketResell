@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { toast } from "react-toastify";
 const useVerifyEmailScreen = () => {
   const [email, setEmail] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -47,15 +47,15 @@ const useVerifyEmailScreen = () => {
         const seUserId = response.data.userId;
         const response1 = await axios.post("/api/Chat/post-chat", { seUserId,  chat });
         console.log(response1.data.message);
+        alert("Confirm email successfully, please login again.");
         navigate('/');
       } else {
         setErrorMessage("User object not found in the response.");
+        toast.error("User object not found in the response.");
       }
     } catch (error: any) {
       if (axios.isAxiosError(error) && error.response) {
-        setErrorMessage(error.response.data.errors[0] || "Đã có lỗi xảy ra.");
-      } else {
-        setErrorMessage("Đã có lỗi xảy ra. Vui lòng thử lại.");
+        toast.error("Đã có lỗi xảy ra.");
       }
     }
   };

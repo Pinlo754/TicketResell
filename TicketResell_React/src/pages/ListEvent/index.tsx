@@ -4,6 +4,8 @@ import ScrollToTopButton from "../../components/ScrollToTopButton";
 import ScrollToTop from "../../components/ScrollToTop";
 import Pagination from "../../components/Pagination";
 import useListEvent from "./useListEvent";
+import {ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
   // DROPDOWN SORT
   type SortOption = {
@@ -52,6 +54,8 @@ import useListEvent from "./useListEvent";
         {/* SCROLL TO TOP BUTTON */}
         <ScrollToTopButton/>
 
+        <ToastContainer/>
+        
             {/* MAIN CONTENT */}
             <div className="w-[45%] mx-auto mt-28 flex-grow">
                 {/* SEARCH */}

@@ -10,6 +10,8 @@ import Footer from "../../components/Footer";
 import ScrollToTopButton from "../../components/ScrollToTopButton";
 import ScrollToTop from "../../components/ScrollToTop";
 import useMainScreen from "./userMainScreen";
+import {ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Next and Previous arrows outside the container
 // SLIDE - MŨI TÊN
@@ -106,6 +108,8 @@ const MainScreen = () => {
 
       {/* SCROLL TO TOP BUTTON */}
       <ScrollToTopButton />
+
+      <ToastContainer/>
 
       {/* MAIN CONTENT */}
       <div className="w-full min-h-screen flex-grow">

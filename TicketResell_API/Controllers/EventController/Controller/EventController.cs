@@ -52,6 +52,7 @@ namespace TicketResell_API.Controllers.EventController.Controller
         {
             //list all event
             var events = await _appDbContext.Events.ToListAsync();
+            //Failed to connect database
             return Ok(events);
         }
 

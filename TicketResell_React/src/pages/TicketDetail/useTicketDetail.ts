@@ -166,7 +166,7 @@ const useTicketDetail = () => {
     eventId: "EVENT_001", // ID sự kiện liên quan
     createAt: new Date(), // Thời gian tạo vé
     updateAt: new Date(), // Thời gian cập nhật vé
-  });
+  });  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -357,6 +357,19 @@ const useTicketDetail = () => {
         console.error("Error add to cart:", error);
         console.log("Sending data to cart:", dataItem);
       });
+
+
+      interface SummaryCostProps {
+        subtotal: number;
+        totalQuantity: number;
+        selectedItems: {
+          ticketId: string;
+          sellerName: string;
+          quantity: number;
+          sellerImg: string;
+        };
+      }
+      
   };
   return {
     navigate,
@@ -378,7 +391,7 @@ const useTicketDetail = () => {
     handleCheckReUserId,
     AddToCart,
     eventImage,
-    eventName
+    eventName,
   };
 };
 
