@@ -24,7 +24,7 @@ const useLoginScreen = () => {
   }, [showPassword]);
 
   const resetPassword = () => {
-    navigate("/reset-password", { state: { email: email } });
+    navigate("verify-email-reset-password?email=" + email);
   };
 
   const handleLoginClick = async () => {

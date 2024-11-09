@@ -24,6 +24,7 @@ import ManageEventScreen from "../pages/Staff/ManageEventScreen";
 import ManageTicketScreen from "../pages/Staff/ManageTicketScreen";
 import Purchase from "../pages/User/Purchase";
 import Wallet from "../pages/User/Wallet/Wallet";
+import VerifyEmailResetPassword from "../pages/VerifyResetPassword/VerifyEmailScreen";
 import Sale from "../pages/User/Sale";
 import AboutUsScreen from "../pages/AboutUsScreen";
 import HowToBuy from "../pages/HowItWorks/HowToBuy";
@@ -67,7 +68,7 @@ const routers = createBrowserRouter([
     element: <RegisterScreen />,
   },
   {
-    path: "/reset-password",
+    path: "/reset-password/:validToken",
     element: <ResetPasswordScreen />,
   },
   {
@@ -137,6 +138,7 @@ const routers = createBrowserRouter([
       { 
         path: "wallet",
         element: <Wallet/>,
+      },
       {
         path: "sale",
         element: <Sale/>,
@@ -159,6 +161,10 @@ const routers = createBrowserRouter([
         element: <HowToSell/>,
       },
     ],
+  },
+  {
+    path: "/verify-email-reset-password",
+    element: <VerifyEmailResetPassword/>,
   },
 ]);
 
