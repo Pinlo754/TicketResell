@@ -28,10 +28,13 @@ const SellScreen: React.FC = () => {
     formatCurrency,
   } = useSell();
 
+  // Render Events
   const renderEvent = (event: Event) => (
     <div className="relative p-2">
       {/* Sự kiện được chọn hiển thị dấu X */}
       {selectedEvent && selectedEvent.eventName === event.eventName && (
+
+        // Dấu X
         <button
           className="absolute top-0 right-0"
           onClick={(e) => {
@@ -55,7 +58,11 @@ const SellScreen: React.FC = () => {
           </svg>
         </button>
       )}
+
+      {/* Events */}
       <div className="flex items-center">
+
+        {/* Event date */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="w-5 h-5 pr-1 text-red-600 cursor-pointer"
@@ -70,6 +77,8 @@ const SellScreen: React.FC = () => {
         </svg>
         <p className="text-red-600 font-medium">{event.eventTime}</p>
       </div>
+
+      {/* Event name */}
       <h3 className="font-bold text-xl mt-1 text-ellipsis whitespace-nowrap overflow-hidden">
         {event.eventName}
       </h3>
@@ -125,10 +134,13 @@ const SellScreen: React.FC = () => {
 
       {/* MAIN CONTENT */}
       <div className="w-[50%] mx-auto p-4 ">
+
+        {/* Thanh tiến độ */}
         <div className="w-full mt-20 flex justify-center items-center mx-auto">
           <ProgressBar currentStep={step} steps={2} />
         </div>
 
+        {/* Step 1: Chọn sự kiện */}
         {step === 1 && (
           <div>
             <h1 className="text-2xl font-semibold mb-4">Chọn sự kiện</h1>
@@ -140,6 +152,8 @@ const SellScreen: React.FC = () => {
                   <p className="mb-2 text-gray-600">
                     Bạn muốn bán vé cho sự kiện nào?
                   </p>
+
+                  {/* Hàm Search */}
                   <Search
                     placeholder="Tìm kiếm sự kiện..."
                     results={events}
@@ -160,6 +174,8 @@ const SellScreen: React.FC = () => {
                 </div>
               )}
             </div>
+
+            {/* Button */}
             <div className="flex justify-between">
               <button
                 className={`py-2 px-4 text-white ${
@@ -170,12 +186,13 @@ const SellScreen: React.FC = () => {
                 disabled={!selectedEvent}
                 onClick={goNext}
               >
-                Next
+                Tiếp theo
               </button>
             </div>
           </div>
         )}
 
+        {/* Step 2: Thông tin vé */}
         {step === 2 && (
           <div>
             <h2 className="text-2xl font-semibold mb-1">Thông tin vé</h2>
@@ -184,6 +201,8 @@ const SellScreen: React.FC = () => {
               Nếu bạn có nhiều loại vé, bạn sẽ cần tạo danh sách riêng cho từng
               loại.
             </p>
+
+            {/* Tên vé */}
             <input
               type="text"
               placeholder="Tên vé"
@@ -194,6 +213,8 @@ const SellScreen: React.FC = () => {
               value={ticketInfo.ticketName}
               required
             />
+
+            {/* Loại vé */}
             <select
               className="border p-2 w-full mb-4"
               onChange={(e) => {
@@ -210,6 +231,7 @@ const SellScreen: React.FC = () => {
               <option value="Seat">Ngồi</option>
             </select>
 
+            {/* Khu vực */}
             <select
               className="border p-2 w-full mb-4"
               onChange={(e) =>
@@ -227,6 +249,7 @@ const SellScreen: React.FC = () => {
               <option value="D">Khu vực D</option>
             </select>
 
+            {/* Hàng */}
             {ticketInfo.type === "Seat" ? (
               <input
                 type="number"
@@ -240,6 +263,7 @@ const SellScreen: React.FC = () => {
               />
             ) : null}
 
+            {/* Số lượng vé */}
             <input
               type="text"
               placeholder="Số lượng vé"
@@ -251,6 +275,7 @@ const SellScreen: React.FC = () => {
               required
             />
 
+            {/* Giá gốc */}
             <input
               type="text"
               placeholder="Giá gốc"
@@ -266,6 +291,7 @@ const SellScreen: React.FC = () => {
               required
             />
 
+            {/* Giá bán */}
             <input
               type="text"
               placeholder="Giá bán"
@@ -277,6 +303,7 @@ const SellScreen: React.FC = () => {
               required
             />
 
+            {/* Hình vé */}
             <label className="block mb-1">Hình vé:</label>
             <input
               type="file"
@@ -287,6 +314,7 @@ const SellScreen: React.FC = () => {
               required
             />
 
+            {/* Mô tả */}
             <textarea
               placeholder="Mô tả"
               className="border p-2 w-full mb-4 focus:border-black"
@@ -295,24 +323,26 @@ const SellScreen: React.FC = () => {
               }
             ></textarea>
 
+            {/* Button */}
             <div className="flex justify-between">
               <button
                 className="bg-gray-500 text-white py-2 px-4"
                 onClick={goBack}
               >
-                Back
+                Trở về
               </button>
 
               <button
                 className="bg-[#87CBB9] hover:bg-[#B9EDDD] hover:text-black py-2 px-4 text-white"
                 onClick={handleSubmit}
               >
-                Submit
+                Bán
               </button>
             </div>
           </div>
         )}
       </div>
+      
       {/* FOOTER */}
       <div className="flex-grow-0">
         <Footer />

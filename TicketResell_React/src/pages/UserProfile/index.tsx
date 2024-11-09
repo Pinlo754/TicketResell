@@ -79,7 +79,7 @@ const UserProfile = () => {
           {/* Listings */}
           <div className="w-full bg-[#F4F4F4] rounded-lg drop-shadow-xl">
             <p className="bg-[#87CBB9] rounded-t-lg px-8 py-3 text-lg font-medium text-white">
-              Listings ({totalTickets})
+              Danh sách vé ({totalTickets})
             </p>
             {RenderTotalTickets(tickets)}
           </div>
@@ -87,7 +87,7 @@ const UserProfile = () => {
           {/* Reviews */}
           <div className="w-full bg-[#F4F4F4] rounded-lg drop-shadow-xl mt-8">
             <p className="bg-[#87CBB9] rounded-t-lg px-8 py-3 text-lg font-medium text-white">
-              Reviews ({totalReviews})
+              Đánh giá ({totalReviews})
             </p>
             {RenderTotalReviews(comments)}
           </div>
