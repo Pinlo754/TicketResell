@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TicketResell_API.Migrations
 {
     /// <inheritdoc />
-    public partial class phongnt : Migration
+    public partial class initmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -83,39 +83,6 @@ namespace TicketResell_API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Message", x => x.messageId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Transactions",
-                columns: table => new
-                {
-                    transactionId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    walletId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    amount = table.Column<int>(type: "int", nullable: false),
-                    transactionType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    time = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    balanceBefore = table.Column<int>(type: "int", nullable: false),
-                    balanceAfter = table.Column<int>(type: "int", nullable: false),
-                    orderId = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Transactions", x => x.transactionId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Wallets",
-                columns: table => new
-                {
-                    walletId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    userId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    balance = table.Column<int>(type: "int", nullable: false),
-                    status = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Wallets", x => x.walletId);
                 });
 
             migrationBuilder.CreateTable(
@@ -263,6 +230,26 @@ namespace TicketResell_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Wallets",
+                columns: table => new
+                {
+                    walletId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    userId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    balance = table.Column<int>(type: "int", nullable: false),
+                    status = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Wallets", x => x.walletId);
+                    table.ForeignKey(
+                        name: "FK_Wallets_AspNetUsers_userId",
+                        column: x => x.userId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tickets",
                 columns: table => new
                 {
@@ -382,6 +369,31 @@ namespace TicketResell_API.Migrations
                         column: x => x.orderId,
                         principalTable: "Orders",
                         principalColumn: "orderId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Transactions",
+                columns: table => new
+                {
+                    transactionId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    walletId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    amount = table.Column<int>(type: "int", nullable: false),
+                    transactionType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    time = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    balanceBefore = table.Column<int>(type: "int", nullable: false),
+                    balanceAfter = table.Column<int>(type: "int", nullable: false),
+                    orderId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transactions", x => x.transactionId);
+                    table.ForeignKey(
+                        name: "FK_Transactions_Wallets_walletId",
+                        column: x => x.walletId,
+                        principalTable: "Wallets",
+                        principalColumn: "walletId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -576,6 +588,16 @@ namespace TicketResell_API.Migrations
                 name: "IX_Tickets_userId",
                 table: "Tickets",
                 column: "userId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_walletId",
+                table: "Transactions",
+                column: "walletId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Wallets_userId",
+                table: "Wallets",
+                column: "userId");
         }
 
         /// <inheritdoc />
@@ -615,9 +637,6 @@ namespace TicketResell_API.Migrations
                 name: "Transactions");
 
             migrationBuilder.DropTable(
-                name: "Wallets");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -633,10 +652,13 @@ namespace TicketResell_API.Migrations
                 name: "Tickets");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Wallets");
 
             migrationBuilder.DropTable(
                 name: "Events");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }
