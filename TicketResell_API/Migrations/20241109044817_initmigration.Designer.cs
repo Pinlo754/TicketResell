@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TicketResell_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241027150440_initmigration")]
+    [Migration("20241109044817_initmigration")]
     partial class initmigration
     {
         /// <inheritdoc />
@@ -184,13 +184,16 @@ namespace TicketResell_API.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("sellerId")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("sellerImage")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ticketId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ticketName")
                         .HasColumnType("nvarchar(max)");
@@ -205,9 +208,16 @@ namespace TicketResell_API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("userId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("cartId");
+
+                    b.HasIndex("sellerId");
+
+                    b.HasIndex("ticketId");
+
+                    b.HasIndex("userId");
 
                     b.ToTable("Carts");
                 });
@@ -215,6 +225,7 @@ namespace TicketResell_API.Migrations
             modelBuilder.Entity("TicketResell_API.Controllers.ChatController.Model.Chat", b =>
                 {
                     b.Property<string>("seUserId")
+                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("seUserId");
@@ -224,13 +235,14 @@ namespace TicketResell_API.Migrations
 
             modelBuilder.Entity("TicketResell_API.Controllers.ChatController.Model.ChatData", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ChatseUserId")
+                    b.Property<string>("ChatSeUserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("lastMessage")
@@ -238,22 +250,25 @@ namespace TicketResell_API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("messageId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("messageSeen")
                         .HasColumnType("bit");
 
                     b.Property<string>("reUserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("updatedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.HasIndex("ChatseUserId");
+                    b.HasIndex("ChatSeUserId");
+
+                    b.HasIndex("messageId");
 
                     b.ToTable("ChatData");
                 });
@@ -261,6 +276,7 @@ namespace TicketResell_API.Migrations
             modelBuilder.Entity("TicketResell_API.Controllers.ChatController.Model.Message", b =>
                 {
                     b.Property<string>("messageId")
+                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("messageId");
@@ -285,9 +301,11 @@ namespace TicketResell_API.Migrations
 
                     b.Property<string>("SeUserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("messageId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -306,7 +324,8 @@ namespace TicketResell_API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("orderId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("rating")
                         .HasColumnType("int");
@@ -315,12 +334,20 @@ namespace TicketResell_API.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("toUserId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("userId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("commentId");
+
+                    b.HasIndex("orderId");
+
+                    b.HasIndex("toUserId");
+
+                    b.HasIndex("userId");
 
                     b.ToTable("Comment");
                 });
@@ -328,6 +355,7 @@ namespace TicketResell_API.Migrations
             modelBuilder.Entity("TicketResell_API.Controllers.EventController.Model.Event", b =>
                 {
                     b.Property<string>("eventId")
+                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("city")
@@ -342,8 +370,8 @@ namespace TicketResell_API.Migrations
                     b.Property<string>("eventStatus")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("eventTime")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("eventTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("location")
                         .HasColumnType("nvarchar(max)");
@@ -374,7 +402,8 @@ namespace TicketResell_API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("orderId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("paymentMethod")
                         .HasColumnType("nvarchar(max)");
@@ -382,7 +411,7 @@ namespace TicketResell_API.Migrations
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("quantity")
+                    b.Property<int>("quantity")
                         .HasColumnType("int");
 
                     b.Property<string>("receiverEmail")
@@ -396,7 +425,8 @@ namespace TicketResell_API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ticketId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ticketName")
                         .HasColumnType("nvarchar(max)");
@@ -409,12 +439,17 @@ namespace TicketResell_API.Migrations
 
                     b.HasKey("orderDetailId");
 
+                    b.HasIndex("orderId");
+
+                    b.HasIndex("ticketId");
+
                     b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("TicketResell_API.Controllers.TicketController.Model.Ticket", b =>
                 {
                     b.Property<string>("ticketId")
+                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("createAt")
@@ -424,8 +459,8 @@ namespace TicketResell_API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("eventId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("images")
                         .IsRequired()
@@ -461,10 +496,14 @@ namespace TicketResell_API.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("userId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ticketId");
+
+                    b.HasIndex("eventId");
+
+                    b.HasIndex("userId");
 
                     b.ToTable("Tickets");
                 });
@@ -472,6 +511,7 @@ namespace TicketResell_API.Migrations
             modelBuilder.Entity("TicketResell_API.Controllers.User.Model.Order", b =>
                 {
                     b.Property<string>("orderId")
+                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Status")
@@ -484,9 +524,12 @@ namespace TicketResell_API.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("userId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("orderId");
+
+                    b.HasIndex("userId");
 
                     b.ToTable("Orders");
                 });
@@ -630,18 +673,136 @@ namespace TicketResell_API.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TicketResell_API.Controllers.CartController.Model.Cart", b =>
+                {
+                    b.HasOne("TicketResell_API.Controllers.UserController.Model.MainUser", "Seller")
+                        .WithMany()
+                        .HasForeignKey("sellerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("TicketResell_API.Controllers.TicketController.Model.Ticket", "Tickets")
+                        .WithMany()
+                        .HasForeignKey("ticketId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("TicketResell_API.Controllers.UserController.Model.MainUser", "User")
+                        .WithMany("Carts")
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Seller");
+
+                    b.Navigation("Tickets");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TicketResell_API.Controllers.ChatController.Model.Chat", b =>
+                {
+                    b.HasOne("TicketResell_API.Controllers.UserController.Model.MainUser", "User")
+                        .WithMany("Chats")
+                        .HasForeignKey("seUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("TicketResell_API.Controllers.ChatController.Model.ChatData", b =>
                 {
-                    b.HasOne("TicketResell_API.Controllers.ChatController.Model.Chat", null)
+                    b.HasOne("TicketResell_API.Controllers.ChatController.Model.Chat", "Chat")
                         .WithMany("ChatData")
-                        .HasForeignKey("ChatseUserId");
+                        .HasForeignKey("ChatSeUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TicketResell_API.Controllers.ChatController.Model.Message", "Message")
+                        .WithMany()
+                        .HasForeignKey("messageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Chat");
+
+                    b.Navigation("Message");
                 });
 
             modelBuilder.Entity("TicketResell_API.Controllers.ChatController.Model.MessageData", b =>
                 {
-                    b.HasOne("TicketResell_API.Controllers.ChatController.Model.Message", null)
+                    b.HasOne("TicketResell_API.Controllers.ChatController.Model.Message", "Message")
                         .WithMany("Messages")
-                        .HasForeignKey("messageId");
+                        .HasForeignKey("messageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Message");
+                });
+
+            modelBuilder.Entity("TicketResell_API.Controllers.CommentController.Model.Comment", b =>
+                {
+                    b.HasOne("TicketResell_API.Controllers.User.Model.Order", "Order")
+                        .WithMany("Comments")
+                        .HasForeignKey("orderId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("TicketResell_API.Controllers.UserController.Model.MainUser", "ToUser")
+                        .WithMany()
+                        .HasForeignKey("toUserId");
+
+                    b.HasOne("TicketResell_API.Controllers.UserController.Model.MainUser", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Order");
+
+                    b.Navigation("ToUser");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TicketResell_API.Controllers.OrderController.Model.OrderDetail", b =>
+                {
+                    b.HasOne("TicketResell_API.Controllers.User.Model.Order", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("orderId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("TicketResell_API.Controllers.TicketController.Model.Ticket", "Tickets")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("ticketId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Tickets");
+                });
+
+            modelBuilder.Entity("TicketResell_API.Controllers.TicketController.Model.Ticket", b =>
+                {
+                    b.HasOne("TicketResell_API.Controllers.EventController.Model.Event", "Event")
+                        .WithMany("Tickets")
+                        .HasForeignKey("eventId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("TicketResell_API.Controllers.UserController.Model.MainUser", "User")
+                        .WithMany("Tickets")
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Event");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.Order", b =>
+                {
+                    b.HasOne("TicketResell_API.Controllers.UserController.Model.MainUser", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TicketResell_API.Controllers.ChatController.Model.Chat", b =>
@@ -652,6 +813,36 @@ namespace TicketResell_API.Migrations
             modelBuilder.Entity("TicketResell_API.Controllers.ChatController.Model.Message", b =>
                 {
                     b.Navigation("Messages");
+                });
+
+            modelBuilder.Entity("TicketResell_API.Controllers.EventController.Model.Event", b =>
+                {
+                    b.Navigation("Tickets");
+                });
+
+            modelBuilder.Entity("TicketResell_API.Controllers.TicketController.Model.Ticket", b =>
+                {
+                    b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("TicketResell_API.Controllers.User.Model.Order", b =>
+                {
+                    b.Navigation("Comments");
+
+                    b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("TicketResell_API.Controllers.UserController.Model.MainUser", b =>
+                {
+                    b.Navigation("Carts");
+
+                    b.Navigation("Chats");
+
+                    b.Navigation("Comments");
+
+                    b.Navigation("Orders");
+
+                    b.Navigation("Tickets");
                 });
 #pragma warning restore 612, 618
         }
