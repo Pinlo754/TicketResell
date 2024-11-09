@@ -63,11 +63,11 @@ const StaffNavBar = () => {
               src={logo}
               alt="Festix"
               className="w-8 h-12 mr-3 cursor-pointer"
-              onClick={() => navigate("/main")}
+              onClick={() => navigate("/staff/main")}
             />
             <h1
               className="text-white text-3xl font-bold hover:text-gray-300 cursor-pointer"
-              onClick={() => navigate("/main")}
+              onClick={() => navigate("/staff/main")}
             >
               Festix
             </h1>

@@ -98,7 +98,7 @@ import "react-toastify/dist/ReactToastify.css";
                     {/* Dropdown menu */}
                     {isOpen["sortDropdown"] && (
                         <ul className="absolute z-10 mt-12 w-[23%] bg-white rounded-md shadow-lg">
-                        <li className="py-2 px-4 text-sm font-bold text-gray-700">Sort by</li>
+                        <li className="py-2 px-4 text-sm font-bold text-gray-700">Sắp xếp theo</li>
                         {sortOptions.map((option) => (
                             <li
                             key={option.value}
