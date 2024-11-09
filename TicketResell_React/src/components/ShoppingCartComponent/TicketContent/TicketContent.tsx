@@ -205,6 +205,17 @@ const TicketContent: React.FC<TicketContentProps> = ({ onTotalChange }) => {
     }
   };
 
+  // hiển thị định dạng tiền tệ VN
+  const formatVND = (amount: number) => {
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(amount);
+  };
+
+
   useEffect(() => {
     const getCart = async () => {
       try {
@@ -264,7 +275,7 @@ const TicketContent: React.FC<TicketContentProps> = ({ onTotalChange }) => {
             </div>
             <div className="ticket-type">{"Sự kiện: " + item.eventName}</div>
 
-            <div className="ticket-unit-price">${item.price}</div>
+            <div className="ticket-unit-price">{formatVND(item.price)}</div>
 
             <div className="ticket-quantity">
               <TbMinus
@@ -291,7 +302,7 @@ const TicketContent: React.FC<TicketContentProps> = ({ onTotalChange }) => {
             </div>
 
             <div className="ticket-total-price">
-              ${(item.price * item.quantity).toFixed(2)}
+              {formatVND(item.price * item.quantity)}
             </div>
 
             <div

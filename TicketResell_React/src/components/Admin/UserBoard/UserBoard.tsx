@@ -137,8 +137,8 @@ const UserBoard = () => {
                 <td>{item.email}</td>
                 <td>
                   <select className="role" value={roles[item.userId] || item.roles[0]}  onChange={(e) => handleRoleChange(item.userId, e.target.value)}>
-                    <option className="user-status" value="User"> User </option>
-                    <option className="staff-status" value="Staff"> Staff </option>
+                    <option className="user-status" value="User"> Người dùng </option>
+                    <option className="staff-status" value="Staff"> Nhân viên </option>
                   </select>
                 </td>
                 <td>{item.address}</td>

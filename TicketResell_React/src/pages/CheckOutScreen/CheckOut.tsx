@@ -168,6 +168,16 @@ const CheckOut = () => {
     });
   };
 
+    // hiển thị định dạng tiền tệ VN
+    const formatVND = (amount: number) => {
+      return new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format(amount);
+    };
+
   // lấy data từ shopping cart
   useEffect(() => {
     const fetchOrderData = async () => {
@@ -275,7 +285,7 @@ const CheckOut = () => {
                     <span>Sự kiện: {ticket.eventName}</span>
                   </div>
 
-                  <div className="ticket-price">{ticket.price} VND</div>
+                  <div className="ticket-price">{formatVND(ticket.price)}</div>
                 </div>
 
                 <div className="ticket-details">
@@ -374,11 +384,11 @@ const CheckOut = () => {
         <h2 className="summary-title">Tổng thanh toán</h2>
         <div className="summary-row">
           <span>Giá vé ({totalQuantity}x)</span>
-          <span>{subtotal} VND</span>
+          <span>{formatVND(subtotal)}</span>
         </div>
         <div className="summary-row">
           <span>Tổng</span>
-          <span>{subtotal} VND</span>
+          <span>{formatVND(subtotal)}</span>
         </div>
         <button className="checkout-btn" onClick={() => submit()}>
           Xác nhận đơn hàng

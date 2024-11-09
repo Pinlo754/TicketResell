@@ -98,7 +98,6 @@ const TicketBoard = () => {
               <th>Giá</th>
               <th>Người bán</th>
               <th>Sự kiện</th>
-              <th>Quản lí</th>
             </tr>
           </thead>
           <tbody>
@@ -120,13 +119,13 @@ const TicketBoard = () => {
                     {(() => {
                       switch (item.status) {
                         case "Available":
-                          return "Khả dụng";
-                        case "Unavailable":
-                          return "Không khả dụng";
+                          return "Đang bán";
+                        case "Sold":
+                          return "Đã bán";
                         case "Pending":
-                          return "Đang xử lý";
-                        case "Hidden":
-                          return "Đang ẩn";
+                          return "Chờ duyệt";
+                        case "Cancelled":
+                          return "Bị từ chối";
                         default:
                           return item.status;
                       }
@@ -137,14 +136,6 @@ const TicketBoard = () => {
                 <td>{item.price} VND</td>
                 <td>{item.sellerName}</td>
                 <td>{item.event}</td>
-                <td>
-                  {item.status !== "Unavailable" &&
-                    item.status !== "Pending" && (
-                      <button className={item.status === "Available" ? "status Hidden-button" : "status Available-button"}>
-                        {item.status === "Available" ? "Ẩn vé" : "Hiện vé"}
-                      </button>
-                    )}
-                </td>
               </tr>
             ))}
           </tbody>

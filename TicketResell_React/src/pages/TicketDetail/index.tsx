@@ -20,7 +20,7 @@ const TicketDetail = () => {
   } = useTicketDetail();
 
   const subtotal = ticket.price * quantity;
-      const selectedItems = [{ ticketId: ticket.ticketId, sellerName: user.firstName + user.lastName, quantity, sellerImg: user.userImage + "" }];
+      const selectedItems = [{ ticketId: ticket.ticketId, sellerName: user.firstName +" "+ user.lastName, quantity, sellerImg: user.userImage + "" }];
       const handleCheckout = () => {navigate("/checkout", { state: { subtotal, quantity, selectedItems } });};
 
   return (

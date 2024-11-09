@@ -23,17 +23,27 @@ const SummaryCost: React.FC<SummaryCostProps> = ({subtotal, totalQuantity, selec
     }
   };
 
+    // hiển thị định dạng tiền tệ VN
+    const formatVND = (amount: number) => {
+      return new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format(amount);
+    };
+
   return (
     <div className='cart-summary'>
       <h3 className='summary-title'>Tổng tiền</h3>
       <div className="summary-total">
-        <span>tổng cộng*</span> ${subtotal.toFixed(2)}
+        <span>tổng cộng*</span> {formatVND(subtotal)}
       </div>
       <div className="summary-total-quantity">
         <span>Tổng số vé*</span> {totalQuantity}
       </div>
       <div className="summary-total-amount">
-        <span>Tống giá</span> ${totalPrice.toFixed(2)}
+        <span>Tống giá</span>  {formatVND(totalPrice)}
       </div>
       <button 
         className="check-out-btn" 
