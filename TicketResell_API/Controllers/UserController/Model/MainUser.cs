@@ -5,6 +5,7 @@ using TicketResell_API.Controllers.ChatController.Model;
 using TicketResell_API.Controllers.CommentController.Model;
 using TicketResell_API.Controllers.TicketController.Model;
 using TicketResell_API.Controllers.User.Model;
+using TicketResell_API.Controllers.WalletController.Model;
 
 namespace TicketResell_API.Controllers.UserController.Model
 {
@@ -26,5 +27,6 @@ namespace TicketResell_API.Controllers.UserController.Model
         public ICollection<Cart>? Carts { get; set; }
         public ICollection<Chat>? Chats { get; set; }
         public ICollection<Ticket>? Tickets { get; set; }
+        public ICollection<Wallet>? Wallets { get; set; }
     }
 }

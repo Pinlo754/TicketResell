@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TicketResell_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241109130359_phongnt")]
-    partial class phongnt
+    [Migration("20241109140709_initmigration")]
+    partial class initmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -625,6 +625,7 @@ namespace TicketResell_API.Migrations
             modelBuilder.Entity("TicketResell_API.Controllers.WalletController.Model.Transaction", b =>
                 {
                     b.Property<string>("transactionId")
+                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("amount")
@@ -652,9 +653,12 @@ namespace TicketResell_API.Migrations
 
                     b.Property<string>("walletId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("transactionId");
+
+                    b.HasIndex("walletId");
 
                     b.ToTable("Transactions");
                 });
@@ -662,6 +666,7 @@ namespace TicketResell_API.Migrations
             modelBuilder.Entity("TicketResell_API.Controllers.WalletController.Model.Wallet", b =>
                 {
                     b.Property<string>("walletId")
+                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("balance")
@@ -673,9 +678,12 @@ namespace TicketResell_API.Migrations
 
                     b.Property<string>("userId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("walletId");
+
+                    b.HasIndex("userId");
 
                     b.ToTable("Wallets");
                 });
@@ -863,6 +871,28 @@ namespace TicketResell_API.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("TicketResell_API.Controllers.WalletController.Model.Transaction", b =>
+                {
+                    b.HasOne("TicketResell_API.Controllers.WalletController.Model.Wallet", "Wallets")
+                        .WithMany("Transactions")
+                        .HasForeignKey("walletId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Wallets");
+                });
+
+            modelBuilder.Entity("TicketResell_API.Controllers.WalletController.Model.Wallet", b =>
+                {
+                    b.HasOne("TicketResell_API.Controllers.UserController.Model.MainUser", "User")
+                        .WithMany("Wallets")
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("TicketResell_API.Controllers.ChatController.Model.Chat", b =>
                 {
                     b.Navigation("ChatData");
@@ -901,6 +931,13 @@ namespace TicketResell_API.Migrations
                     b.Navigation("Orders");
 
                     b.Navigation("Tickets");
+
+                    b.Navigation("Wallets");
+                });
+
+            modelBuilder.Entity("TicketResell_API.Controllers.WalletController.Model.Wallet", b =>
+                {
+                    b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618
         }
