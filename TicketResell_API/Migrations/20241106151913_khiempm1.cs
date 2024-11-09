@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TicketResell_API.Migrations
 {
     /// <inheritdoc />
-    public partial class phongnt : Migration
+    public partial class khiempm1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
