@@ -277,6 +277,7 @@ const SellScreen: React.FC = () => {
               required
             />
 
+            <label className="block mb-1">Hình vé:</label>
             <input
               type="file"
               multiple

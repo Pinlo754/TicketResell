@@ -81,6 +81,19 @@ const useManageEventScreen = () => {
   };
 
   const handleSave = () => {
+
+    // Kiểm tra nếu các trường bắt buộc còn trống
+  if (!selectedEvent.eventName || !selectedEvent.eventImage || !selectedEvent.location || !selectedEvent.city || !selectedEvent.eventStatus) {
+    alert("Vui lòng nhập đầy đủ thông tin sự kiện!");
+    return;
+  }
+  
+  // Kiểm tra nếu `eventTime` trống và để server tự lấy giá trị hiện tại
+  const eventToSave = { ...selectedEvent };
+  if (!eventToSave.eventTime) {
+    delete eventToSave.eventTime;
+  }
+
     handleSaveEvent(selectedEvent); // Gọi hàm để lưu sự kiện
     closeModal();
   };

@@ -1,8 +1,9 @@
-/*  */
 .sidebar {
     width: 250px;
     background: #f8f9fa;
     border-right: 1px solid #e0e0e0;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
     height: 100%;
     padding: 20px 0;
 }
@@ -17,7 +18,7 @@
     margin-bottom: 5px;
 }
 
-.sidebar-menu a {
+.sidebar-link {
     display: flex;
     padding: 12px 25px;
     color: #333;
@@ -27,21 +28,21 @@
     position: relative;
 }
 
-.sidebar-menu a:hover {
+.sidebar-link:hover {
     background: rgba(7, 126, 255, 0.1);
     color: #077eff;
 }
 
-.sidebar-menu a.active-menu {
+.sidebar-link.active {
     color: #077eff;
     background: rgba(7, 126, 255, 0.1);
     font-weight: 500;
 }
 
-.sidebar-menu a.active-menu::before {
+.sidebar-link.active::before {
     content: '';
     position: absolute;
-    left: 0;
+    right: 0;
     top: 0;
     height: 100%;
     width: 4px;
@@ -90,12 +91,12 @@
         margin: 0;
     }
 
-    .sidebar-menu a {
+    .sidebar-link {
         padding: 10px 15px;
         white-space: nowrap;
     }
 
-    .sidebar-menu a.active-menu::before {
+    .sidebar-link.active::before {
         width: 100%;
         height: 3px;
         bottom: 0;

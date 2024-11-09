@@ -124,7 +124,7 @@ const TicketDetail = () => {
               className="bg-transparent text-white font-semibold ml-10 group flex items-center"
               onClick={() => navigate("/sell")}
             >
-              Sell your tickets on Festix
+              Bán vé của bạn trên Festix
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-2"
@@ -166,7 +166,7 @@ const TicketDetail = () => {
                 d="M15.75 19.5 8.25 12l7.5-7.5"
               />
             </svg>
-            <p className="text-[#87CBB9] text-xl font-semibold">All tickets</p>
+            <p className="text-[#87CBB9] text-xl font-semibold">Danh sách vé</p>
           </div>
 
           <div className="w-full flex mx-auto gap-8">
@@ -246,7 +246,7 @@ const TicketDetail = () => {
                       d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
                     />
                   </svg>
-                  Chat
+                  Nhắn tin
                 </button>
               </div>
             </div>
@@ -255,41 +255,43 @@ const TicketDetail = () => {
             <div className="flex flex-col w-2/3">
               {/* Type */}
               <div className="w-full bg-[#F4F4F4] rounded-lg drop-shadow-xl mt-10 py-8 px-4">
+              <p className="text-center text-3xl font-bold mb-2">{ticket.ticketName}</p>
                 <div className="flex justify-between px-6">
                   <div className="flex flex-col">
                     <div className="flex gap-1.5">
-                      <p className="font-bold text-3xl">
-                        Section {ticket.section}
+                      <p className="font-semibold text-2xl">
+                        Khu vực {ticket.section}
                       </p>
                       {ticket.type === "Seat" && (
-                        <p className="font-bold text-gray-500 text-3xl mr-10">
-                          • Row {ticket.row}
+                        <p className="font-semibold text-gray-500 text-2xl mr-10">
+                          • Hàng {ticket.row}
                         </p>
                       )}
                     </div>
-                    <p className="text-sm text-gray-500">{ticket.type}</p>
+                    <p className="text-sm text-gray-500">{ticket.type === "Seat" ? "Ngồi" : "Đứng"}</p>
                   </div>
                   <div className="flex flex-col">
-                    <p className="font-bold text-3xl text-center">
+                    <p className="font-semibold text-2xl text-center">
                       {ticket.quantity}
                     </p>
+                    <p className="text-sm text-gray-500">Vé</p>
                   </div>
                 </div>
               </div>
 
               {/* Price */}
               <div className="bg-[#F4F4F4] rounded-t-lg drop-shadow-xl mt-6 py-8 px-10">
-                <p className="text-3xl font-bold">Pricing</p>
+                <p className="text-3xl font-bold">Giá</p>
                 <p className="text-sm text-gray-400 mt-2">
-                  Original Price:{" "}
+                  Giá gốc:{" "}
                   <span className="text-gray-400 font-bold">
-                    {formatCurrency(ticket.originPrice)}/Ticket
+                    {formatCurrency(ticket.originPrice)} VND/ Vé
                   </span>
                 </p>
                 <div className="flex items-center justify-between px-3 pt-6 mt-6 border-t-2">
                   <p className="text-xl">
                     {formatCurrency(ticket.price)} VND{" "}
-                    <span className="text-gray-500 text-lg">per ticket</span>
+                    <span className="text-gray-500 text-lg">mỗi vé</span>
                   </p>
                   <div className="flex justify-center items-center">
                     {/* Nút giảm số lượng */}
@@ -327,7 +329,7 @@ const TicketDetail = () => {
 
                 {/* Subtotal */}
                 <div className="flex items-center justify-between mt-6 pt-6 border-t-2">
-                  <p className="text-gray-400 text-lg">Subtotal</p>
+                  <p className="text-gray-400 text-lg">Tạm tính</p>
                   <p className="text-2xl text-[#87CBB9] font-bold">
                     {formatCurrency(ticket.price * quantity)} VND
                   </p>
@@ -339,7 +341,7 @@ const TicketDetail = () => {
                 <button className="py-2 px-2 my-4 bg-[#87CBB9] text-white text-lg rounded-xl hover:bg-[#B9EDDD] hover:text-black"
                 onClick={AddToCart}
                 >
-                  Add to cart
+                  Thêm vào giỏ
                 </button>
                 <button className="py-2 px-10 my-4 bg-[#87CBB9] text-white text-lg rounded-xl hover:bg-[#B9EDDD] hover:text-black"
                 onClick={handleCheckout}>                 

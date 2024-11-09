@@ -28,6 +28,16 @@ namespace TicketResell_API.Controllers.CommentController.Controller
             return Ok(comment);
         }
 
+        [HttpGet("list-comment/{userId}")]
+        public async Task<ActionResult<List<Comment>>> GetAllCommentByUser(string userId)
+        {
+            var comments = await _appDbContext.Comment
+                .Where(c => c.userId == userId)
+                .ToListAsync();
+
+            return Ok(comments);
+        }
+
         [HttpGet("list-comment")]
         public async Task<ActionResult<List<Comment>>> GetAllComment()
         {

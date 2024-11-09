@@ -189,11 +189,11 @@ const EventDetail = () => {
               <div className="w-3/5 my-auto">
                 <div className="flex gap-1.5">
                   <p className="font-bold text-lg">
-                    Section {ticket.section} • {ticket.type}
+                    Khu vực {ticket.section} • {ticket.type === "Seat" ? "Ngồi" : "Đứng"}
                   </p>
-                  {ticket.type === "Ngồi" && (
+                  {ticket.type === "Seat" && (
                     <p className="font-bold text-gray-400 text-lg mr-10">
-                      • Row {ticket.row}
+                      • Hàng {ticket.row}
                     </p>
                   )}
                 </div>
@@ -204,7 +204,12 @@ const EventDetail = () => {
                 <p className="text-end mr-4 text-red-500 font-semibold">
                   {formatCurrency(ticket.price)} VND/ Vé
                 </p>
-                <p className="text-sm text-gray-500">"{ticket.description}"</p>
+                {ticket.description ? (
+                  <p className="text-sm text-gray-500">"{ticket.description}"</p>
+                ) : (
+                  ""
+                )}
+                
               </div>
               
               {/* <div className="w-1/5 flex flex-col border-l-2">
