@@ -20,10 +20,10 @@ namespace TicketResell_API.Controllers.CommentController.Controller
         [HttpGet("{userId}")]
         public async Task<ActionResult<Comment>> GetCommentById(string userId)
         {
-            var comment = await _appDbContext.Comment.FindAsync(userId);
+            var comment = await _appDbContext.Comment.FirstOrDefaultAsync(c => c.userId == userId);
             if (comment == null)
             {
-                return NotFound();
+                return NotFound("User not found");
             }
             return Ok(comment);
         }
@@ -34,15 +34,29 @@ namespace TicketResell_API.Controllers.CommentController.Controller
             var comments = await _appDbContext.Comment
                 .Where(c => c.userId == userId)
                 .ToListAsync();
+            if (comments == null || !comments.Any())
+            {
+                return NotFound();
+            }
 
             return Ok(comments);
         }
 
-        [HttpGet("list-comment")]
-        public async Task<ActionResult<List<Comment>>> GetAllComment()
+        [HttpGet("list/{toUserId}")]
+        public async Task<ActionResult<List<Comment>>> GetAllCommentByToUser(string toUserId)
         {
-            return Ok(await _appDbContext.Comment.ToListAsync());
+            var comments = await _appDbContext.Comment
+                .Where(c => c.toUserId == toUserId)
+                .ToListAsync();
+            if (comments == null || !comments.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(comments);
         }
+
+        
 
         [HttpPost("create-comment")]
         public async Task<ActionResult<Comment>> CreateComment(Comment model)
