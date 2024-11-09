@@ -60,3 +60,35 @@
     justify-content: space-between;
     width: 100%;
   }
+  .inventory-table .status{
+    padding: 5px 5px;
+    border-radius: 5px; 
+  }
+  .inventory-table .Available{
+    background-color: #0080000d;
+    color: green;
+    
+  }
+  .inventory-table .Unavailable{
+    background-color: #ff00000d;
+    color: crimson;
+  }
+  .inventory-table .Pending{
+    background-color: #ffd90020;
+    color: goldenrod;
+  }
+  .inventory-table .Hidden{
+    background-color:  #00008b1c;
+    color: darkblue;
+  }
+  .inventory-table button{
+    cursor: pointer;
+  }
+  .inventory-table .Hidden-button{
+    color: darkblue;
+    border: 1px dotted darkblue;
+  }
+  .inventory-table .Available-button{
+    color: green;
+    border: 1px dotted green;
+  }

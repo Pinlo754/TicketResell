@@ -19,7 +19,7 @@ interface ticketDetail {
 }
 
 const TicketBoard = () => {
-  const [ticket, setTicket] = useState<(ticketDetail)[]>();
+  const [ticket, setTicket] = useState<ticketDetail[]>();
   const [status, setStatus] = useState();
   useEffect(() => {
     const getTicket = async () => {
@@ -80,7 +80,8 @@ const TicketBoard = () => {
       }
     };
     getTicket();
-  }, []);
+  }, []);console.log();
+  
   return (
     <div className="Admin">
       <SideBar />
@@ -90,14 +91,14 @@ const TicketBoard = () => {
         <table className="inventory-table">
           <thead>
             <tr>
-              <th style={{textAlign:"left"}}>Tên vé</th>
+              <th style={{ textAlign: "left" }}>Tên vé</th>
               <th>Loại vé</th>
-              <th className="nho">Trạng thái</th>
-              <th className="nho">Số lượng</th>
-              <th className="nho">Giá</th>
+              <th>Trạng thái</th>
+              <th>Số lượng</th>
+              <th>Giá</th>
               <th>Người bán</th>
               <th>Sự kiện</th>
-              <th className="nho">Quản lí</th>
+              <th>Quản lí</th>
             </tr>
           </thead>
           <tbody>
@@ -114,13 +115,35 @@ const TicketBoard = () => {
                   </span>
                 </td>
                 <td>{item.type}</td>
-                <td className="nho">{item.status}</td>
-                <td className="nho">{item.quantity}</td>
-                <td className="nho">{item.price} VND</td>
+                <td>
+                  <span className={`status ${item.status}`}>
+                    {(() => {
+                      switch (item.status) {
+                        case "Available":
+                          return "Khả dụng";
+                        case "Unavailable":
+                          return "Không khả dụng";
+                        case "Pending":
+                          return "Đang xử lý";
+                        case "Hidden":
+                          return "Đang ẩn";
+                        default:
+                          return item.status;
+                      }
+                    })()}
+                  </span>
+                </td>
+                <td>{item.quantity}</td>
+                <td>{item.price} VND</td>
                 <td>{item.sellerName}</td>
                 <td>{item.event}</td>
-                <td className="nho">
-                  <button className="update">Ẩn</button>
+                <td>
+                  {item.status !== "Unavailable" &&
+                    item.status !== "Pending" && (
+                      <button className={item.status === "Available" ? "status Hidden-button" : "status Available-button"}>
+                        {item.status === "Available" ? "Ẩn vé" : "Hiện vé"}
+                      </button>
+                    )}
                 </td>
               </tr>
             ))}
