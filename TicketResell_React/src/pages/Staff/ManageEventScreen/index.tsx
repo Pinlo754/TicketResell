@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import useManageEventScreen from "./useManageEventScreen";
-import NavBar from "../../../components/NavBar";
+import StaffNavBar from "../../../components/StaffNavBar";
 import Footer from "../../../components/Footer";
 import ScrollToTopButton from "../../../components/ScrollToTopButton";
 import ScrollToTop from "../../../components/ScrollToTop";
@@ -28,7 +28,7 @@ const ManageEventScreen = () => {
       <ScrollToTop />
 
       {/* NAVBAR */}
-      <NavBar />
+      <StaffNavBar />
 
       {/* SCROLL TO TOP BUTTON */}
       <ScrollToTopButton />

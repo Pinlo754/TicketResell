@@ -149,6 +149,22 @@ public class AppDbContext : IdentityDbContext<MainUser>
             .HasForeignKey(md => md.messageId)
             //Message delete message data delete too
             .OnDelete(DeleteBehavior.Cascade);
+
+        // Set up the relationship between `Wallet` and `MainUser`
+        modelBuilder.Entity<Wallet>()
+            .HasOne(c => c.User)
+            .WithMany(cd => cd.Wallets)
+            .HasForeignKey(c => c.userId)
+            //user is delete wallet delete
+            .OnDelete(DeleteBehavior.Cascade);
+
+        //Set up the relationship between `Transaction` and `Wallet`
+        modelBuilder.Entity<Transaction>()
+             .HasOne(t => t.Wallets)
+             .WithMany(w => w.Transactions)
+             .HasForeignKey(t => t.walletId)
+            //wallet delete but transaction not
+            .OnDelete(DeleteBehavior.Restrict);
     }
 
 

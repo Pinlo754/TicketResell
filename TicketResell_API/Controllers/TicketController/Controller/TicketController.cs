@@ -142,5 +142,25 @@ namespace TicketResell_API.Controllers.TicketController.Controller
 
             return Ok("Delete ticket successfully");
         }
+
+        [HttpPut("update-status")]
+        public async Task<IActionResult> UpdateStatusTicket(UpdateStatusTicket model)
+        {
+            var ticket = await _appDbContext.Tickets.FirstOrDefaultAsync(c => c.ticketId == model.ticketId);
+            if (ticket == null)
+            {
+                return BadRequest("Ticket not found");
+            }
+
+            ticket.status = model.status;
+
+            var result = await _appDbContext.SaveChangesAsync();
+            if (result <= 0)
+            {
+                return BadRequest("Failed to update ticket");
+            }
+
+            return Ok("Ticket updated successfully");
+        }
     }
 }
