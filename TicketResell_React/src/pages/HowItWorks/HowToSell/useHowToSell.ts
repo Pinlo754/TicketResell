@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 const useHowToSell = () => {
 
     type Step = {
@@ -34,8 +36,10 @@ const useHowToSell = () => {
         },
     ];
     
+    const navigate = useNavigate();
     return {
         steps,
+        navigate,
     };
 };
 

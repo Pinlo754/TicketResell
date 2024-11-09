@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import useManageTicketScreen from "./useManageTicketScreen";
-import NavBar from "../../../components/NavBar";
+import StaffNavBar from "../../../components/StaffNavBar";
 import Footer from "../../../components/Footer";
 import ScrollToTopButton from "../../../components/ScrollToTopButton";
 import ScrollToTop from "../../../components/ScrollToTop";
@@ -25,7 +25,7 @@ const ManageTicketScreen = () => {
       <ScrollToTop />
 
       {/* NAVBAR */}
-      <NavBar />
+      <StaffNavBar />
 
       {/* SCROLL TO TOP BUTTON */}
       <ScrollToTopButton />
@@ -183,7 +183,7 @@ const ManageTicketScreen = () => {
                           ? "Đang bán"
                           : ticket.status === "Sold"
                           ? "Đã bán"
-                          : "Đã hủy"}
+                          : "Bị từ chối"}
                       </td>
                     </tr>
                   ))
@@ -318,7 +318,7 @@ const ManageTicketScreen = () => {
                       <option value="Pending">Chờ duyệt</option>
                       <option value="Available">Đang bán</option>
                       <option value="Sold">Đã bán</option>
-                      <option value="Cancelled">Đã hủy</option>
+                      <option value="Cancelled">Bị từ chối</option>
                     </select>
                   </div>
 
