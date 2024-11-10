@@ -5,6 +5,7 @@
     background-color: white;
     border-right: 1px solid #f0f0f0;
     height: 100vh;
+    position: relative;
   }
 
 .top-bar{
@@ -19,11 +20,12 @@
 
 .page-name{
     flex: 1;
-    font-size: 22px;
+    font-size: 50px;
     font-family: "Montserrat";
     font-style: italic;
     color: #569DAA;
     font-weight: 500;
+    margin-left: 5px;
 }
 
   .nav-menu {
@@ -65,4 +67,19 @@
 
   .nav-label {
     font-size: 14px;
+  }
+
+  .side-menu .logout-button{
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #B9EDDD;
+    color: black;
+    border: none;
+    font-size: 15px;
+    font-weight: 300;
+    padding: 10px 50px;
+    border-radius: 20px;
+    cursor: pointer;
   }

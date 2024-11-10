@@ -1,21 +1,28 @@
 import React, { useState } from "react";
 import "./SideBar.css";
 import assets from "../../../assets/assetsChat";
-import { Link, useLocation } from "react-router-dom";
-
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const SideBar = () => {
   const location = useLocation();
-  
+  const navigate = useNavigate();
+  const logout = () =>{
+    localStorage.clear()
+    navigate("/main")
+  }
   return (
     <div className="side-menu">
       <div className="top-bar">
         <img className="head" src={assets.logo} alt="" />
-        <div className="page-name">Ticket Resell</div>
+        <div className="page-name">Festix</div>
       </div>
       <nav className="nav-menu">
-
-      <Link to="/Admin" className={`nav-item ${location.pathname.toLowerCase() === "/admin" ? "active" : ""}`}>
+        <Link
+          to="/Admin"
+          className={`nav-item ${
+            location.pathname.toLowerCase() === "/admin" ? "active" : ""
+          }`}
+        >
           <span className="nav-icon icon-dashboard">
             <svg
               viewBox="64 64 896 896"
@@ -30,9 +37,14 @@ const SideBar = () => {
             </svg>
           </span>
           <span className="nav-label">Dashboard</span>
-       </Link>
-        
-       <Link to="/Admin/Ticket" className={`nav-item ${location.pathname.toLowerCase() === "/admin/ticket"  ? "active" : ""}`}>
+        </Link>
+
+        <Link
+          to="/Admin/Ticket"
+          className={`nav-item ${
+            location.pathname.toLowerCase() === "/admin/ticket" ? "active" : ""
+          }`}
+        >
           <span className="nav-icon icon-inventory">
             <svg
               viewBox="64 64 896 896"
@@ -49,7 +61,12 @@ const SideBar = () => {
           <span className="nav-label">Tất cả vé</span>
         </Link>
 
-        <Link to="/Admin/Orders" className={`nav-item ${location.pathname.toLowerCase() === "/admin/orders"  ? "active" : ""}`}>
+        <Link
+          to="/Admin/Orders"
+          className={`nav-item ${
+            location.pathname.toLowerCase() === "/admin/orders" ? "active" : ""
+          }`}
+        >
           <span className="nav-icon icon-orders">
             <svg
               viewBox="0 0 1024 1024"
@@ -66,7 +83,14 @@ const SideBar = () => {
           <span className="nav-label">Đơn hàng</span>
         </Link>
 
-        <Link to="/Admin/Customers" className={`nav-item ${location.pathname.toLowerCase() === "/admin/customers"  ? "active" : ""}`}>
+        <Link
+          to="/Admin/Customers"
+          className={`nav-item ${
+            location.pathname.toLowerCase() === "/admin/customers"
+              ? "active"
+              : ""
+          }`}
+        >
           <span className="nav-icon icon-customers">
             <svg
               viewBox="64 64 896 896"
@@ -82,8 +106,11 @@ const SideBar = () => {
           </span>
           <span className="nav-label">Tài khoản</span>
         </Link>
-
       </nav>
+
+      <div className="logout-button">
+        <button onClick={logout}>Return</button>
+      </div>
     </div>
   );
 };
