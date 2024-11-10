@@ -6,11 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TicketResell_API.Migrations
 {
     /// <inheritdoc />
-<<<<<<<< HEAD:TicketResell_API/Migrations/20241106151913_khiempm1.cs
-    public partial class khiempm1 : Migration
-========
     public partial class initmigration : Migration
->>>>>>>> a67e05d9da5a4952715fd91e0ed8467f7dea0cd0:TicketResell_API/Migrations/20241109140709_initmigration.cs
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

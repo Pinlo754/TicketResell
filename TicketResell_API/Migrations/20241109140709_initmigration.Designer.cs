@@ -11,13 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TicketResell_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-<<<<<<<< HEAD:TicketResell_API/Migrations/20241106151913_khiempm1.Designer.cs
-    [Migration("20241106151913_khiempm1")]
-    partial class khiempm1
-========
     [Migration("20241109140709_initmigration")]
     partial class initmigration
->>>>>>>> a67e05d9da5a4952715fd91e0ed8467f7dea0cd0:TicketResell_API/Migrations/20241109140709_initmigration.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
