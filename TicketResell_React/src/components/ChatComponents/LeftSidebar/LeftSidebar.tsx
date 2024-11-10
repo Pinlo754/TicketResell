@@ -47,8 +47,7 @@ const LeftSidebar: React.FC = () => {
   const [searchResult, setSearchResult] = useState<Chat[]>([])
 
   useEffect(() => {
-    console.log(allChat);
-    
+
       const updateChatUserData = () => {
         if (!chatUser || !socket) {
           return;

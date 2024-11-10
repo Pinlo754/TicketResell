@@ -131,36 +131,19 @@ const UserBoard = () => {
           <tbody>
             {currentData.map((item) => (
               <tr key={item.userId}>
-                <td>
-                  <img
-                    src={item.userImage}
-                    alt="Customer Photo"
-                    className="avatar"
-                  />
-                </td>
+                <td> <img src={item.userImage}  alt="Customer Photo"  className="avatar"/> </td>
                 <td>{item.firstName}</td>
                 <td>{item.lastName}</td>
                 <td>{item.email}</td>
                 <td>
-                  <select
-                    className="role"
-                    value={roles[item.userId] || item.roles[0]}
-                    onChange={(e) => handleRoleChange(item.userId, e.target.value)}
-                  >
-                    <option className="user-status" value="User">
-                      User
-                    </option>
-                    <option className="staff-status" value="Staff">
-                      Staff
-                    </option>
+                  <select className="role" value={roles[item.userId] || item.roles[0]}  onChange={(e) => handleRoleChange(item.userId, e.target.value)}>
+                    <option className="user-status" value="User"> Người dùng </option>
+                    <option className="staff-status" value="Staff"> Nhân viên </option>
                   </select>
                 </td>
                 <td>{item.address}</td>
                 <td className="button">
-                  <button
-                    className="update"
-                    onClick={() => handleUpdateRole(item.userId)}
-                  >
+                  <button className="update" onClick={() => handleUpdateRole(item.userId)}>
                     Cập nhật
                   </button>
                   <button className="delete"   onClick={() => handleDelete(item.userId)} >Xóa tài khoản</button>

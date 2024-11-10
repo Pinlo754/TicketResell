@@ -14,7 +14,7 @@ import UserProfile from "../pages/UserProfile";
 import AppChatContextProvider from "../context/AppChatContext";
 import AccountProfile from "../pages/User/Account/Account";
 import AdminBoard from "../pages/Admin/AdminBoard";
-import TicketBoard from "../components/Admin/Ticket/TicketBoard";
+import TicketBoard from "../components/Admin/TicketBoard/TicketBoard";
 import OrderBoard from "../components/Admin/OrderBoard/OrderBoard";
 import UserBoard from "../components/Admin/UserBoard/UserBoard";
 import SellScreen from "../pages/SellScreen";
