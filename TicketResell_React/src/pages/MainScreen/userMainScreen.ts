@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 
 
@@ -30,7 +31,8 @@ const useMainScreen = () => {
             setEvents(activeEvents);
           })
           .catch(error => {
-            console.error('Error fetching data:', error);
+            console.error('Error fetching list event data:', error); //lỗi do không kết nối được server api
+            toast.error('Error fetching list event data:', error);
           });
       };
 
@@ -65,7 +67,8 @@ const useMainScreen = () => {
             setTickets(tickets);
           })
           .catch(error => {
-            console.error('Error fetching data:', error);
+            console.error('Error fetching list ticket data:', error);
+            toast.error('Error fetching list ticket data:', error);
           });
       };
       const totalTickets = (eventId : string) => {
@@ -79,7 +82,8 @@ const useMainScreen = () => {
         navigate,
         events, 
         setEvents,
-        totalTickets
+        totalTickets,
+        toast
     };
 }
 

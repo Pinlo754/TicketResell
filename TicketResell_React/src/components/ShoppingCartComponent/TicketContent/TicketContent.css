@@ -48,7 +48,7 @@
   }
   
   .ticket-owner {
-    min-width: 15vw;
+    min-width: 14vw;
   }
   
   .owner-info {
@@ -70,13 +70,13 @@
   }
   
   .ticket-type {
-    min-width: 13vw;
+    min-width: 7vw;
     font-size: 14px;
     color: #666;
   }
   
   .ticket-unit-price {
-    min-width: 80px;
+    min-width: 8vw;
     font-size: 14px;
     font-weight: 500;
     color: #333;
@@ -96,7 +96,7 @@
   }
   
   .ticket-total-price {
-    min-width: 80px;
+    min-width: 8vw;
     font-size: 14px;
     font-weight: 500;
     color: #333;

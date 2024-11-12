@@ -6,15 +6,13 @@ import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
 import ScrollToTopButton from "../../components/ScrollToTopButton";
 import ScrollToTop from "../../components/ScrollToTop";
+import {ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SellScreen: React.FC = () => {
   const {
     events,
-    setEvents,
-    eventId,
-    navigate,
     step,
-    setStep,
     selectedEvent,
     setSelectedEvent,
     handleEventSelect,
@@ -132,6 +130,8 @@ const SellScreen: React.FC = () => {
 
       {/* SCROLL TO TOP BUTTON */}
       <ScrollToTopButton />
+
+      <ToastContainer/>
 
       {/* MAIN CONTENT */}
       <div className="w-[50%] mx-auto p-4 ">

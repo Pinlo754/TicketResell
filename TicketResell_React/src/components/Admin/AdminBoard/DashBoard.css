@@ -126,7 +126,7 @@
   }
 
   .chart-container {
-    flex: 2;
+    flex: 1.7;
     background: white;
     border-radius: 8px;
     padding: 20px;

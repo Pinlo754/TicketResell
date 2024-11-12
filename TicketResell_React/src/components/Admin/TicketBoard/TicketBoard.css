@@ -7,7 +7,7 @@
 
 }
 .table-container {
-    max-width: 1200px;
+    min-width: 900px;
     padding: 20px;
     font-family: Arial, sans-serif;
     flex: 1;
@@ -30,7 +30,6 @@
     background-color: #f5f5f5;
     font-weight: bold;
     padding: 12px;
-    text-align: left;
     border-bottom: 2px solid #ddd;
     border-radius: 10px 10px
   }
@@ -48,7 +47,37 @@
     object-fit: cover;
   }
   
-  .inventory-table .nho{
+  .inventory-table td,
+  .inventory-table th{
     text-align: center;
   }
-  
+  .inventory-table .avatar {
+    width: 120px;
+  }
+  .inventory-table .ticket-info{
+    display: flex ;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .inventory-table .status{
+    padding: 5px 5px;
+    border-radius: 5px; 
+  }
+  .inventory-table .Available{
+    background-color: #0080000d;
+    color: green;
+    
+  }
+  .inventory-table .Sold{
+    background-color: #ff00000d;
+    color: crimson;
+  }
+  .inventory-table .Pending{
+    background-color: #ffd90020;
+    color: goldenrod;
+  }
+  .inventory-table .Cancelled{
+    background-color:  #00008b1c;
+    color: darkblue;
+  }

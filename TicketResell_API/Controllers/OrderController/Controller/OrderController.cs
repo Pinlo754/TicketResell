@@ -28,13 +28,14 @@ namespace TicketResell_API.Controllers.OrderController.Controller
         public async Task<ActionResult<Order>> GetOrderById(string orderId)
         {
             //find order by order id
-            var order = await _context.Orders.FirstOrDefaultAsync(o => o.orderId! == orderId);
+            var order = await _context.Orders.FindAsync(orderId);
             //check if order id is null
             if (order == null)
             {
+                //return not found
                 return NotFound($"Order with ID {orderId} not found.");
             }
-
+            // return 200
             return Ok(order);
         }
 
@@ -43,8 +44,8 @@ namespace TicketResell_API.Controllers.OrderController.Controller
         {
             // Get all user orders by userId
             var orders = await _context.Orders
+                                        .Include(o => o.OrderDetails)
                                         .Where(o => o.userId == userId)
-                                        .Select(o => o.orderId)
                                         .ToListAsync();
 
             // If no order is found, return NotFound
@@ -53,13 +54,8 @@ namespace TicketResell_API.Controllers.OrderController.Controller
                 return NotFound($"No orders found for user {userId}.");
             }
 
-            // Get all OrderDetails related to OrderId list
-            var orderDetails = await _context.OrderDetails
-                                             .Where(od => orders.Contains(od.orderId))
-                                             .ToListAsync();
-
-            //Returns a list of OrderDetails
-            return Ok(orderDetails);
+            // return all OrderDetails related to OrderId list
+            return Ok(orders.SelectMany(o => o.OrderDetails));
         }
 
         [HttpPut("update/{orderId}")]
@@ -70,7 +66,8 @@ namespace TicketResell_API.Controllers.OrderController.Controller
                 return BadRequest("Order data is null.");
             }
 
-            var existingOrder = await _context.Orders.FirstOrDefaultAsync(o => o.orderId == orderId);
+            var existingOrder = new Order { orderId = orderId };
+            _context.Attach(existingOrder);
             if (existingOrder == null)
             {
                 return NotFound($"Order with ID {orderId} not found.");
@@ -79,6 +76,7 @@ namespace TicketResell_API.Controllers.OrderController.Controller
             // Update order information
             existingOrder.Status = updatedOrder.Status;
             existingOrder.totalAmount = updatedOrder.totalAmount;
+            
 
             await _context.SaveChangesAsync();
 
@@ -94,90 +92,163 @@ namespace TicketResell_API.Controllers.OrderController.Controller
                 return BadRequest("Order data is null, User ID is missing, or no order details provided.");
             }
 
-            // Create ID for order
-            var order = new Order
-            {
-                orderId = Guid.NewGuid().ToString(),
-                userId = model.userId,
-                orderDate = DateTime.UtcNow,
-                totalAmount = model.totalAmount,
-                Status = "Pending"
-            };
+            //// Create ID for order
+            //var order = new Order
+            //{
+            //    orderId = Guid.NewGuid().ToString(),
+            //    userId = model.userId,
+            //    orderDate = DateTime.UtcNow,
+            //    totalAmount = model.totalAmount,
+            //    Status = "Pending"
+            //};
 
-            // Save orders to database
-            _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
+            //// Save orders to database
+            //_context.Orders.Add(order);
+            //await _context.SaveChangesAsync();
 
-            // Create order details (OrderDetail) and associate with OrderId
-            foreach (var detail in model.OrderDetails)
+            //// Create order details (OrderDetail) and associate with OrderId
+            //foreach (var detail in model.OrderDetails)
+            //{
+            //    var orderDetail = new OrderDetail
+            //    {
+            //        orderId = order.orderId,
+            //        ticketId = detail.ticketId,
+            //        ticketName = detail.ticketName,
+            //        ticketType = detail.ticketType,
+            //        eventImage = detail.eventImage,
+            //        eventName = detail.eventName,
+            //        userName = detail.userName,
+            //        receiverPhone = detail.receiverPhone,
+            //        receiverEmail = detail.receiverEmail,
+            //        address = detail.address,
+            //        price = detail.price,
+            //        quantity = detail.quantity,
+            //        paymentMethod = detail.paymentMethod,
+            //        status = "Pending",
+            //        createdAt = DateTime.UtcNow
+            //    };
+            //    _context.OrderDetails.Add(orderDetail);
+            //}
+
+            //// Save order details to database
+            //await _context.SaveChangesAsync();
+
+            //// Update the quantity of tickets after order details are saved
+            //foreach (var detail in model.OrderDetails)
+            //{
+            //    var ticket = await _context.Tickets.FirstOrDefaultAsync(t => t.ticketId == detail.ticketId);
+            //    if (ticket != null)
+            //    {
+            //        if (ticket.quantity >= detail.quantity)
+            //        {
+            //            //Subtract the number of tickets
+            //            ticket.quantity -= detail.quantity;
+
+            //            // If after subtraction the quantity becomes negative, report an error
+            //            if (ticket.quantity < 0)
+            //            {
+            //                return BadRequest($"Not enough tickets available for {detail.ticketName}");
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+            //        return NotFound($"Ticket with ID {detail.ticketId} not found.");
+            //    }
+            //}
+
+            //// Save updated ticket quantities to database
+            //await _context.SaveChangesAsync();
+
+            ////Get user's IP address to send to VNPay
+            //var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+
+            ////Call the CreatePaymentUrl method to create a payment URL
+            //var paymentUrl = _vpnPayService.CreatePaymentUrl(order, ipAddress);
+
+            ////Send order confirmation email
+            //string ticketDetails = string.Join(", ", model.OrderDetails.Select(d => $"{d.ticketName} - {d.quantity} tickets"));
+            //await _emailSender.SendOrderConfirmationEmailAsync(model.OrderDetails.First().receiverEmail, order.orderId, model.OrderDetails.First().eventName, ticketDetails);
+
+            //// Return order information and payment URL
+            //return CreatedAtAction(nameof(GetOrderById), new { orderId = order.orderId }, new
+            //{
+            //    Order = order,
+            //    PaymentUrl = paymentUrl
+            //});
+            try
             {
-                var orderDetail = new OrderDetail
+                // Check availability of tickets first
+                foreach (var detail in model.OrderDetails)
                 {
-                    orderId = order.orderId,
-                    ticketId = detail.ticketId,
-                    ticketName = detail.ticketName,
-                    ticketType = detail.ticketType,
-                    eventImage = detail.eventImage,
-                    eventName = detail.eventName,
-                    userName = detail.userName,
-                    receiverPhone = detail.receiverPhone,
-                    receiverEmail = detail.receiverEmail,
-                    address = detail.address,
-                    price = detail.price,
-                    quantity = detail.quantity,
-                    paymentMethod = detail.paymentMethod,
-                    status = "Pending",
-                    createdAt = DateTime.UtcNow
-                };
-                _context.OrderDetails.Add(orderDetail);
-            }
-
-            // Save order details to database
-            await _context.SaveChangesAsync();
-
-            // Update the quantity of tickets after order details are saved
-            foreach (var detail in model.OrderDetails)
-            {
-                var ticket = await _context.Tickets.FirstOrDefaultAsync(t => t.ticketId == detail.ticketId);
-                if (ticket != null)
-                {
-                    if (ticket.quantity >= detail.quantity)
+                    var ticket = await _context.Tickets.FirstOrDefaultAsync(t => t.ticketId == detail.ticketId);
+                    if (ticket == null || ticket.quantity < detail.quantity)
                     {
-                        //Subtract the number of tickets
-                        ticket.quantity -= detail.quantity;
-
-                        // If after subtraction the quantity becomes negative, report an error
-                        if (ticket.quantity < 0)
-                        {
-                            return BadRequest($"Not enough tickets available for {detail.ticketName}");
-                        }
+                        return BadRequest($"Not enough tickets available for {detail.ticketName}");
                     }
                 }
-                else
+
+                // Create the Order
+                var order = new Order { orderId = Guid.NewGuid().ToString(), userId = model.userId, orderDate = DateTime.UtcNow, totalAmount = model.totalAmount, Status = "Pending" };
+                _context.Orders.Attach(order);
+                _context.Orders.Add(order);
+                await _context.SaveChangesAsync();
+
+                // Create OrderDetails and associate them with the Order
+                foreach (var detail in model.OrderDetails)
                 {
-                    return NotFound($"Ticket with ID {detail.ticketId} not found.");
+                    var orderDetail = new OrderDetail
+                    {
+                        orderId = order.orderId,
+                        ticketId = detail.ticketId,
+                        ticketName = detail.ticketName,
+                        ticketType = detail.ticketType,
+                        eventImage = detail.eventImage,
+                        eventName = detail.eventName,
+                        userName = detail.userName,
+                        receiverPhone = detail.receiverPhone,
+                        receiverEmail = detail.receiverEmail,
+                        address = detail.address,
+                        price = detail.price,
+                        quantity = detail.quantity,
+                        paymentMethod = detail.paymentMethod,
+                        status = "Pending",
+                        createdAt = DateTime.UtcNow
+                    };
+                    _context.OrderDetails.Add(orderDetail);
                 }
+                await _context.SaveChangesAsync();
+
+                // Update the quantity of tickets
+                foreach (var detail in model.OrderDetails)
+                {
+                    var ticket = await _context.Tickets.FirstOrDefaultAsync(t => t.ticketId == detail.ticketId);
+                    if (ticket != null)
+                    {
+                        ticket.quantity -= detail.quantity;
+                    }
+                }
+                await _context.SaveChangesAsync();
+
+                // Call the CreatePaymentUrl method to create a payment URL
+                var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+                var paymentUrl = _vpnPayService.CreatePaymentUrl(order, ipAddress);
+
+                // Send order confirmation email directly without background job
+                string ticketDetails = string.Join(", ", model.OrderDetails.Select(d => $"{d.ticketName} - {d.quantity} tickets"));
+                await _emailSender.SendOrderConfirmationEmailAsync(model.OrderDetails.First().receiverEmail, order.orderId, model.OrderDetails.First().eventName, ticketDetails);
+
+                // Return order information and payment URL
+                return CreatedAtAction(nameof(GetOrderById), new { orderId = order.orderId }, new
+                {
+                    Order = order,
+                    PaymentUrl = paymentUrl
+                });
             }
-
-            // Save updated ticket quantities to database
-            await _context.SaveChangesAsync();
-
-            //Get user's IP address to send to VNPay
-            var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
-
-            //Call the CreatePaymentUrl method to create a payment URL
-            var paymentUrl = _vpnPayService.CreatePaymentUrl(order, ipAddress);
-
-            //Send order confirmation email
-            string ticketDetails = string.Join(", ", model.OrderDetails.Select(d => $"{d.ticketName} - {d.quantity} tickets"));
-            await _emailSender.SendOrderConfirmationEmailAsync(model.OrderDetails.First().receiverEmail, order.orderId, model.OrderDetails.First().eventName, ticketDetails);
-
-            // Return order information and payment URL
-            return CreatedAtAction(nameof(GetOrderById), new { orderId = order.orderId }, new
+            catch (Exception ex)
             {
-                Order = order,
-                PaymentUrl = paymentUrl
-            });
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
         }
     }
 }

@@ -10,8 +10,6 @@ import {
   XAxis,
 } from "recharts";
 
-
-
 const data = [
   { name: "Tháng 5", Total: 1_200_000 },
   { name: "Tháng 6", Total: 2200100 },
@@ -22,7 +20,6 @@ const data = [
   { name: "Tháng 11", Total: 1700000 },
   { name: "Tháng 12", Total: 100170 },
 ];
-
 
 const DashBoard = () => {
   return (
@@ -120,13 +117,13 @@ const DashBoard = () => {
       </div>
 
       <div className="bottom-section">
-        <div className="recent-orders">
+        <div style={{width:"40%"}} className="recent-orders">
           <h5>Đơn gần đây</h5>
           <table className="orders-table">
             <thead>
               <tr>
                 <th>Tên vé</th>
-                <th>Số lượng</th>
+                <th style={{width:"30%"}}>Số lượng</th>
                 <th>Giá</th>
               </tr>
             </thead>
@@ -134,7 +131,7 @@ const DashBoard = () => {
               <tr>
                 <td>Charger SXT RWD</td>
                 <td className="gia-tri-bang">3</td>
-                <td className="gia-tri-bang">-</td>
+                <td className="gia-tri-bang">200.000.000</td>
               </tr>
               <tr>
                 <td>Apple MacBook Pro 14 Inch Space Grey</td>
@@ -156,34 +153,28 @@ const DashBoard = () => {
         </div>
 
         <div className="chart-container">
-      <div className="title">Lợi nhuận</div>
-      <ResponsiveContainer width="100%">
-        <AreaChart
-          width={730}
-          height={250}
-          data={data}
-          margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-        >
-          <defs>
-            <linearGradient id="total" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-            </linearGradient>
-          </defs>
-          <XAxis dataKey="name" stroke="gray" />
-          <CartesianGrid strokeDasharray="3 3" className="chartGrid" />
-          <Tooltip
-            formatter={(value: number) => value.toLocaleString("vi-VN")}/>
-          <Area
-            type="monotone"
-            dataKey="Total"
-            stroke="#8884d8"
-            fillOpacity={1}
-            fill="url(#total)"
-          />
-        </AreaChart>
-      </ResponsiveContainer>
-    </div>
+          <div className="title">Lợi nhuận</div>
+          <ResponsiveContainer width="100%">
+            <AreaChart width={730} height={250} data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+            
+              <defs>
+                <linearGradient id="total" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#87CBB9" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="#87CBB9" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+
+              <XAxis dataKey="name" stroke="gray" />
+
+              <CartesianGrid strokeDasharray="3 3" className="chartGrid" />
+
+              <Tooltip formatter={(value: number) => value.toLocaleString("vi-VN")} />
+
+              <Area type="monotone" dataKey="Total" stroke="#8884d8" fillOpacity={1} fill="url(#total)"/>
+
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </div>
   );

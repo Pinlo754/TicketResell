@@ -2,7 +2,8 @@ import React from "react";
 import useLoginScreen from "./useLoginScreen";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const LoginScreen = () => {
   const {
     navigate,
@@ -39,6 +40,8 @@ const LoginScreen = () => {
 
   return (
     <main className="flex h-screen bg-gradient-to-t from-[#B9EDDD] to-[#577D86] items-center justify-center">
+      <ToastContainer />
+
       <div className="flex flex-col max-w-full">
         <div className="flex flex-col px-7 py-2 w-[389px] h-[440px] rounded-xl bg-zinc-100 shadow-2xl">
           <div className="self-center w-[54%] h-[15%] mt-[12px] max-w-full w-[351px]">
@@ -113,9 +116,13 @@ const LoginScreen = () => {
               </div>
             )}
 
-            <a href="/verify-email" className="text-[12px] text-sky-500">
+            <a
+              href={`verify-email-reset-password?email=${email}`}
+              className="text-[12px] text-sky-500"
+            >
               Quên mật khẩu?
             </a>
+
             <button
               type="submit"
               className={`px-4 py-2 mt-3 text-[19px] font-bold text-center rounded-2xl w-full ${

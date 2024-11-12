@@ -4,6 +4,8 @@ import StaffNavBar from "../../../components/StaffNavBar";
 import Footer from "../../../components/Footer";
 import ScrollToTopButton from "../../../components/ScrollToTopButton";
 import ScrollToTop from "../../../components/ScrollToTop";
+import {ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ManageEventScreen = () => {
   const {
@@ -30,6 +32,8 @@ const ManageEventScreen = () => {
 
       {/* SCROLL TO TOP BUTTON */}
       <ScrollToTopButton />
+
+      <ToastContainer/>
 
       {/* MAIN CONTENT */}
       <div className="w-full flex-grow mt-24">

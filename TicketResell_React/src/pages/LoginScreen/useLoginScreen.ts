@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
-
+import { toast } from "react-toastify";
 const useLoginScreen = () => {
   const navigate = useNavigate();
 
@@ -24,7 +24,7 @@ const useLoginScreen = () => {
   }, [showPassword]);
 
   const resetPassword = () => {
-    navigate("/reset-password", { state: { email: email } });
+    navigate("verify-email-reset-password?email=" + email);
   };
 
   const handleLoginClick = async () => {
@@ -82,6 +82,7 @@ const useLoginScreen = () => {
     passwordInputRef,
     errorMessage,
     setErrorMessage,
+    toast
   };
 };
 

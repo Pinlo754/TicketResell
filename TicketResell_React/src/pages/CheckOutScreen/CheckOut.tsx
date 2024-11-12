@@ -3,6 +3,8 @@ import "./CheckOut.css";
 import assets from "../../assets/assetsChat";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface selectedTicket {
   ticketId: string;
@@ -50,7 +52,9 @@ const CheckOut = () => {
   const [phone, setPhone] = useState("");
   const [displayOrder, setDisplayOrder] = useState<GroupedOrderInfo[]>([]);
   const [showPopup, setShowPopup] = useState(false);
-  const [unavailableTickets, setUnavailableTickets] = useState<TicketAvailability[]>([]);
+  const [unavailableTickets, setUnavailableTickets] = useState<
+    TicketAvailability[]
+  >([]);
 
   //  kiểm tra xem vé có khả dụng không trc khi tạo đơn
   const checkTicketAvailability = async () => {
@@ -90,6 +94,10 @@ const CheckOut = () => {
 
   //Đặt hàng
   const submit = async () => {
+    if (!name || !phone || !email) {
+      toast.error("Vui lòng điền đầy đủ thông tin trước khi thanh toán!");
+      return;
+    }
     const isAvailable = await checkTicketAvailability();
 
     if (!isAvailable) {
@@ -143,7 +151,8 @@ const CheckOut = () => {
         }
         acc[sellerId].push(item);
         return acc;
-      },{}
+      },
+      {}
     );
 
     // chuyển sang array
@@ -158,6 +167,16 @@ const CheckOut = () => {
       };
     });
   };
+
+    // hiển thị định dạng tiền tệ VN
+    const formatVND = (amount: number) => {
+      return new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format(amount);
+    };
 
   // lấy data từ shopping cart
   useEffect(() => {
@@ -246,6 +265,7 @@ const CheckOut = () => {
           </div>
         </div>
       )}
+      <ToastContainer />
       <div className="checkout-section">
         <h1 className="checkout-title">Thanh toán</h1>
 
@@ -265,7 +285,7 @@ const CheckOut = () => {
                     <span>Sự kiện: {ticket.eventName}</span>
                   </div>
 
-                  <div className="ticket-price">{ticket.price} VND</div>
+                  <div className="ticket-price">{formatVND(ticket.price)}</div>
                 </div>
 
                 <div className="ticket-details">
@@ -364,11 +384,11 @@ const CheckOut = () => {
         <h2 className="summary-title">Tổng thanh toán</h2>
         <div className="summary-row">
           <span>Giá vé ({totalQuantity}x)</span>
-          <span>{subtotal} VND</span>
+          <span>{formatVND(subtotal)}</span>
         </div>
         <div className="summary-row">
           <span>Tổng</span>
-          <span>{subtotal} VND</span>
+          <span>{formatVND(subtotal)}</span>
         </div>
         <button className="checkout-btn" onClick={() => submit()}>
           Xác nhận đơn hàng

@@ -1,6 +1,5 @@
 import React from "react";
 import {createBrowserRouter } from "react-router-dom";
-import WelcomeScreen from "../pages/WelcomeScreen";
 import MainScreen from "../pages/MainScreen";
 import Chat from "../pages/Chat/Chat";
 import ShoppingCart from "../pages/ShoppingCart/ShoppingCart";
@@ -15,7 +14,7 @@ import UserProfile from "../pages/UserProfile";
 import AppChatContextProvider from "../context/AppChatContext";
 import AccountProfile from "../pages/User/Account/Account";
 import AdminBoard from "../pages/Admin/AdminBoard";
-import TicketBoard from "../components/Admin/Ticket/TicketBoard";
+import TicketBoard from "../components/Admin/TicketBoard/TicketBoard";
 import OrderBoard from "../components/Admin/OrderBoard/OrderBoard";
 import UserBoard from "../components/Admin/UserBoard/UserBoard";
 import SellScreen from "../pages/SellScreen";
@@ -24,6 +23,8 @@ import StaffMainScreen from "../pages/Staff/StaffMainScreen";
 import ManageEventScreen from "../pages/Staff/ManageEventScreen";
 import ManageTicketScreen from "../pages/Staff/ManageTicketScreen";
 import Purchase from "../pages/User/Purchase";
+import Wallet from "../pages/User/Wallet/Wallet";
+import VerifyEmailResetPassword from "../pages/VerifyResetPassword/VerifyEmailScreen";
 import Sale from "../pages/User/Sale";
 import AboutUsScreen from "../pages/AboutUsScreen";
 import HowToBuy from "../pages/HowItWorks/HowToBuy";
@@ -71,7 +72,7 @@ const routers = createBrowserRouter([
     element: <RegisterScreen />,
   },
   {
-    path: "/reset-password",
+    path: "/reset-password/:validToken",
     element: <ResetPasswordScreen />,
   },
   {
@@ -126,7 +127,7 @@ const routers = createBrowserRouter([
         element: <ManageTicketScreen />,
       },
     ],
-  },
+  },  
   {
     path: "/user",
     children: [
@@ -134,11 +135,15 @@ const routers = createBrowserRouter([
         path: "profile",
         element: <AccountProfile/>,
       },
+      { 
+        path: "wallet",
+        element: <Wallet/>,
+      },
       {
         path: "manageTicket",
         element: <ManageTicket/>,
       },
-      {
+      { 
         path: "purchase",
         element: <Purchase/>,
       },
@@ -176,6 +181,10 @@ const routers = createBrowserRouter([
         element: <HowToSell/>,
       },
     ],
+  },
+  {
+    path: "/verify-email-reset-password",
+    element: <VerifyEmailResetPassword/>,
   },
 ]);
 

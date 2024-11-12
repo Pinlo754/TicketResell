@@ -29,14 +29,9 @@ const useRegisterScreen = () => {
 
       // Xử lý phản hồi nếu đăng ký thành công
       console.log(response.data.message);
-      navigate("/verify-email")     
+      navigate("/verify-email?email=" + email)     
     } catch (error: any) {
-      if (axios.isAxiosError(error) && error.response) {
-        // Xử lý lỗi từ phản hồi của server
-        setErrorMessage(error.response.data.errors[0] || "Đã có lỗi xảy ra.");
-      } else {
-        setErrorMessage("Đã có lỗi xảy ra. Vui lòng thử lại.");
-      }
+        setErrorMessage("Đã có lỗi xảy ra với server. Vui lòng thử lại." + error.message);      
     }
   };
 
