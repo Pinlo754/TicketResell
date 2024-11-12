@@ -14,7 +14,7 @@ const SideBar = () => {
     <div className="side-menu">
       <div className="top-bar">
         <img className="head" src={assets.logo} alt="" />
-        <div className="page-name">Festix</div>
+        <div className="page-name"><h2>Festix</h2></div>
       </div>
       <nav className="nav-menu">
         <Link
@@ -63,8 +63,8 @@ const SideBar = () => {
 
         <Link
           to="/Admin/Orders"
-          className={`nav-item ${
-            location.pathname.toLowerCase() === "/admin/orders" ? "active" : ""
+          className={`nav-item ${location.pathname} ${
+            (location.pathname.toLowerCase() === "/admin/orders" || location.pathname.toLowerCase() === "/admin/orders/detail")  ? "active" : ""
           }`}
         >
           <span className="nav-icon icon-orders">
@@ -109,7 +109,7 @@ const SideBar = () => {
       </nav>
 
       <div className="logout-button">
-        <button onClick={logout}>Return</button>
+        <button onClick={logout}>Đăng xuất</button>
       </div>
     </div>
   );

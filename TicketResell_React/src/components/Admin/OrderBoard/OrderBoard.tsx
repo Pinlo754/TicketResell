@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./OrderBoard.css";
 import SideBar from "../SideBar/SideBar";
 import axios from "axios";
+import assets from "../../../assets/assetsChat";
+import { useNavigate } from "react-router-dom";
 
 interface orderDetails {
   orderId: string;
@@ -12,6 +14,7 @@ interface orderDetails {
   name: string;
   email: string;
   phone: string;
+  ticketName: string
 }
 
 interface userInfo {
@@ -19,12 +22,16 @@ interface userInfo {
 }
 
 const OrderBoard = () => {
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchResult, setSearchResult] = useState<orderDetails[]>([]);
   const [order, setOrder] = useState<orderDetails[]>();
+  const navigate = useNavigate()
+  const token = localStorage.getItem("token");
   useEffect(() => {
     const getListOrder = async () => {
       try {
         const response = await axios.get(
-          "https://localhost:7286/api/Admin/list-order"
+          "/api/Admin/list-order"
         );
         if (response.status === 200) {
           const orderList = response.data;
@@ -32,7 +39,7 @@ const OrderBoard = () => {
             orderList.map(async (item: orderDetails) => {
               try {
                 const responseOrder = await axios.get(
-                  `http://localhost:5158/api/Order/get-user-orders/${item.userId}`
+                  `/api/Order/get-user-orders/${item.userId}`
                 );
                 if (responseOrder.status === 200) {
                   const data = responseOrder.data;
@@ -44,6 +51,7 @@ const OrderBoard = () => {
                     name: detailUser.userName,
                     email: detailUser.receiverEmail,
                     phone: detailUser.receiverPhone,
+                    ticketName: detailUser.ticketName
                   };
                 }
                 return item;
@@ -60,8 +68,8 @@ const OrderBoard = () => {
       }
     };
     getListOrder();
-  }, []);
-
+  },[token]);
+  
   // hiển thị định dạng tiền tệ VN
   const formatVND = (amount: number) => {
     return new Intl.NumberFormat("vi-VN", {
@@ -80,15 +88,46 @@ const OrderBoard = () => {
     return `${day} - ${month} - ${year}`;
   };
 
+  const inputHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      const input = e.target.value;
+      if (input && order ) {
+        const inputResult = order.filter((item) =>
+          item.ticketName.toLowerCase().includes(input.trim().toLowerCase())
+        );
+        if (inputResult.length > 0) {
+          setSearchResult(inputResult);
+          setShowSearch(true);
+        }
+      } else {
+        setShowSearch(false);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
   return (
     <div className="Admin">
       <SideBar />
       <div className="table-container">
         <h4>Đơn hàng</h4>
+        <div
+          className="ls-search"
+          style={{ marginBottom: "10px", borderRadius: "10px" }}
+        >
+          <img src={assets.search_icon} alt="" />
+          <input
+            onChange={inputHandler}
+            style={{ width: "100%" }}
+            type="text"
+            placeholder="Tìm kiếm theo tên vé...."
+          />
+        </div>
         <table className="orders-table">
           <thead>
             <tr>
               <th>Id</th>
+              <th>Tên vé</th>
               <th>Người mua</th>
               <th>Email</th>
               <th>Số điện thoại</th>
@@ -98,9 +137,34 @@ const OrderBoard = () => {
             </tr>
           </thead>
           <tbody>
-            {order?.map((item) => (
-              <tr style={{cursor:"pointer"}} >
+            {showSearch ?  
+            searchResult?.map((item,index) => (
+              <tr key={index} style={{cursor:"pointer"}} onClick={()=>navigate("./detail",{state:{orderId: item.orderId, userId: item.userId, total: item.totalAmount, orderDate: item.orderDate }})} >
                 <td>{item.orderId}</td>
+                <td>{item.ticketName}</td>
+                <td>{item.name}</td>
+                <td>{item.email}</td>
+                <td>{item.phone}</td>
+                <td>
+                  <span className={item.status}>
+                    {(() => {
+                      switch (item.status) {
+                        case "Pending":
+                          return "Chờ duyệt";
+                        default:
+                          return item.status;
+                      }
+                    })()}
+                  </span>
+                </td>
+                <td>{dateTime(item.orderDate)}</td>
+                <td>{formatVND(item.totalAmount)}</td>
+              </tr>
+            ))
+            :order?.map((item,index) => (
+              <tr key={index} style={{cursor:"pointer"}} onClick={()=>navigate("./detail", {state:{orderId: item.orderId, userId: item.userId, total: item.totalAmount, orderDate: item.orderDate }})}  >
+                <td>{item.orderId}</td>
+                <td>{item.ticketName}</td>
                 <td>{item.name}</td>
                 <td>{item.email}</td>
                 <td>{item.phone}</td>

@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
 .side-menu {
-    width: 250px;
+    width: 15%;
     background-color: white;
     border-right: 1px solid #f0f0f0;
     height: 100vh;
@@ -20,12 +20,12 @@
 
 .page-name{
     flex: 1;
-    font-size: 50px;
     font-family: "Montserrat";
     font-style: italic;
     color: #569DAA;
     font-weight: 500;
     margin-left: 5px;
+    font-size: 2.5em;
 }
 
   .nav-menu {
@@ -70,6 +70,7 @@
   }
 
   .side-menu .logout-button{
+    min-width: 130px;
     position: absolute;
     bottom: 20px;
     left: 50%;
@@ -79,7 +80,8 @@
     border: none;
     font-size: 15px;
     font-weight: 300;
-    padding: 10px 50px;
+    padding: 15px 20px;
     border-radius: 20px;
     cursor: pointer;
+    text-align: center;
   }

@@ -4,6 +4,7 @@ import { TbMinus, TbPlus, TbX } from "react-icons/tb";
 import axios from "axios";
 import { toast } from "react-toastify";
 import assets from "../../../assets/assetsChat";
+import { useNavigate } from "react-router-dom";
 
 interface Cart {
   firstName: string;
@@ -43,6 +44,7 @@ interface TicketContentProps {
 }
 
 const TicketContent: React.FC<TicketContentProps> = ({ onTotalChange }) => {
+  const navigate = useNavigate();
   const [cardData, setCardData] = useState<Cart[]>([]);
   const [selectedTickets, setSelectedTickets] = useState<Set<string>>(
     new Set()
@@ -248,7 +250,7 @@ const TicketContent: React.FC<TicketContentProps> = ({ onTotalChange }) => {
               onChange={() => handleCheckboxChange(item.ticketId)}
               disabled={item.availableQuantity === 0}
             />
-            <div className="ticket-info">
+            <div className="ticket-info"  style={{cursor:"pointer"}}  onClick={() => navigate(`/ticketDetail/${item.ticketId}`)}>
               <div className="ticket-image">
                 <img src={item.eventImage} alt="" />
               </div>
