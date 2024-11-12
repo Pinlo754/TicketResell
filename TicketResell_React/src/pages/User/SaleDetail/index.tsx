@@ -12,7 +12,7 @@ const SaleDetail = () => {
     const navigate = useNavigate();
 
     // Define the current stage (e.g., 3 means up to "Đã Giao Cho ĐVVC" is complete)
-    const [currentStage, setCurrentStage] = useState(3);
+    const [currentStage, setCurrentStage] = useState(1);
  
     // Define steps with `isComplete` set based on the current stage
     const steps = [

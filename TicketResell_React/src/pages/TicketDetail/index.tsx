@@ -140,9 +140,6 @@ const TicketDetail = () => {
                 />
               </svg>
             </button>
-            <p className="text-white font-semibold mr-10">
-              128 available • 200 sold • 150 wanted
-            </p>
           </div>
         </div>
 
