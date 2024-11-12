@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ProgressBar from "../../components/ProgressBar";
+import ProgressBarNumber from "../../components/ProgressBarNumber";
 import useSell, { Event } from "./useSellScreen";
 import Search from "../../components/Search";
 import NavBar from "../../components/NavBar";
@@ -41,7 +41,8 @@ const SellScreen: React.FC = () => {
           className="absolute top-0 right-0"
           onClick={(e) => {
             e.stopPropagation(); // Để ngăn việc trigger chọn lại sự kiện
-            setSelectedEvent(null); // Hủy chọn sự kiện
+            setSelectedEvent(null);// Hủy chọn sự kiện
+            navigate("/sell"); 
           }}
         >
           <svg
@@ -137,7 +138,7 @@ const SellScreen: React.FC = () => {
 
         {/* Thanh tiến độ */}
         <div className="w-full mt-20 flex justify-center items-center mx-auto">
-          <ProgressBar currentStep={step} steps={2} />
+          <ProgressBarNumber currentStep={step} steps={2} />
         </div>
 
         {/* Step 1: Chọn sự kiện */}

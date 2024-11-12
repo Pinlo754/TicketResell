@@ -162,6 +162,12 @@ const usePurchase = () => {
           },
         ];
 
+        const tabs = [
+          { id: 1, label: "Tất cả" },
+          { id: 2, label: "Hoàn thành" },
+          { id: 3, label: "Hoàn tiền" },
+        ];
+
       const navigate = useNavigate();
       // const [orders, setOrders] = useState<Order[]>([]);
       const userId = localStorage.getItem("userId");
@@ -194,6 +200,7 @@ const usePurchase = () => {
     return {
         navigate,
         orders,
+        tabs,
         handleOpenFeedback,
         handleCloseFeedback,
         showFeedback,

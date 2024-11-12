@@ -160,11 +160,18 @@ const useSale = () => {
           },
         ];
 
+        const tabs = [
+          { id: 1, label: "Tất cả" },
+          { id: 2, label: "Hoàn thành" },
+          { id: 3, label: "Hoàn tiền" },
+        ];
+
         const navigate = useNavigate();
 
     return {
         navigate,
         orders,
+        tabs,
     };
 };
 

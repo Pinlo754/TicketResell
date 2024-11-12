@@ -12,6 +12,7 @@ const Purchase = () => {
     const {
       navigate,
       orders,
+      tabs,
       handleOpenFeedback,
       handleCloseFeedback,
       showFeedback,
@@ -31,15 +32,18 @@ const Purchase = () => {
         {/* MAIN CONTENT */}
         <div className="bg-gradient-to-b from-[#B9EDDD] to-[#569DAA] h-100vh flex flex-grow p-[20px]">
           <div className="w-[1050px] mx-auto mt-[12vh]">
-            <div className="rounded-lg h-[83vh] bg-white shadow-xl flex">
-
+          <div className="flex flex-row rounded-lg h-[83vh] bg-white shadow-xl flex">
               {/* Menu bên */}
-              <SideBar />
-              <div className="w-[70%] p-6">
+              <div className="basic-1/3">
+                    <SideBar />
+              </div>
+              
+              {/* Nội dung */}
+              <div className="basic-2/3 grow p-6">
 
                 {/* Menu trên */}
                 <div className="flex justify-center">
-                  <TopBar />
+                  <TopBar tabs={tabs}/>
                 </div>
 
                 <div className="overflow-y-auto h-[70vh] mt-4">
@@ -80,7 +84,11 @@ const Purchase = () => {
                           const event = order.events.find(e => e.eventId === ticket.eventId);
 
                           return (
-                            <div key={ticket.ticketId} className="border-t">
+                            <div 
+                            key={ticket.ticketId} 
+                            className="border-t cursor-pointer"
+                            onClick={() => navigate("/user/purchase/orderDetail")}
+                            >
                               <div
                                 className={`flex items-center gap-3 ${
                                   index === order.tickets.length - 1 ? "mt-2" : "my-2"
