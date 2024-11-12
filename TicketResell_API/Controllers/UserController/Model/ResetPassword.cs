@@ -9,5 +9,7 @@ namespace TicketResell_API.Controllers.UserController.Model
         public string? email { get; set; } = string.Empty;
         [Required]
         public string? newPassword { get; set; }
+
+        public string? token { get; set; }
     }
 }

@@ -57,9 +57,9 @@ namespace TicketResell_API.Controllers.UserController.Model
             return "Thank you for registering with us";
         }
         //send email request password reset
-        public async Task<string> SendPasswordResetEmailAsync(string email, string vaidToken)
+        public async Task<string> SendPasswordResetEmailAsync(string email, string validToken)
         {
-            string resetLink = $"http://localhost:5158/api/Account/reset-password/{vaidToken}";
+            string resetLink = $"http://localhost:3000/reset-password?token={validToken}&email={email}";
             StringBuilder emailMessage = new StringBuilder();
             emailMessage.AppendLine("<!DOCTYPE html>");
             emailMessage.AppendLine("<html lang=\"en\">");

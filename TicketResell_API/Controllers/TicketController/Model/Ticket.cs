@@ -18,7 +18,9 @@ public partial class Ticket
 
     public decimal originPrice { get; set; }
 
-    public string[] images { get; set; } = null!;
+    public string[] imagesVerify { get; set; } = null!;
+
+    public string[] imagesQR { get; set; } = null!;
 
     [MaxLength(450)] public string? userId { get; set; }
 

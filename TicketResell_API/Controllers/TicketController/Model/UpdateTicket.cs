@@ -10,8 +10,8 @@ public partial class UpdateTicket
 
     public decimal originPrice { get; set; }
 
-    public string[] images { get; set; } = null!;
-
+    public string[] imagesVerify { get; set; } = null!;
+    public string[] imagesQR { get; set; } = null!;
     public string userId { get; set; }
 
     public string? type { get; set; }
