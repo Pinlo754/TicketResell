@@ -29,6 +29,10 @@ import Sale from "../pages/User/Sale";
 import AboutUsScreen from "../pages/AboutUsScreen";
 import HowToBuy from "../pages/HowItWorks/HowToBuy";
 import HowToSell from "../pages/HowItWorks/HowToSell";
+import ManageTicket from "../pages/User/ManageTicket";
+import Notification from "../pages/User/Notification";
+import PurchaseDetail from "../pages/User/PurchaseDetail";
+import SaleDetail from "../pages/User/SaleDetail";
 
 const routers = createBrowserRouter([
   {
@@ -132,16 +136,32 @@ const routers = createBrowserRouter([
         element: <AccountProfile/>,
       },
       { 
-        path: "purchase",
-        element: <Purchase/>,
-      },
-      { 
         path: "wallet",
         element: <Wallet/>,
       },
       {
+        path: "manageTicket",
+        element: <ManageTicket/>,
+      },
+      { 
+        path: "purchase",
+        element: <Purchase/>,
+      },
+      {
+        path: "purchase/orderDetail",
+        element: <PurchaseDetail/>,
+      },
+      {
         path: "sale",
         element: <Sale/>,
+      },
+      {
+        path: "sale/orderDetail",
+        element: <SaleDetail/>,
+      },
+      {
+        path: "notification",
+        element: <Notification/>,
       },
     ],
   },

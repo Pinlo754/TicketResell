@@ -201,13 +201,14 @@ const ManageTicketScreen = () => {
                 {/* Form thông tin vé */}
                 <form>
                   <div className="mb-4">
-                    <div className="flex items-center justify-center gap-2">
+                    <div className="w-full flex items-center mx-auto gap-2 overflow-x-auto">
                       {selectedTicket?.images?.map((image, index) => (
                         <img
                           key={index}
                           src={image}
                           alt={`Ticket ${index}`}
                           className="w-24 h-24 object-cover rounded mb-2 cursor-pointer"
+                          onClick={() => window.open(image)}
                         />
                       ))}
                     </div>

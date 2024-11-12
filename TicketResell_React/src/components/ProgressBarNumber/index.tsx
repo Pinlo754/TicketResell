@@ -5,7 +5,7 @@ interface ProgressBarProps {
   steps: number;
 }
 
-const ProgressBar: React.FC<ProgressBarProps> = ({ currentStep, steps }) => {
+const ProgressBarNumber: React.FC<ProgressBarProps> = ({ currentStep, steps }) => {
   return (
     <div className="flex items-center justify-center w-full my-8">
       {[...Array(steps)].map((_, index) => (
@@ -35,4 +35,4 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ currentStep, steps }) => {
   );
 };
 
-export default ProgressBar;
+export default ProgressBarNumber;

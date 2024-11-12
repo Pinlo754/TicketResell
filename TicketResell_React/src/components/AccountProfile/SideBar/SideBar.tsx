@@ -14,6 +14,7 @@ const SideBar = () => {
   const links: Link[] = [
     { label: "Hồ sơ", path: "/user/profile" },
     { label: "Ví", path: "/user/wallet"},
+    { label: "Quản lý vé", path: "/user/manageTicket"},
     { label: "Đơn mua", path: "/user/purchase" },
     { label: "Đơn bán", path: "/user/sale" },
     { label: "Thông báo", path: "/user/notification" },
@@ -28,7 +29,7 @@ const SideBar = () => {
           >
           <Link 
           to={link.path}
-          className={`sidebar-link ${currentPath === link.path ? "active" : ""}`}
+          className={`sidebar-link ${currentPath.startsWith(link.path) ? "active" : ""}`}
           >
             {link.label}
             </Link>
