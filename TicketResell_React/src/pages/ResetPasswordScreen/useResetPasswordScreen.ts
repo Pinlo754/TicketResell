@@ -45,7 +45,7 @@ const useResetPassword = () => {
       // Xử lý phản hồi thành công
       setSuccessMessage("Đặt lại mật khẩu thành công. Vui lòng đăng nhập.");
       setTimeout(() => {
-        navigate("/login");
+        navigate("/");
       }, 2000);
     } catch (error: any) {      
         setErrorMessage("Đã có lỗi xảy ra. Vui lòng thử lại.");      

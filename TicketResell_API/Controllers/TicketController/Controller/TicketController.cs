@@ -107,7 +107,8 @@ namespace TicketResell_API.Controllers.TicketController.Controller
             existingTicket.quantity = model.quantity;
             existingTicket.price = model.price;
             existingTicket.originPrice = model.originPrice;
-            existingTicket.images = model.images;
+            existingTicket.imagesVerify = model.imagesVerify;
+            existingTicket.imagesQR = model.imagesQR;
             existingTicket.description = model.description;
             existingTicket.status = model.status;
             existingTicket.type = model.type;

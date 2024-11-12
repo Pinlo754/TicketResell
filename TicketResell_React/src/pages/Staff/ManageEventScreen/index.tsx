@@ -193,7 +193,7 @@ const ManageEventScreen = () => {
                     className="w-full mb-3 p-2 border border-gray-300 rounded"
                   />
                   
-                  {/* 
+                   
                   <label className="block mb-1">Thời gian:</label>
                   <input
                     type="datetime-local"
@@ -206,8 +206,7 @@ const ManageEventScreen = () => {
                     }
                     className="w-full mb-3 p-2 border border-gray-300 rounded"
                   />
-                  */}
-
+                  
                   <label className="block mb-1">Địa điểm:</label>
                   <input
                     type="text"

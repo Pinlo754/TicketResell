@@ -250,5 +250,35 @@ namespace TicketResell_API.Controllers.OrderController.Controller
                 return StatusCode(500, "Internal server error: " + ex.Message);
             }
         }
+
+        [HttpPost("deposit")]
+        public async Task<ActionResult> Deposit([FromBody] DepositRequest depositRequest)
+        {
+            if (depositRequest == null || depositRequest.Amount <= 0)
+            {
+                return BadRequest("Invalid deposit amount.");
+            }
+
+            // Tạo đơn hàng cho deposit
+            var order = new Order
+            {
+                orderId = Guid.NewGuid().ToString(),
+                userId = depositRequest.UserId,
+                orderDate = DateTime.UtcNow,
+                totalAmount = depositRequest.Amount,
+                Status = "Deposit"
+            };
+
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
+
+            // Tạo URL thanh toán VNPay
+            var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+            var paymentUrl = _vpnPayService.CreatePaymentUrl(order, ipAddress);
+
+            // Trả về URL thanh toán
+            return Ok(new { PaymentUrl = paymentUrl });
+        }
+
     }
 }
