@@ -218,7 +218,7 @@ namespace TicketResell_API.Controllers.UserController.Controller
             //If the login information is incorrect, return HTTP status code 401 (Unauthorized)
             return Unauthorized();
         }
-
+        public static string Token { get; set; } = string.Empty;
         [HttpPost("request-password-reset")]
         public async Task<IActionResult> RequestPasswordReset([FromBody] RequestReset model)
         {
@@ -231,19 +231,15 @@ namespace TicketResell_API.Controllers.UserController.Controller
             }
             //Generate reset token
             var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user!);
-            string validToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(resetToken));
             //Send password reset email
-            await _emailSender.SendPasswordResetEmailAsync(user!.Email, validToken);
-            return Ok(new { message = "Password reset email has been sent. Please check your email." });
+            await _emailSender.SendPasswordResetEmailAsync(user!.Email, resetToken);
+            return Ok(new
+            {
+                message = "Password reset email has been sent. Please check your email.",
+                Token = resetToken
+            });
         }
-        public static string Token { get; set; } = string.Empty;
-        [HttpGet("reset-password/{token}")]
-        public IActionResult ResetPassword(string token)
-        {
-            //decode token from Base64 format to bytes
-            Token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
-            return Ok();
-        }
+
 
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPassword model)
@@ -255,14 +251,20 @@ namespace TicketResell_API.Controllers.UserController.Controller
             {
                 return BadRequest("User not found");
             }
-            // Reset password
-            var result = await _userManager.ResetPasswordAsync(user, Token, model.newPassword!);
-            if (!result.Succeeded)
-            {
-                return BadRequest(result.Errors);
-            }
-            return Ok(new { message = "Password have been change. You can continue to login" });
 
+            // Reset password
+            var passwordHasher = new PasswordHasher<IdentityUser>();
+            var hashedPassword = passwordHasher.HashPassword(user, model.newPassword!);
+
+            user.PasswordHash = hashedPassword;
+            var updateResult = await _userManager.UpdateAsync(user);
+
+            if (!updateResult.Succeeded)
+            {
+                return BadRequest(updateResult.Errors);
+            }
+
+            return Ok(new { message = "Password has been changed. You can continue to login." });
         }
 
         //get user when authorize

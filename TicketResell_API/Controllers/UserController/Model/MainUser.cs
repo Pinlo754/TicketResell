@@ -27,6 +27,6 @@ namespace TicketResell_API.Controllers.UserController.Model
         public ICollection<Cart>? Carts { get; set; }
         public ICollection<Chat>? Chats { get; set; }
         public ICollection<Ticket>? Tickets { get; set; }
-        public ICollection<Wallet>? Wallets { get; set; }
+        public Wallet? Wallets { get; set; }
     }
 }

@@ -21,9 +21,14 @@ const useResetPassword = () => {
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const emailFromUrl = queryParams.get("email");
+    const token = queryParams.get("token");
+    if(token) {
+      setToken(token);
+    }
     if (emailFromUrl) {
       setEmail(emailFromUrl);
     }
+    console.log("token: " + token + " email: " + emailFromUrl);
   }, [location]);
   const handleResetPasswordClick = async () => {
     if (newPassword !== confirmPassword) {
@@ -40,7 +45,7 @@ const useResetPassword = () => {
       // Xử lý phản hồi thành công
       setSuccessMessage("Đặt lại mật khẩu thành công. Vui lòng đăng nhập.");
       setTimeout(() => {
-        navigate("/login");
+        navigate("/");
       }, 2000);
     } catch (error: any) {      
         setErrorMessage("Đã có lỗi xảy ra. Vui lòng thử lại.");      

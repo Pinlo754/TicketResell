@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TicketResell_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241109140709_initmigration")]
-    partial class initmigration
+    [Migration("20241112140750_phongnt")]
+    partial class phongnt
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -462,7 +462,11 @@ namespace TicketResell_API.Migrations
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("images")
+                    b.Property<string>("imagesQR")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("imagesVerify")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

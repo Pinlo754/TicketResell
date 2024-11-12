@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import React, { useState } from "react";
 import assets from "../../../assets/assetsChat";
 import "./Wallet.css";
 import { toast, ToastContainer } from "react-toastify";
@@ -11,66 +11,21 @@ import NavBar from "../../../components/NavBar";
 import ScrollToTopButton from "../../../components/ScrollToTopButton";
 import ScrollToTop from "../../../components/ScrollToTop";
 import SideBar from "../../../components/AccountProfile/SideBar/SideBar";
+import useWallet from "./useWallet";
+
 const Wallet = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [image, setImage] = useState("");
-
-  const token = localStorage.getItem("token");
-  const uId = localStorage.getItem("userId");
-
-  const transactions = [
-    {
-      transactionId: "1",
-      amount: 0.5,
-      transactionType: "Withdraw",
-      time: "2023-10-01 10:00:00",
-      balanceAfter: 1.5,
-    },
-    {
-      transactionId: "2",
-      amount: 1.2,
-      transactionType: "Deposit",
-      time: "2023-10-05 14:30:00",
-      balanceAfter: 2.7,
-    },
-    {
-      transactionId: "3",
-      amount: 0.3,
-      transactionType: "Withdraw",
-      time: "2023-10-10 09:15:00",
-      balanceAfter: 2.4,
-    },
-    {
-      transactionId: "4",
-      amount: 0.3,
-      transactionType: "Withdraw",
-      time: "2023-10-10 09:15:00",
-      balanceAfter: 2.4,
-    },
-    {
-      transactionId: "5",
-      amount: 0.3,
-      transactionType: "Withdraw",
-      time: "2023-10-10 09:15:00",
-      balanceAfter: 2.4,
-    },
-    {
-      transactionId: "6",
-      amount: 0.3,
-      transactionType: "Withdraw",
-      time: "2023-10-10 09:15:00",
-      balanceAfter: 2.4,
-    },
-    {
-      transactionId: "7",
-      amount: 0.3,
-      transactionType: "Withdraw",
-      time: "2023-10-10 09:15:00",
-      balanceAfter: 2.4,
-    },
-    // Thêm các giao dịch khác nếu cần
-  ];
+  const {
+    wallet,
+    transactions,
+    isModalOpen,
+    handleSubmit,
+    transactionType,
+    amount,
+    setAmount,
+    setIsModalOpen,
+    openModal,
+    user
+  } = useWallet();
 
   return (
     <div className="account-profile">
@@ -86,95 +41,170 @@ const Wallet = () => {
 
       <div className="profile">
         <div className="profile-container">
-          <SideBar />
-    <div className="flex flex-col items-center p-8 bg-gray-100 max-h-full w-full">
-      <div className="w-full flex justify-between">
-        {/* Thông tin cá nhân */}
-        <div className="w-[48%] max-w-3xl bg-white rounded-lg shadow-md p-4 mb-4 flex">
-        <img
-            src={avatar_icon}
-            alt="wallet icon"
-            className="w-[84px] h-[84px]"
-          />
-          <div className="text-center flex-grow">
-            <h2 className="text-lg font-semibold mb-2 mt-2">Nguyễn Thanh Phong</h2>
-            <p className="">ID ví: hsad79au8</p>
-          </div>
-        </div>
-
-        {/* Số dư ví */}
-        <div className="w-[48%] max-w-3xl bg-blue-100 rounded-lg shadow-md p-4 mb-4 flex">
-          <img
-            src={walletIcon}
-            alt="wallet icon"
-            className="w-[84px] h-[84px]"
-          />
-          <div className="text-center flex-grow">
-            <h2 className="text-lg font-semibold mb-2">Số dư</h2>
-            <p className="text-xl font-bold">5.000.00 VND</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Danh sách biến động số dư */}
-      <div className="w-full bg-white rounded-lg shadow-md p-4 mb-8">
-        <h2 className="text-[30px] font-semibold mb-2">Biến động số dư</h2>
-        <ul
-          className="space-y-2 overflow-y-auto"
-          style={{ maxHeight: "270px" }}
-        >
-          {transactions.map((transaction) => (
-            <div>
-            <li
-              key={transaction.transactionId}
-              className="flex justify-between"
-            >
-              <div>
-                <span className="font-bold text-xl">
-                  {transaction.transactionType}{" "}
-                </span>
-                <p>{new Date(transaction.time).toLocaleString()}</p>
-              </div>
-              <div className="text-right">
-                <span
-                  className={
-                    transaction.transactionType === "Deposit"
-                      ? "text-green-500 text-2xl font-bold"
-                      : "text-red-500 text-2xl font-bold"
-                  }
-                >
-                  {transaction.transactionType === "Deposit" ? "+" : "-"}
-                  {Math.abs(transaction.amount)} VND
-                </span>
-                <p className="ml-2 text-gray-500">
-                  (Balance: {transaction.balanceAfter} VND)
-                </p>
-              </div>
-            </li>
-            <div className="w-[90%] mx-auto h-px bg-gray-300 my-4" />
+        <div className="basic-1/3">
+              <SideBar />
             </div>
-          ))}
-        </ul>
-      </div>
+          <div className="flex flex-col items-center p-8 bg-gray-100 max-h-full w-full">
+            <div className="w-full flex justify-between">
+              {/* Thông tin cá nhân */}
+              <div className="w-[48%] max-w-3xl bg-white rounded-lg shadow-md p-4 mb-4 flex">
+                <img
+                  src={user?.userImage ? user.userImage : avatar_icon}
+                  alt="wallet icon"
+                  className="w-[84px] h-[84px]"
+                />
+                <div className="text-center flex-grow">
+                  <h2 className="text-lg font-semibold mb-2 mt-2">
+                  {user && user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : "User info not available"}
+                  </h2>
+                  <p className="">
+                    ID ví:{" "}
+                    {wallet?.walletId ? wallet.walletId : "Không tìm được ví"}
+                  </p>
+                </div>
+              </div>
 
-      {/* Button Rút và Nạp tiền */}
-      <div className="w-full max-w-3xl flex justify-between mt-auto px-2">
-        <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow w-[350px]">
-          Nạp tiền
-        </button>
-        <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg shadow w-[350px]">
-          Rút tiền
-        </button>
-      </div>
-    </div>
-</div>
+              {/* Số dư ví */}
+              <div className="w-[48%] max-w-3xl bg-blue-100 rounded-lg shadow-md p-4 mb-4 flex">
+                <img
+                  src={walletIcon}
+                  alt="wallet icon"
+                  className="w-[84px] h-[84px]"
+                />
+                <div className="text-center flex-grow">
+                  <h2 className="text-lg font-semibold mb-2">Số dư</h2>
+                  <p className="text-xl font-bold">
+                    {wallet?.balance
+                      ? wallet.balance + " VND"
+                      : "0 VND"}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Danh sách biến động số dư */}
+            <div className="w-full bg-white rounded-lg shadow-md p-4 mb-8">
+              <h2 className="text-[30px] font-semibold mb-2">
+                Biến động số dư
+              </h2>
+              <ul
+                className="space-y-2 overflow-y-auto"
+                style={{ maxHeight: "270px" }}
+              >
+                {transactions.map((transaction) => (
+                  <div key={transaction.transactionId}>
+                    <li className="flex justify-between">
+                      <div>
+                        <span className="font-bold text-xl">
+                          {transaction.transactionType}{" "}
+                        </span>
+
+                        {/* Hiển thị trạng thái ngay phía sau tên giao dịch */}
+                        <span
+                          className={
+                            transaction.status === "Pending"
+                              ? "text-yellow-500 ml-2"
+                              : transaction.status === "Completed"
+                              ? "text-green-500 ml-2"
+                              : "text-red-500 ml-2"
+                          }
+                        >
+                          ({transaction.status})
+                        </span>
+
+                        <p>{new Date(transaction.time).toLocaleString()}</p>
+                      </div>
+                      <div className="text-right">
+                        <span
+                          className={
+                            transaction.transactionType === "Deposit"
+                              ? "text-green-500 text-2xl font-bold"
+                              : "text-red-500 text-2xl font-bold"
+                          }
+                        >
+                          {transaction.transactionType === "Deposit"
+                            ? "+"
+                            : "-"}
+                          {Math.abs(transaction.amount)} VND
+                        </span>
+                        <p className="ml-2 text-gray-500">
+                          (Balance: {transaction.balanceAfter} VND)
+                        </p>
+                      </div>
+                    </li>
+
+                    <div className="w-[90%] mx-auto h-px bg-gray-300 my-4" />
+                  </div>
+                ))}
+              </ul>
+            </div>
+
+            {/* Button Rút và Nạp tiền */}
+            <div className="w-full max-w-3xl flex justify-between mt-auto px-2">
+              <button
+                onClick={() => openModal("deposit")}
+                className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow w-[350px]"
+              >
+                Nạp tiền
+              </button>
+              <button
+                onClick={() => openModal("withdraw")}
+                className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg shadow w-[350px]"
+              >
+                Rút tiền
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* FOOTER */}
       <div className="flex-grow-0">
         <Footer />
       </div>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
+          <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
+            <h2 className="text-2xl font-semibold mb-4">
+              {transactionType === "deposit" ? "Nạp tiền" : "Rút tiền"}
+            </h2>
+            <div className="mb-4">
+              <label
+                htmlFor="amount"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Số tiền
+              </label>
+              <input
+                id="amount"
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                placeholder="Nhập số tiền"
+              />
+            </div>
+            <div className="flex justify-end space-x-4">
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="bg-gray-500 text-white py-2 px-4 rounded-lg"
+              >
+                Hủy
+              </button>
+              <button
+                onClick={handleSubmit}
+                className="bg-blue-500 text-white py-2 px-4 rounded-lg"
+              >
+                Xác nhận
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
+
 export default Wallet;

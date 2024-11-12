@@ -34,6 +34,7 @@ import Notification from "../pages/User/Notification";
 import PurchaseDetail from "../pages/User/PurchaseDetail";
 import SaleDetail from "../pages/User/SaleDetail";
 import OrderDetailAdmin from "../components/Admin/OrderBoard/OrderDetailAdmin";
+import OrderConfirmation from "../pages/OrderConfirmation/OrderConfirmation";
 
 const routers = createBrowserRouter([
   {
@@ -75,7 +76,7 @@ const routers = createBrowserRouter([
     element: <RegisterScreen />,
   },
   {
-    path: "/reset-password/:validToken",
+    path: "/reset-password",
     element: <ResetPasswordScreen />,
   },
   {
@@ -203,6 +204,10 @@ const routers = createBrowserRouter([
     path: "/verify-email-reset-password",
     element: <VerifyEmailResetPassword />,
   },
+  {
+    path: "/order-confirmation",
+    element: <OrderConfirmation/>,
+  }
 ]);
 
 export default routers;
