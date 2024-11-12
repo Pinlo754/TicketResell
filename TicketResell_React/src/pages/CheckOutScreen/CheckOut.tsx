@@ -139,13 +139,6 @@ const CheckOut = () => {
 
     try {
       const response = await axios.post(
-        "/api/Order/create",
-        data
-      );
-      if (response.status === 201) {
-        const url = response.data.paymentUrl;
-        window.open(url);
-      }
         "/api/Wallet/create",
          data
          );
