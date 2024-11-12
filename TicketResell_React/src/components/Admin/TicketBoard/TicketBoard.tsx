@@ -3,6 +3,7 @@ import SideBar from "../SideBar/SideBar";
 import "./TicketBoard.css";
 import axios from "axios";
 import assets from "../../../assets/assetsChat";
+import { useNavigate } from "react-router-dom";
 
 interface ticketDetail {
   ticketName: string;
@@ -20,12 +21,14 @@ interface ticketDetail {
 
 const TicketBoard = () => {
   const [ticket, setTicket] = useState<ticketDetail[]>();
-  const [status, setStatus] = useState();
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchResult, setSearchResult] = useState<ticketDetail[]>([]);
+  const token = localStorage.getItem("token");
   useEffect(() => {
     const getTicket = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5158/api/Ticket/list-ticket"
+          "/api/Ticket/list-ticket"
         );
         if (response.status === 200) {
           const ticketList = response.data;
@@ -34,7 +37,7 @@ const TicketBoard = () => {
             ticketList.map(async (item: ticketDetail) => {
               try {
                 const responseUser = await axios.get(
-                  `http://localhost:5158/api/Account/user-information/${item.userId}`
+                  `/api/Account/user-information/${item.userId}`
                 );
                 if (responseUser.status === 200) {
                   const data = responseUser.data;
@@ -55,7 +58,7 @@ const TicketBoard = () => {
             listWithName.map(async (item: ticketDetail) => {
               try {
                 const responseEvent = await axios.get(
-                  `http://localhost:5158/api/Event/${item.eventId}`
+                  `/api/Event/${item.eventId}`
                 );
                 if (responseEvent.status === 200) {
                   const eventData = responseEvent.data;
@@ -80,14 +83,54 @@ const TicketBoard = () => {
       }
     };
     getTicket();
-  }, []);console.log();
-  
+  },[token]);
+  const inputHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      const input = e.target.value;
+      if (input && ticket) {
+        const inputResult = ticket.filter((item) =>
+          item.ticketName.toLowerCase().includes(input.trim().toLowerCase())
+        );
+        if (inputResult.length > 0) {
+          setSearchResult(inputResult);
+          setShowSearch(true);
+        }
+      } else {
+        setShowSearch(false);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // hiển thị định dạng tiền tệ VN
+  const formatVND = (amount: number) => {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount);
+  };
+
   return (
     <div className="Admin">
       <SideBar />
 
       <div className="table-container">
         <h4>Tất cả vé</h4>
+        <div
+          className="ls-search"
+          style={{ marginBottom: "10px", borderRadius: "10px" }}
+        >
+          <img src={assets.search_icon} alt="" />
+          <input
+            onChange={inputHandler}
+            style={{ width: "100%" }}
+            type="text"
+            placeholder="Tìm kiếm theo tên vé...."
+          />
+        </div>
         <table className="inventory-table">
           <thead>
             <tr>
@@ -101,43 +144,81 @@ const TicketBoard = () => {
             </tr>
           </thead>
           <tbody>
-            {ticket?.map((item, index) => (
-              <tr key={index}>
-                <td className="ticket-info">
-                  {item.ticketName}
-                  <span>
-                    <img
-                      src={item.image}
-                      alt="Customer Photo"
-                      className="avatar"
-                    />
-                  </span>
-                </td>
-                <td>{item.type}</td>
-                <td>
-                  <span className={`status ${item.status}`}>
-                    {(() => {
-                      switch (item.status) {
-                        case "Available":
-                          return "Đang bán";
-                        case "Sold":
-                          return "Đã bán";
-                        case "Pending":
-                          return "Chờ duyệt";
-                        case "Cancelled":
-                          return "Bị từ chối";
-                        default:
-                          return item.status;
-                      }
-                    })()}
-                  </span>
-                </td>
-                <td>{item.quantity}</td>
-                <td>{item.price} VND</td>
-                <td>{item.sellerName}</td>
-                <td>{item.event}</td>
-              </tr>
-            ))}
+            {showSearch
+              ? searchResult?.map((item, index) => (
+                  <tr key={index}>
+                    <td className="ticket-info">
+                      {item.ticketName}
+                      <span>
+                        <img
+                          src={item.image}
+                          alt="Customer Photo"
+                          className="avatar"
+                        />
+                      </span>
+                    </td>
+                    <td>{item.type}</td>
+                    <td>
+                      <span className={`status ${item.status}`}>
+                        {(() => {
+                          switch (item.status) {
+                            case "Available":
+                              return "Đang bán";
+                            case "Sold":
+                              return "Đã bán";
+                            case "Pending":
+                              return "Chờ duyệt";
+                            case "Cancelled":
+                              return "Bị từ chối";
+                            default:
+                              return item.status;
+                          }
+                        })()}
+                      </span>
+                    </td>
+                    <td>{item.quantity}</td>
+                    <td>{formatVND(item.price)}</td>
+                    <td>{item.sellerName}</td>
+                    <td>{item.event}</td>
+                  </tr>
+                ))
+              : ticket?.map((item, index) => (
+                  <tr key={index}>
+                    <td className="ticket-info">
+                      {item.ticketName}
+                      <span>
+                        <img
+                          src={item.image}
+                          alt="Customer Photo"
+                          className="avatar"
+                        />
+                      </span>
+                    </td>
+                    <td>{item.type}</td>
+                    <td>
+                      <span className={`status ${item.status}`}>
+                        {(() => {
+                          switch (item.status) {
+                            case "Available":
+                              return "Đang bán";
+                            case "Sold":
+                              return "Đã bán";
+                            case "Pending":
+                              return "Chờ duyệt";
+                            case "Cancelled":
+                              return "Bị từ chối";
+                            default:
+                              return item.status;
+                          }
+                        })()}
+                      </span>
+                    </td>
+                    <td>{item.quantity}</td>
+                    <td>{formatVND(item.price)}</td>
+                    <td>{item.sellerName}</td>
+                    <td>{item.event}</td>
+                  </tr>
+                ))}
           </tbody>
         </table>
       </div>
