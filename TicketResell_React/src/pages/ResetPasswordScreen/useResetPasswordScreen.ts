@@ -21,9 +21,14 @@ const useResetPassword = () => {
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const emailFromUrl = queryParams.get("email");
+    const token = queryParams.get("token");
+    if(token) {
+      setToken(token);
+    }
     if (emailFromUrl) {
       setEmail(emailFromUrl);
     }
+    console.log("token: " + token + " email: " + emailFromUrl);
   }, [location]);
   const handleResetPasswordClick = async () => {
     if (newPassword !== confirmPassword) {
