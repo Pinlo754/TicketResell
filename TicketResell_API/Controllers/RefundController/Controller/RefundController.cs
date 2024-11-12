@@ -53,10 +53,10 @@ namespace TicketResell_API.Controllers.RefundController.Controller
             await _context.RefundRequests.AddAsync(model);
             //save to db
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetRefundRequestById), new { id = model.requestId }, model);
+            return CreatedAtAction(nameof(GetRefundRequestById), new { requestId = model.requestId }, model);
         }
 
-        [HttpPut("update-status/{requestId}")]
+        [HttpPut("update-status")]
         public async Task<IActionResult> UpdateStatusRefund(UpdateRefundRequest model)
         {
             //find request
@@ -74,7 +74,7 @@ namespace TicketResell_API.Controllers.RefundController.Controller
             {
                 return BadRequest("Update status failed");
             }
-            return Ok(result);
+            return Ok("Update status successfully");
         }
             
     }
