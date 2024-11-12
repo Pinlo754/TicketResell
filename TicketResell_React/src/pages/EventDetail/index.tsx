@@ -153,9 +153,6 @@ const EventDetail = () => {
                 />
               </svg>
             </button>
-            <p className="text-white font-semibold mr-10">
-              128 đang bán • 200 đã bán • 150 muốn có
-            </p>
           </div>
         </div>
 

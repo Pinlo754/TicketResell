@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const SellScreen: React.FC = () => {
   const {
+    navigate,
     events,
     step,
     selectedEvent,
