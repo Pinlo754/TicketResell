@@ -10,6 +10,7 @@ using TicketResell_API.Controllers.CartController.Model;
 using TicketResell_API.Controllers.OrderController.Model;
 using TicketResell_API.Controllers.CommentController.Model;
 using TicketResell_API.Controllers.WalletController.Model;
+using TicketResell_API.Controllers.RefundController.Model;
 
 public class AppDbContext : IdentityDbContext<MainUser>
 {
@@ -25,6 +26,7 @@ public class AppDbContext : IdentityDbContext<MainUser>
     public DbSet<Comment> Comment { get; set; }
     public DbSet<Wallet> Wallets { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
+    public DbSet<RefundRequest> RefundRequests { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -153,8 +155,8 @@ public class AppDbContext : IdentityDbContext<MainUser>
         // Set up the relationship between `Wallet` and `MainUser`
         modelBuilder.Entity<Wallet>()
             .HasOne(c => c.User)
-            .WithMany(cd => cd.Wallets)
-            .HasForeignKey(c => c.userId)
+            .WithOne(cd => cd.Wallets)
+            .HasForeignKey<Wallet>(c => c.userId)
             //user is delete wallet delete
             .OnDelete(DeleteBehavior.Cascade);
 
@@ -165,6 +167,14 @@ public class AppDbContext : IdentityDbContext<MainUser>
              .HasForeignKey(t => t.walletId)
             //wallet delete but transaction not
             .OnDelete(DeleteBehavior.Restrict);
+
+        // Set up the relationship between `RefundRequests` and `Order`
+        modelBuilder.Entity<RefundRequest>()
+            .HasOne(cd => cd.Orders)
+            .WithOne(c => c.RefundRequests)
+             .HasForeignKey<RefundRequest>(cd => cd.orderId)
+            //order delete refundrequest delete too
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
 
