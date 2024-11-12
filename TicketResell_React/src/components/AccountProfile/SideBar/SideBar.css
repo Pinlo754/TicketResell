@@ -49,6 +49,29 @@
     background: #077eff;
 }
 
+.sidebar .sidebar-submenu-link {
+    padding-left: 16px;
+    display: block;
+    padding: 10px 25px;
+    color: #333;
+    text-decoration: none;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.sidebar .sidebar-submenu-link:hover {
+    color: #077eff;
+}
+
+.sidebar .sidebar-submenu-link.active {
+    color: #077eff;
+}
+
+.sidebar .sidebar-submenu-link.active::before {
+    color: #077eff;
+}
+
 /* Content Area */
 .content {
     flex: 1;
