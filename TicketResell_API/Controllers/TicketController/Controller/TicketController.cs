@@ -114,6 +114,7 @@ namespace TicketResell_API.Controllers.TicketController.Controller
             existingTicket.type = model.type;
             existingTicket.section = model.section;
             existingTicket.row = model.row;
+            existingTicket.seat = model.seat;
             existingTicket.eventId = model.eventId;
             existingTicket.updateAt = DateTime.Now;
             //save to db

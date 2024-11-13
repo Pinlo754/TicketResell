@@ -46,6 +46,15 @@ const usePurchase = () => {
           events: Event[];
         };
 
+        type Comment = {
+          commentId: string;
+          userId: string;
+          rating: number;
+          time: string;
+          comment: string;
+          toUserId: string;
+        };
+
         const tabs = [
           { id: 1, label: "Tất cả" },
           { id: 2, label: "Đã mua" },
@@ -58,15 +67,18 @@ const usePurchase = () => {
       const userId = localStorage.getItem("userId");
       const [showFeedback, setShowFeedback] = useState(false); // State to control Feedback visibility
       const [selectedOrder, setSelectedOrder] = useState<Order>();
+      const [comments, setComments] = useState<Comment[]>([]);
+      const commentIds = comments.map(comment => comment.commentId);
       const [sellerId, setSellerId] = useState("");
       useEffect(() => {
         if (userId != null) {
-            fetchOrders(userId);
+            fetchOrders();
             fetchOrderDetails(orders);
+            fetchComments();
         };
       },[]);
 
-      const fetchOrders = async (userId: string) => {
+      const fetchOrders = async () => {
         try {
             const ordersResponse = await axios.get(`/api/Order/get-user-orders/${userId}`);
             const ordersData:Order[] = ordersResponse.data;
@@ -140,6 +152,17 @@ const usePurchase = () => {
           console.error("Error fetching order details:", error);
       }
   };
+
+  const fetchComments = async () => {
+    try {
+      const response = await axios.get(`/api/Comment/list-comment/${userId}`);
+      const commentsData: Comment[] = response.data;
+      setComments(commentsData);
+      
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
   
         // Function to show Feedback form
         const handleOpenFeedback = () => {
@@ -181,10 +204,8 @@ const usePurchase = () => {
             });
             if (response.status === 200) {
               alert("Đơn đã hoàn thành!");
-              if (userId != null) {
-                fetchOrders(userId);
+                fetchOrders();
                 fetchOrderDetails(orders);
-              }
             }
           } catch (error) {
             console.error("Error completing order:", error);
@@ -196,10 +217,8 @@ const usePurchase = () => {
             const response = await axios.put(`/api/Order/update/${orderId}`, {status: "Refund"})
             if (response.status === 200) {
               alert("Yêu cầu đã gửi thành công!");
-              if (userId != null) {
-                fetchOrders(userId);
+                fetchOrders();
                 fetchOrderDetails(orders);
-              }
             }
         } catch (error) {
           console.error("Error completing order:", error);
@@ -208,6 +227,7 @@ const usePurchase = () => {
 
     return {
         navigate,
+        comments,
         orders,
         selectedOrder,
         setSelectedOrder,

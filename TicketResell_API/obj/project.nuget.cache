@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "nTXU48nMPNU=",
+  "dgSpecHash": "1D1dUtQvlPM=",
   "success": true,
-  "projectFilePath": "E:\\SWP391\\TicketResell_1311\\TicketResell\\TicketResell_API\\TicketResell_API.csproj",
+  "projectFilePath": "E:\\SWP391\\TicketResell_1311_2\\TicketResell\\TicketResell_API\\TicketResell_API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\pinlo\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\pinlo\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

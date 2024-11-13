@@ -6,7 +6,7 @@ import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
 import ScrollToTopButton from "../../components/ScrollToTopButton";
 import ScrollToTop from "../../components/ScrollToTop";
-import {ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const SellScreen: React.FC = () => {
@@ -24,7 +24,8 @@ const SellScreen: React.FC = () => {
     goNext,
     goBack,
     handleTicketInfoChange,
-    handleImageUpload,
+    handleImageQRUpload,
+    handleImageVerifyUpload,
     handleSubmit,
     formatCurrency,
   } = useSell();
@@ -34,14 +35,13 @@ const SellScreen: React.FC = () => {
     <div className="relative p-2">
       {/* Sự kiện được chọn hiển thị dấu X */}
       {selectedEvent && selectedEvent.eventName === event.eventName && (
-
         // Dấu X
         <button
           className="absolute top-0 right-0"
           onClick={(e) => {
             e.stopPropagation(); // Để ngăn việc trigger chọn lại sự kiện
-            setSelectedEvent(null);// Hủy chọn sự kiện
-            navigate("/sell"); 
+            setSelectedEvent(null); // Hủy chọn sự kiện
+            navigate("/sell");
           }}
         >
           <svg
@@ -63,7 +63,6 @@ const SellScreen: React.FC = () => {
 
       {/* Events */}
       <div className="flex items-center">
-
         {/* Event date */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -132,11 +131,10 @@ const SellScreen: React.FC = () => {
       {/* SCROLL TO TOP BUTTON */}
       <ScrollToTopButton />
 
-      <ToastContainer/>
+      <ToastContainer />
 
       {/* MAIN CONTENT */}
       <div className="w-[50%] mx-auto p-4 ">
-
         {/* Thanh tiến độ */}
         <div className="w-full mt-20 flex justify-center items-center mx-auto">
           <ProgressBarNumber currentStep={step} steps={2} />
@@ -253,6 +251,7 @@ const SellScreen: React.FC = () => {
 
             {/* Hàng */}
             {ticketInfo.type === "Seat" ? (
+              <div>
               <input
                 type="number"
                 placeholder="Hàng"
@@ -263,6 +262,18 @@ const SellScreen: React.FC = () => {
                 value={ticketInfo.row ?? ""}
                 required={showRow}
               />
+
+              <input
+                type="number"
+                placeholder="Ghế"
+                className="border p-2 w-full mb-4"
+                onChange={(e) =>
+                  handleTicketInfoChange("seat", Number(e.target.value))
+                }
+                value={ticketInfo.seat ?? ""}
+                required={showRow}
+              />
+              </div>
             ) : null}
 
             {/* Số lượng vé */}
@@ -306,13 +317,23 @@ const SellScreen: React.FC = () => {
             />
 
             {/* Hình vé */}
-            <label className="block mb-1">Hình vé:</label>
+            <label className="block mb-1">QR sử dụng:</label>
             <input
               type="file"
               multiple
               accept=".png, .jpg, .jpeg"
               className="border p-2 w-full mb-4"
-              onChange={handleImageUpload}
+              onChange={handleImageQRUpload}
+              required
+            />
+
+            <label className="block mb-1">Bằng chứng xác thực:</label>
+            <input
+              type="file"
+              multiple
+              accept=".png, .jpg, .jpeg"
+              className="border p-2 w-full mb-4"
+              onChange={handleImageVerifyUpload}
               required
             />
 
@@ -344,7 +365,7 @@ const SellScreen: React.FC = () => {
           </div>
         )}
       </div>
-      
+
       {/* FOOTER */}
       <div className="flex-grow-0">
         <Footer />
