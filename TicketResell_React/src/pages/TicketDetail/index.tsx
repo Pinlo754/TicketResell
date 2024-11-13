@@ -20,7 +20,7 @@ const TicketDetail = () => {
   } = useTicketDetail();
 
   const subtotal = ticket.price * quantity;
-      const selectedItems = [{ ticketId: ticket.ticketId, sellerName: user.firstName +" "+ user.lastName, quantity, sellerImg: user.userImage + "" }];
+      const selectedItems = [{ ticketId: ticket.ticketId, sellerName: user?.firstName +" "+ user?.lastName, quantity, sellerImg: user?.userImage + "" }];
       const handleCheckout = () => {navigate("/checkout", { state: { subtotal, quantity, selectedItems } });};
 
   return (
@@ -172,16 +172,16 @@ const TicketDetail = () => {
               <div className="w-full flex flex-col items-center justify-center mb-3 pt-10 pb-6">
                 <div
                   className="relative overflow-hidden rounded-full cursor-pointer"
-                  onClick={() => navigate("/userProfile")}
+                  onClick={() => navigate(`/userProfile/${user?.id}`)}
                 >
                   <img
                     alt="https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"
-                    src = {user.userImage}
+                    src = {user?.userImage}
                     className="object-cover w-40 h-40 hover:scale-110 transition-transform duration-300"
                   />
                 </div>
                 <p className="text-3xl font-bold mt-4">
-                  {user.firstName + " " + user.lastName}
+                  {user?.firstName + " " + user?.lastName}
                 </p>
 
                 {/* SVG */}
@@ -220,7 +220,7 @@ const TicketDetail = () => {
                         clip-rule="evenodd"
                       />
                     </svg>
-                    <p>4</p>
+                    <p>{comments.length}</p>
                   </div>
                 </div>
 
@@ -342,7 +342,7 @@ const TicketDetail = () => {
                 </button>
                 <button className="py-2 px-10 my-4 bg-[#87CBB9] text-white text-lg rounded-xl hover:bg-[#B9EDDD] hover:text-black"
                 onClick={handleCheckout}>
-                  Buy
+                  Mua
                 </button>
               </div>
             </div>

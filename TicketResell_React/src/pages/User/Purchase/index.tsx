@@ -12,10 +12,13 @@ const Purchase = () => {
     const {
       navigate,
       orders,
+      selectedOrder,
+      setSelectedOrder,
       tabs,
       handleOpenFeedback,
       handleCloseFeedback,
       showFeedback,
+      setShowFeedback,
       handleComplete,
       handleRefund,
     } = usePurchase();
@@ -244,7 +247,10 @@ const Purchase = () => {
                             )}
                             {order.status === "Complete" && (
                               <button
-                                onClick={handleOpenFeedback}
+                                onClick={() => {
+                                  setSelectedOrder(order);
+                                  setShowFeedback(true);
+                                }}
                                 className="rounded p-2 bg-[#B9EDDD] hover:bg-[#87CBB9] hover:text-white"
                               >
                                 Đánh giá
@@ -267,9 +273,9 @@ const Purchase = () => {
         </div>
 
         {/* FEEDBACK FORM */}
-        {showFeedback && (
+        {showFeedback && selectedOrder && (
           <div className="pt-12 fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-            <Feedback onClose={handleCloseFeedback} /> {/* Pass onClose prop */}
+            <Feedback onClose={handleCloseFeedback} order={selectedOrder}/> 
           </div>
         )}
       </div>

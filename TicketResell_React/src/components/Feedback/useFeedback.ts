@@ -2,16 +2,56 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-const useFeedback = () => {
+type Seller = {
+  Id: string;
+  firstName: string;
+  lastName: string;
+  userImage: string;
+};
+
+type Event = {
+  eventId: string;
+  eventName: string;
+  eventImage: string;
+  eventTime: string;
+  location: string;
+  city: string;
+};
+
+type Ticket = {
+  ticketId: string,
+  ticketName: string,
+  ticketType: string,
+  price: number,
+  quantity: number,
+  eventId: string,
+  userId: string,
+};
+
+type Order = {
+  orderId: string,
+  orderDate: string,
+  ticketId: string,
+  quantity: number,
+  totalAmount: number,
+  status: string,
+  userName: string,
+  receiverPhone: string,
+  receiverEmail: string,
+  paymentMethod: string,
+  tickets: Ticket[],
+  seller: Seller;
+  events: Event[],
+};
+const useFeedback = (order:Order) => {
 
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
     //const [seller, setSeller] = useState<User>();
-    const sellerId = "abcd";
+    const [orderId, setOrderId] = useState<string>('');
     const [rating, setRating] = useState<number>(0);
     const [comment, setComment] = useState<string>('');
-    const orderId = "12345";
 
     type User = {
         userId: string,
@@ -121,50 +161,6 @@ const useFeedback = () => {
         },
       ];
 
-      type Ticket = {
-        ticketId: string,
-        ticketName: string,
-        ticketType: string,
-        eventId: string,
-        eventName: string,
-        eventImage: string,
-        eventDate: string,
-        orderId: string,
-      };
-
-      const tickets: Ticket[] = [
-        {
-          ticketId: "T123",
-          ticketName: "Ticket 1",
-          ticketType: "Stand",
-          eventId: "T123",
-          eventName: "Event 1",
-          eventImage: "https://backstage.vn/storage/2018/12/shutterstock_538256848.jpg",
-          eventDate: "28/08/2004",
-          orderId: "O123",
-        },
-        {
-          ticketId: "T456",
-          ticketName: "Ticket 2",
-          ticketType: "Seat",
-          eventId: "T456",
-          eventName: "Event 2",
-          eventImage: "https://backstage.vn/storage/2018/12/shutterstock_538256848.jpg",
-          eventDate: "31/08/2004",
-          orderId: "O456",
-        },
-        {
-          ticketId: "T789",
-          ticketName: "Ticket 3",
-          ticketType: "Stand",
-          eventId: "T789",
-          eventName: "Event 3",
-          eventImage: "https://backstage.vn/storage/2018/12/shutterstock_538256848.jpg",
-          eventDate: "25/05/2004",
-          orderId: "O789",
-        },
-      ];
-
       type Feedback = {
         userId: string,
         rating: number,
@@ -173,11 +169,9 @@ const useFeedback = () => {
         toUserId: string,
       }
 
-    useEffect(() => {
-        if (token !== null && userId !== null) {
-            
-        }
-    },[]);
+      useEffect(() => {
+        setOrderId(order.orderId);
+      }, [order, setOrderId]);
 
     // Rating
   const totalRating = comments.reduce(
@@ -192,11 +186,12 @@ const useFeedback = () => {
       return;
     }
 
-    const feedback: Feedback = { userId: userId || "", rating, comment, orderId, toUserId: sellerId };
+    const feedback: Feedback = { userId: userId || "", rating, comment, orderId, toUserId: order.tickets[0].userId };
     postFeedback(feedback);
   };
 
   const postFeedback = async (feedback: Feedback) => {
+    console.log(feedback);
     try {
       const response = await axios.post("/api/Comment/create-comment", feedback,
         {
@@ -219,10 +214,10 @@ const useFeedback = () => {
     setRating,
     comment, 
     setComment,
+    setOrderId,
     totalRating,
     averageRating,
     comments,
-    tickets,
     handleSubmit,
   }  
 }
