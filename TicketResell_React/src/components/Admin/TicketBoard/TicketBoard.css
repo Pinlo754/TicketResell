@@ -18,6 +18,18 @@
     margin-bottom: 20px;
     color: white;
   }
+
+  .table-container .export-button{
+    background-color: azure;
+    margin-right: 10px;
+    padding: 0 20px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .table-container .export-button:hover{
+    background-color: aquamarine;
+  }
   
   .inventory-table {
     width: 100%;

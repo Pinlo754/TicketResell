@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import assets from "../../../assets/assetsChat";
-
+import * as XLSX from "xlsx";
 interface user {
   roles: [string];
   firstName: string;
@@ -130,13 +130,30 @@ const UserBoard = () => {
       console.error(error);
     }
   };
+    //Xuất excel
+    const exportToExcel = () => {
+      // Tạo workbook và worksheet từ bảng HTML
+      const table = document.getElementsByClassName("customers-table")[0];
+      if (table) {
+        const workbook = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+        // Xuất file Excel
+        XLSX.writeFile(workbook, "DanhSachTaiKhoan.xlsx");
+      } else {
+        console.error("Không tìm thấy bảng với class 'inventory-table'");
+      }
+    };
 
   return (
     <div className="Admin">
       <ToastContainer />
       <SideBar />
       <div className="table-container">
-        <h4>Tài khoản</h4>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <h4 style={{ width: "50%" }}>Tài khoản</h4>
+          <button onClick={() => exportToExcel()} className="export-button">
+            Xuất file
+          </button>
+        </div>
         <div
           className="ls-search"
           style={{ marginBottom: "10px", borderRadius: "10px" }}

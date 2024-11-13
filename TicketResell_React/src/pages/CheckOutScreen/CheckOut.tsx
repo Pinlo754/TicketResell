@@ -253,7 +253,6 @@ const CheckOut = () => {
       fetchOrderData();
     }
   }, [selectedItems]);
-  console.log(displayOrder)
   return (
     <div className="checkout-page">
       {showPopup && (
