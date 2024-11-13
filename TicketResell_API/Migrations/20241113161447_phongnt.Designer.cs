@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TicketResell_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241113154115_phongnt")]
+    [Migration("20241113161447_phongnt")]
     partial class phongnt
     {
         /// <inheritdoc />
@@ -722,10 +722,9 @@ namespace TicketResell_API.Migrations
                     b.ToTable("Wallets");
                 });
 
-            modelBuilder.Entity("TicketResell_API.Controllers.WalletController.Model.WithDraw", b =>
+            modelBuilder.Entity("WithDraw", b =>
                 {
                     b.Property<string>("withDrawId")
-                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("amount")
@@ -747,10 +746,13 @@ namespace TicketResell_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("transactionId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("walletId")
                         .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("withDrawId");
 

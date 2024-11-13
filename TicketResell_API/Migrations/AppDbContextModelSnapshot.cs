@@ -719,10 +719,9 @@ namespace TicketResell_API.Migrations
                     b.ToTable("Wallets");
                 });
 
-            modelBuilder.Entity("TicketResell_API.Controllers.WalletController.Model.WithDraw", b =>
+            modelBuilder.Entity("WithDraw", b =>
                 {
                     b.Property<string>("withDrawId")
-                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("amount")
@@ -744,10 +743,13 @@ namespace TicketResell_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("transactionId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("walletId")
                         .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("withDrawId");
 
