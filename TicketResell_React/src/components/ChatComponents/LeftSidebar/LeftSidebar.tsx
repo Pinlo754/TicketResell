@@ -141,7 +141,7 @@ const LeftSidebar: React.FC = () => {
         }, (response: { success: boolean, message?: string }) => {
           if (response.success) {
             setChatVisible(true)
-            console.log("success update messSeen in leftside"); 
+            console.log("success update messSeen in leftSide"); 
           } else {
             console.error(response.message || 'Failed to update message seen status');
           }

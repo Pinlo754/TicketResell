@@ -141,7 +141,7 @@ io.on('connection', (socket) => {
     try {
       // Gọi API để cập nhật trạng thái messageSeen
       console.log(data.time);
-      const response = await axios.put(`http://localhost:5158/api/Chat/${data.messagesId}`, {
+      const response = await axios.put(`http://localhost:5158/api/Chat/update-message`, {
         messageId: data.messagesId,
         messages:[{
                   createdAt:data.time,
