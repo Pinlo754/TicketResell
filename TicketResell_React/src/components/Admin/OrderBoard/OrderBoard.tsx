@@ -4,7 +4,7 @@ import SideBar from "../SideBar/SideBar";
 import axios from "axios";
 import assets from "../../../assets/assetsChat";
 import { useNavigate } from "react-router-dom";
-
+import * as XLSX from "xlsx";
 interface orderDetails {
   orderId: string;
   status: string;
@@ -14,7 +14,7 @@ interface orderDetails {
   name: string;
   email: string;
   phone: string;
-  ticketName: string
+  ticketName: string;
 }
 
 interface userInfo {
@@ -25,14 +25,12 @@ const OrderBoard = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [searchResult, setSearchResult] = useState<orderDetails[]>([]);
   const [order, setOrder] = useState<orderDetails[]>();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
   useEffect(() => {
     const getListOrder = async () => {
       try {
-        const response = await axios.get(
-          "/api/Admin/list-order"
-        );
+        const response = await axios.get("/api/Admin/list-order");
         if (response.status === 200) {
           const orderList = response.data;
           const orderListDetail = await Promise.all(
@@ -52,7 +50,7 @@ const OrderBoard = () => {
                     email: detailUser.receiverEmail,
                     phone: detailUser.receiverPhone,
                     ticketName: detailUser.ticketName,
-                    status: detailUser.status // Lấy status của order detail
+                    status: detailUser.status, // Lấy status của order detail
                   };
                 }
                 return item;
@@ -69,8 +67,8 @@ const OrderBoard = () => {
       }
     };
     getListOrder();
-  },[token]);
-  
+  }, [token]);
+
   // hiển thị định dạng tiền tệ VN
   const formatVND = (amount: number) => {
     return new Intl.NumberFormat("vi-VN", {
@@ -92,7 +90,7 @@ const OrderBoard = () => {
   const inputHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       const input = e.target.value;
-      if (input && order ) {
+      if (input && order) {
         const inputResult = order.filter((item) =>
           item.ticketName.toLowerCase().includes(input.trim().toLowerCase())
         );
@@ -106,12 +104,29 @@ const OrderBoard = () => {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
+  //Xuất excel
+  const exportToExcel = () => {
+    // Tạo workbook và worksheet từ bảng HTML
+    const table = document.getElementsByClassName("orders-table")[0];
+    if (table) {
+      const workbook = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+      // Xuất file Excel
+      XLSX.writeFile(workbook, "DanhSachDonHang.xlsx");
+    } else {
+      console.error("Không tìm thấy bảng với class 'inventory-table'");
+    }
+  };
   return (
     <div className="Admin">
       <SideBar />
       <div className="table-container">
-        <h4>Đơn hàng</h4>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <h4 style={{ width: "50%" }}>Tài khoản</h4>
+          <button onClick={() => exportToExcel()} className="export-button">
+            Xuất file
+          </button>
+        </div>
         <div
           className="ls-search"
           style={{ marginBottom: "10px", borderRadius: "10px" }}
@@ -138,53 +153,79 @@ const OrderBoard = () => {
             </tr>
           </thead>
           <tbody>
-            {showSearch ?  
-            searchResult?.map((item,index) => (
-              <tr key={index} style={{cursor:"pointer"}} onClick={()=>navigate("./detail",{state:{orderId: item.orderId, userId: item.userId, total: item.totalAmount, orderDate: item.orderDate }})} >
-                <td>{item.orderId}</td>
-                <td>{item.ticketName}</td>
-                <td>{item.name}</td>
-                <td>{item.email}</td>
-                <td>{item.phone}</td>
-                <td>
-                  <span className={item.status}>
-                    {(() => {
-                      switch (item.status) {
-                        case "Pending":
-                          return "Chờ duyệt";
-                        default:
-                          return item.status;
-                      }
-                    })()}
-                  </span>
-                </td>
-                <td>{dateTime(item.orderDate)}</td>
-                <td>{formatVND(item.totalAmount)}</td>
-              </tr>
-            ))
-            :order?.map((item,index) => (
-              <tr key={index} style={{cursor:"pointer"}} onClick={()=>navigate("./detail", {state:{orderId: item.orderId, userId: item.userId, total: item.totalAmount, orderDate: item.orderDate }})}  >
-                <td>{item.orderId}</td>
-                <td>{item.ticketName}</td>
-                <td>{item.name}</td>
-                <td>{item.email}</td>
-                <td>{item.phone}</td>
-                <td>
-                  <span className={item.status}>
-                    {(() => {
-                      switch (item.status) {
-                        case "Pending":
-                          return "Chờ duyệt";
-                        default:
-                          return item.status;
-                      }
-                    })()}
-                  </span>
-                </td>
-                <td>{dateTime(item.orderDate)}</td>
-                <td>{formatVND(item.totalAmount)}</td>
-              </tr>
-            ))}
+            {showSearch
+              ? searchResult?.map((item, index) => (
+                  <tr
+                    key={index}
+                    style={{ cursor: "pointer" }}
+                    onClick={() =>
+                      navigate("./detail", {
+                        state: {
+                          orderId: item.orderId,
+                          userId: item.userId,
+                          total: item.totalAmount,
+                          orderDate: item.orderDate,
+                        },
+                      })
+                    }
+                  >
+                    <td>{item.orderId}</td>
+                    <td>{item.ticketName}</td>
+                    <td>{item.name}</td>
+                    <td>{item.email}</td>
+                    <td>{item.phone}</td>
+                    <td>
+                      <span className={item.status}>
+                        {(() => {
+                          switch (item.status) {
+                            case "Pending":
+                              return "Chờ duyệt";
+                            default:
+                              return item.status;
+                          }
+                        })()}
+                      </span>
+                    </td>
+                    <td>{dateTime(item.orderDate)}</td>
+                    <td>{formatVND(item.totalAmount)}</td>
+                  </tr>
+                ))
+              : order?.map((item, index) => (
+                  <tr
+                    key={index}
+                    style={{ cursor: "pointer" }}
+                    onClick={() =>
+                      navigate("./detail", {
+                        state: {
+                          orderId: item.orderId,
+                          userId: item.userId,
+                          total: item.totalAmount,
+                          orderDate: item.orderDate,
+                        },
+                      })
+                    }
+                  >
+                    <td>{item.orderId}</td>
+                    <td>{item.ticketName}</td>
+                    <td>{item.name}</td>
+                    <td>{item.email}</td>
+                    <td>{item.phone}</td>
+                    <td>
+                      <span className={item.status}>
+                        {(() => {
+                          switch (item.status) {
+                            case "Pending":
+                              return "Chờ duyệt";
+                            default:
+                              return item.status;
+                          }
+                        })()}
+                      </span>
+                    </td>
+                    <td>{dateTime(item.orderDate)}</td>
+                    <td>{formatVND(item.totalAmount)}</td>
+                  </tr>
+                ))}
           </tbody>
         </table>
       </div>

@@ -20,23 +20,31 @@ interface orderDetails {
   price: number;
 }
 
-const data = [
-  { name: "Tháng 5", Total: 1_200_000 },
-  { name: "Tháng 6", Total: 2200100 },
-  { name: "Tháng 7", Total: 800000 },
-  { name: "Tháng 8", Total: 160330 },
-  { name: "Tháng 9", Total: 93100 },
-  { name: "Tháng 10", Total: 1000300 },
-  { name: "Tháng 11", Total: 1700000 },
-  { name: "Tháng 12", Total: 100170 },
-];
+interface Transaction {
+  amount: number;
+  balanceAfter: number;
+  balanceBefore: number;
+  orderId: string;
+  status: string;
+  time: string;
+  transactionId: string;
+  transactionType: string;
+  walletId: string;
+}
 
+interface RecentRevenue{
+  date: string,
+  total: number
+}
 const DashBoard = () => {
   const [numberTicket, setNumberTicket] = useState(0);
   const [numberAccount, setNumberAccount] = useState(0);
   const [numberOrder, setNumberOrder] = useState(0);
+  const [sumRevenue, setSumRevenue] = useState(0);
   const [recentOrderList, setRecentOrderList] = useState<orderDetails[]>([]);
-  
+  const [revenueBoard, setRevenueBoard] = useState<RecentRevenue[]>([]);
+  const adminId = localStorage.getItem("userId");
+  // Lấy số tài khoản
   const getNumberAccount = async () => {
     try {
       const response = await axios.get("/api/Admin/list-user");
@@ -49,7 +57,8 @@ const DashBoard = () => {
       console.error(error);
     }
   };
-  
+
+   // Lấy số đơn hàng và bảng đơn hàng gần nhất
   const getNumberOrder = async () => {
     try {
       const response = await axios.get("/api/Admin/list-order");
@@ -91,6 +100,7 @@ const DashBoard = () => {
     }
   };
   
+  // Lấy số vé 
   const getNumberTicket = async () => {
     try {
       const response = await axios.get("/api/Ticket/list-ticket");
@@ -103,7 +113,57 @@ const DashBoard = () => {
       console.error(error);
     }
   };
+// Hàm gộp các giao dịch theo ngày
+const groupTransactionsByDate = (transactions: Transaction[]) => {
+  const result = transactions.reduce((acc: { [key: string]: number }, transaction) => {
+      const date = transaction.time.split("T")[0]; // Lấy ngày từ `time`
+      const [year, month, day] = transaction.time.split("T")[0].split("-");
+      const formattedDate = `${day}-${month}-${year}`;
+      if (!acc[formattedDate]) {
+          acc[formattedDate] = transaction.amount;
+      } else {
+          acc[formattedDate] += transaction.amount; // Cộng dồn `amount`
+      }
+      return acc;
+  }, {});
+
+  // Chuyển đối tượng thành mảng với các đối tượng { total, date }
+  return Object.entries(result).map(([date, total]) => ({ date, total }));
+};
   
+  const getRevenue = async () =>{
+    try {
+      const response = await axios.get(`/api/Wallet/get-by-user/${adminId}`);
+      if (response.status === 200) {
+        const walletId = response.data.walletId;
+        const revenueRes = await axios.get(`/api/Wallet/transaction-history/${walletId}`);
+        if (revenueRes.status === 200) {
+          const revenueList = revenueRes.data;
+          let revenue = 0 ;
+          revenueList.forEach((element:Transaction) => {
+            revenue += element.amount
+          });
+          setSumRevenue(revenue)
+          // lấy tất cả transaction trong 6 ngày gần nhất
+          const startDate = new Date(new Date().getTime() - 6 * 24 * 60 * 60 * 1000)
+          const transactionsLast6Days = revenueList.filter((transaction:Transaction) => {
+            const transactionDate = new Date(transaction.time);
+            return transactionDate >= startDate;
+          });
+          // cùng ngày thì gộp lại tăng total dữ liệu lưu trong result
+          const groupedTransactions = groupTransactionsByDate(transactionsLast6Days);
+          setRevenueBoard(groupedTransactions.reverse());
+        }
+        
+      } else {
+        console.error("Can't get data");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  // sắp xếp danh sách đơn hàng gần nhất
   const getSortedRecentOrders = (orders: orderDetails[] | undefined) => {
     if (!orders) return [];
 
@@ -116,7 +176,6 @@ const DashBoard = () => {
       .slice(0, 4);
   };
 
-  
   // Hiển thị định dạng tiền tệ VN
   const formatVND = (amount: number) => {
     return new Intl.NumberFormat("vi-VN", {
@@ -127,12 +186,14 @@ const DashBoard = () => {
     }).format(amount);
   };
   
+
   useEffect(() => {
+    getRevenue();
     getNumberOrder();
     getNumberTicket();
     getNumberAccount();
   }, []);
-
+  
   return (
     <div className="dashboard">
       <h4 className="dashboard-title">Dashboard</h4>
@@ -221,7 +282,7 @@ const DashBoard = () => {
             </div>
             <div className="stat-content">
               <div className="stat-title">Lợi nhuận</div>
-              <div className="stat-value">890,686,000</div>
+              <div className="stat-value">{formatVND(sumRevenue)}</div>
             </div>
           </div>
         </div>
@@ -256,7 +317,7 @@ const DashBoard = () => {
             <AreaChart
               width={730}
               height={250}
-              data={data}
+              data={revenueBoard}
               margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
             >
               <defs>
@@ -266,7 +327,7 @@ const DashBoard = () => {
                 </linearGradient>
               </defs>
 
-              <XAxis dataKey="name" stroke="gray" />
+              <XAxis dataKey="date" stroke="gray" />
 
               <CartesianGrid strokeDasharray="3 3" className="chartGrid" />
 
@@ -276,7 +337,7 @@ const DashBoard = () => {
 
               <Area
                 type="monotone"
-                dataKey="Total"
+                dataKey="total"
                 stroke="#8884d8"
                 fillOpacity={1}
                 fill="url(#total)"

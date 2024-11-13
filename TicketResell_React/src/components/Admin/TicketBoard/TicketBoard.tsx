@@ -3,7 +3,7 @@ import SideBar from "../SideBar/SideBar";
 import "./TicketBoard.css";
 import axios from "axios";
 import assets from "../../../assets/assetsChat";
-import { useNavigate } from "react-router-dom";
+import * as XLSX from "xlsx";
 
 interface ticketDetail {
   ticketName: string;
@@ -27,9 +27,7 @@ const TicketBoard = () => {
   useEffect(() => {
     const getTicket = async () => {
       try {
-        const response = await axios.get(
-          "/api/Ticket/list-ticket"
-        );
+        const response = await axios.get("/api/Ticket/list-ticket");
         if (response.status === 200) {
           const ticketList = response.data;
 
@@ -83,7 +81,8 @@ const TicketBoard = () => {
       }
     };
     getTicket();
-  },[token]);
+  }, [token]);
+
   const inputHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       const input = e.target.value;
@@ -112,13 +111,29 @@ const TicketBoard = () => {
       maximumFractionDigits: 0,
     }).format(amount);
   };
-
+  //Xuất excel
+  const exportToExcel = () => {
+    // Tạo workbook và worksheet từ bảng HTML
+    const table = document.getElementsByClassName("inventory-table")[0];
+    if (table) {
+      const workbook = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+      // Xuất file Excel
+      XLSX.writeFile(workbook, "DanhSachVe.xlsx");
+    } else {
+      console.error("Không tìm thấy bảng với class 'inventory-table'");
+    }
+  };
   return (
     <div className="Admin">
       <SideBar />
 
       <div className="table-container">
-        <h4>Tất cả vé</h4>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <h4 style={{ width: "50%" }}>Tất cả vé</h4>
+          <button onClick={() => exportToExcel()} className="export-button">
+            Xuất file
+          </button>
+        </div>
         <div
           className="ls-search"
           style={{ marginBottom: "10px", borderRadius: "10px" }}
@@ -194,7 +209,7 @@ const TicketBoard = () => {
                         />
                       </span>
                     </td>
-                    <td>{item.type}</td>
+                    <td> </td>
                     <td>
                       <span className={`status ${item.status}`}>
                         {(() => {
