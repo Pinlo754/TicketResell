@@ -153,11 +153,6 @@
     margin-top: 0.25rem;
 }
 
-.star {
-    color: #FFB800;
-    letter-spacing: 2px;
-}
-
 .payment-section {
     margin: 2.5rem 0;
     padding: 2rem;
@@ -176,6 +171,14 @@
     margin-top: 1.25rem;
     transition: transform 0.2s ease;
     cursor: pointer;
+}
+
+.payment-method:hover{
+    background-color: #BFEEE6;
+}
+
+.payment-section .active{
+    background-color: #BFEEE6;
 }
 
 .payment-icon {

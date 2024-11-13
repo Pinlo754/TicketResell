@@ -111,14 +111,15 @@ io.on('connection', (socket) => {
   socket.on('updateChatData', async (data: { userId: string, lastMess: string, messId:string, messSeen : boolean, rId: string, update:Date }, callback) => {
     try {
       // Gọi API để cập nhật trạng thái messageSeen
-      const response = await axios.put(`http://localhost:5158/api/Chat/update-chat/${data.userId}`, {
+      const response = await axios.put(`http://localhost:5158/api/Chat/update-chat`, {
         seUserId: data.userId,
         chatData:[{
                   lastMessage: data.lastMess,
                   messageId: data.messId,
                   messageSeen: data.messSeen,
                   reUserId: data.rId,
-                  updatedAt: data.update     
+                  updatedAt: data.update,
+                  chatSeUserId: data.userId    
         }
       ]
       });
@@ -145,7 +146,8 @@ io.on('connection', (socket) => {
         messages:[{
                   createdAt:data.time,
                   seUserId: data.id,
-                  data: data.input,    
+                  data: data.input,   
+                  messageId: data.messagesId
         }
       ]
       });
@@ -157,6 +159,7 @@ io.on('connection', (socket) => {
         io.emit('chatUpdated')
         callback({ success: true });
       } else {
+        console.error(data);
         callback({ success: false, message: 'Failed to update message seen status' });
       }
     } catch (error) {
