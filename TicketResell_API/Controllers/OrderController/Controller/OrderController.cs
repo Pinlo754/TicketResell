@@ -103,6 +103,7 @@ namespace TicketResell_API.Controllers.OrderController.Controller
             try
             {
                 // Check availability of tickets first
+                List<string> imagesQRList = new List<string>();
                 foreach (var detail in model.OrderDetails)
                 {
                     var ticket = await _context.Tickets.FirstOrDefaultAsync(t => t.ticketId == detail.ticketId);
@@ -110,11 +111,21 @@ namespace TicketResell_API.Controllers.OrderController.Controller
                     {
                         return BadRequest($"Not enough tickets available for {detail.ticketName}");
                     }
+                    if (ticket.imagesQR != null && ticket.imagesQR.Length > 0)
+                    {
+                        imagesQRList.AddRange(ticket.imagesQR);
+                    }
                 }
 
                 // Create the Order
-                var order = new Order { orderId = Guid.NewGuid().ToString(), userId = model.userId, orderDate = DateTime.UtcNow, totalAmount = model.totalAmount, Status = "Pending" };
-                _context.Orders.Attach(order);
+                var order = new Order 
+                { 
+                    orderId = Guid.NewGuid().ToString(),
+                    userId = model.userId,
+                    orderDate = DateTime.UtcNow, 
+                    totalAmount = model.totalAmount, 
+                    Status = "Pending" 
+                };
                 _context.Orders.Add(order);
                 await _context.SaveChangesAsync();
 
@@ -160,7 +171,8 @@ namespace TicketResell_API.Controllers.OrderController.Controller
 
                 // Send order confirmation email directly without background job
                 string ticketDetails = string.Join(", ", model.OrderDetails.Select(d => $"{d.ticketName} - {d.quantity} tickets"));
-                await _emailSender.SendOrderConfirmationEmailAsync(model.OrderDetails.First().receiverEmail, order.orderId, model.OrderDetails.First().eventName, ticketDetails);
+                
+                await _emailSender.SendOrderConfirmationEmailAsync(model.OrderDetails.First().receiverEmail, order.orderId, model.OrderDetails.First().eventName, ticketDetails, imagesQRList.ToArray());
 
                 // Return order information and payment URL
                 return CreatedAtAction(nameof(GetOrderById), new { orderId = order.orderId }, new
