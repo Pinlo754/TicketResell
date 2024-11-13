@@ -55,9 +55,7 @@ const useManageTicket = () => {
               if (ticket.eventId) {
                 const eventResponse = await axios.get(`/api/Event/${ticket.eventId}`);
                 ticket.event = eventResponse.data; // Gán dữ liệu event vào ticket
-                const dateParam = ticket.event.eventTime
-                console.log(dateParam);
-                
+                const dateParam = ticket.event.eventTime                
                 const utcDate = new Date(dateParam);
                 const localDate = new Date(utcDate.getTime());
                 const year = localDate.getFullYear();
