@@ -1,54 +1,58 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "E:\\SWP391\\TicketResell_1411\\TicketResell\\TicketResell_API\\",
+  "WorkspaceRootPath": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1411\\ticketresell\\ticketresell_api\\controllers\\notificationcontroller\\controller\\notificationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1411_0322\\ticketresell\\ticketresell_api\\controllers\\ordercontroller\\controller\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:controllers\\ordercontroller\\controller\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1411_0322\\ticketresell\\ticketresell_api\\controllers\\ordercontroller\\model\\orderwithdetails.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:controllers\\ordercontroller\\model\\orderwithdetails.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1411_0322\\ticketresell\\ticketresell_api\\controllers\\notificationcontroller\\controller\\notificationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:controllers\\notificationcontroller\\controller\\notificationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1411\\ticketresell\\ticketresell_api\\dbcontext\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1411_0322\\ticketresell\\ticketresell_api\\dbcontext\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:dbcontext\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1411\\ticketresell\\ticketresell_api\\controllers\\walletcontroller\\controller\\walletcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1411_0322\\ticketresell\\ticketresell_api\\controllers\\walletcontroller\\controller\\walletcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:controllers\\walletcontroller\\controller\\walletcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1411\\ticketresell\\ticketresell_api\\controllers\\notificationcontroller\\model\\notification.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1411_0322\\ticketresell\\ticketresell_api\\controllers\\notificationcontroller\\model\\notification.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:controllers\\notificationcontroller\\model\\notification.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1411\\ticketresell\\ticketresell_api\\controllers\\ticketcontroller\\controller\\ticketcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1411_0322\\ticketresell\\ticketresell_api\\controllers\\ticketcontroller\\controller\\ticketcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:controllers\\ticketcontroller\\controller\\ticketcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1411\\ticketresell\\ticketresell_api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1411_0322\\ticketresell\\ticketresell_api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1411\\ticketresell\\ticketresell_api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1411_0322\\ticketresell\\ticketresell_api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1411\\ticketresell\\ticketresell_api\\controllers\\vnpaycontroller\\controller\\vnpaycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1411_0322\\ticketresell\\ticketresell_api\\controllers\\vnpaycontroller\\controller\\vnpaycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:controllers\\vnpaycontroller\\controller\\vnpaycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1411\\ticketresell\\ticketresell_api\\controllers\\walletcontroller\\model\\withdraw.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1411_0322\\ticketresell\\ticketresell_api\\controllers\\walletcontroller\\model\\withdraw.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:controllers\\walletcontroller\\model\\withdraw.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1411\\ticketresell\\ticketresell_api\\controllers\\walletcontroller\\model\\wallet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1411_0322\\ticketresell\\ticketresell_api\\controllers\\walletcontroller\\model\\wallet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:controllers\\walletcontroller\\model\\wallet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1411\\ticketresell\\ticketresell_api\\controllers\\walletcontroller\\model\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1411_0322\\ticketresell\\ticketresell_api\\controllers\\walletcontroller\\model\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:controllers\\walletcontroller\\model\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|e:\\swp391\\ticketresell_1411\\ticketresell\\ticketresell_api\\controllers\\ordercontroller\\controller\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{864733D8-B6A7-49A4-A4CB-201EF3C17B70}|TicketResell_API.csproj|solutionrelative:controllers\\ordercontroller\\controller\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -58,28 +62,89 @@
       "DocumentGroups": [
         {
           "DockedWidth": 507,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "E:\\SWP391\\TicketResell_1411\\TicketResell\\TicketResell_API\\DbContext\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "DbContext\\AppDbContext.cs",
-              "ToolTip": "E:\\SWP391\\TicketResell_1411\\TicketResell\\TicketResell_API\\DbContext\\AppDbContext.cs",
-              "RelativeToolTip": "DbContext\\AppDbContext.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAABAAAA",
+              "Title": "OrderWithDetails.cs",
+              "DocumentMoniker": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\Controllers\\OrderController\\Model\\OrderWithDetails.cs",
+              "RelativeDocumentMoniker": "Controllers\\OrderController\\Model\\OrderWithDetails.cs",
+              "ToolTip": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\Controllers\\OrderController\\Model\\OrderWithDetails.cs",
+              "RelativeToolTip": "Controllers\\OrderController\\Model\\OrderWithDetails.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-13T20:16:42.861Z",
+              "WhenOpened": "2024-11-13T20:41:10.144Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "TicketController.cs",
+              "DocumentMoniker": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\Controllers\\TicketController\\Controller\\TicketController.cs",
+              "RelativeDocumentMoniker": "Controllers\\TicketController\\Controller\\TicketController.cs",
+              "ToolTip": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\Controllers\\TicketController\\Controller\\TicketController.cs",
+              "RelativeToolTip": "Controllers\\TicketController\\Controller\\TicketController.cs",
+              "ViewState": "AQIAAI0AAAAAAAAAAAAYwKgAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-13T19:47:42.04Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Notification.cs",
+              "DocumentMoniker": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\Controllers\\NotificationController\\Model\\Notification.cs",
+              "RelativeDocumentMoniker": "Controllers\\NotificationController\\Model\\Notification.cs",
+              "ToolTip": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\Controllers\\NotificationController\\Model\\Notification.cs",
+              "RelativeToolTip": "Controllers\\NotificationController\\Model\\Notification.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAABEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-13T19:27:35.787Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-11-13T18:51:37.881Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "VnPayController.cs",
+              "DocumentMoniker": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\Controllers\\VnPayController\\Controller\\VnPayController.cs",
+              "RelativeDocumentMoniker": "Controllers\\VnPayController\\Controller\\VnPayController.cs",
+              "ToolTip": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\Controllers\\VnPayController\\Controller\\VnPayController.cs",
+              "RelativeToolTip": "Controllers\\VnPayController\\Controller\\VnPayController.cs",
+              "ViewState": "AQIAAF8AAAAAAAAAAAAAAHUAAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-13T17:43:49.072Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "OrderController.cs",
+              "DocumentMoniker": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\Controllers\\OrderController\\Controller\\OrderController.cs",
+              "RelativeDocumentMoniker": "Controllers\\OrderController\\Controller\\OrderController.cs",
+              "ToolTip": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\Controllers\\OrderController\\Controller\\OrderController.cs",
+              "RelativeToolTip": "Controllers\\OrderController\\Controller\\OrderController.cs",
+              "ViewState": "AQIAAMEAAAAAAAAAAIAwwAcBAABbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-13T15:57:12.891Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "NotificationController.cs",
-              "DocumentMoniker": "E:\\SWP391\\TicketResell_1411\\TicketResell\\TicketResell_API\\Controllers\\NotificationController\\Controller\\NotificationController.cs",
+              "DocumentMoniker": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\Controllers\\NotificationController\\Controller\\NotificationController.cs",
               "RelativeDocumentMoniker": "Controllers\\NotificationController\\Controller\\NotificationController.cs",
-              "ToolTip": "E:\\SWP391\\TicketResell_1411\\TicketResell\\TicketResell_API\\Controllers\\NotificationController\\Controller\\NotificationController.cs",
+              "ToolTip": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\Controllers\\NotificationController\\Controller\\NotificationController.cs",
               "RelativeToolTip": "Controllers\\NotificationController\\Controller\\NotificationController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAA4AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -88,63 +153,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "TicketController.cs",
-              "DocumentMoniker": "E:\\SWP391\\TicketResell_1411\\TicketResell\\TicketResell_API\\Controllers\\TicketController\\Controller\\TicketController.cs",
-              "RelativeDocumentMoniker": "Controllers\\TicketController\\Controller\\TicketController.cs",
-              "ToolTip": "E:\\SWP391\\TicketResell_1411\\TicketResell\\TicketResell_API\\Controllers\\TicketController\\Controller\\TicketController.cs",
-              "RelativeToolTip": "Controllers\\TicketController\\Controller\\TicketController.cs",
-              "ViewState": "AQIAAI0AAAAAAAAAAAAYwKgAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-13T19:47:42.04Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Notification.cs",
-              "DocumentMoniker": "E:\\SWP391\\TicketResell_1411\\TicketResell\\TicketResell_API\\Controllers\\NotificationController\\Model\\Notification.cs",
-              "RelativeDocumentMoniker": "Controllers\\NotificationController\\Model\\Notification.cs",
-              "ToolTip": "E:\\SWP391\\TicketResell_1411\\TicketResell\\TicketResell_API\\Controllers\\NotificationController\\Model\\Notification.cs",
-              "RelativeToolTip": "Controllers\\NotificationController\\Model\\Notification.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAABEAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-13T19:27:35.787Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "E:\\SWP391\\TicketResell_1411\\TicketResell\\TicketResell_API\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "E:\\SWP391\\TicketResell_1411\\TicketResell\\TicketResell_API\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-11-13T18:51:37.881Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "VnPayController.cs",
-              "DocumentMoniker": "E:\\SWP391\\TicketResell_1411\\TicketResell\\TicketResell_API\\Controllers\\VnPayController\\Controller\\VnPayController.cs",
-              "RelativeDocumentMoniker": "Controllers\\VnPayController\\Controller\\VnPayController.cs",
-              "ToolTip": "E:\\SWP391\\TicketResell_1411\\TicketResell\\TicketResell_API\\Controllers\\VnPayController\\Controller\\VnPayController.cs",
-              "RelativeToolTip": "Controllers\\VnPayController\\Controller\\VnPayController.cs",
-              "ViewState": "AQIAAF8AAAAAAAAAAAAAAHUAAAARAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-13T17:43:49.072Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "WithDraw.cs",
-              "DocumentMoniker": "E:\\SWP391\\TicketResell_1411\\TicketResell\\TicketResell_API\\Controllers\\WalletController\\Model\\WithDraw.cs",
+              "DocumentMoniker": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\Controllers\\WalletController\\Model\\WithDraw.cs",
               "RelativeDocumentMoniker": "Controllers\\WalletController\\Model\\WithDraw.cs",
-              "ToolTip": "E:\\SWP391\\TicketResell_1411\\TicketResell\\TicketResell_API\\Controllers\\WalletController\\Model\\WithDraw.cs",
+              "ToolTip": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\Controllers\\WalletController\\Model\\WithDraw.cs",
               "RelativeToolTip": "Controllers\\WalletController\\Model\\WithDraw.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAmAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -152,37 +165,47 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\DbContext\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "DbContext\\AppDbContext.cs",
+              "ToolTip": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\DbContext\\AppDbContext.cs",
+              "RelativeToolTip": "DbContext\\AppDbContext.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-13T20:16:42.861Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "WalletController.cs",
-              "DocumentMoniker": "E:\\SWP391\\TicketResell_1411\\TicketResell\\TicketResell_API\\Controllers\\WalletController\\Controller\\WalletController.cs",
+              "DocumentMoniker": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\Controllers\\WalletController\\Controller\\WalletController.cs",
               "RelativeDocumentMoniker": "Controllers\\WalletController\\Controller\\WalletController.cs",
-              "ToolTip": "E:\\SWP391\\TicketResell_1411\\TicketResell\\TicketResell_API\\Controllers\\WalletController\\Controller\\WalletController.cs",
+              "ToolTip": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\Controllers\\WalletController\\Controller\\WalletController.cs",
               "RelativeToolTip": "Controllers\\WalletController\\Controller\\WalletController.cs",
               "ViewState": "AQIAAAMAAAAAAAAAAAAAABEAAAAIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-13T16:00:09.736Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-13T16:00:09.736Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "appsettings.Development.json",
-              "DocumentMoniker": "E:\\SWP391\\TicketResell_1411\\TicketResell\\TicketResell_API\\appsettings.Development.json",
+              "DocumentMoniker": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\appsettings.Development.json",
               "RelativeDocumentMoniker": "appsettings.Development.json",
-              "ToolTip": "E:\\SWP391\\TicketResell_1411\\TicketResell\\TicketResell_API\\appsettings.Development.json",
+              "ToolTip": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\appsettings.Development.json",
               "RelativeToolTip": "appsettings.Development.json",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-11-13T18:51:36.561Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-13T18:51:36.561Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "Wallet.cs",
-              "DocumentMoniker": "E:\\SWP391\\TicketResell_1411\\TicketResell\\TicketResell_API\\Controllers\\WalletController\\Model\\Wallet.cs",
+              "DocumentMoniker": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\Controllers\\WalletController\\Model\\Wallet.cs",
               "RelativeDocumentMoniker": "Controllers\\WalletController\\Model\\Wallet.cs",
-              "ToolTip": "E:\\SWP391\\TicketResell_1411\\TicketResell\\TicketResell_API\\Controllers\\WalletController\\Model\\Wallet.cs",
+              "ToolTip": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\Controllers\\WalletController\\Model\\Wallet.cs",
               "RelativeToolTip": "Controllers\\WalletController\\Model\\Wallet.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -190,27 +213,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "Transaction.cs",
-              "DocumentMoniker": "E:\\SWP391\\TicketResell_1411\\TicketResell\\TicketResell_API\\Controllers\\WalletController\\Model\\Transaction.cs",
+              "DocumentMoniker": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\Controllers\\WalletController\\Model\\Transaction.cs",
               "RelativeDocumentMoniker": "Controllers\\WalletController\\Model\\Transaction.cs",
-              "ToolTip": "E:\\SWP391\\TicketResell_1411\\TicketResell\\TicketResell_API\\Controllers\\WalletController\\Model\\Transaction.cs",
+              "ToolTip": "E:\\SWP391\\TicketResell_1411_0322\\TicketResell\\TicketResell_API\\Controllers\\WalletController\\Model\\Transaction.cs",
               "RelativeToolTip": "Controllers\\WalletController\\Model\\Transaction.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAA5AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-13T16:04:00.754Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "OrderController.cs",
-              "DocumentMoniker": "E:\\SWP391\\TicketResell_1411\\TicketResell\\TicketResell_API\\Controllers\\OrderController\\Controller\\OrderController.cs",
-              "RelativeDocumentMoniker": "Controllers\\OrderController\\Controller\\OrderController.cs",
-              "ToolTip": "E:\\SWP391\\TicketResell_1411\\TicketResell\\TicketResell_API\\Controllers\\OrderController\\Controller\\OrderController.cs",
-              "RelativeToolTip": "Controllers\\OrderController\\Controller\\OrderController.cs",
-              "ViewState": "AQIAAFQAAAAAAAAAAAAuwH8AAAA4AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-13T15:57:12.891Z"
             }
           ]
         }
