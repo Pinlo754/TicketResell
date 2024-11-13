@@ -29,146 +29,55 @@ const useManageTicket = () => {
         event: Event;
         createAt: Date;
         updateAt?: Date;
+        eventId?: string;
       };
 
-      const tickets: Ticket[] = [
-        {
-          ticketId: "T12345",
-          ticketName: "Concert A - VIP Ticket",
-          quantity: 2,
-          price: 150,
-          originPrice: 200,
-          images: ["https://example.com/image1.jpg", "https://example.com/image2.jpg"],
-          userId: "U56789",
-          type: "Seat",
-          section: "A",
-          row: 1,
-          description: "VIP seating with complimentary drinks",
-          status: "Available",
-          event: {
-            eventId: "E123",
-            eventName: "Concert A",
-            eventImage: "https://example.com/event1.jpg",
-            eventTime: "2024-10-25T18:00:00Z",
-            location: "Theater A",
-            city: "City A",
-            eventStatus: "Running",
-          },
-          createAt: new Date("2024-11-01T10:00:00Z"),
-          updateAt: new Date("2024-11-05T10:00:00Z"),
-        },
-        {
-          ticketId: "T67890",
-          ticketName: "Football Match - Standard Ticket",
-          quantity: 4,
-          price: 50,
-          originPrice: 75,
-          images: ["https://example.com/image3.jpg"],
-          userId: "U98765",
-          type: "Stand",
-          section: "B",
-          description: "Standard seating with good view of the field",
-          status: "Sold",
-          event: {
-            eventId: "E456",
-            eventName: "Football Match",
-            eventImage: "https://example.com/event2.jpg",
-            eventTime: "2024-10-20T14:00:00Z",
-            location: "Stadium A",
-            city: "City B",
-            eventStatus: "Canceled",
-          },
-          createAt: new Date("2024-10-20T15:00:00Z"),
-        },
-        {
-          ticketId: "T11121",
-          ticketName: "Theater Play - Balcony Ticket",
-          quantity: 1,
-          price: 80,
-          originPrice: 100,
-          images: ["https://example.com/image4.jpg", "https://example.com/image5.jpg"],
-          userId: "U54321",
-          type: "Seat",
-          section: "C",
-          row: 5,
-          description: "Balcony seating with great view of the stage",
-          status: "Canceled",
-          event: {
-            eventId: "E789",
-            eventName: "Theater Play",
-            eventImage: "https://example.com/event3.jpg",
-            eventTime: "2024-10-25T16:00:00Z",
-            location: "Theater B",
-            city: "City C",
-            eventStatus: "Completed",
-          },
-          createAt: new Date("2024-11-02T19:00:00Z"),
-          updateAt: new Date("2024-11-08T19:00:00Z"),
-        },
-        {
-          ticketId: "T14151",
-          ticketName: "Comedy Show - General Admission",
-          quantity: 3,
-          price: 40,
-          originPrice: 60,
-          images: ["https://example.com/image6.jpg"],
-          type: "Stand",
-          userId: "U13579",
-          status: "Pending",
-          event: {
-            eventId: "E246",
-            eventName: "Comedy Show",
-            eventImage: "https://example.com/event4.jpg",
-            eventTime: "2024-10-22T17:00:00Z",
-            location: "Comedy Theater",
-            city: "City D",
-            eventStatus: "Running",
-          },
-          createAt: new Date("2024-11-03T20:00:00Z"),
-        }
-      ];      
 
-  // const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [tickets, setTickets] = useState<Ticket[]>([]);
   const [event, setEvent] = useState<Event | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
   const [priceChanged, setPriceChanged] = useState(false);
-  
-  /*
+  const userId = localStorage.getItem("userId")
   useEffect(() => {
-    fetchEvent();
-    fetchTickets();
-  }, []);
+    fetchTicketList()
+    }, []);
 
-   const fetchEvent = async () => {
-    try {
-      const response = await axios.get(`/api/Event/${eventId}`);
-      setEvent(response.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  const fetchTickets = async () => {
-    try {
-      const response = await axios.get(
-        `/api/Ticket/get-tickets-by-event/${eventId}`
-      );
-      const tickets: Ticket[] = response.data;
-      setTickets(tickets);
-
-      // Fetch user details for each ticket
-        tickets.map(async (ticket) => {
-            fetchUserNameById(ticket);
+    
+    const fetchTicketList = async () => {
+      try {
+        const response = await axios.get(`/api/Ticket/list-ticket/`);
+        if(response.status === 200){
+          const ticketList: Ticket[] = response.data;
+          const ticketForUser = ticketList.filter(item => item.userId == userId)
+          const ticketsWithEvents = await Promise.all(
+            ticketForUser.map(async (ticket) => {
+              if (ticket.eventId) {
+                const eventResponse = await axios.get(`/api/Event/${ticket.eventId}`);
+                ticket.event = eventResponse.data; // Gán dữ liệu event vào ticket
+                const dateParam = ticket.event.eventTime                
+                const utcDate = new Date(dateParam);
+                const localDate = new Date(utcDate.getTime());
+                const year = localDate.getFullYear();
+                const month = String(localDate.getMonth() + 1).padStart(2, "0"); // Tháng bắt đầu từ 0
+                const day = String(localDate.getDate()).padStart(2, "0");
+                const hours = String(localDate.getHours()).padStart(2, "0");
+                const minutes = String(localDate.getMinutes()).padStart(2, "0");
+                const seconds = String(localDate.getSeconds()).padStart(2, "0");
+              // Ghép thành chuỗi định dạng dd/mm/yyyy hh:mm:ss
+                const formattedDateTime = day+"/" +month+"/" + year+" "+hours+":"+minutes+":"+seconds;
+                ticket.event.eventTime = formattedDateTime
+              }
+              return ticket;
+            })
+          );
+          setTickets(ticketsWithEvents);
         }
-      );
-
-    } catch (error) {
-      console.error("Error fetching tickets:", error);
-    }
-  };
-  */
-
+      } catch (error) {
+        console.error("Error fetching tickets:", error);
+      }
+    };
+    
   // Hàm mở modal chi tiết vé
   const openTicketDetailModal = (ticket: any = null) => {
     setSelectedTicket(ticket);
@@ -176,18 +85,24 @@ const useManageTicket = () => {
   };
 
   // Đóng modal
-  const closeModal = () => {
-    if (selectedTicket) {
-      if (priceChanged) {
-        const confirmClose = window.confirm(
-          "Bạn có chắc chắn muốn cập nhật giá bán?"
-        );
-        if (!confirmClose) return;
-        updateTicket(selectedTicket);
+  const closeModal = async () => {
+    if (selectedTicket && priceChanged) {
+      const confirmClose = window.confirm("Bạn có chắc chắn muốn cập nhật giá bán?");
+      
+      if (confirmClose) {
+        try {
+          await updateTicket(selectedTicket);
+          setIsModalOpen(false);
+          setSelectedTicket(null);
+          setPriceChanged(false);  
+        } catch (error) {
+          console.error("Error in closeModal:", error);
+        }
       }
-      setPriceChanged(false); // Reset flag
+    } else {
       setIsModalOpen(false);
       setSelectedTicket(null);
+      setPriceChanged(false);
     }
   };
 
@@ -197,9 +112,7 @@ const useManageTicket = () => {
       if (response.status === 200) {
         alert("Cập nhật vé thành công!");
         // Lấy dữ liệu vé mới
-        setPriceChanged(false); // Reset flag
-        closeModal(); // Đóng modal
-        //fetchTickets();
+        window.location.reload();
       }
     } catch (error) {
       console.error("Error updating ticket:", error);
