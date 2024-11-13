@@ -2,66 +2,72 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 const useManageRefund = () => {
-
-    type Wallet = {
-      walletId: string;
-      bankName: string;
-      bankAccountName: string;
-      bankAccountNumber: string;
-      amount: number;
-      status: string;
-      withDrawId: string;
-      transactionId: string;
+    type Refund = {
+        requestId: string;
+        orderId: string;
+        refundDetail: string;
+        images: string[];
+        status: string;
     };
 
-    const [wallets, setWallets] = useState<Wallet[]>([]);
-    const [selectedWallet, setSelectedWallet] = useState<string>('');
-    const [withDrawId, setWithDrawId] = useState<string>('');
-    const [status, setStatus] = useState<string>('');
+    const [refunds, setRefunds] = useState<Refund[]>([]);
+    const [selectedRefund, setSelectedRefund] = useState<Refund | null>(null);
+    const [status, setStatus] = useState<string>("");
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
-        fetchWallets();
-      }, []);
+        fetchRefunds();
+    }, []);
 
-      const fetchWallets = async () => {
+    const fetchRefunds = async () => {
         try {
-          const response = await axios.get("/api/Refund/list-all-request");
-          setWallets(response.data);
+            const response = await axios.get("/api/Refund/list-all-request");
+            setRefunds(response.data);
         } catch (error) {
-          console.error("Error fetching data:", error);
+            console.error("Error fetching data:", error);
         }
-      };
+    };
 
-      const handleChange = (withDrawId: string, newStatus: string) => {
-        // Show confirmation popup
-      const confirmUpdate = window.confirm(`Bạn có chắc chắn muốn thay đổi trạng thái không?`);
-      
-      if (confirmUpdate) {
-        handleUpdate(withDrawId, newStatus);
-      }
-      }
+    const openDetailModal = (refund: Refund) => {
+        setSelectedRefund(refund);
+        setStatus(refund.status);
+        setIsModalOpen(true);
+    };
 
-      const handleUpdate = async (withDrawId: string, newStatus: string) => {
+    const handleChange = (requestId: string, newStatus: string) => {
+        const confirmUpdate = window.confirm(`Bạn có chắc chắn muốn thay đổi trạng thái không?`);
+        if (confirmUpdate) {
+            handleUpdate(requestId, newStatus);
+        }
+    };
+
+    const handleUpdate = async (requestId: string, newStatus: string) => {
         try {
-            const response = await axios.put(`/api/Wallet/update-withdraw-status?withDrawId=${withDrawId}&newStatus=${newStatus}`);
+            const response = await axios.put(`/api/Refund/update-status`, {
+                requestId: requestId,
+                status: newStatus,
+            });
 
             if (response.status === 200) {
                 alert("Cập nhật trạng thái thành công!");
-                fetchWallets();
+                fetchRefunds();
+                setIsModalOpen(false); // Đóng modal sau khi cập nhật
             }
         } catch (error) {
             console.error("Error updating status:", error);
         }
-      };
+    };
 
     return {
-        wallets,
+        refunds,
         handleUpdate,
         status,
         setStatus,
-        withDrawId,
-        setWithDrawId,
+        selectedRefund,
         handleChange,
+        openDetailModal,
+        isModalOpen,
+        setIsModalOpen,
     };
 };
 
