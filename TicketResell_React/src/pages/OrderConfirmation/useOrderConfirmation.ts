@@ -10,6 +10,7 @@ const useOrderConfirmation = () => {
   const [payDate, setPayDate] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
   useEffect(() => {
+    const savedDataString = localStorage.getItem("orderData");
     fetchUser();
     const urlParams = new URLSearchParams(window.location.search);
     const orderId = urlParams.get("vnp_TxnRef");
@@ -65,6 +66,13 @@ const useOrderConfirmation = () => {
 
     const responseCode = urlParams.get("vnp_ResponseCode");
     setIsSuccess(responseCode === "00");
+
+    if (savedDataString) {
+      const savedData = JSON.parse(savedDataString);
+      console.log("Dữ liệu đã lưu:", savedData);
+    } else {
+      console.log("Không tìm thấy dữ liệu trong localStorage.");
+    }
   }, []);
 
   const fetchUser = async () => {
