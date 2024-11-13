@@ -46,53 +46,57 @@ interface TicketContentProps {
 const TicketContent: React.FC<TicketContentProps> = ({ onTotalChange }) => {
   const navigate = useNavigate();
   const [cardData, setCardData] = useState<Cart[]>([]);
-  const [selectedTickets, setSelectedTickets] = useState<Set<string>>(
-    new Set()
-  );
+  const [selectedTicketId, setSelectedTicketId] = useState<string | null>(null);
   const user = localStorage.getItem("userId");
 
-  //Tính total money, total quantity, và thông tin gửi về component cha
-  const calculateTotals = (cards: Cart[], selected: Set<string>) => {
+  // Tính total money, total quantity, và thông tin gửi về component cha
+  const calculateTotals = (cards: Cart[], selectedId: string | null) => {
     let subtotal = 0;
     let totalQuantity = 0;
+    let selectedItems: {
+      ticketId: string;
+      sellerName: string;
+      quantity: number;
+      sellerImg: string;
+    }[] = [];
 
-    cards.forEach((item) => {
-      if (selected.has(item.ticketId)) {
-        subtotal += item.price * item.quantity;
-        totalQuantity += item.quantity;
+    if (selectedId) {
+      const selectedTicket = cards.find(item => item.ticketId === selectedId);
+      if (selectedTicket) {
+        subtotal = selectedTicket.price * selectedTicket.quantity;
+        totalQuantity = selectedTicket.quantity;
+        selectedItems = [{
+          ticketId: selectedTicket.ticketId,
+          sellerName: selectedTicket.firstName + " " + selectedTicket.lastName,
+          quantity: selectedTicket.quantity,
+          sellerImg: selectedTicket.sellerImage,
+        }];
       }
-    });
-    const selectedItems = cards
-      .filter((item) => selected.has(item.ticketId)) // Lọc vé được chọn
-      .map((item) => ({
-        ticketId: item.ticketId,
-        sellerName: item.firstName + " " + item.lastName,
-        quantity: item.quantity,
-        sellerImg: item.sellerImage,
-      }));
+    }
+
     onTotalChange(subtotal, totalQuantity, selectedItems);
   };
 
-  //xử lí checkbox
+  // Xử lí checkbox - chỉ cho phép chọn 1 vé
   const handleCheckboxChange = (ticketId: string) => {
-    // Kiểm tra xem vé còn hàng không
     const ticket = cardData.find((item) => item.ticketId === ticketId);
     if (ticket && ticket.availableQuantity === 0) {
       toast.error("Vé này đã hết hàng!");
       return;
     }
 
-    const newSelected = new Set(selectedTickets);
-    if (newSelected.has(ticketId)) {
-      newSelected.delete(ticketId);
+    if (selectedTicketId === ticketId) {
+      // Bỏ chọn vé hiện tại
+      setSelectedTicketId(null);
+      calculateTotals(cardData, null);
     } else {
-      newSelected.add(ticketId);
+      // Chọn vé mới
+      setSelectedTicketId(ticketId);
+      calculateTotals(cardData, ticketId);
     }
-    setSelectedTickets(newSelected);
-    calculateTotals(cardData, newSelected);
   };
 
-  //cập nhật số lượng vé
+  // Cập nhật số lượng vé
   const updateQuantity = async (ticketId: string, newQuantity: number) => {
     try {
       const updateRequest: CartUpdateRequest = {
@@ -111,7 +115,7 @@ const TicketContent: React.FC<TicketContentProps> = ({ onTotalChange }) => {
           item.ticketId === ticketId ? { ...item, quantity: newQuantity } : item
         );
         setCardData(updatedData);
-        calculateTotals(updatedData, selectedTickets);
+        calculateTotals(updatedData, selectedTicketId);
       }
     } catch (error) {
       console.error("Error updating quantity:", error);
@@ -119,7 +123,7 @@ const TicketContent: React.FC<TicketContentProps> = ({ onTotalChange }) => {
     }
   };
 
-  //Thay đổi số lượng vé muốn mua
+  // Thay đổi số lượng vé muốn mua
   const handleQuantityChange = async (
     ticketId: string,
     delta: number,
@@ -143,7 +147,7 @@ const TicketContent: React.FC<TicketContentProps> = ({ onTotalChange }) => {
     updateQuantity(ticketId, newQuantity);
   };
 
-  // xử lí xóa vé ra khỏi cart
+  // Xử lí xóa vé ra khỏi cart
   const handleRemoveTicket = async (ticket: string, id: string) => {
     try {
       const response = await axios.delete(
@@ -157,6 +161,10 @@ const TicketContent: React.FC<TicketContentProps> = ({ onTotalChange }) => {
       );
 
       if (response.status === 200) {
+        if (selectedTicketId === ticket) {
+          setSelectedTicketId(null);
+          calculateTotals(cardData.filter(item => item.ticketId !== ticket), null);
+        }
         window.location.reload();
       }
     } catch (error) {
@@ -176,14 +184,8 @@ const TicketContent: React.FC<TicketContentProps> = ({ onTotalChange }) => {
             );
             if (response.status === 200) {
               const availableQuantity = response.data.quantity;
+              const adjustedQuantity = item.quantity > availableQuantity ? availableQuantity : item.quantity;
 
-              // Nếu số lượng trong giỏ nhiều hơn số lượng có sẵn, điều chỉnh xuống
-              const adjustedQuantity =
-                item.quantity > availableQuantity
-                  ? availableQuantity
-                  : item.quantity;
-
-              // Cập nhật số lượng trong cart nếu cần điều chỉnh
               if (adjustedQuantity !== item.quantity) {
                 await updateQuantity(item.ticketId, adjustedQuantity);
               }
@@ -207,7 +209,7 @@ const TicketContent: React.FC<TicketContentProps> = ({ onTotalChange }) => {
     }
   };
 
-  // hiển thị định dạng tiền tệ VN
+  // Hiển thị định dạng tiền tệ VN
   const formatVND = (amount: number) => {
     return new Intl.NumberFormat('vi-VN', {
       style: 'currency',
@@ -216,7 +218,6 @@ const TicketContent: React.FC<TicketContentProps> = ({ onTotalChange }) => {
       maximumFractionDigits: 0
     }).format(amount);
   };
-
 
   useEffect(() => {
     const getCart = async () => {
@@ -246,11 +247,11 @@ const TicketContent: React.FC<TicketContentProps> = ({ onTotalChange }) => {
             <input
               type="checkbox"
               className="check-ticket"
-              checked={selectedTickets.has(item.ticketId)}
+              checked={selectedTicketId === item.ticketId}
               onChange={() => handleCheckboxChange(item.ticketId)}
               disabled={item.availableQuantity === 0}
             />
-            <div className="ticket-info"  style={{cursor:"pointer"}}  onClick={() => navigate(`/ticketDetail/${item.ticketId}`)}>
+            <div className="ticket-info" style={{cursor:"pointer"}} onClick={() => navigate(`/ticketDetail/${item.ticketId}`)}>
               <div className="ticket-image">
                 <img src={item.eventImage} alt="" />
               </div>
@@ -282,24 +283,12 @@ const TicketContent: React.FC<TicketContentProps> = ({ onTotalChange }) => {
             <div className="ticket-quantity">
               <TbMinus
                 className={`quantity-btn ${item.availableQuantity === 0 ? 'disabled' : ''}`}
-                onClick={() =>
-                  handleQuantityChange(
-                    item.ticketId,
-                    -1,
-                    item.quantity
-                  )
-                }
+                onClick={() => handleQuantityChange(item.ticketId, -1, item.quantity)}
               />
               {item.quantity}
               <TbPlus
                 className={`quantity-btn ${item.quantity >= (item.availableQuantity || 0) ? 'disabled' : ''}`}
-                onClick={() =>
-                  handleQuantityChange(
-                    item.ticketId,
-                    1,
-                    item.quantity
-                  )
-                }
+                onClick={() => handleQuantityChange(item.ticketId, 1, item.quantity)}
               />
             </div>
 
@@ -323,4 +312,5 @@ const TicketContent: React.FC<TicketContentProps> = ({ onTotalChange }) => {
     </div>
   );
 };
+
 export default TicketContent;

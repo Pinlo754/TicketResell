@@ -1,168 +1,114 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
 const useUserProfile = () => {
 
     // TICKET
-type Ticket = {
-    id: number;
-    name: string;
-    day: string;
-    time: string;
-    location: string;
-    city: string;
-    category: string;
-    section: string;
-    row: number;
-    price: number;
-    quantity: number;
-    description: string;
-  };
-  const tickets: Ticket[] = [
-    {
-      id: 1,
-      name: "Event 1",
-      day: "Oct 12/2024",
-      time: "2:00 PM",
-      location: "Ziggo Dome",
-      city: "Amsterdam, Netherlands",
-      category: "Seat",
-      section: "A",
-      row: 28,
-      price: 100000,
-      quantity: 1,
-      description: "Vé ngồi"
-    },
-    {
-        id: 2,
-        name: "Event 1",
-        day: "Oct 12/2024",
-        time: "2:00 PM",
-        location: "Ziggo Dome",
-        city: "Amsterdam, Netherlands",
-        category: "Stand",
-        section: "A",
-        row: 0,
-        price: 100000,
-        quantity: 1,
-        description: "Vé đứng"
-    },
-    {
-        id: 3,
-        name: "Event 2",
-        day: "Nov 15/2024",
-        time: "7:30 PM",
-        location: "Madison Square Garden",
-        city: "New York, USA",
-        category: "Seat",
-        section: "B",
-        row: 10,
-        price: 200000,
-        quantity: 2,
-        description: "Vé ngồi"
-    },
-  ];
+    type Ticket = {
+      ticketId: string;
+      ticketName: string;
+      quantity: number;
+      price: number;
+      originPrice: number;
+      images: string[];
+      userId: string;
+      type?: string;
+      section?: string;
+      row?: number;
+      description?: string;
+      status: string;
+      eventId: string;
+      createAt: Date;
+      updateAt?: Date;
+    };
   
-  type Comment = {
-    id: number;
-    name: string;
-    avatar: string; // URL ảnh đại diện
-    rating: number;
-    date: string;
-    time: string;
-    comment: string;
-  };
-  
-  const comments: Comment[] = [
-    {
-      id: 1,
-      name: "Martin Luather",
-      avatar:
-        "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
-      rating: 3,
-      date: "28/08/2004",
-      time: "07:45 AM",
-      comment:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    },
-    {
-      id: 2,
-      name: "John Doe",
-      avatar:
-        "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
-      rating: 2,
-      date: "31/08/2004",
-      time: "07:45 AM",
-      comment:
-        "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
-    },
-    {
-      id: 3,
-      name: "Jane Smith",
-      avatar:
-        "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
-      rating: 2,
-      date: "25/05/2004",
-      time: "07:45 AM",
-      comment:
-        "It has survived not only five centuries, but also the leap into electronic typesetting.",
-    },
-    {
-      id: 4,
-      name: "Martin Luather",
-      avatar:
-        "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
-      rating: 3,
-      date: "28/08/2004",
-      time: "07:45 AM",
-      comment:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    },
-    {
-      id: 5,
-      name: "John Doe",
-      avatar:
-        "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
-      rating: 2,
-      date: "31/08/2004",
-      time: "07:45 AM",
-      comment:
-        "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
-    },
-    {
-      id: 6,
-      name: "Jane Smith",
-      avatar:
-        "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
-      rating: 2,
-      date: "25/05/2004",
-      time: "07:45 AM",
-      comment:
-        "It has survived not only five centuries, but also the leap into electronic typesetting.",
-    },
-    {
-      id: 7,
-      name: "Martin Luather",
-      avatar:
-        "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
-      rating: 3,
-      date: "28/08/2004",
-      time: "07:45 AM",
-      comment:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    },
-    {
-      id: 8,
-      name: "John Doe",
-      avatar:
-        "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
-      rating: 2,
-      date: "31/08/2004",
-      time: "07:45 AM",
-      comment:
-        "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
-    },
-  ];
+    type Comment = {
+      commentId: string;
+      userId: string;
+      user: {
+        firstName: string;  
+        lastName: string;
+        userImage: string;
+      };
+      rating: number;
+      time: string;
+      comment: string;
+      toUserId: string;
+    };    
 
+  type User = {
+    id: string,
+    userImage: string,
+    firstName: string,
+    lastName: string,
+    email: string,
+    bio: string,
+    address: string,
+    gender: string,
+  };
+
+  const { userId } = useParams<{ userId: string }>();
+  const [user, setUser] = useState<User>();
+  const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [comments, setComments] = useState<Comment[]>([]);
   const totalTickets = tickets.length;
   const totalReviews = comments.length;
+
+  useEffect(() => {
+    fetchUser();
+    fetchTickets();
+    fetchComments();
+  },[]);
+
+  const fetchUser = async () => {
+    try {
+      const response = await axios.get(`/api/Account/user-information/${userId}`);
+      setUser(response.data);
+    } catch (error) {
+      console.error("Error fetching user:", error);
+    }
+  }
+
+  const fetchTickets = async () => {
+    try {
+      const response = await axios.get(`/api/Ticket/list-ticket`);
+      const tickets: Ticket[] = response.data;
+      const listTicket = tickets.filter((ticket) => ticket.userId === userId).filter((ticket) =>ticket.status === "Available").filter((ticket) =>ticket.quantity > 0);
+      setTickets(listTicket);
+    } catch (error) {
+      console.error("Error fetching tickets:", error);
+    }
+  };
+
+  const fetchComments = async () => {
+    try {
+      const response = await axios.get(`/api/Comment/list/${userId}`);
+      const comments: Comment[] = response.data;
+      const commentDetail = await Promise.all(
+        comments.map(async(comment: Comment) => {
+          const userResponse = await axios.get(`/api/Account/user-information/${comment.userId}`);
+          const userData = userResponse.data;
+          return {
+            commentId: comment.commentId,
+            userId: comment.userId,
+            user: {
+              firstName: userData.firstName,
+              lastName: userData.lastName,
+              userImage: userData.userImage,
+            },
+            rating: comment.rating,
+            time: comment.time,
+            comment: comment.comment,
+            toUserId: userId ?? "",
+          }
+        })
+      );
+      setComments(commentDetail);
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
 
   // Rating
   const totalRating = comments.reduce(
@@ -172,6 +118,7 @@ type Ticket = {
   const averageRating = (totalRating / comments.length).toFixed(1); // Tính trung bình rating
 
   return {
+    user,
     tickets,
     comments,
     totalTickets,

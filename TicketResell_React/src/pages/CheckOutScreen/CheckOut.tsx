@@ -124,38 +124,31 @@ const CheckOut = () => {
       totalAmount: subtotal,
       orderDetails: detail,
     };
+     try {
+       const response = await axios.post(
+         "https://localhost:7286/api/Order/create",
+         data
+       );
+       if (response.status === 201) {
+         const url = response.data.paymentUrl;
+         window.open(url);
+       }
+     } catch (error) {
+       console.error(error);
+     }
+
     // try {
     //   const response = await axios.post(
-    //     "https://localhost:7286/api/Order/create",
-    //     data
-    //   );
-    //   if (response.status === 201) {
-    //     const url = response.data.paymentUrl;
-    //     window.open(url);
-    //   }
+    //     "/api/Wallet/create",
+    //      data
+    //      );
+    //      if (response.status === 200) {    
+    //       toast.success("Đặt hàng thành công! Vui lòng kiểm tra email để nhận vé.");
+    //       navigate("/order-confirmation?vnp_TxnRef=" + response.data.order.orderId +"&Amount=" + response.data.order.totalAmount + "&PayDate=" + response.data.order.orderDate + "&vnp_ResponseCode=00");
+    //      }
     // } catch (error) {
     //   console.error(error);
     // }
-
-    try {
-      const response = await axios.post(
-        "/api/Order/create",
-        data
-      );
-      if (response.status === 201) {
-        const url = response.data.paymentUrl;
-        window.open(url);
-      }
-        "/api/Wallet/create",
-         data
-         );
-         if (response.status === 200) {    
-          toast.success("Đặt hàng thành công! Vui lòng kiểm tra email để nhận vé.");
-          navigate("/order-confirmation?vnp_TxnRef=" + response.data.order.orderId +"&Amount=" + response.data.order.totalAmount + "&PayDate=" + response.data.order.orderDate + "&vnp_ResponseCode=00");
-         }
-    } catch (error) {
-      console.error(error);
-    }
   };
 
   // hiển thị order theo id của người bán (chỉ để hiển thị)

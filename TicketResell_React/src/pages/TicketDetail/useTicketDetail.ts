@@ -5,19 +5,11 @@ import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
 const useTicketDetail = () => {
   const navigate: NavigateFunction = useNavigate();
   const { ticketId } = useParams<{ ticketId: string }>();
-  const [user, setUser] = useState<User>({
-    id: "1",
-    userImage: "https://randomuser.me/api/portraits/men/1.jpg",
-    firstName: "John",
-    lastName: "Doe",
-    bio: "Software developer with a passion for creating innovative solutions.",
-    address: "1234 Elm Street, Springfield, USA",
-    email: "johndoe@example.com",
-    gender: "Male",
-  });
+  const [user, setUser] = useState<User>();
   const [eventName, setEventName] = useState("");
   const [eventImage, setEventImage] = useState("");
   const [chatData, setChatData] = useState<ChatData[]>([]);
+  const [comments, setComments] = useState<Comment[]>([]);
 
   type User = {
     id: string;
@@ -31,105 +23,18 @@ const useTicketDetail = () => {
   };
 
   type Comment = {
-    id: number;
-    name: string;
-    avatar: string;
+    commentId: string;
+    userId: string;
+    user: {
+      firstName: string;  
+      lastName: string;
+      userImage: string;
+    };
     rating: number;
-    date: string;
     time: string;
     comment: string;
-  };
-
-  const comments: Comment[] = [
-    {
-      id: 1,
-      name: "Martin Luather",
-      avatar:
-        "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
-      rating: 3,
-      date: "28/08/2004",
-      time: "07:45 AM",
-      comment:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    },
-    {
-      id: 2,
-      name: "John Doe",
-      avatar:
-        "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
-      rating: 2,
-      date: "31/08/2004",
-      time: "07:45 AM",
-      comment:
-        "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
-    },
-    {
-      id: 3,
-      name: "Jane Smith",
-      avatar:
-        "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
-      rating: 2,
-      date: "25/05/2004",
-      time: "07:45 AM",
-      comment:
-        "It has survived not only five centuries, but also the leap into electronic typesetting.",
-    },
-    {
-      id: 4,
-      name: "Martin Luather",
-      avatar:
-        "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
-      rating: 3,
-      date: "28/08/2004",
-      time: "07:45 AM",
-      comment:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    },
-    {
-      id: 5,
-      name: "John Doe",
-      avatar:
-        "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
-      rating: 2,
-      date: "31/08/2004",
-      time: "07:45 AM",
-      comment:
-        "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
-    },
-    {
-      id: 6,
-      name: "Jane Smith",
-      avatar:
-        "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
-      rating: 2,
-      date: "25/05/2004",
-      time: "07:45 AM",
-      comment:
-        "It has survived not only five centuries, but also the leap into electronic typesetting.",
-    },
-    {
-      id: 7,
-      name: "Martin Luather",
-      avatar:
-        "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
-      rating: 3,
-      date: "28/08/2004",
-      time: "07:45 AM",
-      comment:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    },
-    {
-      id: 8,
-      name: "John Doe",
-      avatar:
-        "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
-      rating: 2,
-      date: "31/08/2004",
-      time: "07:45 AM",
-      comment:
-        "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
-    },
-  ];
+    toUserId: string;
+  };    
 
   // TICKET
   type Ticket = {
@@ -192,12 +97,13 @@ const useTicketDetail = () => {
         console.error("Error fetching data:", error);
       }
     };
-  
+    
     fetchData(); // Gọi hàm fetchData ngay khi component mount
+    fetchComments();
   }, []); // Dependency array rỗng để chỉ chạy một lần khi trang load
   
 
-  const fetchTickets = () => {
+  const fetchTicket = () => {
     axios
       .get("/api/Ticket/get-ticket/" + ticketId)
       .then((response) => {
@@ -209,6 +115,36 @@ const useTicketDetail = () => {
         console.error("Error fetching data:", error);
       });
   };
+
+  const fetchComments = async () => {
+    try {
+      const response = await axios.get(`/api/Comment/list/${user?.id}`);
+      const comments: Comment[] = response.data;
+      const commentDetail = await Promise.all(
+        comments.map(async(comment: Comment) => {
+          const userResponse = await axios.get(`/api/Account/user-information/${comment.userId}`);
+          const userData = userResponse.data;
+          return {
+            commentId: comment.commentId,
+            userId: comment.userId,
+            user: {
+              firstName: userData.firstName,
+              lastName: userData.lastName,
+              userImage: userData.userImage,
+            },
+            rating: comment.rating,
+            time: comment.time,
+            comment: comment.comment,
+            toUserId: user?.id ?? "",
+          }
+        })
+      );
+      setComments(commentDetail);
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
+
 
 
   const [messageId, setMessageId] = useState("");
@@ -332,10 +268,10 @@ const useTicketDetail = () => {
     const dataItem = {
       cartId: "abc",
       userId: currentUserId,
-      sellerId: user.id,
-      sellerImage: user.userImage + "",
-      firstName: user.firstName,
-      lastName: user.lastName,
+      sellerId: user?.id,
+      sellerImage: user?.userImage + "",
+      firstName: user?.firstName,
+      lastName: user?.lastName,
       ticketId: ticket.ticketId,
       ticketName: ticket.ticketName,
       ticketRow: ticket.row,
@@ -381,7 +317,7 @@ const useTicketDetail = () => {
     quantity,
     decreaseQuantity,
     increaseQuantity,
-    fetchTickets,
+    fetchTicket,
     setTicket,
     user,
     HandleAddChat,

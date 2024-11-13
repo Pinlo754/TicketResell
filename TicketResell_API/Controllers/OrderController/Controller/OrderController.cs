@@ -125,7 +125,9 @@ namespace TicketResell_API.Controllers.OrderController.Controller
             // Update order information
             //existingOrder.Status = updatedOrder.Status;
             existingOrder.totalAmount = updatedOrder.totalAmount;
-            
+            existingOrder.userId = updatedOrder.userId;
+            existingOrder.orderDate = updatedOrder.orderDate;
+
 
             await _context.SaveChangesAsync();
 

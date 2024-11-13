@@ -92,7 +92,7 @@ namespace TicketResell_API.Controllers.WalletController.Controller
                     userId = model.userId,
                     orderDate = DateTime.UtcNow,
                     totalAmount = totalAmount,
-/*                    Status = "Paid" */ // Đánh dấu là đã thanh toán
+
                 };
 
                 _context.Orders.Add(order);
@@ -300,6 +300,35 @@ namespace TicketResell_API.Controllers.WalletController.Controller
             {
                 return BadRequest("Transaction is not in Pending state.");
             }
+        }
+
+        // Nạp tiền vào ví
+        [HttpPost("sell-ticket")]
+        public async Task<ActionResult> SellTicket(string walletId, int amount)
+        {
+            var wallet = await _context.Wallets.FirstOrDefaultAsync(w => w.walletId == walletId);
+            if (wallet == null)
+            {
+                return NotFound("Wallet not found.");
+            }
+
+            var transaction = new Transaction
+            {
+                transactionId = Guid.NewGuid().ToString(),
+                walletId = walletId,
+                amount = amount,
+                transactionType = "Sell ticket",
+                time = DateTime.Now,
+                status = "Completed",
+                balanceBefore = wallet.balance,
+                balanceAfter = wallet.balance + amount
+            };
+
+            wallet.balance += amount;
+            _context.Transactions.Add(transaction);
+            await _context.SaveChangesAsync();
+
+            return Ok(transaction);
         }
     }
 }

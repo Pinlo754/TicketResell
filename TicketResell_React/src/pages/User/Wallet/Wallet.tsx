@@ -27,6 +27,11 @@ const Wallet = () => {
     user
   } = useWallet();
 
+  // Thêm các state mới cho thông tin tài khoản ngân hàng
+  const [accountNumber, setAccountNumber] = useState("");
+  const [accountName, setAccountName] = useState("");
+  const [bankName, setBankName] = useState("");
+
   return (
     <div className="account-profile">
       <ToastContainer />
@@ -41,12 +46,12 @@ const Wallet = () => {
 
       <div className="profile">
         <div className="profile-container">
-        <div className="basic-1/3">
-              <SideBar />
-            </div>
+          <div className="basic-1/3">
+            <SideBar />
+          </div>
           <div className="flex flex-col items-center p-8 bg-gray-100 max-h-full w-full">
+            {/* Nội dung ví */}
             <div className="w-full flex justify-between">
-              {/* Thông tin cá nhân */}
               <div className="w-[48%] max-w-3xl bg-white rounded-lg shadow-md p-4 mb-4 flex">
                 <img
                   src={user?.userImage ? user.userImage : avatar_icon}
@@ -55,7 +60,7 @@ const Wallet = () => {
                 />
                 <div className="text-center flex-grow">
                   <h2 className="text-lg font-semibold mb-2 mt-2">
-                  {user && user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : "User info not available"}
+                    {user && user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : "User info not available"}
                   </h2>
                   <p className="">
                     ID ví:{" "}
@@ -63,8 +68,6 @@ const Wallet = () => {
                   </p>
                 </div>
               </div>
-
-              {/* Số dư ví */}
               <div className="w-[48%] max-w-3xl bg-blue-100 rounded-lg shadow-md p-4 mb-4 flex">
                 <img
                   src={walletIcon}
@@ -99,7 +102,6 @@ const Wallet = () => {
                           {transaction.transactionType}{" "}
                         </span>
 
-                        {/* Hiển thị trạng thái ngay phía sau tên giao dịch */}
                         <span
                           className={
                             transaction.status === "Pending"
@@ -117,12 +119,12 @@ const Wallet = () => {
                       <div className="text-right">
                         <span
                           className={
-                            transaction.transactionType === "Deposit"
+                            (transaction.transactionType === "Deposit" || transaction.transactionType === "Sell ticket")
                               ? "text-green-500 text-2xl font-bold"
                               : "text-red-500 text-2xl font-bold"
                           }
                         >
-                          {transaction.transactionType === "Deposit"
+                          {(transaction.transactionType === "Deposit" || transaction.transactionType === "Sell ticket")
                             ? "+"
                             : "-"}
                           {Math.abs(transaction.amount)} VND
@@ -186,6 +188,63 @@ const Wallet = () => {
                 placeholder="Nhập số tiền"
               />
             </div>
+
+            {/* Hiển thị các trường thông tin tài khoản khi rút tiền */}
+            {transactionType === "withdraw" && (
+              <>
+                <div className="mb-4">
+                  <label
+                    htmlFor="accountNumber"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Số tài khoản
+                  </label>
+                  <input
+                    id="accountNumber"
+                    type="text"
+                    value={accountNumber}
+                    onChange={(e) => setAccountNumber(e.target.value)}
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                    placeholder="Nhập số tài khoản"
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label
+                    htmlFor="accountName"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Tên tài khoản
+                  </label>
+                  <input
+                    id="accountName"
+                    type="text"
+                    value={accountName}
+                    onChange={(e) => setAccountName(e.target.value)}
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                    placeholder="Nhập tên tài khoản"
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label
+                    htmlFor="bankName"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Ngân hàng
+                  </label>
+                  <input
+                    id="bankName"
+                    type="text"
+                    value={bankName}
+                    onChange={(e) => setBankName(e.target.value)}
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                    placeholder="Nhập tên ngân hàng"
+                  />
+                </div>
+              </>
+            )}
+
             <div className="flex justify-end space-x-4">
               <button
                 onClick={() => setIsModalOpen(false)}
