@@ -4,9 +4,11 @@ import NavBar from "../../../components/NavBar";
 import ScrollToTopButton from "../../../components/ScrollToTopButton";
 import Footer from "../../../components/Footer";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiShoppingCart, FiDollarSign, FiTruck, FiPackage, FiStar } from 'react-icons/fi';
 import ProgressBarIcon from "../../../components/ProgressBarIcon";
+import axios from "axios";
+import Feedback from "../../../components/Feedback";
 
 const PurchaseDetail = () => {
 
@@ -57,6 +59,13 @@ const PurchaseDetail = () => {
       setCurrentStage(currentStage + 1);
     }
   };
+
+  type Seller = {
+    Id: string;
+    firstName: string;
+    lastName: string;
+    userImage: string;
+  };
   
   type Event = {
     eventId: string;
@@ -76,6 +85,128 @@ const PurchaseDetail = () => {
     eventId: string,
     userId: string,
   };
+
+    type Order = {
+      orderId: string,
+      createdAt: string,
+      ticketId: string,
+      quantity: number,
+      totalAmount: number,
+      status: string,
+      userName: string,
+      receiverPhone: string,
+      receiverEmail: string,
+      paymentMethod: string,
+      ticket: Ticket,
+      seller: Seller;
+      event: Event;
+    };
+  
+  type Comment = {
+    commentId: string;
+    userId: string;
+    rating: number;
+    time: string;
+    comment: string;
+    toUserId: string;
+  };
+
+      const userId = localStorage.getItem("userId");
+      const [showFeedback, setShowFeedback] = useState(false);
+      const [comments, setComments] = useState<Comment[]>([]);
+      const commentIds = comments.map(comment => comment.commentId);
+
+      useEffect(() => {
+        if (userId != null) {
+            fetchComments();
+        };
+      },[]);
+
+      const fetchComments = async () => {
+        try {
+          const response = await axios.get(`/api/Comment/list-comment/${userId}`);
+          const commentsData: Comment[] = response.data;
+          setComments(commentsData);
+          
+        } catch (error) {
+          console.error("Error fetching comments:", error);
+        }
+      };
+
+      const handleComplete = async (
+        orderId: string,
+        sellerId: string,
+        amount: Number
+      ) => {
+        try {
+          const response = await axios.get(`/api/Wallet/get-by-user/${sellerId}`);
+          try {
+            const finalresponse = await axios.post(
+              "/api/Wallet/sell-ticket?walletId=" +
+                response.data.walletId +
+                "&amount=" +
+                amount
+            );
+          } catch (error) {
+            console.log("Error fetching wallet:", error);
+          }
+        } catch (error) {
+          console.error("Error fetching wallet:", error);
+        }
+    
+        try {
+          const response = await axios.put(`/api/Order/update/${orderId}`, {
+            orderId: orderId,
+            status: "Complete",
+          });
+          if (response.status === 200) {
+            alert("Đơn đã hoàn thành!");
+            selectedOrder.status = "Complete";
+            navigate("/user/purchase/orderDetail", {
+              state: { selectedOrder: selectedOrder },
+            });
+          }
+        } catch (error) {
+          console.error("Error completing order:", error);
+        }
+      };
+      
+      const handleRefund = async (orderId: string) => {
+        try {
+          const response = await axios.put(`/api/Order/update/${orderId}`, {
+            orderId: orderId,
+            status: "Refund"
+          })
+          if (response.status === 200) {
+            alert("Yêu cầu đã gửi thành công!");
+            selectedOrder.status = "Refund";
+            navigate("/user/purchase/orderDetail", {
+              state: { selectedOrder: selectedOrder },
+            });
+          }
+      } catch (error) {
+        console.error("Error completing order:", error);
+      }
+      };
+
+      const handleCloseFeedback = () => {
+        setShowFeedback(false);
+    };
+
+    const formattedDateTime = (dateParam: string | Date): string => {
+      const utcDate = new Date(dateParam);
+      const localDate = new Date(utcDate.getTime()); // Convert to local time if needed
+      
+      const year = localDate.getFullYear();
+      const month = String(localDate.getMonth() + 1).padStart(2, "0"); // Month starts from 0
+      const day = String(localDate.getDate()).padStart(2, "0");
+      const hours = String(localDate.getHours()).padStart(2, "0");
+      const minutes = String(localDate.getMinutes()).padStart(2, "0");
+      const seconds = String(localDate.getSeconds()).padStart(2, "0");
+    
+      // Return the formatted date string
+      return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+    };
 
     return (
       <div className="w-screen min-h-screen flex flex-col">
@@ -103,7 +234,7 @@ const PurchaseDetail = () => {
                   {/* Navigate */}
                   <div
                     className="flex space-x-1 items-center cursor-pointer text-gray-500 hover:text-[#077eff]"
-                    onClick={() => navigate(-1)}
+                    onClick={() => navigate("/user/purchase")}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -217,19 +348,41 @@ const PurchaseDetail = () => {
                         </svg>
                         <span>{selectedOrder.receiverEmail}</span>
                       </div>
-                      <p className="text-gray-500 text-sm mt-2">
-                        Nếu vé nhận được có vấn đề, bạn có thể gửi Yêu cầu hoàn
-                        tiền trước{" "}
-                        <span className="font-medium">26-11-2024</span>
-                      </p>
+                      {selectedOrder.status === "Pending" && (
+                              <p className="text-gray-500 text-sm mt-2">
+                              Nếu vé nhận được có vấn đề, bạn có thể gửi Yêu cầu hoàn
+                              tiền trước{" "}
+                              <span className="font-medium">{formattedDateTime(selectedOrder.event.eventTime)}</span>
+                            </p>
+                      )}
                     </div>
                     <div className="flex flex-col space-y-2">
-                      <button className="p-2 bg-[#077eff] text-white rounded ">
-                        Đánh giá
-                      </button>
-                      <button className="p-2 border rounded hover:text-[#077eff] hover:border-[#077eff]">
-                        Yêu cầu hoàn tiền
-                      </button>
+                    {selectedOrder.status === "Pending" && (
+                              <>
+                                <button
+                                  onClick={() => handleComplete(selectedOrder.orderId, selectedOrder.ticket.userId, selectedOrder.totalAmount )}
+                                  className="border rounded p-2 bg-[#B9EDDD] hover:bg-[#87CBB9] hover:text-white"
+                                >
+                                  Xác nhận vé
+                                </button>
+                                <button
+                                  onClick={() => handleRefund(selectedOrder.orderId)}
+                                  className="border rounded p-2 hover:bg-[#87CBB9] hover:text-white"
+                                >
+                                  Yêu cầu hoàn tiền
+                                </button>
+                              </>
+                            )}
+                            {selectedOrder.status === "Complete" && commentIds.includes(selectedOrder.orderId) && (
+                              <button
+                                onClick={() => {
+                                  setShowFeedback(true);
+                                }}
+                                className="rounded p-2 bg-[#B9EDDD] hover:bg-[#87CBB9] hover:text-white"
+                              >
+                                Đánh giá
+                              </button>
+                            )}
                     </div>
                   </div>
 
@@ -283,30 +436,18 @@ const PurchaseDetail = () => {
                       </div>
 
                       {/* DS vé */}
-                      {selectedOrder.tickets.map(
-                        (ticket: Ticket, index: number) => {
-                          // Find the corresponding event based on eventId
-                          const event = selectedOrder.events.find(
-                            (e: Event) => e.eventId === ticket.eventId
-                          );
-
-                          return (
                             <div
-                              key={ticket.ticketId}
                               className="border-t cursor-pointer"
                               onClick={() => navigate("/ticketDetail")}
                             >
                               <div
-                                className={`flex items-center gap-3 ${
-                                  index === selectedOrder.tickets.length - 1
-                                    ? "mt-2"
-                                    : "my-2"
-                                }`}
+                                className={`flex items-center gap-3 my-2
+                                `}
                               >
                                 {/* Hình sự kiện */}
                                 <div className="overflow-hidden">
                                   <img
-                                    src={event?.eventImage}
+                                    src={selectedOrder.event.eventImage}
                                     alt="Event"
                                     className="w-20 h-20 group-hover:scale-110 transition-transform duration-300"
                                   />
@@ -314,7 +455,7 @@ const PurchaseDetail = () => {
                                 <div className="flex-1 flex flex-col">
                                   {/* Tên sự kiện */}
                                   <p className="font-semibold text-lg">
-                                    {event?.eventName}
+                                    {selectedOrder.event.eventName}
                                   </p>
 
                                   {/* Date */}
@@ -332,7 +473,7 @@ const PurchaseDetail = () => {
                                       />
                                     </svg>
                                     <p className="text-red-600 font-medium text-xs">
-                                      {event?.eventTime}
+                                    {formattedDateTime(selectedOrder.event.eventTime)}
                                     </p>
                                   </div>
 
@@ -343,7 +484,7 @@ const PurchaseDetail = () => {
                                       <span className="font-medium">
                                         Tên vé:
                                       </span>{" "}
-                                      {ticket.ticketName}
+                                      {selectedOrder.ticket.ticketName}
                                     </p>
 
                                     {/* Loại vé */}
@@ -351,7 +492,7 @@ const PurchaseDetail = () => {
                                       <span className="font-medium">
                                         Loại vé:
                                       </span>{" "}
-                                      {ticket.ticketType === "Seat"
+                                      {selectedOrder.ticket.type === "Seat"
                                         ? "Ngồi"
                                         : "Đứng"}
                                     </p>
@@ -368,21 +509,12 @@ const PurchaseDetail = () => {
                                 <div className="flex flex-col text-right">
                                   {/* Giá vé */}
                                   <p className="text-[#87CBB9] font-semibold">
-                                    {ticket.price} VND
+                                    {selectedOrder.ticket.price} VND
                                   </p>
 
-                                  {/* Chú ý */}
-                                  <div className="w-fit mt-1">
-                                    <p className="border border-gray-500 text-gray-500 text-[10px] p-0.5">
-                                      Hoàn tiền trong 15 ngày
-                                    </p>
-                                  </div>
                                 </div>
                               </div>
                             </div>
-                          );
-                        }
-                      )}
                     </div>
 
                     {/* Separator with decorative dot border */}
@@ -433,6 +565,13 @@ const PurchaseDetail = () => {
         <div className="flex-grow-0">
           <Footer />
         </div>
+
+        {/* FEEDBACK FORM */}
+        {showFeedback && selectedOrder && (
+          <div className="pt-12 fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <Feedback onClose={handleCloseFeedback} order={selectedOrder}/> 
+          </div>
+        )}
       </div>
     );
 };
