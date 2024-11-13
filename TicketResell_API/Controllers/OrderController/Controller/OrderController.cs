@@ -287,7 +287,7 @@ namespace TicketResell_API.Controllers.OrderController.Controller
                 };
 
                 _context.Orders.Add(order);
-                await _context.SaveChangesAsync();
+                
 
                 // Tạo chi tiết đơn hàng và liên kết với đơn hàng
                 List<string> imagesQRList = new List<string>();
@@ -320,8 +320,7 @@ namespace TicketResell_API.Controllers.OrderController.Controller
                     {
                         imagesQRList.AddRange(ticket.imagesQR);
                     }
-                }
-                await _context.SaveChangesAsync();
+                }                
 
                 // Cập nhật số lượng vé sau khi thanh toán
                 foreach (var detail in model.OrderDetails)
@@ -332,8 +331,6 @@ namespace TicketResell_API.Controllers.OrderController.Controller
                         ticket.quantity -= detail.quantity; // Trừ đi số lượng vé đã bán
                     }
                 }
-                await _context.SaveChangesAsync();
-
 
                 // Kiểm tra và gửi email xác nhận đơn hàng
                 if (_emailSender == null)
