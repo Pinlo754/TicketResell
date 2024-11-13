@@ -20,7 +20,7 @@ namespace TicketResell_API.Controllers.User.Model
         [JsonIgnore]
         public MainUser? User { get; set; }
         [JsonIgnore]
-        public ICollection<OrderDetail> OrderDetails { get; set; }
+        public ICollection<OrderDetail>? OrderDetails { get; set; }
         [JsonIgnore]
         public ICollection<Comment>? Comments { get; set; }
         [JsonIgnore]
