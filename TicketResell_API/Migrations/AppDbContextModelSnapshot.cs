@@ -247,7 +247,6 @@ namespace TicketResell_API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("messageId")
-                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("messageSeen")
@@ -255,8 +254,7 @@ namespace TicketResell_API.Migrations
 
                     b.Property<string>("reUserId")
                         .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("updatedAt")
                         .HasColumnType("datetime2");
@@ -273,7 +271,6 @@ namespace TicketResell_API.Migrations
             modelBuilder.Entity("TicketResell_API.Controllers.ChatController.Model.Message", b =>
                 {
                     b.Property<string>("messageId")
-                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("messageId");
@@ -298,8 +295,7 @@ namespace TicketResell_API.Migrations
 
                     b.Property<string>("SeUserId")
                         .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("messageId")
                         .IsRequired()
@@ -815,7 +811,7 @@ namespace TicketResell_API.Migrations
                         .IsRequired();
 
                     b.HasOne("TicketResell_API.Controllers.ChatController.Model.Message", "Message")
-                        .WithMany()
+                        .WithMany("ChatDataList")
                         .HasForeignKey("messageId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -941,6 +937,8 @@ namespace TicketResell_API.Migrations
 
             modelBuilder.Entity("TicketResell_API.Controllers.ChatController.Model.Message", b =>
                 {
+                    b.Navigation("ChatDataList");
+
                     b.Navigation("Messages");
                 });
 
