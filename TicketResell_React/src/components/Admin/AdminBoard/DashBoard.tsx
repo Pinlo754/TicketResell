@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import assets from "../../../assets/assetsChat";
 import "./DashBoard.css";
 import {
@@ -9,6 +9,16 @@ import {
   Tooltip,
   XAxis,
 } from "recharts";
+import axios from "axios";
+
+interface orderDetails {
+  orderDate: Date;
+  userId: String;
+  orderId: string;
+  ticketName: string;
+  quantity: number;
+  price: number;
+}
 
 const data = [
   { name: "Tháng 5", Total: 1_200_000 },
@@ -22,6 +32,107 @@ const data = [
 ];
 
 const DashBoard = () => {
+  const [numberTicket, setNumberTicket] = useState(0);
+  const [numberAccount, setNumberAccount] = useState(0);
+  const [numberOrder, setNumberOrder] = useState(0);
+  const [recentOrderList, setRecentOrderList] = useState<orderDetails[]>([]);
+  
+  const getNumberAccount = async () => {
+    try {
+      const response = await axios.get("/api/Admin/list-user");
+      if (response.status === 200) {
+        setNumberAccount(response.data.length);
+      } else {
+        console.error("Can't get data");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  const getNumberOrder = async () => {
+    try {
+      const response = await axios.get("/api/Admin/list-order");
+      if (response.status === 200) {
+        const data = response.data;
+        setNumberOrder(data.length);
+        const recentOrders = getSortedRecentOrders(data);
+        const recentOrdersList = await Promise.all(
+          recentOrders.map(async (item: orderDetails) => {
+            try {
+              const response = await axios.get(
+                `/api/Order/get-user-orders/${item.userId}`
+              );
+              if (response.status === 200) {
+                const data = response.data;
+                const detailUser = data.find(
+                  (order: orderDetails) => order.orderId === item.orderId
+                );
+                return {
+                  ...item,
+                  quantity: detailUser.quantity,
+                  price: detailUser.price,
+                  ticketName: detailUser.ticketName,
+                };
+              }
+              return item;
+            } catch (error) {
+              console.error(error);
+              return item;
+            }
+          })
+        );
+        setRecentOrderList(recentOrdersList);
+      } else {
+        console.error("Can't get data");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  const getNumberTicket = async () => {
+    try {
+      const response = await axios.get("/api/Ticket/list-ticket");
+      if (response.status === 200) {
+        setNumberTicket(response.data.length);
+      } else {
+        console.error("Can't get data");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  const getSortedRecentOrders = (orders: orderDetails[] | undefined) => {
+    if (!orders) return [];
+
+    return orders
+      .sort((a, b) => {
+        const dateA = new Date(a.orderDate);
+        const dateB = new Date(b.orderDate);
+        return dateB.getTime() - dateA.getTime();
+      })
+      .slice(0, 4);
+  };
+
+  
+  // Hiển thị định dạng tiền tệ VN
+  const formatVND = (amount: number) => {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount);
+  };
+  
+  useEffect(() => {
+    getNumberOrder();
+    getNumberTicket();
+    getNumberAccount();
+  }, []);
+
   return (
     <div className="dashboard">
       <h4 className="dashboard-title">Dashboard</h4>
@@ -44,7 +155,7 @@ const DashBoard = () => {
             </div>
             <div className="stat-content">
               <div className="stat-title">Đơn hàng</div>
-              <div className="stat-value">103,774</div>
+              <div className="stat-value">{numberOrder}</div>
             </div>
           </div>
         </div>
@@ -66,7 +177,7 @@ const DashBoard = () => {
             </div>
             <div className="stat-content">
               <div className="stat-title">Tất cả vé</div>
-              <div className="stat-value">194</div>
+              <div className="stat-value">{numberTicket}</div>
             </div>
           </div>
         </div>
@@ -88,7 +199,7 @@ const DashBoard = () => {
             </div>
             <div className="stat-content">
               <div className="stat-title">Tài Khoản</div>
-              <div className="stat-value">208</div>
+              <div className="stat-value">{numberAccount}</div>
             </div>
           </div>
         </div>
@@ -117,37 +228,24 @@ const DashBoard = () => {
       </div>
 
       <div className="bottom-section">
-        <div style={{width:"40%"}} className="recent-orders">
+        <div style={{ width: "40%" }} className="recent-orders">
           <h5>Đơn gần đây</h5>
           <table className="orders-table">
             <thead>
               <tr>
                 <th>Tên vé</th>
-                <th style={{width:"30%"}}>Số lượng</th>
-                <th>Giá</th>
+                <th style={{ width: "30%" }}>Số lượng</th>
+                <th style={{textAlign:"center"}}>Giá</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Charger SXT RWD</td>
-                <td className="gia-tri-bang">3</td>
-                <td className="gia-tri-bang">200.000.000</td>
-              </tr>
-              <tr>
-                <td>Apple MacBook Pro 14 Inch Space Grey</td>
-                <td className="gia-tri-bang">2</td>
-                <td className="gia-tri-bang">-</td>
-              </tr>
-              <tr>
-                <td>Green Oval Earring</td>
-                <td className="gia-tri-bang">5</td>
-                <td className="gia-tri-bang">-</td>
-              </tr>
-              <tr>
-                <td>Green Oval Earring</td>
-                <td className="gia-tri-bang">5</td>
-                <td className="gia-tri-bang">-</td>
-              </tr>
+              {recentOrderList?.map((item, index) => (
+                <tr key={index}>
+                  <td>{item.ticketName}</td>
+                  <td className="gia-tri-bang">{item.quantity}</td>
+                  <td className="gia-tri-bang">{formatVND(item.price)}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -155,8 +253,12 @@ const DashBoard = () => {
         <div className="chart-container">
           <div className="title">Lợi nhuận</div>
           <ResponsiveContainer width="100%">
-            <AreaChart width={730} height={250} data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-            
+            <AreaChart
+              width={730}
+              height={250}
+              data={data}
+              margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+            >
               <defs>
                 <linearGradient id="total" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#87CBB9" stopOpacity={0.8} />
@@ -168,10 +270,17 @@ const DashBoard = () => {
 
               <CartesianGrid strokeDasharray="3 3" className="chartGrid" />
 
-              <Tooltip formatter={(value: number) => value.toLocaleString("vi-VN")} />
+              <Tooltip
+                formatter={(value: number) => value.toLocaleString("vi-VN")}
+              />
 
-              <Area type="monotone" dataKey="Total" stroke="#8884d8" fillOpacity={1} fill="url(#total)"/>
-
+              <Area
+                type="monotone"
+                dataKey="Total"
+                stroke="#8884d8"
+                fillOpacity={1}
+                fill="url(#total)"
+              />
             </AreaChart>
           </ResponsiveContainer>
         </div>

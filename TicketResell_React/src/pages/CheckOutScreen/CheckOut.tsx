@@ -124,18 +124,31 @@ const CheckOut = () => {
       totalAmount: subtotal,
       orderDetails: detail,
     };
-    try {
-      const response = await axios.post(
-        "/api/Order/create",
-        data
-      );
-      if (response.status === 201) {
-        const url = response.data.paymentUrl;
-        window.open(url);
-      }
-    } catch (error) {
-      console.error(error);
-    }
+     try {
+       const response = await axios.post(
+         "https://localhost:7286/api/Order/create",
+         data
+       );
+       if (response.status === 201) {
+         const url = response.data.paymentUrl;
+         window.open(url);
+       }
+     } catch (error) {
+       console.error(error);
+     }
+
+    // try {
+    //   const response = await axios.post(
+    //     "/api/Wallet/create",
+    //      data
+    //      );
+    //      if (response.status === 200) {    
+    //       toast.success("Đặt hàng thành công! Vui lòng kiểm tra email để nhận vé.");
+    //       navigate("/order-confirmation?vnp_TxnRef=" + response.data.order.orderId +"&Amount=" + response.data.order.totalAmount + "&PayDate=" + response.data.order.orderDate + "&vnp_ResponseCode=00");
+    //      }
+    // } catch (error) {
+    //   console.error(error);
+    // }
   };
 
   // hiển thị order theo id của người bán (chỉ để hiển thị)
@@ -315,12 +328,6 @@ const CheckOut = () => {
               </div>
               <div>
                 <div>{item.userName}</div>
-                <div className="rating">
-                  <span className="star">
-                    &#9733;&#9733;&#9733;&#9733;&#9733;
-                  </span>
-                  <span>4.9 (124 đánh giá)</span>
-                </div>
               </div>
             </div>
           </div>
@@ -334,6 +341,14 @@ const CheckOut = () => {
             </div>
             <div>
               <div style={{ fontWeight: 500 }}>VNPay</div>
+            </div>
+          </div>
+          <div className="payment-method">
+            <div className="payment-icon">
+              <img src={assets.card} alt="" />
+            </div>
+            <div>
+              <div style={{ fontWeight: 500 }}>Ví</div>
               <div style={{ fontSize: "0.875rem", color: "#666" }}>
                 Số dư: 300.000VND
               </div>

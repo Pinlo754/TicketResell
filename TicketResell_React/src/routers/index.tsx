@@ -1,5 +1,5 @@
 import React from "react";
-import {createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import MainScreen from "../pages/MainScreen";
 import Chat from "../pages/Chat/Chat";
 import ShoppingCart from "../pages/ShoppingCart/ShoppingCart";
@@ -33,6 +33,8 @@ import ManageTicket from "../pages/User/ManageTicket";
 import Notification from "../pages/User/Notification";
 import PurchaseDetail from "../pages/User/PurchaseDetail";
 import SaleDetail from "../pages/User/SaleDetail";
+import OrderDetailAdmin from "../components/Admin/OrderBoard/OrderDetailAdmin";
+import OrderConfirmation from "../pages/OrderConfirmation/OrderConfirmation";
 
 const routers = createBrowserRouter([
   {
@@ -46,7 +48,9 @@ const routers = createBrowserRouter([
   {
     path: "/chat",
     element: (
-      <AppChatContextProvider> {/* Bọc AppChatContextProvider quanh Chat route */}
+      <AppChatContextProvider>
+        {" "}
+        {/* Bọc AppChatContextProvider quanh Chat route */}
         <Chat />
       </AppChatContextProvider>
     ),
@@ -72,7 +76,7 @@ const routers = createBrowserRouter([
     element: <RegisterScreen />,
   },
   {
-    path: "/reset-password/:validToken",
+    path: "/reset-password",
     element: <ResetPasswordScreen />,
   },
   {
@@ -89,27 +93,41 @@ const routers = createBrowserRouter([
   },
   {
     path: "/profile",
-    element: <AccountProfile/>,
+    element: <AccountProfile />,
   },
   {
     path: "/Admin",
-    element: <AdminBoard/>,
-  },
-  {
-    path: "/Admin/Ticket",
-    element: <TicketBoard/>,
-  },
-  {
-    path: "/Admin/Orders",
-    element: <OrderBoard/>,
-  },
-  {
-    path: "/Admin/Customers",
-    element: <UserBoard/>,
+    children: [
+      {
+        path: "",
+        element: <AdminBoard />,
+      },
+      {
+        path: "Ticket", 
+        element: <TicketBoard /> 
+      },
+      {
+        path: "Orders",
+        children:[
+          {
+            path:"",
+            element: <OrderBoard />,
+          },
+          {
+            path:"detail",
+            element: <OrderDetailAdmin />,
+          },
+        ]
+      },
+      {
+        path: "Customers",
+        element: <UserBoard />,
+      },
+    ],
   },
   {
     path: "/checkout",
-    element: <CheckOut/>,
+    element: <CheckOut />,
   },
   {
     path: "/staff",
@@ -127,65 +145,69 @@ const routers = createBrowserRouter([
         element: <ManageTicketScreen />,
       },
     ],
-  },  
+  },
   {
     path: "/user",
     children: [
       {
         path: "profile",
-        element: <AccountProfile/>,
+        element: <AccountProfile />,
       },
-      { 
+      {
         path: "wallet",
-        element: <Wallet/>,
+        element: <Wallet />,
       },
       {
         path: "manageTicket",
-        element: <ManageTicket/>,
+        element: <ManageTicket />,
       },
-      { 
+      {
         path: "purchase",
-        element: <Purchase/>,
+        element: <Purchase />,
       },
       {
         path: "purchase/orderDetail",
-        element: <PurchaseDetail/>,
+        element: <PurchaseDetail />,
       },
       {
         path: "sale",
-        element: <Sale/>,
+        element: <Sale />,
       },
       {
         path: "sale/orderDetail",
-        element: <SaleDetail/>,
+        element: <SaleDetail />,
       },
       {
         path: "notification",
-        element: <Notification/>,
+        element: <Notification />,
       },
     ],
   },
   {
     path: "/aboutUs",
-    element: <AboutUsScreen/>,
+    element: <AboutUsScreen />,
   },
   {
     path: "/how-it-works",
-    children: [ 
+    children: [
       {
         path: "htb",
-        element: <HowToBuy/>,
+        element: <HowToBuy />,
       },
       {
         path: "hts",
-        element: <HowToSell/>,
+        element: <HowToSell />,
       },
     ],
   },
   {
     path: "/verify-email-reset-password",
-    element: <VerifyEmailResetPassword/>,
+    element: <VerifyEmailResetPassword />,
   },
+  {
+    path: "/order-confirmation",
+    element: <OrderConfirmation/>,
+  }
 ]);
 
 export default routers;

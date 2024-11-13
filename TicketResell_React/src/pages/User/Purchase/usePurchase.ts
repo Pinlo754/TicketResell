@@ -151,16 +151,41 @@ const usePurchase = () => {
             setShowFeedback(false);
         };
 
-        const handleComplete = async (orderId: string) => {
+        const handleComplete = async (
+          orderId: string,
+          sellerId: string,
+          amount: Number
+        ) => {
           try {
-              const response = await axios.put(`/api/Order/update/${orderId}`, {status: "Complete"})
-              if (response.status === 200) {
-                alert("Đơn đã hoàn thành!");
-                if (userId != null) {
-                  fetchOrders(userId);
-                  fetchOrderDetails(orders);
-                }
+            const response = await axios.get(`/api/Wallet/get-by-user/${sellerId}`);
+            try {
+              const finalresponse = await axios.post(
+                "/api/Wallet/sell-ticket?walletId=" +
+                  response.data.walletId +
+                  "&amount=" +
+                  amount
+              );
+              if (finalresponse.status === 200) {
+                alert("Cộng tiền thành công!");
               }
+            } catch (error) {
+              console.log("Error fetching wallet:", error);
+            }
+          } catch (error) {
+            console.error("Error fetching wallet:", error);
+          }
+      
+          try {
+            const response = await axios.put(`/api/Order/update/${orderId}`, {
+              status: "Complete",
+            });
+            if (response.status === 200) {
+              alert("Đơn đã hoàn thành!");
+              if (userId != null) {
+                fetchOrders(userId);
+                fetchOrderDetails(orders);
+              }
+            }
           } catch (error) {
             console.error("Error completing order:", error);
           }

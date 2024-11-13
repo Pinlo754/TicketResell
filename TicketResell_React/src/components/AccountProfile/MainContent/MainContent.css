@@ -1,14 +1,14 @@
-.content {
+.content-profile {
     background: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    height: 80vh;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
-.content form {
+.content-profile form {
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -17,7 +17,7 @@
     flex: 1;
 }
 
-.content form h3 {
+.content-profile form h3 {
     font-size: 20px;
     font-weight: 500;
     margin-bottom: 10px;
@@ -71,7 +71,7 @@
     font-size: 14px;
 }
 
-.content input, select, textarea {
+.content-profile input, select, textarea {
     padding: 8px 12px;
     border: 1px solid #c9c9c9;
     border-radius: 4px;
@@ -79,7 +79,7 @@
     outline-color: #077eff;
 }
 
-.content textarea {
+.content-profile textarea {
     min-height: 80px;
     max-height: 120px;
     resize: vertical;
@@ -107,12 +107,12 @@
     width: 100%;
 }
 
-.content select {
+.content-profile select {
     background-color: white;
     cursor: pointer;
 }
 
-.content button {
+.content-profile button {
     background-color: #077eff;
     color: white;
     border: none;
@@ -125,7 +125,7 @@
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
 }
 
-.content button:hover {
+.content-profile button:hover {
     background-color: #0066d6;
 }
 
