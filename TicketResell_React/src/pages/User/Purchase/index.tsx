@@ -229,7 +229,7 @@ const Purchase = () => {
                             {order.status === "Pending" && (
                               <>
                                 <button
-                                  onClick={() => handleComplete(order.orderId)}
+                                  onClick={() => handleComplete(order.orderId, order.tickets[0].userId, order.totalAmount )}
                                   className="border rounded p-2 bg-[#B9EDDD] hover:bg-[#87CBB9] hover:text-white"
                                 >
                                   Xác nhận vé
