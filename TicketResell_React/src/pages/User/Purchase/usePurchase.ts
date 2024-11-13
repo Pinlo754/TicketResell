@@ -57,7 +57,8 @@ const usePurchase = () => {
       const [orders, setOrders] = useState<Order[]>([]);
       const userId = localStorage.getItem("userId");
       const [showFeedback, setShowFeedback] = useState(false); // State to control Feedback visibility
-
+      const [selectedOrder, setSelectedOrder] = useState<Order>();
+      const [sellerId, setSellerId] = useState("");
       useEffect(() => {
         if (userId != null) {
             fetchOrders(userId);
@@ -81,7 +82,8 @@ const usePurchase = () => {
               ordersData.map(async (order: Order) => {
                   const ticketResponse = await axios.get(`/api/Ticket/get-ticket/${order.ticketId}`);
                   const ticketsData: Ticket[] = Array.isArray(ticketResponse.data) ? ticketResponse.data : [ticketResponse.data];
-  
+                  
+                  // Fetch event data if it's not already in the Set
                   // Unique event and seller tracking
                   const uniqueEventIds = new Set<string>();
                   const uniqueSellerIds = new Map<string, Seller>();
@@ -182,10 +184,13 @@ const usePurchase = () => {
     return {
         navigate,
         orders,
+        selectedOrder,
+        setSelectedOrder,
         tabs,
         handleOpenFeedback,
         handleCloseFeedback,
         showFeedback,
+        setShowFeedback,
         handleComplete,
         handleRefund,
     }

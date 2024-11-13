@@ -1,18 +1,24 @@
 import { useState } from "react";
 import RenderStars from "../RenderStars";
+import { useNavigate } from "react-router-dom";
 
 type Comment = {
-    id: number;
-    name: string;
-    avatar: string; // URL ảnh đại diện
-    rating: number;
-    date: string;
-    time: string;
-    comment: string;
+  commentId: string;
+  userId: string;
+  user: {
+    firstName: string;  
+    lastName: string;
+    userImage: string;
   };
+  rating: number;
+  time: string;
+  comment: string;
+  toUserId: string;
+}; 
 
 const RenderTotalReviews = (comments: Comment[]) => {
 
+    const navigate = useNavigate();
     const [visibleComments, setVisibleComments] = useState(5); // Số bình luận hiển thị ban đầu
     const [isExpanded, setIsExpanded] = useState(false); // Trạng thái hiển thị bình luận mở rộng hay không
   
@@ -29,6 +35,25 @@ const RenderTotalReviews = (comments: Comment[]) => {
     const handleShowLess = () => {
       setVisibleComments(5); // Rút gọn về 5 bình luận
       setIsExpanded(false); // Đánh dấu là không mở rộng
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth", // Optional: Smooth scrolling effect
+      });
+    };
+
+    const formattedDateTime = (dateParam: string | Date): string => {
+      const utcDate = new Date(dateParam);
+      const localDate = new Date(utcDate.getTime()); // Convert to local time if needed
+      
+      const year = localDate.getFullYear();
+      const month = String(localDate.getMonth() + 1).padStart(2, "0"); // Month starts from 0
+      const day = String(localDate.getDate()).padStart(2, "0");
+      const hours = String(localDate.getHours()).padStart(2, "0");
+      const minutes = String(localDate.getMinutes()).padStart(2, "0");
+      const seconds = String(localDate.getSeconds()).padStart(2, "0");
+    
+      // Return the formatted date string
+      return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
     };
   
     return (
@@ -42,19 +67,20 @@ const RenderTotalReviews = (comments: Comment[]) => {
           <div>
             {/* Hiển thị các bình luận, giới hạn số lượng theo visibleComments */}
             {comments.slice(0, visibleComments).map((comment) => (
-              <div key={comment.id} className="p-8 border-b-2">
+              <div key={comment.commentId} className="p-8 border-b-2">
                 <div className="flex items-center mb-2">
 
                   {/* Avt người bình luận */}
                   <img
-                    src={comment.avatar}
-                    alt={comment.name}
+                    src={comment.user.userImage}
+                    alt="User"
                     className="w-16 h-16 rounded-full mr-4 cursor-pointer"
+                    onClick={() => navigate(`/userProfile/${comment.userId}`)}
                   />
                   <div className="flex justify-between w-full">
                     <div>
                       {/* Tên người bình luận */}
-                      <p className="font-semibold cursor-pointer">{comment.name}</p>
+                      <p className="font-semibold cursor-pointer">{comment.user.firstName} {comment.user.lastName}</p>
 
                       {/* Rating */}
                       <div className="flex items-center">
@@ -65,7 +91,7 @@ const RenderTotalReviews = (comments: Comment[]) => {
 
                     {/* Ngày, giờ bình luận */}
                     <p className="text-gray-500">
-                      {comment.date}, {comment.time}
+                      {formattedDateTime(comment.time)}
                     </p>
                   </div>
                 </div>

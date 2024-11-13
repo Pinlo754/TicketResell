@@ -80,7 +80,7 @@ const routers = createBrowserRouter([
     element: <VerifyEmailScreen />,
   },
   {
-    path: "/userProfile",
+    path: "/userProfile/:userId",
     element: <UserProfile />,
   },
   {

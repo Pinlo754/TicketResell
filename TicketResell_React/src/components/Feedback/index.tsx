@@ -2,11 +2,53 @@ import RenderStars from "../RenderStars";
 import useFeedback from "./useFeedback";
 import RenderRating from "../RenderRating";
 
+type Seller = {
+  Id: string;
+  firstName: string;
+  lastName: string;
+  userImage: string;
+};
+
+type Event = {
+  eventId: string;
+  eventName: string;
+  eventImage: string;
+  eventTime: string;
+  location: string;
+  city: string;
+};
+
+type Ticket = {
+  ticketId: string,
+  ticketName: string,
+  ticketType: string,
+  price: number,
+  quantity: number,
+  eventId: string,
+  userId: string,
+};
+
+type Order = {
+  orderId: string,
+  orderDate: string,
+  ticketId: string,
+  quantity: number,
+  totalAmount: number,
+  status: string,
+  userName: string,
+  receiverPhone: string,
+  receiverEmail: string,
+  paymentMethod: string,
+  tickets: Ticket[],
+  seller: Seller;
+  events: Event[];
+};
 interface FeedbackProps {
   onClose: () => void;
+  order : Order;
 }
 
-const Feedback: React.FC<FeedbackProps> = ({ onClose }) => {
+const Feedback: React.FC<FeedbackProps> = ({ onClose, order }) => {
 
     const {
         navigate,
@@ -17,9 +59,8 @@ const Feedback: React.FC<FeedbackProps> = ({ onClose }) => {
         totalRating,
         averageRating,
         comments,
-        tickets,
         handleSubmit,
-    } = useFeedback();
+    } = useFeedback(order);
     
     return (
       <div className="w-[40%] max-h-[90vh] overflow-y-auto bg-white rounded-lg p-6">
@@ -32,7 +73,7 @@ const Feedback: React.FC<FeedbackProps> = ({ onClose }) => {
             {/* Avt Seller */}
             <div className="overflow-hidden rounded-full">
               <img
-                src="https://static.vecteezy.com/system/resources/thumbnails/019/896/012/small_2x/female-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"
+                src={order.seller.userImage}
                 alt="Seller"
                 className="w-12 h-12 rounded-full group-hover:scale-110 transition-transform duration-300"
               />
@@ -40,7 +81,7 @@ const Feedback: React.FC<FeedbackProps> = ({ onClose }) => {
             <div>
 
               {/* Tên Seller */}
-              <p>Mai Nguyen</p>
+              <p>{order.seller.firstName} {order.seller.lastName}</p>
 
               {/* Rate trung bình */}
               <div className="flex gap-1 items-center">
@@ -59,22 +100,26 @@ const Feedback: React.FC<FeedbackProps> = ({ onClose }) => {
           </div>
 
           {/* DS vé */}
-          <div className={`border-2 border-[#87CBB9] rounded-lg p-3 ${tickets.length > 2 ? 'overflow-y-auto max-h-32' : ''}`}>
-            {tickets.map((ticket) => (
+          <div className={`border-2 border-[#87CBB9] rounded-lg p-3 ${order.tickets.length > 2 ? 'overflow-y-auto max-h-32' : ''}`}>
+            {order.tickets.map((ticket) => {
+              const event = order.events.find(
+                (e: Event) => e.eventId === ticket.eventId
+              );
+              return (
               <div 
               key={ticket.ticketId} 
-              className={`flex gap-3 bg-[#E3F4F4] rounded-lg p-2 group cursor-pointer ${tickets.length > 2 ? 'mb-3 last:mb-0' : ''}`}
+              className={`flex gap-3 bg-[#E3F4F4] rounded-lg p-2 group cursor-pointer ${order.tickets.length > 2 ? 'mb-3 last:mb-0' : ''}`}
               onClick={() => window.open(`/eventDetail/${ticket.eventId}`, "_blank")}
               >
                 <div className="overflow-hidden rounded-lg">
                   <img
-                    src={ticket.eventImage}
+                    src={event?.eventImage}
                     alt="Event"
                     className="w-20 h-20 rounded-lg group-hover:scale-110 transition-transform duration-300"
                   />
                 </div>
                 <div className="flex flex-col">
-                  <p className="font-semibold text-lg">{ticket.eventName}</p>
+                  <p className="font-semibold text-lg">{event?.eventName}</p>
                   <div className="flex items-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -88,7 +133,7 @@ const Feedback: React.FC<FeedbackProps> = ({ onClose }) => {
                         clip-rule="evenodd"
                       />
                     </svg>
-                    <p className="text-red-600 font-medium">{ticket.eventDate}</p>
+                    <p className="text-red-600 font-medium">{event?.eventTime}</p>
                   </div>
 
                   <div className="flex gap-3">
@@ -97,9 +142,12 @@ const Feedback: React.FC<FeedbackProps> = ({ onClose }) => {
                   </div>
                 </div>
               </div>
-            ))}
+            );
+          }
+        )}
           </div>
         </div>
+          
 
         {/* Form Feedback */}
         <form>
