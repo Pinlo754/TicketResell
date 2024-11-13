@@ -92,7 +92,7 @@ namespace TicketResell_API.Controllers.WalletController.Controller
                     userId = model.userId,
                     orderDate = DateTime.UtcNow,
                     totalAmount = totalAmount,
-                    Status = "Complete"  // Đánh dấu là đã thanh toán
+
                 };
 
                 _context.Orders.Add(order);

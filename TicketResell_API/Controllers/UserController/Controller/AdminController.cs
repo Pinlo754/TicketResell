@@ -170,7 +170,6 @@ namespace TicketResell_API.Controllers.UserController.Controller
                 o.orderId,
                 o.userId,
                 o.orderDate,
-                o.Status,
                 o.totalAmount
             })
             .ToListAsync();

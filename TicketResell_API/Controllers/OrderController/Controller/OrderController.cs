@@ -77,7 +77,6 @@ namespace TicketResell_API.Controllers.OrderController.Controller
                 {
                     userId = o.userId,
                     totalAmount = o.totalAmount ?? 0,
-                    status = o.Status ?? "Successful",
                     OrderDetails = o.OrderDetails.Select(d => new OrderDetail
                     {
                         orderDetailId = d.orderDetailId,
@@ -124,7 +123,7 @@ namespace TicketResell_API.Controllers.OrderController.Controller
             }
 
             // Update order information
-            existingOrder.Status = updatedOrder.Status;
+            //existingOrder.Status = updatedOrder.Status;
             existingOrder.totalAmount = updatedOrder.totalAmount;
             existingOrder.userId = updatedOrder.userId;
             existingOrder.orderDate = updatedOrder.orderDate;
@@ -167,7 +166,6 @@ namespace TicketResell_API.Controllers.OrderController.Controller
                     sellerId = sellerId,
                     orderDate = DateTime.UtcNow,
                     totalAmount = model.totalAmount,
-                    Status = "Pending"
                 };
                 _context.Orders.Add(order);
                 await _context.SaveChangesAsync();
@@ -268,7 +266,7 @@ namespace TicketResell_API.Controllers.OrderController.Controller
                 userId = depositRequest.UserId,
                 orderDate = DateTime.UtcNow,
                 totalAmount = depositRequest.Amount,
-                Status = "Deposit"
+                ///*Status = "Deposit*/"
             };
 
             _context.Orders.Add(order);

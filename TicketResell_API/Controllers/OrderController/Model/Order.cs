@@ -13,7 +13,6 @@ namespace TicketResell_API.Controllers.User.Model
         [MaxLength(450)] public string? userId { get; set; }
         [MaxLength(450)] public string? sellerId { get; set; }
         public DateTime? orderDate { get; set; }
-        public string? Status { get; set; }
         public decimal? totalAmount { get; set; }
 
 
