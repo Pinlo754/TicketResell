@@ -261,34 +261,110 @@ namespace TicketResell_API.Controllers.OrderController.Controller
         }
 
         [HttpPost("send-order-confirmation")]
-        public async Task<IActionResult> SendOrderConfirmation([FromBody] string receiverEmail)
+        public async Task<IActionResult> SendOrderConfirmation([FromBody] OrderWithDetails model)
         {
-            if (string.IsNullOrEmpty(receiverEmail))
+            if (model == null || string.IsNullOrEmpty(model.userId) || model.OrderDetails == null || !model.OrderDetails.Any())
             {
-                return BadRequest("Receiver email is required.");
+                return BadRequest("Order data is null, User ID is missing, or no order details provided.");
             }
 
-            // Tìm OrderDetail dựa vào receiverEmail
-            var orderDetail = await _context.OrderDetails
-                                            .Include(od => od.Tickets)
-                                            .Where(od => od.receiverEmail == receiverEmail)
-                                            .FirstOrDefaultAsync();
-
-            if (orderDetail == null)
+            try
             {
-                return NotFound("No order found with the specified email.");
+                // Kiểm tra tính hợp lệ của dữ liệu đầu vào
+                if (model == null || string.IsNullOrEmpty(model.userId) || model.OrderDetails == null || !model.OrderDetails.Any())
+                {
+                    return BadRequest("Order data is null, User ID is missing, or no order details provided.");
+                }
+
+                // Tạo đơn hàng
+                var order = new Order
+                {
+                    orderId = Guid.NewGuid().ToString(),
+                    userId = model.userId,
+                    orderDate = DateTime.UtcNow,
+                    totalAmount = model.totalAmount,
+
+                };
+
+                _context.Orders.Add(order);
+                await _context.SaveChangesAsync();
+
+                // Tạo chi tiết đơn hàng và liên kết với đơn hàng
+                List<string> imagesQRList = new List<string>();
+                foreach (var detail in model.OrderDetails)
+                {
+                    var orderDetail = new OrderDetail
+                    {
+                        orderId = order.orderId,
+                        ticketId = detail.ticketId,
+                        ticketName = detail.ticketName,
+                        ticketType = detail.ticketType,
+                        eventImage = detail.eventImage,
+                        eventName = detail.eventName,
+                        userName = detail.userName,
+                        receiverPhone = detail.receiverPhone,
+                        receiverEmail = detail.receiverEmail,
+                        address = detail.address,
+                        price = detail.price,
+                        quantity = detail.quantity,
+                        paymentMethod = detail.paymentMethod,
+                        status = "Pending", // Trạng thái chi tiết đơn hàng
+                        createdAt = DateTime.UtcNow
+                    };
+                    _context.OrderDetails.Add(orderDetail);
+
+                    // Lấy hình ảnh QR từ Ticket và thêm vào danh sách imagesQR
+
+                    var ticket = await _context.Tickets.FirstOrDefaultAsync(t => t.ticketId == detail.ticketId);
+                    if (ticket != null && ticket.imagesQR != null)
+                    {
+                        imagesQRList.AddRange(ticket.imagesQR);
+                    }
+                }
+                await _context.SaveChangesAsync();
+
+                // Cập nhật số lượng vé sau khi thanh toán
+                foreach (var detail in model.OrderDetails)
+                {
+                    var ticket = await _context.Tickets.FirstOrDefaultAsync(t => t.ticketId == detail.ticketId);
+                    if (ticket != null)
+                    {
+                        ticket.quantity -= detail.quantity; // Trừ đi số lượng vé đã bán
+                    }
+                }
+                await _context.SaveChangesAsync();
+
+
+                // Kiểm tra và gửi email xác nhận đơn hàng
+                if (_emailSender == null)
+                {
+                    return StatusCode(500, "Email sender service is not configured.");
+                }
+                var firstDetail = model.OrderDetails.First();
+                if (string.IsNullOrEmpty(firstDetail.receiverEmail))
+                {
+                    return BadRequest("Receiver email is missing.");
+                }
+                if (string.IsNullOrEmpty(firstDetail.eventName))
+                {
+                    return BadRequest("Event name is missing.");
+                }
+
+                // Chuẩn bị thông tin và gửi email
+                string ticketDetails = string.Join(", ", model.OrderDetails.Select(d => $"{d.ticketName} - {d.quantity} tickets"));
+                await _emailSender.SendOrderConfirmationEmailAsync(firstDetail.receiverEmail, order.orderId, firstDetail.eventName, ticketDetails, imagesQRList.ToArray());
+
+                // Trả về thông tin đơn hàng và xác nhận thanh toán
+                return Ok(new
+                {
+                    Order = order,
+                    Message = "Payment successful"
+                });
             }
-
-            // Lấy thông tin cần thiết để gửi trong email
-            string orderId = orderDetail.orderId;
-            string eventName = orderDetail.eventName;
-            string ticketDetails = $"{orderDetail.ticketName} x {orderDetail.quantity}";
-            string[] imagesQR = orderDetail.Tickets?.imagesQR;
-
-            // Gửi email xác nhận đơn hàng
-            await _emailSender.SendOrderConfirmationEmailAsync(receiverEmail, orderId, eventName, ticketDetails, imagesQR);
-
-            return Ok("Order confirmation email has been sent successfully.");
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
         }
 
         [HttpPost("deposit")]
