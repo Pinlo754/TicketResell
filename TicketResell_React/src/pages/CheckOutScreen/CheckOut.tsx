@@ -56,15 +56,27 @@ const CheckOut = () => {
   const [unavailableTickets, setUnavailableTickets] = useState<
     TicketAvailability[]
   >([]);
+  const [wallet, setWallet] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchWallet = async () => {
+        try {
+            const response = await axios.get(`/api/Wallet/get-by-user/${localStorage.getItem("userId")}`);
+            setWallet(response.data);
+        } catch (error) {
+            console.error("Error fetching wallet:", error);
+        }
+    };
+
+    fetchWallet();
+}, []);
 
   //  kiểm tra xem vé có khả dụng không trc khi tạo đơn
   const checkTicketAvailability = async () => {
     try {
       const unavailable: TicketAvailability[] = [];
       for (const item of orderDetail) {
-        const response = await axios.get(
-          `/api/Ticket/get-ticket/${item.id}`
-        );
+        const response = await axios.get(`/api/Ticket/get-ticket/${item.id}`);
 
         if (response.status === 200) {
           const ticketData = response.data;
@@ -125,31 +137,41 @@ const CheckOut = () => {
       totalAmount: subtotal,
       orderDetails: detail,
     };
-    //  try {
-    //    const response = await axios.post(
-    //      "https://localhost:7286/api/Order/create",
-    //      data
-    //    );
-    //    if (response.status === 201) {
-    //      const url = response.data.paymentUrl;
-    //      window.open(url);
-    //    }
-    //  } catch (error) {
-    //    console.error(error);
-    //  }
-
-     try {
-       const response = await axios.post(
-         "/api/Wallet/create",
+    if (activePayment === "VNPay") {
+      localStorage.setItem("orderData", JSON.stringify(data));
+      try {
+        const response = await axios.post(
+          "https://localhost:7286/api/Order/create",
           data
+        );
+        if (response.status === 201) {
+          const url = response.data.paymentUrl;
+          window.open(url);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      try {
+        const response = await axios.post("/api/Wallet/create", data);
+        if (response.status === 200) {
+          toast.success(
+            "Đặt hàng thành công! Vui lòng kiểm tra email để nhận vé."
           );
-          if (response.status === 200) {    
-           toast.success("Đặt hàng thành công! Vui lòng kiểm tra email để nhận vé.");
-           navigate("/order-confirmation?vnp_TxnRef=" + response.data.order.orderId +"&Amount=" + response.data.order.totalAmount + "&PayDate=" + response.data.order.orderDate + "&vnp_ResponseCode=00");
-          }
-     } catch (error) {
-       console.error(error);
-     }
+          navigate(
+            "/order-confirmation?vnp_TxnRef=" +
+              response.data.order.orderId +
+              "&Amount=" +
+              response.data.order.totalAmount +
+              "&PayDate=" +
+              response.data.order.orderDate +
+              "&vnp_ResponseCode=00"
+          );
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
   };
 
   // hiển thị order theo id của người bán (chỉ để hiển thị)
@@ -182,15 +204,15 @@ const CheckOut = () => {
     });
   };
 
-    // hiển thị định dạng tiền tệ VN
-    const formatVND = (amount: number) => {
-      return new Intl.NumberFormat('vi-VN', {
-        style: 'currency',
-        currency: 'VND',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-      }).format(amount);
-    };
+  // hiển thị định dạng tiền tệ VN
+  const formatVND = (amount: number) => {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount);
+  };
 
   // lấy data từ shopping cart
   useEffect(() => {
@@ -219,9 +241,7 @@ const CheckOut = () => {
         );
         const order = await Promise.all(
           orderData.map(async (item) => {
-            const response = await axios.get(
-              `/api/Event/${item.eventId}`
-            );
+            const response = await axios.get(`/api/Event/${item.eventId}`);
             if (response.status === 200) {
               const event = response.data;
               const dateTime = (time: Date) => {
@@ -335,7 +355,12 @@ const CheckOut = () => {
 
         <div className="payment-section">
           <h2 className="section-title">Phương thức thanh toán</h2>
-          <div  onClick={()=>setActivePayment("VNPay")} className={`payment-method ${activePayment === "VNPay" ? "active" : ""}`}>
+          <div
+            onClick={() => setActivePayment("VNPay")}
+            className={`payment-method ${
+              activePayment === "VNPay" ? "active" : ""
+            }`}
+          >
             <div className="payment-icon">
               <img src={assets.card} alt="" />
             </div>
@@ -343,14 +368,19 @@ const CheckOut = () => {
               <div style={{ fontWeight: 500 }}>VNPay</div>
             </div>
           </div>
-          <div onClick={()=>setActivePayment("Vi")} className={`payment-method ${activePayment === "Vi" ? "active" : ""}`}>
+          <div
+            onClick={() => setActivePayment("Wallet")}
+            className={`payment-method ${
+              activePayment === "Wallet" ? "active" : ""
+            }`}
+          >
             <div className="payment-icon">
               <img src={assets.card} alt="" />
             </div>
             <div>
               <div style={{ fontWeight: 500 }}>Ví</div>
               <div style={{ fontSize: "0.875rem", color: "#666" }}>
-                Số dư: 300.000VND
+                Số dư: {wallet?.balance ? wallet.balance : 0 }VND
               </div>
             </div>
           </div>

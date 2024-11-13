@@ -11,6 +11,7 @@ using TicketResell_API.Controllers.OrderController.Model;
 using TicketResell_API.Controllers.CommentController.Model;
 using TicketResell_API.Controllers.WalletController.Model;
 using TicketResell_API.Controllers.RefundController.Model;
+using TicketResell_API.Controllers.NotificationController.Model;
 
 public class AppDbContext : IdentityDbContext<MainUser>
 {
@@ -28,6 +29,7 @@ public class AppDbContext : IdentityDbContext<MainUser>
     public DbSet<Transaction> Transactions { get; set; }
     public DbSet<WithDraw> WithDraws { get; set; }
     public DbSet<RefundRequest> RefundRequests { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
