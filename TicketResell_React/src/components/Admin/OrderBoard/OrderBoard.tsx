@@ -51,7 +51,8 @@ const OrderBoard = () => {
                     name: detailUser.userName,
                     email: detailUser.receiverEmail,
                     phone: detailUser.receiverPhone,
-                    ticketName: detailUser.ticketName
+                    ticketName: detailUser.ticketName,
+                    status: detailUser.status // Lấy status của order detail
                   };
                 }
                 return item;

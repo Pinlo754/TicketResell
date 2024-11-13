@@ -52,6 +52,7 @@ const CheckOut = () => {
   const [phone, setPhone] = useState("");
   const [displayOrder, setDisplayOrder] = useState<GroupedOrderInfo[]>([]);
   const [showPopup, setShowPopup] = useState(false);
+  const [activePayment, setActivePayment] = useState("");
   const [unavailableTickets, setUnavailableTickets] = useState<
     TicketAvailability[]
   >([]);
@@ -116,7 +117,7 @@ const CheckOut = () => {
         receiverEmail: email,
         price: item.price,
         quantity: item.quantity,
-        paymentMethod: "VNPay",
+        paymentMethod: activePayment,
       };
     });
     const data = {
@@ -335,7 +336,7 @@ const CheckOut = () => {
 
         <div className="payment-section">
           <h2 className="section-title">Phương thức thanh toán</h2>
-          <div className="payment-method">
+          <div  onClick={()=>setActivePayment("VNPay")} className={`payment-method ${activePayment === "VNPay" ? "active" : ""}`}>
             <div className="payment-icon">
               <img src={assets.card} alt="" />
             </div>
@@ -343,7 +344,7 @@ const CheckOut = () => {
               <div style={{ fontWeight: 500 }}>VNPay</div>
             </div>
           </div>
-          <div className="payment-method">
+          <div onClick={()=>setActivePayment("Vi")} className={`payment-method ${activePayment === "Vi" ? "active" : ""}`}>
             <div className="payment-icon">
               <img src={assets.card} alt="" />
             </div>

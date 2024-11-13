@@ -1,4 +1,5 @@
 import axios from "axios";
+import { response } from "express";
 import { useEffect, useRef, useState } from "react";
 import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
 
@@ -10,7 +11,7 @@ const useTicketDetail = () => {
   const [eventImage, setEventImage] = useState("");
   const [chatData, setChatData] = useState<ChatData[]>([]);
   const [comments, setComments] = useState<Comment[]>([]);
-
+  const currentUserId = localStorage.getItem("userId");
   type User = {
     id: string;
     userImage: string;
@@ -26,7 +27,7 @@ const useTicketDetail = () => {
     commentId: string;
     userId: string;
     user: {
-      firstName: string;  
+      firstName: string;
       lastName: string;
       userImage: string;
     };
@@ -34,7 +35,7 @@ const useTicketDetail = () => {
     time: string;
     comment: string;
     toUserId: string;
-  };    
+  };
 
   // TICKET
   type Ticket = {
@@ -71,25 +72,40 @@ const useTicketDetail = () => {
     eventId: "EVENT_001", // ID sự kiện liên quan
     createAt: new Date(), // Thời gian tạo vé
     updateAt: new Date(), // Thời gian cập nhật vé
-  });  
+  });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         // Fetch ticket
-        const ticketResponse = await axios.get("/api/Ticket/get-ticket/" + ticketId);
+        const ticketResponse = await axios.get(
+          "/api/Ticket/get-ticket/" + ticketId
+        );
         const ticketData = ticketResponse.data;
         setTicket(ticketData);
-  
+
         // Fetch user (chỉ gọi khi ticket có userId)
         if (ticketData.userId) {
-          const userResponse = await axios.get("/api/Account/user-information/" + ticketData.userId);
+          const userResponse = await axios.get(
+            "/api/Account/user-information/" + ticketData.userId
+          );
           setUser(userResponse.data);
         }
-  
+
+        if (currentUserId) {
+
+          const chatResponse = await axios.get(
+            "/api/Chat/get-chat/" + currentUserId
+          );
+          const data = chatResponse.data;
+          setChatData(data[0].chatData);
+        }
+
         // Fetch event (chỉ gọi khi ticket có eventId)
         if (ticketData.eventId) {
-          const eventResponse = await axios.get("/api/Event/" + ticketData.eventId);
+          const eventResponse = await axios.get(
+            "/api/Event/" + ticketData.eventId
+          );
           setEventName(eventResponse.data.eventName);
           setEventImage(eventResponse.data.eventImage);
         }
@@ -97,17 +113,16 @@ const useTicketDetail = () => {
         console.error("Error fetching data:", error);
       }
     };
-    
+
     fetchData(); // Gọi hàm fetchData ngay khi component mount
     fetchComments();
   }, []); // Dependency array rỗng để chỉ chạy một lần khi trang load
-  
 
   const fetchTicket = () => {
     axios
       .get("/api/Ticket/get-ticket/" + ticketId)
       .then((response) => {
-        console.log(response.data);        
+        console.log(response.data);
         const ticket = response.data;
         setTicket(ticket);
       })
@@ -121,8 +136,10 @@ const useTicketDetail = () => {
       const response = await axios.get(`/api/Comment/list/${user?.id}`);
       const comments: Comment[] = response.data;
       const commentDetail = await Promise.all(
-        comments.map(async(comment: Comment) => {
-          const userResponse = await axios.get(`/api/Account/user-information/${comment.userId}`);
+        comments.map(async (comment: Comment) => {
+          const userResponse = await axios.get(
+            `/api/Account/user-information/${comment.userId}`
+          );
           const userData = userResponse.data;
           return {
             commentId: comment.commentId,
@@ -136,7 +153,7 @@ const useTicketDetail = () => {
             time: comment.time,
             comment: comment.comment,
             toUserId: user?.id ?? "",
-          }
+          };
         })
       );
       setComments(commentDetail);
@@ -145,67 +162,46 @@ const useTicketDetail = () => {
     }
   };
 
-
-
   const [messageId, setMessageId] = useState("");
-  const PostMessage = () => {
-    axios
-      .post("/api/Chat/post-message")
-      .then((response) => {
-        console.log(response.data); 
-        setMessageId(response.data.messageId);
-      })
-      .catch((error) => {
-        console.error("Error Post Message:", error);
-      });
-  };
 
-  const currentUserId = localStorage.getItem("userId");
-
-  const HandleAddChat = () => {
-    axios
-      .put(`/api/Chat/update-chat/`, {
+  const HandleAddChat = async () => {
+    try {
+      const postResponse = await axios.post("/api/Chat/post-message");
+      const newMessageId = postResponse.data.messageId;
+      await axios.put(`/api/Chat/update-chat/`, {
         seUserId: currentUserId,
         chatData: [
           {
             id: 0,
             lastMessage: "",
-            messageId: messageId,
+            messageId: newMessageId,
             messageSeen: false,
             reUserId: ticket.userId,
             updatedAt: new Date().toISOString(),
+            chatSeUserId: currentUserId,
           },
         ],
-      })
-      .then((response) => {
-        console.log("Success:", response);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
       });
-
-    axios
-      .put(`/api/Chat/update-chat/`, {
+      await axios.put(`/api/Chat/update-chat/`, {
         seUserId: ticket.userId,
         chatData: [
           {
             id: 0,
             lastMessage: "",
-            messageId: messageId,
+            messageId: newMessageId,
             messageSeen: false,
             reUserId: currentUserId,
             updatedAt: new Date().toISOString(),
+            chatSeUserId: ticket.userId,
           },
         ],
-      })
-      .then((response) => {
-        console.log("Success:", response);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
       });
+      return newMessageId;
+    } catch (error) {
+      console.error("Error in HandleAddChat:", error);
+    }
   };
-
+  
   type ChatData = {
     id: number;
     lastMessage: string;
@@ -215,9 +211,6 @@ const useTicketDetail = () => {
     updatedAt: string;
   };
 
-  
-
-
   // Hàm checkReUserId sẽ kiểm tra sự tồn tại của reUserId trong mảng chatData
   const checkReUserId = (): boolean => {
     if (Array.isArray(chatData) && chatData.length > 0) {
@@ -225,17 +218,18 @@ const useTicketDetail = () => {
     }
     return false; // Trả về false nếu chatData không phải là một mảng hoặc không có phần tử
   };
-
-  const handleCheckReUserId = () => {
+  const handleCheckReUserId = async () => {
     if (checkReUserId()) {
-      navigate("/chat");
+      navigate("/chat", { state: { chatId: ticket.userId } });
     } else {
-      PostMessage();
-      HandleAddChat();
-      navigate("/chat");
+      try {
+        await HandleAddChat();
+        navigate("/chat", { state: { chatId: ticket.userId } });
+      } catch (error) {
+        console.error("Error creating chat:", error);
+      }
     }
   };
-
 
   // Rating
   const totalRating = comments.reduce(
@@ -294,18 +288,16 @@ const useTicketDetail = () => {
         console.log("Sending data to cart:", dataItem);
       });
 
-
-      interface SummaryCostProps {
-        subtotal: number;
-        totalQuantity: number;
-        selectedItems: {
-          ticketId: string;
-          sellerName: string;
-          quantity: number;
-          sellerImg: string;
-        };
-      }
-      
+    interface SummaryCostProps {
+      subtotal: number;
+      totalQuantity: number;
+      selectedItems: {
+        ticketId: string;
+        sellerName: string;
+        quantity: number;
+        sellerImg: string;
+      };
+    }
   };
   return {
     navigate,
@@ -321,7 +313,6 @@ const useTicketDetail = () => {
     setTicket,
     user,
     HandleAddChat,
-    PostMessage,
     currentUserId,
     messageId,
     handleCheckReUserId,

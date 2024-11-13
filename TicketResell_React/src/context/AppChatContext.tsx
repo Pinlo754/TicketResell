@@ -76,10 +76,10 @@ const AppChatContextProvider = ({ children }: AppChatContextProviderProps) => {
   const [chatVisible, setChatVisible] = useState<boolean>(false);
   const [socket, setSocket] = useState<Socket | null>(null);
 
-  const fetchChats = useCallback(
-    (socket: Socket) => {
-      if (!userData) return;
-
+  const fetchChats = useCallback(async (socket: Socket) => {
+    if (!userData) return;
+  
+    return new Promise((resolve) => {
       socket.emit("getChats", userData.id, (response: status) => {
         if (response.success && response.chats) {
           const sortedData = response.chats
@@ -89,14 +89,30 @@ const AppChatContextProvider = ({ children }: AppChatContextProviderProps) => {
             }))
             .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
           setAllChat(sortedData);
+          resolve(sortedData);
         } else {
           console.error("Failed to fetch chats:", response);
+          resolve(null);
         }
       });
-    },
-    [userData]
-  );
+    });
+  }, [userData]);
 
+  useEffect(() => {
+    if (socket) {
+      const handleChatUpdate = async () => {
+        await fetchChats(socket);
+      };
+  
+      socket.on("chatUpdated", handleChatUpdate);
+      socket.on("newMessage", handleChatUpdate);
+  
+      return () => {
+        socket.off("chatUpdated", handleChatUpdate);
+        socket.off("newMessage", handleChatUpdate);
+      };
+    }
+  }, [socket, fetchChats]);
   // Xử lý socket connections và events
   useEffect(() => {
     if (!userData) return;
