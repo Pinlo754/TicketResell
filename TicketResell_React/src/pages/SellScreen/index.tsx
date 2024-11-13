@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const SellScreen: React.FC = () => {
   const {
+    navigate,
     events,
     step,
     selectedEvent,
@@ -26,7 +27,6 @@ const SellScreen: React.FC = () => {
     handleImageUpload,
     handleSubmit,
     formatCurrency,
-    navigate
   } = useSell();
 
   // Render Events

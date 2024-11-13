@@ -16,6 +16,8 @@ const Purchase = () => {
       handleOpenFeedback,
       handleCloseFeedback,
       showFeedback,
+      handleComplete,
+      handleRefund,
     } = usePurchase();
       
     return (
@@ -32,18 +34,17 @@ const Purchase = () => {
         {/* MAIN CONTENT */}
         <div className="bg-gradient-to-b from-[#B9EDDD] to-[#569DAA] h-100vh flex flex-grow p-[20px]">
           <div className="w-[1050px] mx-auto mt-[12vh]">
-          <div className="flex flex-row rounded-lg h-[83vh] bg-white shadow-xl flex">
+            <div className="flex flex-row rounded-lg h-[83vh] bg-white shadow-xl flex">
               {/* Menu bên */}
               <div className="basic-1/3">
-                    <SideBar />
+                <SideBar />
               </div>
-              
+
               {/* Nội dung */}
               <div className="basic-2/3 grow p-6">
-
                 {/* Menu trên */}
                 <div className="flex justify-center">
-                  <TopBar tabs={tabs}/>
+                  <TopBar tabs={tabs} />
                 </div>
 
                 <div className="overflow-y-auto h-[70vh] mt-4">
@@ -52,49 +53,70 @@ const Purchase = () => {
                     <div key={order.orderId} className="bg-gray-100 mt-6">
                       <div className="p-4">
                         <div className="flex justify-between items-center pb-2">
-
                           {/* Thông tin người bán */}
-                          <div 
+                          <div
                             onClick={() => navigate("/userProfile")}
                             className="flex items-center gap-3 group cursor-pointer"
                           >
-
                             {/* Avt người bán */}
                             <div className="overflow-hidden rounded-full">
                               <img
-                                src={order.seller.sellerAvatar}
+                                src={order.seller.userImage}
                                 alt="Seller"
                                 className="w-8 h-8 rounded-full group-hover:scale-110 transition-transform duration-300"
                               />
                             </div>
 
                             {/* Tên người bán */}
-                            <p className="font-semibold">{order.seller.sellerName}</p>
+                            <p className="font-semibold">
+                              {order.seller.firstName} {order.seller.lastName}
+                            </p>
                           </div>
 
                           {/* Status */}
                           <div>
-                            <p className="text-[#87CBB9]">HOÀN THÀNH</p>
+                            <p
+                              className={`${
+                                order.status === "Pending"
+                                  ? "text-yellow-500"
+                                  : order.status === "Complete"
+                                  ? "text-green-500"
+                                  : "text-red-500"
+                              }`}
+                            >
+                              {order.status === "Pending"
+                                ? "ĐÃ MUA"
+                                : order.status === "Complete"
+                                ? "HOÀN THÀNH"
+                                : "HOÀN TIỀN"}
+                            </p>
                           </div>
                         </div>
 
                         {/* DS vé */}
                         {order.tickets.map((ticket, index) => {
                           // Find the corresponding event based on eventId
-                          const event = order.events.find(e => e.eventId === ticket.eventId);
+                          const event = order.events.find(
+                            (e) => e.eventId === ticket.eventId
+                          );
 
                           return (
-                            <div 
-                            key={ticket.ticketId} 
-                            className="border-t cursor-pointer"
-                            onClick={() => navigate("/user/purchase/orderDetail")}
+                            <div
+                              key={ticket.ticketId}
+                              className="border-t cursor-pointer"
+                              onClick={() => {
+                                navigate("/user/purchase/orderDetail", {
+                                  state: { selectedOrder: order },
+                                });
+                              }}
                             >
                               <div
                                 className={`flex items-center gap-3 ${
-                                  index === order.tickets.length - 1 ? "mt-2" : "my-2"
+                                  index === order.tickets.length - 1
+                                    ? "mt-2"
+                                    : "my-2"
                                 }`}
                               >
-
                                 {/* Hình sự kiện */}
                                 <div className="overflow-hidden">
                                   <img
@@ -104,7 +126,6 @@ const Purchase = () => {
                                   />
                                 </div>
                                 <div className="flex-1 flex flex-col">
-
                                   {/* Tên sự kiện */}
                                   <p className="font-semibold text-lg">
                                     {event?.eventName}
@@ -131,29 +152,36 @@ const Purchase = () => {
 
                                   {/* Thông tin vé */}
                                   <div className="flex gap-3">
-
                                     {/* Tên vé */}
                                     <p className="text-sm text-gray-500">
-                                      <span className="font-medium">Tên vé:</span> {ticket.ticketName}
+                                      <span className="font-medium">
+                                        Tên vé:
+                                      </span>{" "}
+                                      {ticket.ticketName}
                                     </p>
 
                                     {/* Loại vé */}
                                     <p className="text-sm text-gray-500">
-                                      <span className="font-medium">Loại vé:</span> {" "}
-                                      {ticket.ticketType === "Seat" ? "Ngồi" : "Đứng"}
+                                      <span className="font-medium">
+                                        Loại vé:
+                                      </span>{" "}
+                                      {ticket.ticketType === "Seat"
+                                        ? "Ngồi"
+                                        : "Đứng"}
                                     </p>
                                   </div>
 
                                   {/* Số lượng vé */}
                                   <div>
-                                    <p className="text-xs">x{ticket.quantity}</p>
+                                    <p className="text-xs">x{order.quantity}</p>
                                   </div>
                                 </div>
-          
-                                <div className="flex flex-col text-right">
 
+                                <div className="flex flex-col text-right">
                                   {/* Giá vé */}
-                                  <p className="text-[#87CBB9] font-semibold">{ticket.price} VND</p>
+                                  <p className="text-[#87CBB9] font-semibold">
+                                    {ticket.price} VND
+                                  </p>
 
                                   {/* Chú ý */}
                                   <div className="w-fit mt-1">
@@ -179,18 +207,16 @@ const Purchase = () => {
                       </div>
 
                       <div className="p-4">
-
                         {/* Tổng tiền */}
                         <div className="flex justify-end">
                           <p className="text-sm">
                             Thành tiền:{" "}
                             <span className="font-semibold text-lg text-[#87CBB9]">
-                              {order.totalPrice} VND
+                              {order.totalAmount} VND
                             </span>
                           </p>
                         </div>
                         <div className="flex justify-between items-end mt-4">
-
                           {/* Chú ý */}
                           <div>
                             <p className="text-xs text-gray-500">
@@ -200,15 +226,30 @@ const Purchase = () => {
 
                           {/* Button */}
                           <div className="flex gap-4">
-                            <button 
-                              onClick={handleOpenFeedback}
-                              className="rounded p-2 bg-[#B9EDDD] hover:bg-[#87CBB9] hover:text-white"
-                            >
-                              Đánh giá
-                            </button>
-                            <button className="border rounded p-2 hover:bg-[#87CBB9] hover:text-white">
-                              Yêu cầu hoàn tiền
-                            </button>
+                            {order.status === "Pending" && (
+                              <>
+                                <button
+                                  onClick={() => handleComplete(order.orderId, order.tickets[0].userId, order.totalAmount )}
+                                  className="border rounded p-2 bg-[#B9EDDD] hover:bg-[#87CBB9] hover:text-white"
+                                >
+                                  Xác nhận vé
+                                </button>
+                                <button
+                                  onClick={() => handleRefund(order.orderId)}
+                                  className="border rounded p-2 hover:bg-[#87CBB9] hover:text-white"
+                                >
+                                  Yêu cầu hoàn tiền
+                                </button>
+                              </>
+                            )}
+                            {order.status === "Complete" && (
+                              <button
+                                onClick={handleOpenFeedback}
+                                className="rounded p-2 bg-[#B9EDDD] hover:bg-[#87CBB9] hover:text-white"
+                              >
+                                Đánh giá
+                              </button>
+                            )}
                           </div>
                         </div>
                       </div>

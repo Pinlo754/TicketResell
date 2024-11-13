@@ -2,6 +2,7 @@
 using System.Text.Json.Serialization;
 using TicketResell_API.Controllers.CommentController.Model;
 using TicketResell_API.Controllers.OrderController.Model;
+using TicketResell_API.Controllers.RefundController.Model;
 using TicketResell_API.Controllers.UserController.Model;
 
 namespace TicketResell_API.Controllers.User.Model
@@ -22,5 +23,7 @@ namespace TicketResell_API.Controllers.User.Model
         public ICollection<OrderDetail>? OrderDetails { get; set; }
         [JsonIgnore]
         public ICollection<Comment>? Comments { get; set; }
+        [JsonIgnore]
+        public RefundRequest? RefundRequests { get; set; }
     }
 }

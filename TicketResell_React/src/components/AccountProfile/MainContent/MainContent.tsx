@@ -89,7 +89,7 @@ const MainContent = () => {
   }, [uId, token]); 
 
   return (
-    <div className="content">
+    <div className="content-profile">
       <form onSubmit={updateProfile}>
         <h3>Hồ Sơ Cá Nhân</h3>
 

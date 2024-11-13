@@ -443,6 +443,35 @@ namespace TicketResell_API.Migrations
                     b.ToTable("OrderDetails");
                 });
 
+            modelBuilder.Entity("TicketResell_API.Controllers.RefundController.Model.RefundRequest", b =>
+                {
+                    b.Property<string>("requestId")
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("images")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("orderId")
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("refundDetail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("requestId");
+
+                    b.HasIndex("orderId")
+                        .IsUnique()
+                        .HasFilter("[orderId] IS NOT NULL");
+
+                    b.ToTable("RefundRequests");
+                });
+
             modelBuilder.Entity("TicketResell_API.Controllers.TicketController.Model.Ticket", b =>
                 {
                     b.Property<string>("ticketId")
@@ -684,7 +713,8 @@ namespace TicketResell_API.Migrations
 
                     b.HasKey("walletId");
 
-                    b.HasIndex("userId");
+                    b.HasIndex("userId")
+                        .IsUnique();
 
                     b.ToTable("Wallets");
                 });
@@ -845,6 +875,16 @@ namespace TicketResell_API.Migrations
                     b.Navigation("Tickets");
                 });
 
+            modelBuilder.Entity("TicketResell_API.Controllers.RefundController.Model.RefundRequest", b =>
+                {
+                    b.HasOne("TicketResell_API.Controllers.User.Model.Order", "Orders")
+                        .WithOne("RefundRequests")
+                        .HasForeignKey("TicketResell_API.Controllers.RefundController.Model.RefundRequest", "orderId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Orders");
+                });
+
             modelBuilder.Entity("TicketResell_API.Controllers.TicketController.Model.Ticket", b =>
                 {
                     b.HasOne("TicketResell_API.Controllers.EventController.Model.Event", "Event")
@@ -886,8 +926,8 @@ namespace TicketResell_API.Migrations
             modelBuilder.Entity("TicketResell_API.Controllers.WalletController.Model.Wallet", b =>
                 {
                     b.HasOne("TicketResell_API.Controllers.UserController.Model.MainUser", "User")
-                        .WithMany("Wallets")
-                        .HasForeignKey("userId")
+                        .WithOne("Wallets")
+                        .HasForeignKey("TicketResell_API.Controllers.WalletController.Model.Wallet", "userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -919,6 +959,8 @@ namespace TicketResell_API.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("OrderDetails");
+
+                    b.Navigation("RefundRequests");
                 });
 
             modelBuilder.Entity("TicketResell_API.Controllers.UserController.Model.MainUser", b =>

@@ -110,7 +110,7 @@ namespace TicketResell_API.Controllers.UserController.Model
         }
 
         //send a http form of order confirm
-        public async Task<string> SendOrderConfirmationEmailAsync(string? email, string? orderId, string? eventName, string? ticketDetails)
+        public async Task<string> SendOrderConfirmationEmailAsync(string? email, string? orderId, string? eventName, string? ticketDetails, string[]? imagesQR)
         {
             StringBuilder emailMessage = new StringBuilder();
             emailMessage.AppendLine("<!DOCTYPE html>");
@@ -135,6 +135,17 @@ namespace TicketResell_API.Controllers.UserController.Model
             emailMessage.AppendLine($"      <p>Event: <strong>{eventName}</strong></p>");
             emailMessage.AppendLine($"      <p>Ticket Details: <strong>{ticketDetails}</strong></p>");
             emailMessage.AppendLine("      <p>We are excited to have you join us at the event. Please keep this email as your confirmation.</p>");
+            // Add QR code images if available
+            if (imagesQR != null && imagesQR.Length > 0)
+            {
+                emailMessage.AppendLine("      <div class=\"qr-code\">");
+                emailMessage.AppendLine("      <p>Here are your QR codes for entry:</p>");
+                foreach (var imageUrl in imagesQR)
+                {
+                    emailMessage.AppendLine($"      <img src=\"{imageUrl}\" alt=\"QR Code\" width=\"150\" height=\"150\" style=\"margin: 10px;\">");
+                }
+                emailMessage.AppendLine("      </div>");
+            }
             emailMessage.AppendLine("      <br>");
             emailMessage.AppendLine("      <p>Best regards, <br>Ticket-Resell Team</p>");
             emailMessage.AppendLine("    </div>");

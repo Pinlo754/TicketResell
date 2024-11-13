@@ -3,7 +3,7 @@ import ScrollToTop from "../../../components/ScrollToTop";
 import NavBar from "../../../components/NavBar";
 import ScrollToTopButton from "../../../components/ScrollToTopButton";
 import Footer from "../../../components/Footer";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FiShoppingCart, FiDollarSign, FiTruck, FiPackage, FiStar } from 'react-icons/fi';
 import ProgressBarIcon from "../../../components/ProgressBarIcon";
@@ -12,8 +12,11 @@ const PurchaseDetail = () => {
 
   const navigate = useNavigate();
 
+  const location = useLocation();
+  const { selectedOrder } = location.state || {};
+
    // Define the current stage (e.g., 3 means up to "Đã Giao Cho ĐVVC" is complete)
-   const [currentStage, setCurrentStage] = useState(3);
+   const [currentStage, setCurrentStage] = useState(1);
 
    // Define steps with `isComplete` set based on the current stage
    const steps = [
@@ -54,12 +57,6 @@ const PurchaseDetail = () => {
       setCurrentStage(currentStage + 1);
     }
   };
-
-  type Seller = {
-    sellerId: string;
-    sellerName: string;
-    sellerAvatar: string;
-  };
   
   type Event = {
     eventId: string;
@@ -77,60 +74,8 @@ const PurchaseDetail = () => {
     price: number,
     quantity: number,
     eventId: string,
+    userId: string,
   };
-
-    type Order = {
-      orderId: string,
-      orderDate: string,
-      totalPrice: number,
-      status: string,
-      paymentMethod: string,
-      tickets: Ticket[],
-      seller: Seller;
-      events: Event[];
-    };
-
-    const order: Order = 
-      {
-        orderId: "o001",
-        orderDate: "2024-11-01",
-        totalPrice: 500000,
-        status: "Pending",
-        paymentMethod: "Credit Card",
-        tickets: [
-          {
-            ticketId: "t001",
-            ticketName: "Concert Ticket - VIP",
-            ticketType: "VIP",
-            price: 10000,
-            quantity: 1,
-            eventId: "e001",
-          },
-          {
-            ticketId: "t002",
-            ticketName: "Concert Ticket - Standard",
-            ticketType: "Standard",
-            price: 10000,
-            quantity: 2,
-            eventId: "e001",
-          },
-        ],
-        seller: {
-          sellerId: "s001",
-          sellerName: "Nguyen Van A",
-          sellerAvatar: "https://example.com/avatar-a.jpg",
-        },
-        events: [
-          {
-            eventId: "e001",
-            eventName: "Music Concert 2024",
-            eventImage: "https://example.com/event-image1.jpg",
-            eventTime: "18:00",
-            location: "Stadium A",
-            city: "Ho Chi Minh City",
-          },
-        ],
-      };
 
     return (
       <div className="w-screen min-h-screen flex flex-col">
@@ -180,7 +125,10 @@ const PurchaseDetail = () => {
                   {/* Mã đơn */}
                   <div>
                     <p>
-                      Mã đơn: <span className="font-medium">abcd</span>
+                      Mã đơn:{" "}
+                      <span className="font-medium">
+                        {selectedOrder.orderId}
+                      </span>
                     </p>
                   </div>
                 </div>
@@ -193,44 +141,86 @@ const PurchaseDetail = () => {
                 </div>
 
                 <div className="overflow-y-auto h-[70vh]">
-                {/* Tiến trình đơn hàng */}
-                <div className="py-4 px-6">
-                  <ProgressBarIcon steps={steps} />
-                  <button
-                    onClick={nextStage}
-                    className="mt-4 p-2 bg-blue-500 text-white rounded"
-                  >
-                    Next Stage
-                  </button>
-                </div>
+                  {/* Tiến trình đơn hàng */}
+                  <div className="py-4 px-6">
+                    <ProgressBarIcon steps={steps} />
+                    <button
+                      onClick={nextStage}
+                      className="mt-4 p-2 bg-blue-500 text-white rounded"
+                    >
+                      Next Stage
+                    </button>
+                  </div>
 
-                {/* Phân cách */}
-                <div className="relative flex items-center mt-4">
-                  <div className="flex-grow border-t border-dashed border-gray-300"></div>
-                </div>
+                  {/* Phân cách */}
+                  <div className="relative flex items-center mt-4">
+                    <div className="flex-grow border-t border-dashed border-gray-300"></div>
+                  </div>
 
-                
                   <div className="bg-[#F0F8FF] flex justify-between px-6 py-6">
                     <div>
                       <p className="text-lg font-medium">Thông tin nhận vé</p>
+
+                      {/* Name */}
+                      <div className="flex items-center mt-1">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="w-4 h-4 mr-1"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                          />
+                        </svg>
+                        <span>{selectedOrder.userName}</span>
+                      </div>
+
                       {/* Phone */}
                       <div className="flex items-center mt-1">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
-                          </svg>
-                          <span>123-456-7890</span>
-                        </div>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="w-4 h-4 mr-1"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"
+                          />
+                        </svg>
+                        <span>{selectedOrder.receiverPhone}</span>
+                      </div>
 
-                          {/* Email */}
-                          <div className="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
-                            </svg>
-                            <span>info@mysite.com</span>
-                          </div>
+                      {/* Email */}
+                      <div className="flex items-center">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="w-4 h-4 mr-1"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
+                          />
+                        </svg>
+                        <span>{selectedOrder.receiverEmail}</span>
+                      </div>
                       <p className="text-gray-500 text-sm mt-2">
                         Nếu vé nhận được có vấn đề, bạn có thể gửi Yêu cầu hoàn
-                        tiền trước <span className="font-medium">26-11-2024</span>
+                        tiền trước{" "}
+                        <span className="font-medium">26-11-2024</span>
                       </p>
                     </div>
                     <div className="flex flex-col space-y-2">
@@ -248,52 +238,71 @@ const PurchaseDetail = () => {
                     <div className="flex-grow border-t border-dashed border-gray-300"></div>
                   </div>
 
-                  <div key={order.orderId} className="bg-gray-100">
-                      <div className="p-4">
-                        <div className="flex justify-between items-center pb-2">
-
-                          {/* Thông tin người bán */}
-                          <div 
-                            onClick={() => navigate("/userProfile")}
-                            className="flex items-center gap-3 group cursor-pointer"
-                          >
-
-                            {/* Avt người bán */}
-                            <div className="overflow-hidden rounded-full">
-                              <img
-                                src={order.seller.sellerAvatar}
-                                alt="Seller"
-                                className="w-8 h-8 rounded-full group-hover:scale-110 transition-transform duration-300"
-                              />
-                            </div>
-
-                            {/* Tên người bán */}
-                            <p className="font-semibold">{order.seller.sellerName}</p>
+                  <div className="bg-gray-100">
+                    <div className="p-4">
+                      <div className="flex justify-between items-center pb-2">
+                        {/* Thông tin người bán */}
+                        <div
+                          onClick={() => navigate("/userProfile")}
+                          className="flex items-center gap-3 group cursor-pointer"
+                        >
+                          {/* Avt người bán */}
+                          <div className="overflow-hidden rounded-full">
+                            <img
+                              src={selectedOrder.seller.userImage}
+                              alt="Seller"
+                              className="w-8 h-8 rounded-full group-hover:scale-110 transition-transform duration-300"
+                            />
                           </div>
 
-                          {/* Status */}
-                          <div>
-                            <p className="text-[#87CBB9]">HOÀN THÀNH</p>
-                          </div>
+                          {/* Tên người bán */}
+                          <p className="font-semibold">
+                            {selectedOrder.seller.firstName}{" "}
+                            {selectedOrder.seller.lastName}
+                          </p>
                         </div>
 
-                        {/* DS vé */}
-                        {order.tickets.map((ticket, index) => {
+                        {/* Status */}
+                        <div>
+                          <p
+                            className={`${
+                              selectedOrder.status === "Pending"
+                                ? "text-yellow-500"
+                                : selectedOrder.status === "Complete"
+                                ? "text-green-500"
+                                : "text-red-500"
+                            }`}
+                          >
+                            {selectedOrder.status === "Pending"
+                              ? "ĐÃ MUA"
+                              : selectedOrder.status === "Complete"
+                              ? "HOÀN THÀNH"
+                              : "HOÀN TIỀN"}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* DS vé */}
+                      {selectedOrder.tickets.map(
+                        (ticket: Ticket, index: number) => {
                           // Find the corresponding event based on eventId
-                          const event = order.events.find(e => e.eventId === ticket.eventId);
+                          const event = selectedOrder.events.find(
+                            (e: Event) => e.eventId === ticket.eventId
+                          );
 
                           return (
-                            <div 
-                            key={ticket.ticketId} 
-                            className="border-t cursor-pointer"
-                            onClick={() => navigate("/ticketDetail")}
+                            <div
+                              key={ticket.ticketId}
+                              className="border-t cursor-pointer"
+                              onClick={() => navigate("/ticketDetail")}
                             >
                               <div
                                 className={`flex items-center gap-3 ${
-                                  index === order.tickets.length - 1 ? "mt-2" : "my-2"
+                                  index === selectedOrder.tickets.length - 1
+                                    ? "mt-2"
+                                    : "my-2"
                                 }`}
                               >
-
                                 {/* Hình sự kiện */}
                                 <div className="overflow-hidden">
                                   <img
@@ -303,7 +312,6 @@ const PurchaseDetail = () => {
                                   />
                                 </div>
                                 <div className="flex-1 flex flex-col">
-
                                   {/* Tên sự kiện */}
                                   <p className="font-semibold text-lg">
                                     {event?.eventName}
@@ -330,29 +338,38 @@ const PurchaseDetail = () => {
 
                                   {/* Thông tin vé */}
                                   <div className="flex gap-3">
-
                                     {/* Tên vé */}
                                     <p className="text-sm text-gray-500">
-                                      <span className="font-medium">Tên vé:</span> {ticket.ticketName}
+                                      <span className="font-medium">
+                                        Tên vé:
+                                      </span>{" "}
+                                      {ticket.ticketName}
                                     </p>
 
                                     {/* Loại vé */}
                                     <p className="text-sm text-gray-500">
-                                      <span className="font-medium">Loại vé:</span> {" "}
-                                      {ticket.ticketType === "Seat" ? "Ngồi" : "Đứng"}
+                                      <span className="font-medium">
+                                        Loại vé:
+                                      </span>{" "}
+                                      {ticket.ticketType === "Seat"
+                                        ? "Ngồi"
+                                        : "Đứng"}
                                     </p>
                                   </div>
 
                                   {/* Số lượng vé */}
                                   <div>
-                                    <p className="text-xs">x{ticket.quantity}</p>
+                                    <p className="text-xs">
+                                      x{selectedOrder.quantity}
+                                    </p>
                                   </div>
                                 </div>
-          
-                                <div className="flex flex-col text-right">
 
+                                <div className="flex flex-col text-right">
                                   {/* Giá vé */}
-                                  <p className="text-[#87CBB9] font-semibold">{ticket.price} VND</p>
+                                  <p className="text-[#87CBB9] font-semibold">
+                                    {ticket.price} VND
+                                  </p>
 
                                   {/* Chú ý */}
                                   <div className="w-fit mt-1">
@@ -364,44 +381,49 @@ const PurchaseDetail = () => {
                               </div>
                             </div>
                           );
-                        })}
-                      </div>
-
-                      {/* Separator with decorative dot border */}
-                      <div className="relative flex items-center">
-                        {/* Left semi-circle */}
-                        <div className="absolute left-0 w-2 h-2 bg-white rounded-full -translate-x-1/2"></div>
-                        {/* Dashed line */}
-                        <div className="flex-grow border-t border-dashed border-gray-300"></div>
-                        {/* Right semi-circle */}
-                        <div className="absolute right-0 w-2 h-2 bg-white rounded-full translate-x-1/2"></div>
-                      </div>
-
-                      <div className="p-4 flex justify-end">
-
-                        {/* Tổng tiền */}
-                          <p className="text-lg text-gray-500">
-                            Thành tiền:{" "}
-                            <span className="font-semibold text-xl text-[#87CBB9]">
-                              {order.totalPrice} VND
-                            </span>
-                          </p>
-                      </div>
-
-                      {/* Separator with decorative dot border */}
-                      <div className="relative flex items-center">
-                        {/* Left semi-circle */}
-                        <div className="absolute left-0 w-2 h-2 bg-white rounded-full -translate-x-1/2"></div>
-                        {/* Dashed line */}
-                        <div className="flex-grow border-t border-dashed border-gray-300"></div>
-                        {/* Right semi-circle */}
-                        <div className="absolute right-0 w-2 h-2 bg-white rounded-full translate-x-1/2"></div>
-                      </div>
-
-                      <div className="p-4 flex justify-end">
-                        <p className="text-gray-500">Phương thức thanh toán: <span className="text-[#87CBB9]">VNPay</span></p>
-                      </div>
+                        }
+                      )}
                     </div>
+
+                    {/* Separator with decorative dot border */}
+                    <div className="relative flex items-center">
+                      {/* Left semi-circle */}
+                      <div className="absolute left-0 w-2 h-2 bg-white rounded-full -translate-x-1/2"></div>
+                      {/* Dashed line */}
+                      <div className="flex-grow border-t border-dashed border-gray-300"></div>
+                      {/* Right semi-circle */}
+                      <div className="absolute right-0 w-2 h-2 bg-white rounded-full translate-x-1/2"></div>
+                    </div>
+
+                    <div className="p-4 flex justify-end">
+                      {/* Tổng tiền */}
+                      <p className="text-lg text-gray-500">
+                        Thành tiền:{" "}
+                        <span className="font-semibold text-xl text-[#87CBB9]">
+                          {selectedOrder.totalAmount} VND
+                        </span>
+                      </p>
+                    </div>
+
+                    {/* Separator with decorative dot border */}
+                    <div className="relative flex items-center">
+                      {/* Left semi-circle */}
+                      <div className="absolute left-0 w-2 h-2 bg-white rounded-full -translate-x-1/2"></div>
+                      {/* Dashed line */}
+                      <div className="flex-grow border-t border-dashed border-gray-300"></div>
+                      {/* Right semi-circle */}
+                      <div className="absolute right-0 w-2 h-2 bg-white rounded-full translate-x-1/2"></div>
+                    </div>
+
+                    <div className="p-4 flex justify-end">
+                      <p className="text-gray-500">
+                        Phương thức thanh toán:{" "}
+                        <span className="text-[#87CBB9]">
+                          {selectedOrder.paymentMethod}
+                        </span>
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

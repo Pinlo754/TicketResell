@@ -62,7 +62,7 @@ const CheckOut = () => {
       const unavailable: TicketAvailability[] = [];
       for (const item of orderDetail) {
         const response = await axios.get(
-          `https://localhost:7286/api/Ticket/get-ticket/${item.id}`
+          `/api/Ticket/get-ticket/${item.id}`
         );
 
         if (response.status === 200) {
@@ -198,7 +198,7 @@ const CheckOut = () => {
         const orderData = await Promise.all(
           selectedItems.map(async (item: selectedTicket) => {
             const response = await axios.get(
-              `https://localhost:7286/api/Ticket/get-ticket/${item.ticketId}`
+              `/api/Ticket/get-ticket/${item.ticketId}`
             );
             if (response.status === 200) {
               const order = response.data;
@@ -219,7 +219,7 @@ const CheckOut = () => {
         const order = await Promise.all(
           orderData.map(async (item) => {
             const response = await axios.get(
-              `https://localhost:7286/api/Event/${item.eventId}`
+              `/api/Event/${item.eventId}`
             );
             if (response.status === 200) {
               const event = response.data;
@@ -252,7 +252,7 @@ const CheckOut = () => {
       fetchOrderData();
     }
   }, [selectedItems]);
-
+  console.log(displayOrder)
   return (
     <div className="checkout-page">
       {showPopup && (
@@ -328,12 +328,6 @@ const CheckOut = () => {
               </div>
               <div>
                 <div>{item.userName}</div>
-                <div className="rating">
-                  <span className="star">
-                    &#9733;&#9733;&#9733;&#9733;&#9733;
-                  </span>
-                  <span>4.9 (124 đánh giá)</span>
-                </div>
               </div>
             </div>
           </div>

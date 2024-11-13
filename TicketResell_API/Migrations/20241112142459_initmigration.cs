@@ -373,6 +373,27 @@ namespace TicketResell_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RefundRequests",
+                columns: table => new
+                {
+                    requestId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    orderId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: true),
+                    refundDetail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    images = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    status = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RefundRequests", x => x.requestId);
+                    table.ForeignKey(
+                        name: "FK_RefundRequests_Orders_orderId",
+                        column: x => x.orderId,
+                        principalTable: "Orders",
+                        principalColumn: "orderId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Transactions",
                 columns: table => new
                 {
@@ -580,6 +601,13 @@ namespace TicketResell_API.Migrations
                 column: "userId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RefundRequests_orderId",
+                table: "RefundRequests",
+                column: "orderId",
+                unique: true,
+                filter: "[orderId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tickets_eventId",
                 table: "Tickets",
                 column: "eventId");
@@ -597,7 +625,8 @@ namespace TicketResell_API.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Wallets_userId",
                 table: "Wallets",
-                column: "userId");
+                column: "userId",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -634,6 +663,9 @@ namespace TicketResell_API.Migrations
                 name: "OrderDetails");
 
             migrationBuilder.DropTable(
+                name: "RefundRequests");
+
+            migrationBuilder.DropTable(
                 name: "Transactions");
 
             migrationBuilder.DropTable(
@@ -646,10 +678,10 @@ namespace TicketResell_API.Migrations
                 name: "Message");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "Tickets");
 
             migrationBuilder.DropTable(
-                name: "Tickets");
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Wallets");
