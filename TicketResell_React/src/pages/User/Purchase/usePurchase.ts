@@ -55,15 +55,6 @@ const usePurchase = () => {
           toUserId: string;
         };
 
-        type Comment = {
-          commentId: string;
-          userId: string;
-          rating: number;
-          time: string;
-          comment: string;
-          toUserId: string;
-        };
-
         const tabs = [
           { id: 1, label: "Tất cả" },
           { id: 2, label: "Đã mua" },

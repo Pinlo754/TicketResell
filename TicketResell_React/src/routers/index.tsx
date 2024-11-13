@@ -35,6 +35,8 @@ import PurchaseDetail from "../pages/User/PurchaseDetail";
 import SaleDetail from "../pages/User/SaleDetail";
 import OrderDetailAdmin from "../components/Admin/OrderBoard/OrderDetailAdmin";
 import OrderConfirmation from "../pages/OrderConfirmation/OrderConfirmation";
+import ManageWithdraw from "../pages/Staff/ManageWithdraw";
+import ManageRefund from "../pages/Staff/ManageRefund";
 
 const routers = createBrowserRouter([
   {
@@ -143,6 +145,14 @@ const routers = createBrowserRouter([
       {
         path: "tickets/:eventId",
         element: <ManageTicketScreen />,
+      },
+      {
+        path: "withdraw",
+        element: <ManageWithdraw />,
+      },
+      {
+        path: "refund",
+        element: <ManageRefund />,
       },
     ],
   },
