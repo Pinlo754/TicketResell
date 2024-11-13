@@ -7,7 +7,7 @@ namespace TicketResell_API.Controllers.Service
         Task<string> SendConfirmationEmailAsync(string? email, string emailCode);
         Task SendEmailAsync(string? email, string callback, string v);
         Task<string> SendPasswordResetEmailAsync(string? email, string? resetToken);
-        Task<string> SendOrderConfirmationEmailAsync(string? email, string? orderId, string? eventName, string? ticketDetails);
+        Task<string> SendOrderConfirmationEmailAsync(string? email, string? orderId, string? eventName, string? ticketDetails, string[]? imagesQR);
         string GenerateConfirmationCode(string? email);
         Task SendUpcomingEventEmailAsync(string email, Event eventItem);
     }

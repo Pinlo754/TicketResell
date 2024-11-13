@@ -99,6 +99,7 @@ namespace TicketResell_API.Controllers.WalletController.Controller
                 await _context.SaveChangesAsync();
 
                 // Tạo chi tiết đơn hàng và liên kết với đơn hàng
+                List<string> imagesQRList = new List<string>();
                 foreach (var detail in model.OrderDetails)
                 {
                     var orderDetail = new OrderDetail
@@ -120,6 +121,14 @@ namespace TicketResell_API.Controllers.WalletController.Controller
                         createdAt = DateTime.UtcNow
                     };
                     _context.OrderDetails.Add(orderDetail);
+
+                    // Lấy hình ảnh QR từ Ticket và thêm vào danh sách imagesQR
+                   
+                    var ticket = await _context.Tickets.FirstOrDefaultAsync(t => t.ticketId == detail.ticketId);
+                    if (ticket != null && ticket.imagesQR != null)
+                    {
+                        imagesQRList.AddRange(ticket.imagesQR);
+                    }
                 }
                 await _context.SaveChangesAsync();
 
@@ -171,7 +180,7 @@ namespace TicketResell_API.Controllers.WalletController.Controller
 
                 // Chuẩn bị thông tin và gửi email
                 string ticketDetails = string.Join(", ", model.OrderDetails.Select(d => $"{d.ticketName} - {d.quantity} tickets"));
-                await _emailSender.SendOrderConfirmationEmailAsync(firstDetail.receiverEmail, order.orderId, firstDetail.eventName, ticketDetails);
+                await _emailSender.SendOrderConfirmationEmailAsync(firstDetail.receiverEmail, order.orderId, firstDetail.eventName, ticketDetails, imagesQRList.ToArray());
 
                 // Trả về thông tin đơn hàng và xác nhận thanh toán
                 return Ok(new
