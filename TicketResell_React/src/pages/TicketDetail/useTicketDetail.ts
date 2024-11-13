@@ -43,11 +43,13 @@ const useTicketDetail = () => {
     quantity: number;
     price: number;
     originPrice: number;
-    images: string[];
+    imagesQR: string[];
+    imagesVerify: string[];
     userId: string;
     type?: string;
     section?: string;
     row?: number;
+    seat?:number;
     description?: string;
     status: string;
     eventId: string;
@@ -61,11 +63,13 @@ const useTicketDetail = () => {
     quantity: 100, // Số lượng vé có sẵn
     price: 50.0, // Giá vé
     originPrice: 75.0, // Giá gốc
-    images: ["image1.jpg", "image2.jpg"], // Hình ảnh vé
+    imagesQR: ["image1.jpg", "image2.jpg"], // Hình ảnh vé
+    imagesVerify: ["image1.jpg", "image2.jpg"],
     userId: "USER_001", // ID người dùng
     type: "VIP", // Loại vé
     section: "A", // Khu vực ngồi
     row: 1, // Hàng
+    seat:1,
     description: "This is a VIP ticket for the concert.", // Mô tả vé
     status: "Available", // Trạng thái vé
     eventId: "EVENT_001", // ID sự kiện liên quan
