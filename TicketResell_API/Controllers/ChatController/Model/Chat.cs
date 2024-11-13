@@ -12,7 +12,7 @@ namespace TicketResell_API.Controllers.ChatController.Model
         // Navigation properties
         [JsonIgnore]
         public MainUser? User { get; set; }
-        public ICollection<ChatData> ChatData { get; set; }  = new List<ChatData>();
+        public ICollection<ChatData>? ChatData { get; set; }  = new List<ChatData>();
 
 
     }
@@ -20,17 +20,16 @@ namespace TicketResell_API.Controllers.ChatController.Model
     {
         [Key] public int Id { get; set; }
         public string lastMessage { get; set; }
-        [MaxLength(450)] public string? messageId { get; set; }
+         public string? messageId { get; set; }
         public bool messageSeen { get; set; } = false;
-
-        [Required]
-        [MaxLength(450)] public string reUserId { get; set; }
+        public string reUserId { get; set; }
         public DateTime updatedAt { get; set; }
         public string ChatSeUserId { get; set; }
 
         // Navigation properties
         [JsonIgnore]
-        public Chat Chat { get; set; }
+        public Chat? Chat { get; set; }
+
         [JsonIgnore]
         public Message? Message { get; set; }
     }

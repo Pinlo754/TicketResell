@@ -110,12 +110,10 @@ public class AppDbContext : IdentityDbContext<MainUser>
 
         // Set up the relationship between `ChatData` and `Message`
         modelBuilder.Entity<ChatData>()
-            .HasOne(cd => cd.Message)
-            .WithMany()
-            .HasForeignKey(cd => cd.messageId)
-            //chatData delete message delete too
+            .HasOne(cd => cd.Message)           
+            .WithMany(m => m.ChatDataList)      
+            .HasForeignKey(cd => cd.messageId)  
             .OnDelete(DeleteBehavior.Cascade);
-
 
 
         // Set up relationship between `Cart` and `MainUser` (User)

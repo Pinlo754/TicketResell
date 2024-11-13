@@ -13,12 +13,24 @@ namespace TicketResell_API.Controllers.ChatController.Model
 
         public async Task<Chat> CreateChatAsync(Chat chat)
         {
-            //Add chat object to DbContext
+            foreach (var chatData in chat.ChatData)
+            {
+                chatData.Chat = chat; // Gán đối tượng Chat vào ChatData để tránh lỗi vòng tham chiếu
+            }
+
+            // Thêm đối tượng chat vào DbContext
             _context.Chats.Add(chat);
-            // Save changes to database
+
+            // Lưu thay đổi vào cơ sở dữ liệu
             await _context.SaveChangesAsync();
-            // Returns the saved chat object
-            return chat;
+
+            // Truy vấn lại đối tượng vừa lưu để bao gồm ChatData
+            var savedChat = await _context.Chats
+                .Include(c => c.ChatData)
+                .FirstOrDefaultAsync(c => c.seUserId == chat.seUserId);
+
+            // Trả về đối tượng Chat đã lưu
+            return savedChat;
 
         }
 
@@ -115,11 +127,14 @@ namespace TicketResell_API.Controllers.ChatController.Model
                     existingChatData.updatedAt = updatedChatData.updatedAt;
                     existingChatData.reUserId = updatedChatData.reUserId;
                     existingChatData.messageId = updatedChatData.messageId;
+                    existingChatData.ChatSeUserId = updatedChatData.ChatSeUserId;
                 }
                 else
                 {
                     // If ChatData does not exist, add new one to the list
+                    updatedChatData.Chat = existingChat;
                     existingChat.ChatData.Add(updatedChatData);
+                    
                 }
             }
             // Save changes to database

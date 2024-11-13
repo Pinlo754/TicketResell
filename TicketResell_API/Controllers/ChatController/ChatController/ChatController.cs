@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MimeKit;
 using TicketResell_API.Controllers.ChatController.Model;
 using TicketResell_API.Controllers.Service;
 
@@ -38,6 +39,10 @@ namespace TicketResell_API.Controllers.ChatController.ChatController
             if (model == null || string.IsNullOrEmpty(model.seUserId))
             {
                 return BadRequest("Chat data is null or Send User Id is missing. Please try again.");
+            }
+            foreach (var chatData in model.ChatData)
+            {
+                chatData.Chat = model; 
             }
             //create and save chat
             var createChat = await _chatService.CreateChatAsync(model);
@@ -86,12 +91,20 @@ namespace TicketResell_API.Controllers.ChatController.ChatController
             return Ok(result);
         }
 
-        [HttpPut("update-chat/")]
+        [HttpPut("update-chat")]
         public async Task<ActionResult<Chat>> UpdateChat([FromBody] Chat model)
         {
             if (model == null)
             {
                 return BadRequest("Chat data is null.");
+            }
+
+            foreach (var chatData in model.ChatData)
+            {
+                if (string.IsNullOrEmpty(chatData.reUserId))
+                {
+                    return BadRequest("ChatData contains an item with missing reUserId.");
+                }
             }
 
             var updatedChat = await _chatService.UpdateChatAsync(model, model.seUserId);

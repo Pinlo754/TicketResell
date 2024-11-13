@@ -27,40 +27,7 @@ namespace TicketResell_API.Controllers.VnPayController.Controller
             _context = context;
         }
 
-        //[HttpPost("create-payment")]
-        //public IActionResult CreatePaymentUrl([FromBody] Order model)
-        //{
-        //    string? ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
-        //    string? vnp_TmnCode = _configuration["VNPAY:vnp_TmnCode"];
-        //    string? vnp_HashSecret = _configuration["VNPAY:vnp_HashSecret"];
-        //    string? vnp_Url = _configuration["VNPAY:vnp_Url"];
-        //    string? vnp_ReturnUrl = _configuration["VNPAY:vnp_ReturnUrl"];
-
-        //    var vnp_Params = new SortedList<string, string>();
-        //    vnp_Params.Add("vnp_Version", "2.1.0");
-        //    vnp_Params.Add("vnp_Command", "pay");
-        //    vnp_Params.Add("vnp_TmnCode", vnp_TmnCode);
-        //    vnp_Params.Add("vnp_Amount", ((int)(model.totalAmount * 100)).ToString());
-        //    vnp_Params.Add("vnp_CreateDate", model.orderDate?.ToString("yyyyMMddHHmmss") ?? DateTime.Now.ToString("yyyyMMddHHmmss"));
-        //    vnp_Params.Add("vnp_CurrCode", "VND");
-        //    vnp_Params.Add("vnp_IpAddr", ipAddress);
-        //    vnp_Params.Add("vnp_Locale", "vn");
-        //    vnp_Params.Add("vnp_OrderInfo", $"Thanh toan don hang: {model.orderId}");
-        //    vnp_Params.Add("vnp_OrderType", "billpayment");
-        //    vnp_Params.Add("vnp_ReturnUrl", vnp_ReturnUrl);
-        //    vnp_Params.Add("vnp_TxnRef", model.orderId.ToString());
-
-        //    StringBuilder data = new StringBuilder();
-        //    foreach (var kv in vnp_Params)
-        //    {
-        //        data.Append($"{WebUtility.UrlEncode(kv.Key)}={WebUtility.UrlEncode(kv.Value)}&");
-        //    }
-        //    string queryString = data.ToString().TrimEnd('&');
-        //    string secureHash = _vpnPayService.HmacSHA512(vnp_HashSecret, queryString);
-        //    string paymentUrl = $"{vnp_Url}?{queryString}&vnp_SecureHash={secureHash}";
-
-        //    return Ok(new { paymentUrl });
-        //}
+        
 
         //Handle callback from VNPAY after payment.
         [HttpGet("return")]
@@ -97,19 +64,7 @@ namespace TicketResell_API.Controllers.VnPayController.Controller
             {
                 if (vnpayData.TryGetValue("vnp_TxnRef", out string txnRef))
                 {
-                    //var order = _context.Orders.FirstOrDefault(c => c.orderId == txnRef);
-                    //if (order == null)
-                    //{
-                    //    return NotFound("No order found.");
-                    //}
-
-                    //// Update order status based on vnp_ResponseCode
-                    //order.Status = vnpayData["vnp_ResponseCode"] == "00" ? "paid" : "failed";
-
-                    //_context.Orders.Update(order);
-                    //_context.SaveChanges();
-
-                    //return Ok("Transaction completed");
+                   
                     var order = _context.Orders.FirstOrDefault(c => c.orderId == txnRef);
                     if (order == null)
                     {
