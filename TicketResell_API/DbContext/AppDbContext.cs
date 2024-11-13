@@ -26,6 +26,7 @@ public class AppDbContext : IdentityDbContext<MainUser>
     public DbSet<Comment> Comment { get; set; }
     public DbSet<Wallet> Wallets { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
+    public DbSet<WithDraw> WithDraws { get; set; }
     public DbSet<RefundRequest> RefundRequests { get; set; }
 
 

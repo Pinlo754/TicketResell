@@ -504,6 +504,9 @@ namespace TicketResell_API.Migrations
                     b.Property<int?>("row")
                         .HasColumnType("int");
 
+                    b.Property<int?>("seat")
+                        .HasColumnType("int");
+
                     b.Property<string>("section")
                         .HasColumnType("nvarchar(max)");
 
@@ -539,9 +542,6 @@ namespace TicketResell_API.Migrations
                     b.Property<string>("orderId")
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("orderDate")
                         .HasColumnType("datetime2");
@@ -717,6 +717,41 @@ namespace TicketResell_API.Migrations
                         .IsUnique();
 
                     b.ToTable("Wallets");
+                });
+
+            modelBuilder.Entity("TicketResell_API.Controllers.WalletController.Model.WithDraw", b =>
+                {
+                    b.Property<string>("withDrawId")
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("amount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("bankAccountName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("bankAccountNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("bankName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("walletId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("withDrawId");
+
+                    b.ToTable("WithDraws");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

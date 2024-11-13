@@ -108,29 +108,38 @@ namespace TicketResell_API.Controllers.OrderController.Controller
         }
 
         [HttpPut("update/{orderId}")]
-        public async Task<ActionResult<Order>> UpdateOrder(string orderId, [FromBody] Order updatedOrder)
+        public async Task<ActionResult<Order>> UpdateOrderDetailStatus(string orderId, [FromBody] OrderDetailStatusUpdate statusUpdate)
         {
-            if (updatedOrder == null)
+            if (statusUpdate == null || string.IsNullOrEmpty(statusUpdate.status))
             {
-                return BadRequest("Order data is null.");
+                return BadRequest("Invalid status update data.");
             }
 
-            var existingOrder = new Order { orderId = orderId };
-            _context.Attach(existingOrder);
+            // Find the order with its details
+            var existingOrder = await _context.Orders.Include(o => o.OrderDetails)
+                .FirstOrDefaultAsync(o => o.orderId == orderId);
+
             if (existingOrder == null)
             {
                 return NotFound($"Order with ID {orderId} not found.");
             }
 
-            // Update order information
-            //existingOrder.Status = updatedOrder.Status;
-            existingOrder.totalAmount = updatedOrder.totalAmount;
-            existingOrder.userId = updatedOrder.userId;
-            existingOrder.orderDate = updatedOrder.orderDate;
+            // Find the specific order detail by orderDetailId
+            var existingOrderDetail = existingOrder.OrderDetails
+                .FirstOrDefault(od => od.orderId == statusUpdate.orderId);
 
+            if (existingOrderDetail == null)
+            {
+                return NotFound($"OrderDetail with ID {statusUpdate.orderId} not found in the order.");
+            }
 
+            // Update the status of the order detail
+            existingOrderDetail.status = statusUpdate.status;
+
+            // Save the changes to the database
             await _context.SaveChangesAsync();
 
+            // Return the updated order with its details
             return Ok(existingOrder);
         }
 

@@ -330,5 +330,137 @@ namespace TicketResell_API.Controllers.WalletController.Controller
 
             return Ok(transaction);
         }
+
+        // Thêm hàm API để tạo yêu cầu rút tiền
+        [HttpPost("withdraw-request")]
+        public async Task<ActionResult> WithdrawRequest([FromBody] WithDraw model)
+        {
+            try
+            {
+                // Kiểm tra nếu ví tồn tại
+                var wallet = await _context.Wallets.FirstOrDefaultAsync(w => w.walletId == model.walletId);
+                if (wallet == null)
+                {
+                    return NotFound("Wallet not found.");
+                }
+
+                // Kiểm tra nếu số dư ví đủ để rút
+                if (wallet.balance < model.amount)
+                {
+                    return BadRequest("Insufficient balance.");
+                }
+
+                // Tạo giao dịch với trạng thái Pending
+                var transaction = new Transaction
+                {
+                    transactionId = Guid.NewGuid().ToString(),
+                    walletId = model.walletId,
+                    amount = model.amount,
+                    transactionType = "Withdraw",
+                    time = DateTime.Now,
+                    status = "Pending", // Trạng thái giao dịch ban đầu là Pending
+                    balanceBefore = wallet.balance,
+                    balanceAfter = wallet.balance - model.amount
+                };
+
+                // Thêm giao dịch vào cơ sở dữ liệu
+                _context.Transactions.Add(transaction);
+                await _context.SaveChangesAsync();
+
+                // Tạo yêu cầu rút tiền với trạng thái ban đầu là Pending
+                var withdrawRequest = new WithDraw
+                {
+                    withDrawId = Guid.NewGuid().ToString(),
+                    walletId = model.walletId,
+                    amount = model.amount,
+                    status = "Pending", // Trạng thái yêu cầu rút tiền ban đầu là Pending
+                    bankName = model.bankName,
+                    bankAccountName = model.bankAccountName,
+                    bankAccountNumber = model.bankAccountNumber,
+                    transactionId = transaction.transactionId // Lưu transactionId để liên kết với giao dịch
+                };
+
+                // Thêm yêu cầu rút tiền vào cơ sở dữ liệu
+                _context.WithDraws.Add(withdrawRequest);
+                await _context.SaveChangesAsync();
+
+                // Cập nhật số dư ví
+                wallet.balance -= model.amount;
+                await _context.SaveChangesAsync();
+
+                return Ok(new
+                {
+                    Message = "Withdrawal request created successfully.",
+                    WithdrawRequest = withdrawRequest,
+                    Transaction = transaction
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+
+
+
+        // Lấy danh sách yêu cầu rút tiền
+        [HttpGet("list-withdraw")]
+        public async Task<ActionResult<IEnumerable<WithDraw>>> ListWithDraw()
+        {
+            try
+            {
+                // Truy vấn tất cả yêu cầu rút tiền từ cơ sở dữ liệu
+                var withdrawRequests = await _context.WithDraws.ToListAsync();
+
+                if (withdrawRequests == null || !withdrawRequests.Any())
+                {
+                    return NotFound("No withdrawal requests found.");
+                }
+
+                return Ok(withdrawRequests);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+
+        // Cập nhật trạng thái yêu cầu rút tiền
+        [HttpPut("update-withdraw-status")]
+        public async Task<ActionResult> UpdateWithdrawStatus(string withDrawId, string newStatus)
+        {
+            try
+            {
+                // Tìm yêu cầu rút tiền theo withDrawId
+                var withdrawRequest = await _context.WithDraws.FirstOrDefaultAsync(w => w.withDrawId == withDrawId);
+                if (withdrawRequest == null)
+                {
+                    return NotFound("Withdrawal request not found.");
+                }
+
+                // Cập nhật trạng thái của yêu cầu rút tiền
+                withdrawRequest.status = newStatus;
+
+                // Cập nhật trạng thái giao dịch liên quan
+                var transaction = await _context.Transactions.FirstOrDefaultAsync(t => t.transactionId == withdrawRequest.transactionId);
+                if (transaction != null)
+                {
+                    transaction.status = newStatus; // Cập nhật trạng thái giao dịch
+                }
+
+                // Lưu thay đổi vào cơ sở dữ liệu
+                await _context.SaveChangesAsync();
+
+                return Ok("Withdrawal request and transaction status updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+
+
+
+
     }
 }
