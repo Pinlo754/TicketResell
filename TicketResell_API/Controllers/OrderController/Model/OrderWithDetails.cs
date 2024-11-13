@@ -6,6 +6,7 @@ namespace TicketResell_API.Controllers.OrderController.Model
     {
         [MaxLength(450)] public string? userId { get; set; } 
         public decimal totalAmount { get; set; } 
+        public string status { get; set; }
         public List<OrderDetail> OrderDetails { get; set; } 
     }
 }

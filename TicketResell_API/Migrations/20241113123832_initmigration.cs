@@ -214,6 +214,7 @@ namespace TicketResell_API.Migrations
                 {
                     orderId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
                     userId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: true),
+                    sellerId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: true),
                     orderDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     totalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true)

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TicketResell_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241113060428_initmigration")]
+    [Migration("20241113123832_initmigration")]
     partial class initmigration
     {
         /// <inheritdoc />
@@ -548,6 +548,10 @@ namespace TicketResell_API.Migrations
 
                     b.Property<DateTime?>("orderDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("sellerId")
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal?>("totalAmount")
                         .HasColumnType("decimal(18,2)");

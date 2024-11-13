@@ -67,6 +67,47 @@ namespace TicketResell_API.Controllers.OrderController.Controller
             return Ok(orders.SelectMany(o => o.OrderDetails));
         }
 
+        [HttpGet("seller/{sellerId}")]
+        public async Task<ActionResult<IEnumerable<OrderWithDetails>>> GetOrdersBySeller(string sellerId)
+        {
+            // take all order with orderDetail
+            var orders = await _context.Orders
+                .Where(o => o.sellerId == sellerId)
+                .Select(o => new OrderWithDetails
+                {
+                    userId = o.userId,
+                    totalAmount = o.totalAmount ?? 0,
+                    status = o.Status ?? "Successful",
+                    OrderDetails = o.OrderDetails.Select(d => new OrderDetail
+                    {
+                        orderDetailId = d.orderDetailId,
+                        orderId = d.orderId,
+                        ticketId = d.ticketId,
+                        ticketName = d.ticketName,
+                        ticketType = d.ticketType,
+                        eventImage = d.eventImage,
+                        eventName = d.eventName,
+                        userName = d.userName,
+                        receiverPhone = d.receiverPhone,
+                        receiverEmail = d.receiverEmail,
+                        address = d.address,
+                        price = d.price,
+                        quantity = d.quantity,
+                        status = d.status,
+                        paymentMethod = d.paymentMethod,
+                        createdAt = d.createdAt
+                    }).ToList()
+                })
+                .ToListAsync();
+
+            if (orders == null || !orders.Any())
+            {
+                return NotFound("No orders found for this seller.");
+            }
+
+            return Ok(orders);
+        }
+
         [HttpPut("update/{orderId}")]
         public async Task<ActionResult<Order>> UpdateOrder(string orderId, [FromBody] Order updatedOrder)
         {
@@ -100,31 +141,31 @@ namespace TicketResell_API.Controllers.OrderController.Controller
             {
                 return BadRequest("Order data is null, User ID is missing, or no order details provided.");
             }
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            //take sellerId from userId in ticket
             try
             {
-                // Check availability of tickets first
-                List<string> imagesQRList = new List<string>();
-                foreach (var detail in model.OrderDetails)
+                //take sellerId from ticket
+                var sellerId = await _context.Tickets
+                    .Where(t => model.OrderDetails.Select(d => d.ticketId).Contains(t.ticketId))
+                    .Select(t => t.userId)
+                    .FirstOrDefaultAsync();
+
+                if (string.IsNullOrEmpty(sellerId))
                 {
-                    var ticket = await _context.Tickets.FirstOrDefaultAsync(t => t.ticketId == detail.ticketId);
-                    if (ticket == null || ticket.quantity < detail.quantity)
-                    {
-                        return BadRequest($"Not enough tickets available for {detail.ticketName}");
-                    }
-                    if (ticket.imagesQR != null && ticket.imagesQR.Length > 0)
-                    {
-                        imagesQRList.AddRange(ticket.imagesQR);
-                    }
+                    return BadRequest("No valid seller found for the provided tickets.");
                 }
 
+
                 // Create the Order
-                var order = new Order 
-                { 
+                var order = new Order
+                {
                     orderId = Guid.NewGuid().ToString(),
                     userId = model.userId,
-                    orderDate = DateTime.UtcNow, 
-                    totalAmount = model.totalAmount, 
-                    Status = "Pending" 
+                    sellerId = sellerId,
+                    orderDate = DateTime.UtcNow,
+                    totalAmount = model.totalAmount,
+                    Status = "Pending"
                 };
                 _context.Orders.Add(order);
                 await _context.SaveChangesAsync();
@@ -168,11 +209,30 @@ namespace TicketResell_API.Controllers.OrderController.Controller
                 // Call the CreatePaymentUrl method to create a payment URL
                 var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
                 var paymentUrl = _vpnPayService.CreatePaymentUrl(order, ipAddress);
+                var paymentResult = await _vpnPayService.ProcessPaymentAsync(order, paymentUrl);
 
-                // Send order confirmation email directly without background job
-                string ticketDetails = string.Join(", ", model.OrderDetails.Select(d => $"{d.ticketName} - {d.quantity} tickets"));
-                
-                await _emailSender.SendOrderConfirmationEmailAsync(model.OrderDetails.First().receiverEmail, order.orderId, model.OrderDetails.First().eventName, ticketDetails, imagesQRList.ToArray());
+                if (!paymentResult.IsSuccess)
+                {
+                    // Payment failed, rollback the order
+                    _context.Orders.Remove(order);
+
+                    // Rollback quantity of tickets
+                    foreach (var detail in model.OrderDetails)
+                    {
+                        var ticket = await _context.Tickets.FirstOrDefaultAsync(t => t.ticketId == detail.ticketId);
+                        if (ticket != null)
+                        {
+                            // refund the quatity of ticket
+                            ticket.quantity += detail.quantity;
+                        }
+                    }
+
+                    await _context.SaveChangesAsync();
+                    await transaction.RollbackAsync();
+                    return BadRequest("Payment failed, the order has been cancelled.");
+                }
+                // Commit the transaction if payment is successful
+                await transaction.CommitAsync();
 
                 // Return order information and payment URL
                 return CreatedAtAction(nameof(GetOrderById), new { orderId = order.orderId }, new
@@ -180,11 +240,15 @@ namespace TicketResell_API.Controllers.OrderController.Controller
                     Order = order,
                     PaymentUrl = paymentUrl
                 });
+
             }
             catch (Exception ex)
             {
+                //if catch exception rollback
+                await transaction.RollbackAsync();
                 return StatusCode(500, "Internal server error: " + ex.Message);
             }
+            
         }
 
         [HttpPost("deposit")]

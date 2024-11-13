@@ -83,5 +83,31 @@ namespace TicketResell_API.Controllers.VnPayController.Model
                 return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
             }
         }
+
+        public async Task<PaymentResult> ProcessPaymentAsync(Order order, string ipAddress)
+        {
+            // Giả lập gọi tới dịch vụ thanh toán bên ngoài
+            try
+            {
+                // Giả lập thời gian xử lý của dịch vụ thanh toán
+                await Task.Delay(1000);
+
+                // Giả lập kết quả thanh toán thành công
+                bool paymentSuccess = true; // Thay thế bằng việc kiểm tra kết quả thanh toán từ API nhà cung cấp
+
+                if (paymentSuccess)
+                {
+                    return new PaymentResult { IsSuccess = true };
+                }
+                else
+                {
+                    return new PaymentResult { IsSuccess = false, ErrorMessage = "Payment failed due to insufficient funds" };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new PaymentResult { IsSuccess = false, ErrorMessage = ex.Message };
+            }
+        }
     }
 }
