@@ -19,6 +19,10 @@ const useStaffMainScreen = () => {
     };
 
       useEffect(() => {
+        const role = localStorage.getItem("role")
+        if(role === "Staff") navigate("/staff/main");
+      else if (role === "Admin") navigate("/Admin");
+      else navigate("/main");
         fetchEvents();
       }, []);
 
