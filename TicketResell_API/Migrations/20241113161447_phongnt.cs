@@ -89,13 +89,14 @@ namespace TicketResell_API.Migrations
                 name: "WithDraws",
                 columns: table => new
                 {
-                    withDrawId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
-                    walletId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    withDrawId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    walletId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     amount = table.Column<int>(type: "int", nullable: false),
                     status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     bankName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     bankAccountName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    bankAccountNumber = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    bankAccountNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    transactionId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

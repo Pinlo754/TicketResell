@@ -275,32 +275,6 @@ namespace TicketResell_API.Controllers.WalletController.Controller
             return Ok(transaction);
         }
 
-        [HttpPost("update-withdraw-status")]
-        public async Task<ActionResult> UpdateWithdrawStatus(string transactionId)
-        {
-            // Tìm giao dịch theo transactionId
-            var transaction = await _context.Transactions.FirstOrDefaultAsync(t => t.transactionId == transactionId);
-
-            if (transaction == null)
-            {
-                return NotFound("Transaction not found.");
-            }
-
-            // Kiểm tra nếu giao dịch có trạng thái là Pending, cập nhật thành Completed
-            if (transaction.status == "Pending")
-            {
-                transaction.status = "Completed";
-
-                // Lưu các thay đổi vào cơ sở dữ liệu
-                await _context.SaveChangesAsync();
-
-                return Ok(transaction);
-            }
-            else
-            {
-                return BadRequest("Transaction is not in Pending state.");
-            }
-        }
 
         // Nạp tiền vào ví
         [HttpPost("sell-ticket")]
@@ -425,7 +399,6 @@ namespace TicketResell_API.Controllers.WalletController.Controller
             }
         }
 
-        // Cập nhật trạng thái yêu cầu rút tiền
         [HttpPut("update-withdraw-status")]
         public async Task<ActionResult> UpdateWithdrawStatus(string withDrawId, string newStatus)
         {
@@ -438,14 +411,38 @@ namespace TicketResell_API.Controllers.WalletController.Controller
                     return NotFound("Withdrawal request not found.");
                 }
 
+                // Tìm giao dịch liên quan đến yêu cầu rút tiền
+                var transaction = await _context.Transactions.FirstOrDefaultAsync(t => t.transactionId == withdrawRequest.transactionId);
+                if (transaction == null)
+                {
+                    return NotFound("Transaction not found.");
+                }
+
                 // Cập nhật trạng thái của yêu cầu rút tiền
                 withdrawRequest.status = newStatus;
 
-                // Cập nhật trạng thái giao dịch liên quan
-                var transaction = await _context.Transactions.FirstOrDefaultAsync(t => t.transactionId == withdrawRequest.transactionId);
-                if (transaction != null)
+                // Nếu trạng thái là Cancelled, hoàn lại tiền cho ví
+                if (newStatus == "Cancelled")
                 {
-                    transaction.status = newStatus; // Cập nhật trạng thái giao dịch
+                    var wallet = await _context.Wallets.FirstOrDefaultAsync(w => w.walletId == withdrawRequest.walletId);
+                    if (wallet == null)
+                    {
+                        return NotFound("Wallet not found.");
+                    }
+
+                    // Cộng lại số tiền vào ví
+                    wallet.balance += withdrawRequest.amount;
+
+                    // Cập nhật trạng thái giao dịch liên quan
+                    transaction.status = "Cancelled"; // Hoặc có thể giữ trạng thái "Pending" tùy vào logic của bạn
+
+                    // Cập nhật balanceAfter trong giao dịch để giống balanceBefore
+                    transaction.balanceAfter = transaction.balanceBefore;
+                }
+                else
+                {
+                    // Cập nhật trạng thái giao dịch liên quan với trạng thái mới
+                    transaction.status = newStatus;
                 }
 
                 // Lưu thay đổi vào cơ sở dữ liệu
@@ -458,9 +455,5 @@ namespace TicketResell_API.Controllers.WalletController.Controller
                 return StatusCode(500, "Internal server error: " + ex.Message);
             }
         }
-
-
-
-
     }
 }
