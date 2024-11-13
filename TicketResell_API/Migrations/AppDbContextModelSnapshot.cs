@@ -546,6 +546,10 @@ namespace TicketResell_API.Migrations
                     b.Property<DateTime?>("orderDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("sellerId")
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<decimal?>("totalAmount")
                         .HasColumnType("decimal(18,2)");
 
