@@ -9,12 +9,33 @@ const useOrderConfirmation = () => {
   const [amount, setAmount] = useState<string | null>(null);
   const [payDate, setPayDate] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
+
   useEffect(() => {
-    const savedDataString = localStorage.getItem("orderData");
-    fetchUser();
+    const fetchOrderData = async () => {
+      const savedDataString = localStorage.getItem("orderData");
+      if (savedDataString && isSuccess) {
+        const savedData = JSON.parse(savedDataString);
+        console.log("Dữ liệu đã lưu:", savedData);
+
+        try {
+          await axios.post(`/api/Order/send-order-confirmation`,
+            savedData
+          );
+        } catch (error) {
+          console.error("Error sending order confirmation:", error);
+        }
+      } else {
+        console.log("Không tìm thấy dữ liệu trong localStorage.");
+      }
+    };
+
+    fetchUser(); // Gọi hàm fetchUser
+    fetchOrderData();
+
     const urlParams = new URLSearchParams(window.location.search);
     const orderId = urlParams.get("vnp_TxnRef");
     setOrderId(orderId);
+
     const amount = urlParams.get("vnp_Amount");
     if (amount) {
       setAmount(
@@ -24,6 +45,7 @@ const useOrderConfirmation = () => {
         })
       );
     }
+
     const amountInt = urlParams.get("Amount");
     if (amountInt) {
       setAmount(
@@ -33,6 +55,7 @@ const useOrderConfirmation = () => {
         })
       );
     }
+
     const payDateStr = urlParams.get("vnp_PayDate");
     if (payDateStr) {
       const year = payDateStr.slice(0, 4);
@@ -45,8 +68,8 @@ const useOrderConfirmation = () => {
       const formattedPayDate = `${day}-${month}-${year} ${hour}:${minute}:${second}`;
       setPayDate(formattedPayDate);
     }
+
     const dateParam = urlParams.get("PayDate");
-    console.log(dateParam);
     if (dateParam) {
       const utcDate = new Date(dateParam);
       const localDate = new Date(utcDate.getTime());
@@ -57,33 +80,21 @@ const useOrderConfirmation = () => {
       const minutes = String(localDate.getMinutes()).padStart(2, "0");
       const seconds = String(localDate.getSeconds()).padStart(2, "0");
 
-      // Ghép thành chuỗi định dạng dd/mm/yyyy hh:mm:ss
       const formattedDateTime = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
       setPayDate(formattedDateTime);
-    } else {
-      console.error("Giá trị của PayDate không hợp lệ hoặc không tồn tại.");
     }
 
     const responseCode = urlParams.get("vnp_ResponseCode");
     setIsSuccess(responseCode === "00");
-
-    if (savedDataString) {
-      const savedData = JSON.parse(savedDataString);
-      console.log("Dữ liệu đã lưu:", savedData);
-    } else {
-      console.log("Không tìm thấy dữ liệu trong localStorage.");
-    }
-  }, []);
+  }, [isSuccess]); // Sử dụng `isSuccess` trong dependency để đảm bảo cập nhật kịp thời
 
   const fetchUser = async () => {
     try {
-      const response = await axios.get(
-        "/api/Account/user-information/" + userId
-      );
+      const response = await axios.get(`/api/Account/user-information/${userId}`);
       setUser(response.data);
     } catch (error) {
-      console.error("Error fetching wallet:", error);
-      toast.error("Không tìm người dùng này.");
+      console.error("Error fetching user:", error);
+      toast.error("Không tìm thấy người dùng.");
     }
   };
 

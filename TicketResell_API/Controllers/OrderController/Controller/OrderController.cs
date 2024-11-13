@@ -286,7 +286,6 @@ namespace TicketResell_API.Controllers.OrderController.Controller
 
                 };
 
-                _context.Orders.Add(order);
                 
 
                 // Tạo chi tiết đơn hàng và liên kết với đơn hàng
@@ -311,7 +310,6 @@ namespace TicketResell_API.Controllers.OrderController.Controller
                         status = "Pending", // Trạng thái chi tiết đơn hàng
                         createdAt = DateTime.UtcNow
                     };
-                    _context.OrderDetails.Add(orderDetail);
 
                     // Lấy hình ảnh QR từ Ticket và thêm vào danh sách imagesQR
 
