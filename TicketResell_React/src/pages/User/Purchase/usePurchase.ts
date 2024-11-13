@@ -55,6 +55,15 @@ const usePurchase = () => {
           toUserId: string;
         };
 
+        type Comment = {
+          commentId: string;
+          userId: string;
+          rating: number;
+          time: string;
+          comment: string;
+          toUserId: string;
+        };
+
         const tabs = [
           { id: 1, label: "Tất cả" },
           { id: 2, label: "Đã mua" },
@@ -69,7 +78,7 @@ const usePurchase = () => {
       const [selectedOrder, setSelectedOrder] = useState<Order>();
       const [comments, setComments] = useState<Comment[]>([]);
       const commentIds = comments.map(comment => comment.commentId);
-   
+
       useEffect(() => {
         if (userId != null) {
             fetchOrders();

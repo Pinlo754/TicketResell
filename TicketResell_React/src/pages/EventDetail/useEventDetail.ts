@@ -25,11 +25,13 @@ const useEventDetail = () => {
     quantity: number;
     price: number;
     originPrice: number;
-    images: string[];
+    imagesQR: string[];
+    imagesVerify: string[];
     userId: string;
     type?: string;
     section?: string;
     row?: number;
+    seat?: number;
     description?: string;
     status: string;
     eventId: string;

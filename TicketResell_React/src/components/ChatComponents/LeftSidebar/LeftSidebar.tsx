@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import "./LeftSidebar.css";
 import assets from "../../../assets/assetsChat";
 import { AppChatContext } from "../../../context/AppChatContext";
+import { useLocation } from "react-router-dom";
 
 interface chatUserData {
   bio: string;
@@ -29,7 +30,9 @@ interface ChatResponse {
 
 const LeftSidebar: React.FC = () => {
   const context = useContext(AppChatContext);
-
+  const location = useLocation();
+  const {chatId} = location.state || {}
+  const id = localStorage.getItem("userId")
   if (!context) {
     throw new Error("AppChatContext must be used within an AppChatContextProvider");
   }
@@ -45,6 +48,21 @@ const LeftSidebar: React.FC = () => {
   
   const [showSearch, setShowSearch] = useState(false)
   const [searchResult, setSearchResult] = useState<Chat[]>([])
+  const [hasCheckedChatId, setHasCheckedChatId] = useState(false);
+
+  useEffect(() => {
+    const initializeChat = async () => {
+      if (!hasCheckedChatId && chatId && allChat) {
+        const chatData = allChat.find(item => item.reUserId === chatId);
+        if (chatData) {
+          await setChat(chatData);
+        }
+        setHasCheckedChatId(true);
+      }
+    };
+  
+    initializeChat();
+  }, [chatId, allChat, hasCheckedChatId]);
 
   useEffect(() => {
 
@@ -74,7 +92,6 @@ const LeftSidebar: React.FC = () => {
       };
   
       updateChatUserData();
-      
       // Cleanup
       return () => {
         if (socket) {
@@ -82,7 +99,7 @@ const LeftSidebar: React.FC = () => {
           socket.off("updateChatData");
         }
       };
-  }, [allChat,socket]);
+  }, [chatId,allChat,socket]);
 
 
 
@@ -119,11 +136,12 @@ const LeftSidebar: React.FC = () => {
           messId: item.messageId,
           messSeen: true,
           rId: item.reUserId,
-          update: item.updatedAt
+          update: item.updatedAt,
+          seUserId: id
         }, (response: { success: boolean, message?: string }) => {
           if (response.success) {
             setChatVisible(true)
-            console.log("success update messSeen in leftside"); 
+            console.log("success update messSeen in leftSide"); 
           } else {
             console.error(response.message || 'Failed to update message seen status');
           }

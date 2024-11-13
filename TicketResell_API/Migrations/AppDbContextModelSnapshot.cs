@@ -247,7 +247,6 @@ namespace TicketResell_API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("messageId")
-                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("messageSeen")
@@ -255,8 +254,7 @@ namespace TicketResell_API.Migrations
 
                     b.Property<string>("reUserId")
                         .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("updatedAt")
                         .HasColumnType("datetime2");
@@ -273,7 +271,6 @@ namespace TicketResell_API.Migrations
             modelBuilder.Entity("TicketResell_API.Controllers.ChatController.Model.Message", b =>
                 {
                     b.Property<string>("messageId")
-                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("messageId");
@@ -298,8 +295,7 @@ namespace TicketResell_API.Migrations
 
                     b.Property<string>("SeUserId")
                         .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("messageId")
                         .IsRequired()
@@ -508,6 +504,9 @@ namespace TicketResell_API.Migrations
                     b.Property<int?>("row")
                         .HasColumnType("int");
 
+                    b.Property<int?>("seat")
+                        .HasColumnType("int");
+
                     b.Property<string>("section")
                         .HasColumnType("nvarchar(max)");
 
@@ -544,11 +543,12 @@ namespace TicketResell_API.Migrations
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("orderDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("sellerId")
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal?>("totalAmount")
                         .HasColumnType("decimal(18,2)");
@@ -719,6 +719,41 @@ namespace TicketResell_API.Migrations
                     b.ToTable("Wallets");
                 });
 
+            modelBuilder.Entity("TicketResell_API.Controllers.WalletController.Model.WithDraw", b =>
+                {
+                    b.Property<string>("withDrawId")
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("amount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("bankAccountName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("bankAccountNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("bankName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("walletId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("withDrawId");
+
+                    b.ToTable("WithDraws");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -815,7 +850,7 @@ namespace TicketResell_API.Migrations
                         .IsRequired();
 
                     b.HasOne("TicketResell_API.Controllers.ChatController.Model.Message", "Message")
-                        .WithMany()
+                        .WithMany("ChatDataList")
                         .HasForeignKey("messageId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -941,6 +976,8 @@ namespace TicketResell_API.Migrations
 
             modelBuilder.Entity("TicketResell_API.Controllers.ChatController.Model.Message", b =>
                 {
+                    b.Navigation("ChatDataList");
+
                     b.Navigation("Messages");
                 });
 

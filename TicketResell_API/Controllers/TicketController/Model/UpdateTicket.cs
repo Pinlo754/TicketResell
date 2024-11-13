@@ -13,13 +13,10 @@ public partial class UpdateTicket
     public string[] imagesVerify { get; set; } = null!;
     public string[] imagesQR { get; set; } = null!;
     public string userId { get; set; }
-
     public string? type { get; set; }
-
     public string? section { get; set; }
-
     public int? row { get; set; }
-
+    public int? seat { get; set; }
     public string? description { get; set; }
 
     public string status { get; set; }

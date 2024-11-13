@@ -29,6 +29,7 @@ public partial class Ticket
     public string? section { get; set; }
 
     public int? row { get; set; }
+    public int? seat { get; set; }
 
     public string? description { get; set; }
 

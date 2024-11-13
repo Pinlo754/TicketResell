@@ -10,9 +10,9 @@ namespace TicketResell_API.Controllers.User.Model
     public class Order
     {
         [MaxLength(450)] public string? orderId { get; set; }
-        [MaxLength(450)] public string? userId { get; set; }       
+        [MaxLength(450)] public string? userId { get; set; }
+        [MaxLength(450)] public string? sellerId { get; set; }
         public DateTime? orderDate { get; set; }
-        public string? Status { get; set; }
         public decimal? totalAmount { get; set; }
 
 

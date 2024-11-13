@@ -26,6 +26,7 @@ public class AppDbContext : IdentityDbContext<MainUser>
     public DbSet<Comment> Comment { get; set; }
     public DbSet<Wallet> Wallets { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
+    public DbSet<WithDraw> WithDraws { get; set; }
     public DbSet<RefundRequest> RefundRequests { get; set; }
 
 
@@ -110,12 +111,10 @@ public class AppDbContext : IdentityDbContext<MainUser>
 
         // Set up the relationship between `ChatData` and `Message`
         modelBuilder.Entity<ChatData>()
-            .HasOne(cd => cd.Message)
-            .WithMany()
-            .HasForeignKey(cd => cd.messageId)
-            //chatData delete message delete too
+            .HasOne(cd => cd.Message)           
+            .WithMany(m => m.ChatDataList)      
+            .HasForeignKey(cd => cd.messageId)  
             .OnDelete(DeleteBehavior.Cascade);
-
 
 
         // Set up relationship between `Cart` and `MainUser` (User)

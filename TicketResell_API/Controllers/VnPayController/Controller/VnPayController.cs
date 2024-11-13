@@ -1,11 +1,14 @@
 ﻿using Azure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Org.BouncyCastle.Utilities.Net;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using TicketResell_API.Controllers.OrderController.Model;
+using TicketResell_API.Controllers.Service;
 using TicketResell_API.Controllers.User.Model;
 using TicketResell_API.Controllers.VnPayController.Model;
 
@@ -19,48 +22,17 @@ namespace TicketResell_API.Controllers.VnPayController.Controller
         private readonly IConfiguration _configuration;
         private readonly VnPayService _vpnPayService;
         private readonly AppDbContext _context;
+        private readonly IEmailSender _emailSender;
 
-        public VnPayController(IConfiguration configuration, VnPayService vnPayService, AppDbContext context)
+        public VnPayController(IConfiguration configuration, VnPayService vnPayService, AppDbContext context, IEmailSender emailSender)
         {
             _configuration = configuration;
             _vpnPayService = vnPayService;
             _context = context;
+            _emailSender = emailSender;
         }
 
-        //[HttpPost("create-payment")]
-        //public IActionResult CreatePaymentUrl([FromBody] Order model)
-        //{
-        //    string? ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
-        //    string? vnp_TmnCode = _configuration["VNPAY:vnp_TmnCode"];
-        //    string? vnp_HashSecret = _configuration["VNPAY:vnp_HashSecret"];
-        //    string? vnp_Url = _configuration["VNPAY:vnp_Url"];
-        //    string? vnp_ReturnUrl = _configuration["VNPAY:vnp_ReturnUrl"];
-
-        //    var vnp_Params = new SortedList<string, string>();
-        //    vnp_Params.Add("vnp_Version", "2.1.0");
-        //    vnp_Params.Add("vnp_Command", "pay");
-        //    vnp_Params.Add("vnp_TmnCode", vnp_TmnCode);
-        //    vnp_Params.Add("vnp_Amount", ((int)(model.totalAmount * 100)).ToString());
-        //    vnp_Params.Add("vnp_CreateDate", model.orderDate?.ToString("yyyyMMddHHmmss") ?? DateTime.Now.ToString("yyyyMMddHHmmss"));
-        //    vnp_Params.Add("vnp_CurrCode", "VND");
-        //    vnp_Params.Add("vnp_IpAddr", ipAddress);
-        //    vnp_Params.Add("vnp_Locale", "vn");
-        //    vnp_Params.Add("vnp_OrderInfo", $"Thanh toan don hang: {model.orderId}");
-        //    vnp_Params.Add("vnp_OrderType", "billpayment");
-        //    vnp_Params.Add("vnp_ReturnUrl", vnp_ReturnUrl);
-        //    vnp_Params.Add("vnp_TxnRef", model.orderId.ToString());
-
-        //    StringBuilder data = new StringBuilder();
-        //    foreach (var kv in vnp_Params)
-        //    {
-        //        data.Append($"{WebUtility.UrlEncode(kv.Key)}={WebUtility.UrlEncode(kv.Value)}&");
-        //    }
-        //    string queryString = data.ToString().TrimEnd('&');
-        //    string secureHash = _vpnPayService.HmacSHA512(vnp_HashSecret, queryString);
-        //    string paymentUrl = $"{vnp_Url}?{queryString}&vnp_SecureHash={secureHash}";
-
-        //    return Ok(new { paymentUrl });
-        //}
+        
 
         //Handle callback from VNPAY after payment.
         [HttpGet("return")]
@@ -97,45 +69,49 @@ namespace TicketResell_API.Controllers.VnPayController.Controller
             {
                 if (vnpayData.TryGetValue("vnp_TxnRef", out string txnRef))
                 {
-                    //var order = _context.Orders.FirstOrDefault(c => c.orderId == txnRef);
-                    //if (order == null)
-                    //{
-                    //    return NotFound("No order found.");
-                    //}
 
-                    //// Update order status based on vnp_ResponseCode
-                    //order.Status = vnpayData["vnp_ResponseCode"] == "00" ? "paid" : "failed";
+                    var orderDetails = _context.OrderDetails
+                                        .Include(od => od.Tickets)    // Bao gồm Ticket cho mỗi OrderDetail
+                                        .Where(od => od.orderId == txnRef)
+                                        .ToList();
 
-                    //_context.Orders.Update(order);
-                    //_context.SaveChanges();
-
-                    //return Ok("Transaction completed");
-                    var order = _context.Orders.FirstOrDefault(c => c.orderId == txnRef);
-                    if (order == null)
+                    if (orderDetails == null)
                     {
                         return NotFound("No order found.");
                     }
+                    var orderDetail = orderDetails.First(); // Giả sử chỉ có 1 OrderDetail cho mỗi Order
+
+                    // Lấy các thông tin từ OrderDetail
+                    string email = orderDetail.receiverEmail;
+                    string orderId = txnRef;
+                    string eventName = orderDetail.eventName;
+                    string ticketDetails = $"{orderDetail.ticketName} x {orderDetail.quantity}";
+                    string[] imagesQR = orderDetails.SelectMany(od => od.Tickets.imagesQR).ToArray(); // Nếu có QR code cho từng vé
 
                     // Kiểm tra mã vnp_ResponseCode và cập nhật trạng thái đơn hàng chính xác
                     string responseCode = vnpayData["vnp_ResponseCode"];
                     if (responseCode == "00")
                     {
-                        order.Status = "paid";
-                        _context.Orders.Update(order);
+                        orderDetail.status = "paid";
+                        _context.OrderDetails.Update(orderDetail);
                         _context.SaveChanges();
+
+                        // Gửi email xác nhận
+                         _emailSender.SendOrderConfirmationEmailAsync(email, orderId, eventName, ticketDetails, imagesQR);
+
                         return Ok("Transaction completed successfully");
                     }
                     else if (responseCode == "24")
                     {
-                        order.Status = "canceled"; // Thêm trạng thái "canceled" cho đơn hàng bị hủy
-                        _context.Orders.Update(order);
+                        orderDetail.status = "canceled";
+                        _context.OrderDetails.Update(orderDetail);
                         _context.SaveChanges();
                         return BadRequest("Transaction was canceled");
                     }
                     else
                     {
-                        order.Status = "failed";
-                        _context.Orders.Update(order);
+                        orderDetail.status = "failed";
+                        _context.OrderDetails.Update(orderDetail);
                         _context.SaveChanges();
                         return BadRequest("Transaction failed with response code: " + responseCode);
                     }

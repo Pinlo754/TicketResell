@@ -136,6 +136,8 @@ const ChatBox = () => {
   // function chat 
   const sendMessage = async () => {
     try {
+      console.log(messagesId);
+      
       if (input && messagesId) {
         if (socket) {
           const id = userData.id;
@@ -164,8 +166,6 @@ const ChatBox = () => {
                   const chatIndex = data.findIndex((c) => c.messageId === messagesId);
                   const lastMess = data[chatIndex].lastMessage = input.slice(0, 30);
                   const update = data[chatIndex].updatedAt = new Date(); // Đảm bảo thời gian cập nhật đúng
-                  console.log(update);
-                  
                   let messSeen = data[chatIndex].messageSeen;
                   if (data[chatIndex].reUserId === userData.id) {
                     messSeen = data[chatIndex].messageSeen = false;

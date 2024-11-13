@@ -75,7 +75,7 @@ const Purchase = () => {
 
                             {/* Tên người bán */}
                             <p className="font-semibold">
-                              {order.seller.firstName} {order.seller.lastName} 
+                             {order.seller.firstName} {order.seller.lastName} 
                             </p>
                           </div>
 
