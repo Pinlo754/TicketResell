@@ -260,6 +260,37 @@ namespace TicketResell_API.Controllers.OrderController.Controller
             
         }
 
+        [HttpPost("send-order-confirmation")]
+        public async Task<IActionResult> SendOrderConfirmation([FromBody] string receiverEmail)
+        {
+            if (string.IsNullOrEmpty(receiverEmail))
+            {
+                return BadRequest("Receiver email is required.");
+            }
+
+            // Tìm OrderDetail dựa vào receiverEmail
+            var orderDetail = await _context.OrderDetails
+                                            .Include(od => od.Tickets)
+                                            .Where(od => od.receiverEmail == receiverEmail)
+                                            .FirstOrDefaultAsync();
+
+            if (orderDetail == null)
+            {
+                return NotFound("No order found with the specified email.");
+            }
+
+            // Lấy thông tin cần thiết để gửi trong email
+            string orderId = orderDetail.orderId;
+            string eventName = orderDetail.eventName;
+            string ticketDetails = $"{orderDetail.ticketName} x {orderDetail.quantity}";
+            string[] imagesQR = orderDetail.Tickets?.imagesQR;
+
+            // Gửi email xác nhận đơn hàng
+            await _emailSender.SendOrderConfirmationEmailAsync(receiverEmail, orderId, eventName, ticketDetails, imagesQR);
+
+            return Ok("Order confirmation email has been sent successfully.");
+        }
+
         [HttpPost("deposit")]
         public async Task<ActionResult> Deposit([FromBody] DepositRequest depositRequest)
         {
