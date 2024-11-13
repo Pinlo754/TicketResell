@@ -12,9 +12,11 @@ namespace TicketResell_API.Controllers.ChatController.ChatController
     public class ChatController : ControllerBase
     {
         private readonly IChatService _chatService;
-        public ChatController(IChatService chatService)
+        private readonly AppDbContext _appDbContext;
+        public ChatController(IChatService chatService, AppDbContext appDbContext)
         {
             _chatService = chatService;
+            _appDbContext = appDbContext;
         }
 
         [HttpGet("get-chat/{seUserId}")]
@@ -42,7 +44,7 @@ namespace TicketResell_API.Controllers.ChatController.ChatController
             }
             foreach (var chatData in model.ChatData)
             {
-                chatData.Chat = model; 
+                chatData.Chat = model;
             }
             //create and save chat
             var createChat = await _chatService.CreateChatAsync(model);
@@ -75,21 +77,32 @@ namespace TicketResell_API.Controllers.ChatController.ChatController
             return CreatedAtAction(nameof(GetMessageById), new { createdMessage.messageId }, createdMessage);
         }
 
-        [HttpPut("{messageId}")]
-        public async Task<ActionResult<Message>> UpdateMessage([FromBody] Message model, string messageId)
+        [HttpPut("update-message")]
+        public async Task<ActionResult<Message>> UpdateMessage([FromBody] Message model)
         {
-            if (model == null || string.IsNullOrEmpty(messageId))
+            if (model == null)
             {
                 return BadRequest("Message data is null.");
             }
-            var result = await _chatService.UpdateMessageAsync(model, messageId);
 
-            if (result == null)
+            var existingMessage = await _chatService.GetMessageByIdAsync(model.messageId);
+            if (existingMessage == null)
             {
                 return NotFound("Message not found.");
             }
-            return Ok(result);
+            foreach (var messageData in model.Messages)
+            {
+                messageData.Message = model;
+            }
+            var updatedMessage = await _chatService.UpdateMessageAsync(model, model.messageId);
+
+            if (updatedMessage == null)
+            {
+                return NotFound("Message not found.");
+            }
+            return Ok(updatedMessage);
         }
+
 
         [HttpPut("update-chat")]
         public async Task<ActionResult<Chat>> UpdateChat([FromBody] Chat model)

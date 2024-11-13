@@ -92,6 +92,7 @@ namespace TicketResell_API.Controllers.ChatController.Model
                 else
                 {
                     // If MessageData does not exist, add new one to the list
+                    updatedMessageData.Message = existingMessage;
                     existingMessage.Messages.Add(updatedMessageData);
                 }
             }
