@@ -21,7 +21,7 @@ type Event = {
 type Ticket = {
   ticketId: string,
   ticketName: string,
-  ticketType: string,
+  type: string,
   price: number,
   quantity: number,
   eventId: string,
@@ -30,7 +30,7 @@ type Ticket = {
 
 type Order = {
   orderId: string,
-  orderDate: string,
+  createdAt: string,
   ticketId: string,
   quantity: number,
   totalAmount: number,
@@ -39,9 +39,9 @@ type Order = {
   receiverPhone: string,
   receiverEmail: string,
   paymentMethod: string,
-  tickets: Ticket[],
+  ticket: Ticket,
   seller: Seller;
-  events: Event[],
+  event: Event;
 };
 const useFeedback = (order:Order) => {
 
@@ -186,7 +186,7 @@ const useFeedback = (order:Order) => {
       return;
     }
 
-    const feedback: Feedback = { userId: userId || "", rating, comment, orderId, toUserId: order.tickets[0].userId };
+    const feedback: Feedback = { userId: userId || "", rating, comment, orderId, toUserId: order.ticket.userId };
     postFeedback(feedback);
   };
 

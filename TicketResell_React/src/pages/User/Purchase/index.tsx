@@ -11,6 +11,8 @@ const Purchase = () => {
 
     const {
       navigate,
+      comments,
+      commentIds,
       orders,
       selectedOrder,
       setSelectedOrder,
@@ -21,6 +23,7 @@ const Purchase = () => {
       setShowFeedback,
       handleComplete,
       handleRefund,
+      formattedDateTime,
     } = usePurchase();
       
     return (
@@ -72,7 +75,7 @@ const Purchase = () => {
 
                             {/* Tên người bán */}
                             <p className="font-semibold">
-                              {order.seller.firstName} status : {order.status} {order.seller.lastName} 
+                             {order.seller.firstName} {order.seller.lastName} 
                             </p>
                           </div>
 
@@ -96,16 +99,8 @@ const Purchase = () => {
                           </div>
                         </div>
 
-                        {/* DS vé */}
-                        {order.tickets.map((ticket, index) => {
-                          // Find the corresponding event based on eventId
-                          const event = order.events.find(
-                            (e) => e.eventId === ticket.eventId
-                          );
-
-                          return (
                             <div
-                              key={ticket.ticketId}
+                              key={order.ticket.ticketId}
                               className="border-t cursor-pointer"
                               onClick={() => {
                                 navigate("/user/purchase/orderDetail", {
@@ -114,16 +109,12 @@ const Purchase = () => {
                               }}
                             >
                               <div
-                                className={`flex items-center gap-3 ${
-                                  index === order.tickets.length - 1
-                                    ? "mt-2"
-                                    : "my-2"
-                                }`}
+                                className={`flex items-center gap-3 my-2`}
                               >
                                 {/* Hình sự kiện */}
                                 <div className="overflow-hidden">
                                   <img
-                                    src={event?.eventImage}
+                                    src={order.event.eventImage}
                                     alt="Event"
                                     className="w-20 h-20 group-hover:scale-110 transition-transform duration-300"
                                   />
@@ -131,7 +122,7 @@ const Purchase = () => {
                                 <div className="flex-1 flex flex-col">
                                   {/* Tên sự kiện */}
                                   <p className="font-semibold text-lg">
-                                    {event?.eventName}
+                                    {order.event.eventName}
                                   </p>
 
                                   {/* Date */}
@@ -149,7 +140,7 @@ const Purchase = () => {
                                       />
                                     </svg>
                                     <p className="text-red-600 font-medium text-xs">
-                                      {event?.eventTime}
+                                      {formattedDateTime(order.event.eventTime)}
                                     </p>
                                   </div>
 
@@ -160,7 +151,7 @@ const Purchase = () => {
                                       <span className="font-medium">
                                         Tên vé:
                                       </span>{" "}
-                                      {ticket.ticketName}
+                                      {order.ticket.ticketName}
                                     </p>
 
                                     {/* Loại vé */}
@@ -168,7 +159,7 @@ const Purchase = () => {
                                       <span className="font-medium">
                                         Loại vé:
                                       </span>{" "}
-                                      {ticket.ticketType === "Seat"
+                                      {order.ticket.type === "Seat"
                                         ? "Ngồi"
                                         : "Đứng"}
                                     </p>
@@ -183,20 +174,11 @@ const Purchase = () => {
                                 <div className="flex flex-col text-right">
                                   {/* Giá vé */}
                                   <p className="text-[#87CBB9] font-semibold">
-                                    {ticket.price} VND
+                                    {order.ticket.price} VND
                                   </p>
-
-                                  {/* Chú ý */}
-                                  <div className="w-fit mt-1">
-                                    <p className="border border-gray-500 text-gray-500 text-[10px] p-0.5">
-                                      Hoàn tiền trong 15 ngày
-                                    </p>
-                                  </div>
                                 </div>
                               </div>
                             </div>
-                          );
-                        })}
                       </div>
 
                       {/* Separator with decorative dot border */}
@@ -222,9 +204,11 @@ const Purchase = () => {
                         <div className="flex justify-between items-end mt-4">
                           {/* Chú ý */}
                           <div>
-                            <p className="text-xs text-gray-500">
-                              Đánh giá trước ngày...
+                            {order.status === "Pending" && (
+                              <p className="text-xs text-gray-500">
+                                Cần Xác nhận vé hoặc gửi Yêu cầu hoàn tiền sau khi sự kiện diễn ra 1 ngày
                             </p>
+                            )}
                           </div>
 
                           {/* Button */}
@@ -232,7 +216,7 @@ const Purchase = () => {
                             {order.status === "Pending" && (
                               <>
                                 <button
-                                  onClick={() => handleComplete(order.orderId, order.tickets[0].userId, order.totalAmount )}
+                                  onClick={() => handleComplete(order.orderId, order.ticket.userId, order.totalAmount )}
                                   className="border rounded p-2 bg-[#B9EDDD] hover:bg-[#87CBB9] hover:text-white"
                                 >
                                   Xác nhận vé
@@ -245,7 +229,7 @@ const Purchase = () => {
                                 </button>
                               </>
                             )}
-                            {order.status === "Complete" && (
+                            {order.status === "Complete" && commentIds.includes(order.orderId) && (
                               <button
                                 onClick={() => {
                                   setSelectedOrder(order);

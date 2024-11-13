@@ -21,7 +21,7 @@ type Event = {
 type Ticket = {
   ticketId: string,
   ticketName: string,
-  ticketType: string,
+  type: string,
   price: number,
   quantity: number,
   eventId: string,
@@ -30,7 +30,7 @@ type Ticket = {
 
 type Order = {
   orderId: string,
-  orderDate: string,
+  createdAt: string,
   ticketId: string,
   quantity: number,
   totalAmount: number,
@@ -39,9 +39,9 @@ type Order = {
   receiverPhone: string,
   receiverEmail: string,
   paymentMethod: string,
-  tickets: Ticket[],
+  ticket: Ticket,
   seller: Seller;
-  events: Event[];
+  event: Event;
 };
 interface FeedbackProps {
   onClose: () => void;
@@ -100,26 +100,22 @@ const Feedback: React.FC<FeedbackProps> = ({ onClose, order }) => {
           </div>
 
           {/* DS vé */}
-          <div className={`border-2 border-[#87CBB9] rounded-lg p-3 ${order.tickets.length > 2 ? 'overflow-y-auto max-h-32' : ''}`}>
-            {order.tickets.map((ticket) => {
-              const event = order.events.find(
-                (e: Event) => e.eventId === ticket.eventId
-              );
-              return (
+          <div className={`border-2 border-[#87CBB9] rounded-lg p-3`}>
+            
               <div 
-              key={ticket.ticketId} 
-              className={`flex gap-3 bg-[#E3F4F4] rounded-lg p-2 group cursor-pointer ${order.tickets.length > 2 ? 'mb-3 last:mb-0' : ''}`}
-              onClick={() => window.open(`/eventDetail/${ticket.eventId}`, "_blank")}
+              
+              className={`flex gap-3 bg-[#E3F4F4] rounded-lg p-2 group cursor-pointer`}
+              onClick={() => window.open(`/eventDetail/${order.ticket.eventId}`, "_blank")}
               >
                 <div className="overflow-hidden rounded-lg">
                   <img
-                    src={event?.eventImage}
+                    src={order.event.eventImage}
                     alt="Event"
                     className="w-20 h-20 rounded-lg group-hover:scale-110 transition-transform duration-300"
                   />
                 </div>
                 <div className="flex flex-col">
-                  <p className="font-semibold text-lg">{event?.eventName}</p>
+                  <p className="font-semibold text-lg">{order.event.eventName}</p>
                   <div className="flex items-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -133,18 +129,15 @@ const Feedback: React.FC<FeedbackProps> = ({ onClose, order }) => {
                         clip-rule="evenodd"
                       />
                     </svg>
-                    <p className="text-red-600 font-medium">{event?.eventTime}</p>
+                    <p className="text-red-600 font-medium">{order.event.eventTime}</p>
                   </div>
 
                   <div className="flex gap-3">
-                    <p className="text-sm text-gray-500">Tên vé: {ticket.ticketName}</p>
-                    <p className="text-sm text-gray-500">Loại vé: {ticket.ticketType === "Seat" ? "Ngồi" : "Đứng"}</p>
+                    <p className="text-sm text-gray-500">Tên vé: {order.ticket.ticketName}</p>
+                    <p className="text-sm text-gray-500">Loại vé: {order.ticket.type === "Seat" ? "Ngồi" : "Đứng"}</p>
                   </div>
                 </div>
               </div>
-            );
-          }
-        )}
           </div>
         </div>
           

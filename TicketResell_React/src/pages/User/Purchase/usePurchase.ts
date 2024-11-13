@@ -23,7 +23,7 @@ const usePurchase = () => {
       type Ticket = {
         ticketId: string,
         ticketName: string,
-        ticketType: string,
+        type: string,
         price: number,
         quantity: number,
         eventId: string,
@@ -32,7 +32,7 @@ const usePurchase = () => {
   
         type Order = {
           orderId: string,
-          orderDate: string,
+          createdAt: string,
           ticketId: string,
           quantity: number,
           totalAmount: number,
@@ -41,9 +41,18 @@ const usePurchase = () => {
           receiverPhone: string,
           receiverEmail: string,
           paymentMethod: string,
-          tickets: Ticket[],
+          ticket: Ticket,
           seller: Seller;
-          events: Event[];
+          event: Event;
+        };
+
+        type Comment = {
+          commentId: string;
+          userId: string;
+          rating: number;
+          time: string;
+          comment: string;
+          toUserId: string;
         };
 
         type Comment = {
@@ -69,7 +78,7 @@ const usePurchase = () => {
       const [selectedOrder, setSelectedOrder] = useState<Order>();
       const [comments, setComments] = useState<Comment[]>([]);
       const commentIds = comments.map(comment => comment.commentId);
-      const [sellerId, setSellerId] = useState("");
+
       useEffect(() => {
         if (userId != null) {
             fetchOrders();
@@ -92,62 +101,42 @@ const usePurchase = () => {
       try {
           const orderDetails = await Promise.all(
               ordersData.map(async (order: Order) => {
-                  const ticketResponse = await axios.get(`/api/Ticket/get-ticket/${order.ticketId}`);
-                  const ticketsData: Ticket[] = Array.isArray(ticketResponse.data) ? ticketResponse.data : [ticketResponse.data];
-                  
-                  // Fetch event data if it's not already in the Set
-                  // Unique event and seller tracking
-                  const uniqueEventIds = new Set<string>();
-                  const uniqueSellerIds = new Map<string, Seller>();
-                  const events: Event[] = [];
-  
-                  for (const ticket of ticketsData) {
-                      // Fetch event data if it's not already in the Set
-                      if (!uniqueEventIds.has(ticket.eventId)) {
-                          uniqueEventIds.add(ticket.eventId);
-                          const eventResponse = await axios.get(`/api/Event/${ticket.eventId}`);
-                          events.push(eventResponse.data);
-                      }
-  
-                      // Fetch seller data if not already cached
-                      if (!uniqueSellerIds.has(ticket.userId)) {
-                          const sellerResponse = await axios.get(`/api/Account/user-information/${ticket.userId}`);
-                          const sellerData: Seller = sellerResponse.data;
-                          uniqueSellerIds.set(ticket.userId, sellerData);
-                      }
-                  }
 
-                  // Calculate total amount
+                  // Ticket
+                  const ticketResponse = await axios.get(`/api/Ticket/get-ticket/${order.ticketId}`);
+                  const ticketData: Ticket = ticketResponse.data;
+
+                  // Event 
+                  const eventResponse = await axios.get(`/api/Event/${ticketData.eventId}`);
+                  const eventData: Event = eventResponse.data;
+
+                  // Seller
+                  const sellerResponse = await axios.get(`/api/Account/user-information/${ticketData.userId}`);
+                  const sellerData: Seller = sellerResponse.data;
+
+                  // TotalAmount
                   const orderResponse = await axios.get(`/api/Order/get/${order.orderId}`);
-                  const orderData = orderResponse.data;
-  
-                  // Use the first seller found or provide a fallback
-                  const seller = uniqueSellerIds.size > 0 ? Array.from(uniqueSellerIds.values())[0] : {
-                      Id: "unknown",
-                      firstName: "Unknown",
-                      lastName: "Seller",
-                      userImage: "default-avatar.png",
-                  };
-  
+                  const totalAmount = orderResponse.data.totalAmount;
                   return {
                       orderId: order.orderId,
-                      orderDate: order.orderDate,
+                      createdAt: order.createdAt,
                       quantity: order.quantity,
-                      totalAmount: orderData.totalAmount,
-                      status: orderData.status,
+                      totalAmount: totalAmount,
+                      status: order.status,
                       paymentMethod: order.paymentMethod,
                       userName: order.userName,
                       receiverPhone: order.receiverPhone,
                       receiverEmail: order.receiverEmail,
-                      ticketId: ticketsData[0]?.ticketId || "N/A", // Use first ticket's ID or a default value
-                      tickets: ticketsData,
-                      seller,
-                      events,
+                      ticketId: order.ticketId,
+                      ticket: ticketData,
+                      event: eventData,
+                      seller: sellerData,
                   };
               })
           );
   
           setOrders(orderDetails);
+          console.log(orderDetails);
       } catch (error) {
           console.error("Error fetching order details:", error);
       }
@@ -188,9 +177,6 @@ const usePurchase = () => {
                   "&amount=" +
                   amount
               );
-              if (finalresponse.status === 200) {
-                alert("Cộng tiền thành công!");
-              }
             } catch (error) {
               console.log("Error fetching wallet:", error);
             }
@@ -200,6 +186,7 @@ const usePurchase = () => {
       
           try {
             const response = await axios.put(`/api/Order/update/${orderId}`, {
+              orderId: orderId,
               status: "Complete",
             });
             if (response.status === 200) {
@@ -214,7 +201,10 @@ const usePurchase = () => {
         
         const handleRefund = async (orderId: string) => {
           try {
-            const response = await axios.put(`/api/Order/update/${orderId}`, {status: "Refund"})
+            const response = await axios.put(`/api/Order/update/${orderId}`, {
+              orderId: orderId,
+              status: "Refund"
+            })
             if (response.status === 200) {
               alert("Yêu cầu đã gửi thành công!");
                 fetchOrders();
@@ -225,9 +215,25 @@ const usePurchase = () => {
         }
         };
 
+        const formattedDateTime = (dateParam: string | Date): string => {
+          const utcDate = new Date(dateParam);
+          const localDate = new Date(utcDate.getTime()); // Convert to local time if needed
+          
+          const year = localDate.getFullYear();
+          const month = String(localDate.getMonth() + 1).padStart(2, "0"); // Month starts from 0
+          const day = String(localDate.getDate()).padStart(2, "0");
+          const hours = String(localDate.getHours()).padStart(2, "0");
+          const minutes = String(localDate.getMinutes()).padStart(2, "0");
+          const seconds = String(localDate.getSeconds()).padStart(2, "0");
+        
+          // Return the formatted date string
+          return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+        };
+
     return {
         navigate,
         comments,
+        commentIds,
         orders,
         selectedOrder,
         setSelectedOrder,
@@ -238,6 +244,7 @@ const usePurchase = () => {
         setShowFeedback,
         handleComplete,
         handleRefund,
+        formattedDateTime,
     }
 }
 
