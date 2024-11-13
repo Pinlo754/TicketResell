@@ -21,6 +21,7 @@ const useMainScreen = () => {
 
       useEffect(() => {
         fetchEvents();
+
       }, []);
 
       const fetchEvents = () => {
@@ -57,6 +58,10 @@ const useMainScreen = () => {
       const [tickets, setTickets] = useState<Ticket[]>([]);
 
       useEffect(() => {
+        const role = localStorage.getItem("role")
+        if(role === "Staff") navigate("/staff/main");
+      else if (role === "Admin") navigate("/Admin");
+      else navigate("/main");
         fetchTickets();
       }, []);
       

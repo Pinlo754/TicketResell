@@ -56,6 +56,7 @@ const useLoginScreen = () => {
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("userId", data.userId);
+      localStorage.setItem("role", response.data.role[0]);
       console.log("role:" + response.data.role[0]);
       
       if(response.data.role[0] === "User") navigate("/main");
