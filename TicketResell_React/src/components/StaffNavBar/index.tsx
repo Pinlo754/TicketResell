@@ -88,6 +88,20 @@ const StaffNavBar = () => {
               Quản lý sự kiện
             </li>
 
+            <li
+              className="text-white text-lg hover:text-gray-300 cursor-pointer"
+              onClick={() => navigate("/staff/withdraw")}
+            >
+              Rút tiền
+            </li>
+
+            <li
+              className="text-white text-lg hover:text-gray-300 cursor-pointer"
+              onClick={() => navigate("/staff/refund")}
+            >
+              Hoàn tiền
+            </li>
+
             {/* Search 
             <li className="text-white">
               <div className="relative bg-white/40 backdrop-blur rounded-lg px-3 py-1 flex items-center hover:bg-white/45">
