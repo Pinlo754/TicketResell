@@ -27,7 +27,6 @@ const SellScreen: React.FC = () => {
     handleImageUpload,
     handleSubmit,
     formatCurrency,
-    navigate
   } = useSell();
 
   // Render Events
