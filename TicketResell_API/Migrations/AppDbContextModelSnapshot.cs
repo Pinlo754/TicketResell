@@ -374,6 +374,28 @@ namespace TicketResell_API.Migrations
                     b.ToTable("Events");
                 });
 
+            modelBuilder.Entity("TicketResell_API.Controllers.NotificationController.Model.Notification", b =>
+                {
+                    b.Property<string>("notificationId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("notiContent")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("notiType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("toUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("notificationId");
+
+                    b.ToTable("Notifications");
+                });
+
             modelBuilder.Entity("TicketResell_API.Controllers.OrderController.Model.OrderDetail", b =>
                 {
                     b.Property<int?>("orderDetailId")

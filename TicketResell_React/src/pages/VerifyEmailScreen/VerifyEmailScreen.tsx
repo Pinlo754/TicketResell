@@ -73,7 +73,7 @@ const VerifyEmailScreen = () => {
                 className={`w-[120px] text-[12px] text-[red] bg-[white] rounded-xl font-bold cursor-pointer flex items-center justify-center`}
                 onClick={handleResendOTP}
               >
-                Gửi OTP
+                Gửi lại OTP
               </div>
             </div>
 
@@ -102,7 +102,7 @@ const VerifyEmailScreen = () => {
               }`}
               disabled={!email}
             >
-              Gửi mã OTP
+              Xác thực OTP
             </button>
           </form>
 

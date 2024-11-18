@@ -71,6 +71,8 @@ const useVerifyEmailScreen = () => {
           seUserId,
           chat,
         });
+        const response2 = await axios.post("/api/Wallet/create-wallet?userId=" + response.data.userId);
+        console.log(response2.data);
         console.log(response1.data.message);
         alert("Confirm email successfully, please login again.");
         navigate("/");

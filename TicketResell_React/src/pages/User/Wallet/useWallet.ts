@@ -31,7 +31,7 @@ const useWallet = () => {
 
   const fetchWallet = async () => {
     try {
-      const response = await axios.get("/api/Wallet/get-by-user/" + userId);
+      const response = await axios.get(`/api/Wallet/get-by-user/` + userId + "?userId=" +userId );
       setWallet(response.data);
     } catch (error) {
       console.error("Error fetching wallet:", error);
@@ -42,7 +42,7 @@ const useWallet = () => {
   const fetchTransactionHistory = async () => {
     if (wallet && wallet.walletId) { // Kiểm tra xem wallet đã có giá trị và có thuộc tính walletId
       try {
-        const response = await axios.get("/api/Wallet/transaction-history/" + wallet.walletId);
+        const response = await axios.get("/api/Wallet/transaction-history/" + wallet.walletId +"?walletId=" + wallet.walletId);
         setTransactions(response.data);
       } catch (error) {
         console.error("Error fetching transaction:", error);
@@ -54,6 +54,10 @@ const useWallet = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [transactionType, setTransactionType] = useState(""); // 'deposit' or 'withdraw'
   const [amount, setAmount] = useState("");
+  // Thêm các state mới cho thông tin tài khoản ngân hàng
+  const [accountNumber, setAccountNumber] = useState("");
+  const [accountName, setAccountName] = useState("");
+  const [bankName, setBankName] = useState("");
 
   // Function to handle opening modal for deposit or withdrawal
   const openModal = (type: string) => {
@@ -94,17 +98,29 @@ const useWallet = () => {
         toast.error("Giao dịch thất bại.");
     }
 } else {
-    try {
-        const response = await axios.post('/api/Wallet/withdraw?walletId=' + wallet.walletId + '&amount=' + parseInt(amount, 10));
+  const withdrawData = {
+    withDrawId: "",
+    walletId: wallet.walletId,
+    amount: parseInt(amount, 10),
+    status: "Pending", // Trạng thái ban đầu
+    bankName: bankName, // Thay thế bằng giá trị từ form của bạn
+    bankAccountName: accountName, // Thay thế bằng giá trị từ form của bạn
+    bankAccountNumber: accountNumber, // Thay thế bằng giá trị từ form của bạn
+    transactionId: "" // Để trống vì transactionId sẽ được tạo trong API
+};
+try {
+  // Gửi yêu cầu POST tới API `withdraw-request`
+  const response = await axios.post('/api/Wallet/withdraw-request', withdrawData);
 
-        if (response.status === 200) {
-            toast.success('Yêu cầu rút tiền thành công mệnh giá ' + amount + ' VND');
-        } else {
-            toast.error("Giao dịch thất bại." + response.data.message);
-        }
-    } catch (error) {
-        console.error("Error:", error);
-    }
+  if (response.status === 200) {
+      toast.success('Yêu cầu rút tiền thành công mệnh giá ' + amount + ' VND');
+  } else {
+      toast.error("Giao dịch thất bại: " + response.data.message);
+  }
+} catch (error) {
+  console.error("Error:", error);
+  toast.error("Lỗi hệ thống!");
+}
 }
 
     setIsModalOpen(false);
@@ -122,7 +138,13 @@ const useWallet = () => {
     setAmount,
     setTransactionType,
     setIsModalOpen,
-    user
+    user,
+    setAccountNumber,
+    setAccountName,
+    setBankName,
+    accountNumber,
+    accountName,
+    bankName
   };
 };
 

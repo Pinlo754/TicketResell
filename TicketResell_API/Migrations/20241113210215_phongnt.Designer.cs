@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TicketResell_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241113161447_phongnt")]
+    [Migration("20241113210215_phongnt")]
     partial class phongnt
     {
         /// <inheritdoc />
@@ -375,6 +375,28 @@ namespace TicketResell_API.Migrations
                     b.HasKey("eventId");
 
                     b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("TicketResell_API.Controllers.NotificationController.Model.Notification", b =>
+                {
+                    b.Property<string>("notificationId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("notiContent")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("notiType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("toUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("notificationId");
+
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("TicketResell_API.Controllers.OrderController.Model.OrderDetail", b =>

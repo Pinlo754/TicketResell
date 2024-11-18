@@ -24,13 +24,16 @@ const Wallet = () => {
     setAmount,
     setIsModalOpen,
     openModal,
-    user
+    user,
+    setAccountNumber,
+    setAccountName,
+    setBankName,
+    accountNumber,
+    accountName,
+    bankName
   } = useWallet();
 
-  // Thêm các state mới cho thông tin tài khoản ngân hàng
-  const [accountNumber, setAccountNumber] = useState("");
-  const [accountName, setAccountName] = useState("");
-  const [bankName, setBankName] = useState("");
+  
 
   return (
     <div className="account-profile">

@@ -86,6 +86,20 @@ namespace TicketResell_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Notifications",
+                columns: table => new
+                {
+                    notificationId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    notiContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    notiType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    toUserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notifications", x => x.notificationId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "WithDraws",
                 columns: table => new
                 {
@@ -678,6 +692,9 @@ namespace TicketResell_API.Migrations
 
             migrationBuilder.DropTable(
                 name: "MessageData");
+
+            migrationBuilder.DropTable(
+                name: "Notifications");
 
             migrationBuilder.DropTable(
                 name: "OrderDetails");
